@@ -2,7 +2,7 @@
 
 ## Contexto
 
-Backend do Developer Platform deve suportar:
+Backend do **Dev Platform** deve suportar:
 
 - 4-5 microsserviços independentes (API Gateway, Management, Mock Server, Analytics)
 - Comunicação inter-service type-safe

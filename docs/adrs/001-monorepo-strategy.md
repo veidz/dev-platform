@@ -2,7 +2,7 @@
 
 ## Contexto
 
-O Developer Platform requer desenvolvimento coordenado entre múltiplas aplicações (frontend web, API gateway, microsserviços) e pacotes compartilhados (componentes UI, tipos TypeScript, schemas de validação, SDK). Gerenciar em repositórios separados cria atrito em atualizações de dependências, complica refatorações cross-package e requer orquestração complexa de CI/CD.
+O **Dev Platform** requer desenvolvimento coordenado entre múltiplas aplicações (frontend web, API gateway, microsserviços) e pacotes compartilhados (componentes UI, tipos TypeScript, schemas de validação, SDK). Gerenciar em repositórios separados cria atrito em atualizações de dependências, complica refatorações cross-package e requer orquestração complexa de CI/CD.
 
 Critérios de avaliação para ferramentas de monorepo:
 
