@@ -421,3 +421,9 @@ it("should handle concurrent requests", async () => {
 - [ ] Geração de docs relevante ✅
 - [ ] Mock scenarios realistas ✅
 - [ ] `pnpm test` 100% coverage ✅
+
+## Próximo Passo
+
+✅ **AI Service Completo!**
+
+→ [05-deployment/01-setup.md](../../04-deployment/01-setup.md) - Deployment
