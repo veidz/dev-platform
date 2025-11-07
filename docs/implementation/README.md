@@ -80,30 +80,32 @@ Guia completo de implementação dividido em fases modulares com checkboxes deta
 │   └── 04-routing-proxy.md         # Proxy para services
 │
 ├── 02-management-service/
-│   ├── 01-setup.md
-│   ├── 02-workspace-crud.md
-│   ├── 03-api-crud.md
-│   ├── 04-endpoint-crud.md
-│   └── 05-openapi-parser.md
+│   ├── 01-setup.md              # Estrutura base do serviço (NestJS, módulos)
+│   ├── 02-workspace-crud.md     # CRUD de workspaces (criação, atualização, membros)
+│   ├── 03-api-crud.md           # CRUD de APIs (metadados, versionamento)
+│   ├── 04-endpoint-crud.md      # CRUD de endpoints (método, path, schema)
+│   └── 05-openapi-parser.md     # Parser e importação de especificações OpenAPI
 │
 ├── 03-mock-server/
 │   ├── 01-setup.md
-│   ├── 02-schema-generator.md
-│   ├── 03-response-engine.md
-│   └── 04-scenarios.md
+│   ├── 02-mock-generator.md       # Gerador de mocks a partir de schemas
+│   ├── 03-scenario-management.md  # Gerenciamento de cenários
+│   ├── 04-mock-server-http.md     # Servidor HTTP e rotas
+│   └── 05-tests-e2e.md            # Testes end-to-end
 │
 ├── 04-analytics-service/
 │   ├── 01-setup.md
-│   ├── 02-log-ingestion.md
-│   ├── 03-metrics-aggregation.md
-│   └── 04-alerts.md
+│   ├── 02-event-ingestion.md      # Ingestão de eventos
+│   ├── 03-aggregation-jobs.md     # Jobs de agregação
+│   ├── 04-metrics-api.md          # API de métricas
+│   └── 05-alerts-webhooks.md      # Alertas e webhooks
 │
 └── 05-ai-service/
     ├── 01-setup.md
-    ├── 02-rag-pipeline.md
-    ├── 03-embeddings.md
-    ├── 04-chat-agent.md
-    └── 05-code-generation.md
+    ├── 02-embeddings-indexing.md  # Embeddings e indexação
+    ├── 03-rag-chat.md             # RAG chat
+    ├── 04-ai-generation.md        # Geração assistida por IA
+    └── 05-tests-e2e.md            # Testes end-to-end
 ```
 
 **Dependências**: Phase 0  
@@ -117,7 +119,7 @@ Guia completo de implementação dividido em fases modulares com checkboxes deta
 
 ```
 04-deployment/
-├── 01-ci-cd.md             # GitHub Actions workflows
+├── 01-setup.md             # Setup inicial de deployment
 ├── 02-docker.md            # Dockerfiles + docker-compose
 ├── 03-staging.md           # Deploy staging + smoke tests
 └── 04-production.md        # Deploy prod + monitoring
@@ -128,15 +130,17 @@ Guia completo de implementação dividido em fases modulares com checkboxes deta
 
 ---
 
-## 📊 Progresso Geral
+## 📊 Progresso Geral (Documentação Criada)
 
-- [ ] Phase 0: Setup (0/3 arquivos)
-- [ ] Phase 1: Shared Packages (0/3 arquivos)
-- [ ] Phase 2: Frontend Web (0/7 arquivos)
-- [ ] Phase 3: Backend Services (0/20 arquivos)
-- [ ] Phase 4: Deployment (0/4 arquivos)
+Marque aqui apenas quando o arquivo de documentação existir fisicamente (não depende de código implementado).
 
-**Total**: 0/37 arquivos completos
+- [x] Phase 0: Setup (3/3 arquivos)
+- [x] Phase 1: Shared Packages (3/3 arquivos)
+- [x] Phase 2: Frontend Web (7/7 arquivos)
+- [x] Phase 3: Backend Services (24/24 arquivos)
+- [x] Phase 4: Deployment (4/4 arquivos)
+
+**Total**: 41/41 arquivos de documentação criados
 
 ---
 
@@ -222,42 +226,42 @@ Links para docs oficiais relevantes.
 - 🟨 Em progresso
 - ✅ Completo e validado
 
-### Phase 0: Setup
+### Phase 0: Setup (Documentação)
 
-- ⬜ 01-monorepo.md
-- ⬜ 02-tooling.md
-- ⬜ 03-base-configs.md
+- ✅ 01-monorepo.md
+- ✅ 02-tooling.md
+- ✅ 03-base-configs.md
 
-### Phase 1: Shared Packages
+### Phase 1: Shared Packages (Documentação)
 
-- ⬜ 01-design-system.md
-- ⬜ 02-types-validation.md
-- ⬜ 03-sdk-client.md
+- ✅ 01-design-system.md
+- ✅ 02-types-validation.md
+- ✅ 03-sdk-client.md
 
-### Phase 2: Frontend
+### Phase 2: Frontend (Documentação)
 
-- ⬜ 01-setup.md
-- ⬜ 02-auth-pages.md
-- ⬜ 03-workspace.md
-- ⬜ 04-api-management.md
-- ⬜ 05-playground.md
-- ⬜ 06-analytics.md
-- ⬜ 07-e2e-tests.md
+- ✅ 01-setup.md
+- ✅ 02-auth-pages.md
+- ✅ 03-workspace.md
+- ✅ 04-api-management.md
+- ✅ 05-playground.md
+- ✅ 06-analytics.md
+- ✅ 07-e2e-tests.md
 
-### Phase 3: Backend
+### Phase 3: Backend (Documentação)
 
-- ⬜ API Gateway (0/4 arquivos)
-- ⬜ Management Service (0/5 arquivos)
-- ⬜ Mock Server (0/4 arquivos)
-- ⬜ Analytics Service (0/4 arquivos)
-- ⬜ AI Service (0/5 arquivos)
+- ✅ API Gateway (4/4)
+- ✅ Management Service (5/5)
+- ✅ Mock Server (5/5)
+- ✅ Analytics Service (5/5)
+- ✅ AI Service (5/5)
 
-### Phase 4: Deployment
+### Phase 4: Deployment (Documentação)
 
-- ⬜ 01-ci-cd.md
-- ⬜ 02-docker.md
-- ⬜ 03-staging.md
-- ⬜ 04-production.md
+- ✅ 01-setup.md
+- ✅ 02-docker.md
+- ✅ 03-staging.md
+- ✅ 04-production.md
 
 ---
 
