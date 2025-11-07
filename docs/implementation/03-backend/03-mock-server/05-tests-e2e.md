@@ -602,4 +602,4 @@ describe("Performance (E2E)", () => {
 
 **Próximo serviço:**
 
-→ [04-analytics/01-setup.md](../04-analytics/01-setup.md) - Analytics Service
+→ [04-analytics-service/01-setup.md](../04-analytics-service/01-setup.md) - Analytics Service

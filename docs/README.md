@@ -37,11 +37,11 @@ Guias passo-a-passo com checkboxes para desenvolvimento:
 
 Estrutura modular dividida por fases:
 
-- **Phase 0**: [Setup Inicial](./implementation/00-setup/) - Monorepo, tooling, configs
-- **Phase 1**: [Shared Packages](./implementation/01-shared/) - Design system, types, SDK
-- **Phase 2**: [Frontend (Web)](./implementation/02-web/) - Next.js app, páginas, testes
-- **Phase 3**: [Backend Services](./implementation/03-backend/) - 5 microsserviços
-- **Phase 4**: [Deployment](./implementation/04-deployment/) - CI/CD, staging, produção
+- **Phase 0**: [Setup Inicial](./implementation/00-setup/README.md) - Monorepo, tooling, configs
+- **Phase 1**: [Shared Packages](./implementation/01-shared/README.md) - Design system, types, SDK
+- **Phase 2**: [Frontend (Web)](./implementation/02-web/README.md) - Next.js app, páginas, testes
+- **Phase 3**: [Backend Services](./implementation/03-backend/README.md) - 5 microsserviços
+- **Phase 4**: [Deployment](./implementation/04-deployment/README.md) - CI/CD, staging, produção
 
 **Cada fase contém arquivos específicos com checkboxes detalhados.**
 

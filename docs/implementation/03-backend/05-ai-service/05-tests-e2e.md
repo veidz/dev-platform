@@ -426,4 +426,4 @@ it("should handle concurrent requests", async () => {
 
 ✅ **AI Service Completo!**
 
-→ [05-deployment/01-setup.md](../../04-deployment/01-setup.md) - Deployment
+→ [04-deployment/01-setup.md](../../04-deployment/01-setup.md) - Deployment
