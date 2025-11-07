@@ -31,19 +31,16 @@ Implementar **arquitetura RAG (Retrieval-Augmented Generation)** com os seguinte
 Retrieval-Augmented Generation resolve problema fundamental de LLMs: falta de conhecimento específico do domínio e dados desatualizados. Pipeline:
 
 1. **Indexação** (offline):
-
    - Documentos (schemas OpenAPI, descrições de endpoints, logs) → chunks semânticos
    - Chunks → embeddings via text-embedding-3-small (1536 dimensões)
    - Embeddings armazenados em Qdrant com metadata (workspace_id, api_id, timestamp)
 
 2. **Retrieval** (runtime):
-
    - Query usuário → embedding
    - Semantic search em Qdrant (cosine similarity)
    - Top-K documentos relevantes (K=3-5) recuperados
 
 3. **Augmentation**:
-
    - Context construído: query + documentos recuperados + system prompt
    - Context injection via prompt engineering
 

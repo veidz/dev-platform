@@ -28,7 +28,7 @@ Usar para: Dados scoped a request, configs imutáveis acessados frequentemente. 
 **Layer 2 - Redis (Distribuído):**
 
 ```typescript
-await this.redis.set(key, JSON.stringify(value), "EX", 3600)
+await this.redis.set(key, JSON.stringify(value), 'EX', 3600)
 ```
 
 Usar para: Sessões de usuário, schemas de API, resultados de queries. TTL: 5min-1hr.

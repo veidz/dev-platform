@@ -219,6 +219,14 @@ pnpm test
 
 # Lint
 pnpm lint
+\n+# Lint com auto-fix (todas as packages)
+pnpm lint:fix
+\n+# Format (escreve alterações)
+pnpm format
+\n+# Format (somente verificação)
+pnpm format:check
+\n+# Type checking global
+pnpm typecheck
 ```
 
 ---

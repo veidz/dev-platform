@@ -170,10 +170,10 @@ tests/
 ## Exemplo: endpoint.service.ts
 
 ```typescript
-import { Injectable, ConflictException } from "@nestjs/common"
-import { PrismaService } from "@/shared/prisma.service"
-import Ajv from "ajv"
-import type { CreateEndpointDto } from "./dto/create-endpoint.dto"
+import { Injectable, ConflictException } from '@nestjs/common'
+import { PrismaService } from '@/shared/prisma.service'
+import Ajv from 'ajv'
+import type { CreateEndpointDto } from './dto/create-endpoint.dto'
 
 @Injectable()
 export class EndpointService {
@@ -186,7 +186,7 @@ export class EndpointService {
     if (dto.requestSchema) {
       const valid = this.ajv.validateSchema(dto.requestSchema)
       if (!valid) {
-        throw new BadRequestException("Invalid request schema")
+        throw new BadRequestException('Invalid request schema')
       }
     }
 
@@ -200,7 +200,7 @@ export class EndpointService {
     })
 
     if (existing) {
-      throw new ConflictException("Endpoint already exists")
+      throw new ConflictException('Endpoint already exists')
     }
 
     return this.prisma.endpoint.create({
@@ -214,7 +214,7 @@ export class EndpointService {
   async findAll(apiId: string) {
     return this.prisma.endpoint.findMany({
       where: { apiId },
-      orderBy: [{ path: "asc" }, { method: "asc" }],
+      orderBy: [{ path: 'asc' }, { method: 'asc' }],
     })
   }
 }
@@ -264,8 +264,8 @@ enum HttpMethod {
 ## Exemplo: create-endpoint.dto.ts
 
 ```typescript
-import { IsString, IsEnum, IsOptional, IsObject } from "class-validator"
-import { HttpMethod } from "@prisma/client"
+import { IsString, IsEnum, IsOptional, IsObject } from 'class-validator'
+import { HttpMethod } from '@prisma/client'
 
 export class CreateEndpointDto {
   @IsString()

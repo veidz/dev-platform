@@ -32,7 +32,7 @@ Background jobs que agregam dados brutos (ApiRequestLog) em métricas consolidad
 @Module({
   imports: [
     BullModule.registerQueue({
-      name: "aggregation",
+      name: 'aggregation',
     }),
   ],
   providers: [AggregationService, AggregationProcessor],
@@ -47,8 +47,8 @@ export class AggregationModule {}
 @Injectable()
 export class AggregationService {
   constructor(
-    @InjectQueue("aggregation") private aggregationQueue: Queue,
-    private prisma: PrismaService
+    @InjectQueue('aggregation') private aggregationQueue: Queue,
+    private prisma: PrismaService,
   ) {}
 
   // Agendar agregação para uma hora específica
@@ -56,13 +56,13 @@ export class AggregationService {
     const hourStart = startOfHour(timestamp)
 
     await this.aggregationQueue.add(
-      "aggregate-hour",
+      'aggregate-hour',
       { hourStart: hourStart.toISOString() },
       {
         jobId: `agg-${hourStart.toISOString()}`, // Previne duplicatas
         removeOnComplete: true,
         removeOnFail: false,
-      }
+      },
     )
   }
 
@@ -90,13 +90,13 @@ export class AggregationService {
 
     // Calcular métricas para cada grupo
     const metrics = Object.entries(grouped).map(([key, logs]) => {
-      const [workspaceId, apiId, endpointId] = key.split("|")
+      const [workspaceId, apiId, endpointId] = key.split('|')
       return this.calculateMetrics(
         workspaceId,
         apiId,
         endpointId,
         logs,
-        hourStart
+        hourStart,
       )
     })
 
@@ -106,18 +106,21 @@ export class AggregationService {
     this.logger.log(
       `Aggregated ${logs.length} logs into ${
         metrics.length
-      } buckets for ${hourStart.toISOString()}`
+      } buckets for ${hourStart.toISOString()}`,
     )
   }
 
   // Agrupa logs por dimensões
   private groupLogs(logs: ApiRequestLog[]): Record<string, ApiRequestLog[]> {
-    return logs.reduce((acc, log) => {
-      const key = `${log.workspaceId}|${log.apiId}|${log.endpointId || "null"}`
-      if (!acc[key]) acc[key] = []
-      acc[key].push(log)
-      return acc
-    }, {} as Record<string, ApiRequestLog[]>)
+    return logs.reduce(
+      (acc, log) => {
+        const key = `${log.workspaceId}|${log.apiId}|${log.endpointId || 'null'}`
+        if (!acc[key]) acc[key] = []
+        acc[key].push(log)
+        return acc
+      },
+      {} as Record<string, ApiRequestLog[]>,
+    )
   }
 
   // Calcula métricas agregadas
@@ -126,7 +129,7 @@ export class AggregationService {
     apiId: string,
     endpointId: string | null,
     logs: ApiRequestLog[],
-    bucketTimestamp: Date
+    bucketTimestamp: Date,
   ) {
     const requestCount = logs.length
     const errorCount = logs.filter((l) => l.statusCode >= 500).length
@@ -138,20 +141,20 @@ export class AggregationService {
 
     // Status code distribution
     const status2xx = logs.filter(
-      (l) => l.statusCode >= 200 && l.statusCode < 300
+      (l) => l.statusCode >= 200 && l.statusCode < 300,
     ).length
     const status3xx = logs.filter(
-      (l) => l.statusCode >= 300 && l.statusCode < 400
+      (l) => l.statusCode >= 300 && l.statusCode < 400,
     ).length
     const status4xx = logs.filter(
-      (l) => l.statusCode >= 400 && l.statusCode < 500
+      (l) => l.statusCode >= 400 && l.statusCode < 500,
     ).length
     const status5xx = logs.filter((l) => l.statusCode >= 500).length
 
     return {
       workspaceId,
       apiId,
-      endpointId: endpointId === "null" ? null : endpointId,
+      endpointId: endpointId === 'null' ? null : endpointId,
       bucketTimestamp,
       requestCount,
       errorCount,
@@ -187,11 +190,11 @@ export class AggregationService {
 
 ```typescript
 // jobs/aggregation.processor.ts
-@Processor("aggregation")
+@Processor('aggregation')
 export class AggregationProcessor {
   constructor(private aggregationService: AggregationService) {}
 
-  @Process("aggregate-hour")
+  @Process('aggregate-hour')
   async handleAggregateHour(job: Job<{ hourStart: string }>) {
     const hourStart = new Date(job.data.hourStart)
 
@@ -372,8 +375,8 @@ async rollupDaily() {
 const logs = Array(1_000_000)
   .fill(null)
   .map(() => ({
-    workspaceId: "test",
-    apiId: "test",
+    workspaceId: 'test',
+    apiId: 'test',
     // ...
   }))
 

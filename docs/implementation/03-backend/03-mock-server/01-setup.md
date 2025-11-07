@@ -64,7 +64,6 @@ apps/mock-server/
 ### Configuração Base
 
 - [ ] **main.ts**
-
   - [ ] Porta: 3002 (padrão) ou `process.env.MOCK_SERVER_PORT`
   - [ ] CORS habilitado (origens configuráveis)
   - [ ] Global validation pipe
@@ -122,7 +121,7 @@ apps/mock-server/
   mock-server:
     build: ./apps/mock-server
     ports:
-      - "3002:3002"
+      - '3002:3002'
     env_file:
       - ./apps/mock-server/.env
     depends_on:

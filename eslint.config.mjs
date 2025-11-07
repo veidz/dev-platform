@@ -17,6 +17,8 @@ export default [
     },
     rules: {
       '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/explicit-function-return-type': 'warn',
+      'no-console': 'warn',
       'unused-imports/no-unused-imports': 'error',
       'simple-import-sort/imports': 'warn',
       'simple-import-sort/exports': 'warn',

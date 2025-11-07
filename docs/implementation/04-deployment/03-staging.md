@@ -140,7 +140,7 @@ echo "✅ Staging migrations complete!"
 
 ```typescript
 // prisma/seed.staging.ts
-import { PrismaClient } from "@prisma/client"
+import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
@@ -148,17 +148,17 @@ async function main() {
   // Criar usuário de teste
   const testUser = await prisma.user.create({
     data: {
-      email: "test@devplatform.com",
-      name: "Test User",
-      passwordHash: await hash("Test123!"),
+      email: 'test@devplatform.com',
+      name: 'Test User',
+      passwordHash: await hash('Test123!'),
     },
   })
 
   // Criar workspace de teste
   const testWorkspace = await prisma.workspace.create({
     data: {
-      name: "Test Workspace",
-      slug: "test-workspace",
+      name: 'Test Workspace',
+      slug: 'test-workspace',
       ownerId: testUser.id,
     },
   })
@@ -166,31 +166,31 @@ async function main() {
   // Criar API de exemplo
   const testApi = await prisma.api.create({
     data: {
-      name: "Example API",
-      slug: "example-api",
-      description: "API de exemplo para testes",
+      name: 'Example API',
+      slug: 'example-api',
+      description: 'API de exemplo para testes',
       workspaceId: testWorkspace.id,
       createdById: testUser.id,
       endpoints: {
         create: [
           {
-            method: "GET",
-            path: "/users",
-            description: "Lista todos usuários",
+            method: 'GET',
+            path: '/users',
+            description: 'Lista todos usuários',
             responseSchema: {
-              type: "array",
-              items: { type: "object" },
+              type: 'array',
+              items: { type: 'object' },
             },
           },
           {
-            method: "POST",
-            path: "/users",
-            description: "Cria novo usuário",
+            method: 'POST',
+            path: '/users',
+            description: 'Cria novo usuário',
             requestSchema: {
-              type: "object",
+              type: 'object',
               properties: {
-                name: { type: "string" },
-                email: { type: "string" },
+                name: { type: 'string' },
+                email: { type: 'string' },
               },
             },
           },
@@ -199,7 +199,7 @@ async function main() {
     },
   })
 
-  console.log("✅ Staging data seeded!")
+  console.log('✅ Staging data seeded!')
 }
 
 main()
@@ -222,10 +222,10 @@ main()
 
 ```typescript
 // scripts/smoke-test.ts
-import axios from "axios"
+import axios from 'axios'
 
 const BASE_URL =
-  process.env.STAGING_URL || "https://api-staging.devplatform.app"
+  process.env.STAGING_URL || 'https://api-staging.devplatform.app'
 
 interface TestResult {
   name: string
@@ -241,13 +241,13 @@ async function testHealthCheck() {
   try {
     const res = await axios.get(`${BASE_URL}/health`)
     tests.push({
-      name: "Health Check",
+      name: 'Health Check',
       passed: res.status === 200,
       duration: Date.now() - start,
     })
   } catch (error) {
     tests.push({
-      name: "Health Check",
+      name: 'Health Check',
       passed: false,
       duration: Date.now() - start,
       error: error.message,
@@ -260,18 +260,18 @@ async function testAuthentication() {
   try {
     // Login com usuário de teste
     const res = await axios.post(`${BASE_URL}/auth/login`, {
-      email: "test@devplatform.com",
-      password: "Test123!",
+      email: 'test@devplatform.com',
+      password: 'Test123!',
     })
     tests.push({
-      name: "Authentication",
+      name: 'Authentication',
       passed: res.status === 200 && !!res.data.token,
       duration: Date.now() - start,
     })
     return res.data.token
   } catch (error) {
     tests.push({
-      name: "Authentication",
+      name: 'Authentication',
       passed: false,
       duration: Date.now() - start,
       error: error.message,
@@ -287,13 +287,13 @@ async function testAPIList(token: string) {
       headers: { Authorization: `Bearer ${token}` },
     })
     tests.push({
-      name: "List APIs",
+      name: 'List APIs',
       passed: res.status === 200 && Array.isArray(res.data),
       duration: Date.now() - start,
     })
   } catch (error) {
     tests.push({
-      name: "List APIs",
+      name: 'List APIs',
       passed: false,
       duration: Date.now() - start,
       error: error.message,
@@ -306,13 +306,13 @@ async function testMockServer() {
   try {
     const res = await axios.get(`${process.env.MOCK_SERVER_URL}/health`)
     tests.push({
-      name: "Mock Server",
+      name: 'Mock Server',
       passed: res.status === 200,
       duration: Date.now() - start,
     })
   } catch (error) {
     tests.push({
-      name: "Mock Server",
+      name: 'Mock Server',
       passed: false,
       duration: Date.now() - start,
       error: error.message,
@@ -321,7 +321,7 @@ async function testMockServer() {
 }
 
 async function runSmokeTests() {
-  console.log("🔥 Running smoke tests on staging...\n")
+  console.log('🔥 Running smoke tests on staging...\n')
 
   await testHealthCheck()
   const token = await testAuthentication()
@@ -333,9 +333,9 @@ async function runSmokeTests() {
   await testMockServer()
 
   // Print results
-  console.log("\n📊 Test Results:\n")
+  console.log('\n📊 Test Results:\n')
   tests.forEach((test) => {
-    const icon = test.passed ? "✅" : "❌"
+    const icon = test.passed ? '✅' : '❌'
     console.log(`${icon} ${test.name} (${test.duration}ms)`)
     if (test.error) {
       console.log(`   Error: ${test.error}`)
@@ -379,7 +379,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: '22'
 
       - name: Install pnpm
         uses: pnpm/action-setup@v3
@@ -413,7 +413,7 @@ jobs:
         uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
-          text: "Staging deployment failed! 🚨"
+          text: 'Staging deployment failed! 🚨'
           webhook_url: ${{ secrets.SLACK_WEBHOOK }}
 ```
 

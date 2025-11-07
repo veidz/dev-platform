@@ -60,10 +60,10 @@ Fluxo separado para acesso programático:
 
 ```typescript
 enum Permission {
-  READ_API = "api:read",
-  WRITE_API = "api:write",
-  DELETE_API = "api:delete",
-  MANAGE_USERS = "users:manage",
+  READ_API = 'api:read',
+  WRITE_API = 'api:write',
+  DELETE_API = 'api:delete',
+  MANAGE_USERS = 'users:manage',
 }
 
 const roles = {

@@ -226,10 +226,10 @@ packages/sdk/
 ## Exemplo: sdk.ts
 
 ```typescript
-import { AuthModule } from "./modules/auth.module"
-import { WorkspaceModule } from "./modules/workspace.module"
-import { ApiModule } from "./modules/api.module"
-import type { SDKConfig } from "./types/config.types"
+import { AuthModule } from './modules/auth.module'
+import { WorkspaceModule } from './modules/workspace.module'
+import { ApiModule } from './modules/api.module'
+import type { SDKConfig } from './types/config.types'
 
 export class DevPlatformSDK {
   public readonly auth: AuthModule
@@ -251,25 +251,25 @@ export default DevPlatformSDK
 ## Exemplo: auth.module.ts
 
 ```typescript
-import type { LoginCredentials, AuthTokens } from "@dev-platform/shared"
-import type { BaseClient } from "../client/base-client"
+import type { LoginCredentials, AuthTokens } from '@dev-platform/shared'
+import type { BaseClient } from '../client/base-client'
 
 export class AuthModule {
   constructor(private client: BaseClient) {}
 
   async login(credentials: LoginCredentials): Promise<AuthTokens> {
-    const response = await this.client.post("auth/login", {
+    const response = await this.client.post('auth/login', {
       json: credentials,
     })
     return response.json()
   }
 
   async logout(): Promise<void> {
-    await this.client.post("auth/logout")
+    await this.client.post('auth/logout')
   }
 
   async refreshToken(): Promise<AuthTokens> {
-    const response = await this.client.post("auth/refresh")
+    const response = await this.client.post('auth/refresh')
     return response.json()
   }
 }
@@ -278,17 +278,17 @@ export class AuthModule {
 ## Exemplo: Usage
 
 ```typescript
-import DevPlatformSDK from "@dev-platform/sdk"
+import DevPlatformSDK from '@dev-platform/sdk'
 
 const sdk = new DevPlatformSDK({
-  baseUrl: "https://api.dev-platform.com",
-  apiKey: "your-api-key",
+  baseUrl: 'https://api.dev-platform.com',
+  apiKey: 'your-api-key',
 })
 
 // Login
 const tokens = await sdk.auth.login({
-  email: "user@example.com",
-  password: "secure123",
+  email: 'user@example.com',
+  password: 'secure123',
 })
 
 // List workspaces
@@ -296,8 +296,8 @@ const workspaces = await sdk.workspace.list()
 
 // Create API
 const api = await sdk.api.create({
-  name: "My API",
-  baseUrl: "https://api.myapp.com",
+  name: 'My API',
+  baseUrl: 'https://api.myapp.com',
 })
 ```
 

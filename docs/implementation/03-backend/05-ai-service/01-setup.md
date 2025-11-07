@@ -68,7 +68,6 @@ apps/ai-service/
 ### Configuração Base
 
 - [ ] **main.ts**
-
   - [ ] Porta: 3004 (padrão) ou `process.env.AI_SERVICE_PORT`
   - [ ] CORS habilitado
   - [ ] Global validation pipe
@@ -179,8 +178,8 @@ model DocumentIndex {
 
 ```typescript
 // src/config/openai.config.ts
-import { OpenAI } from "openai"
-import { ConfigService } from "@nestjs/config"
+import { OpenAI } from 'openai'
+import { ConfigService } from '@nestjs/config'
 
 @Injectable()
 export class OpenAIService {
@@ -188,7 +187,7 @@ export class OpenAIService {
 
   constructor(private config: ConfigService) {
     this.client = new OpenAI({
-      apiKey: config.get("OPENAI_API_KEY"),
+      apiKey: config.get('OPENAI_API_KEY'),
     })
   }
 
@@ -202,7 +201,7 @@ export class OpenAIService {
 
 ```typescript
 // src/config/qdrant.config.ts
-import { QdrantClient } from "@qdrant/js-client-rest"
+import { QdrantClient } from '@qdrant/js-client-rest'
 
 @Injectable()
 export class QdrantService {
@@ -211,11 +210,11 @@ export class QdrantService {
 
   constructor(private config: ConfigService) {
     this.client = new QdrantClient({
-      url: config.get("QDRANT_URL"),
-      apiKey: config.get("QDRANT_API_KEY"),
+      url: config.get('QDRANT_URL'),
+      apiKey: config.get('QDRANT_API_KEY'),
     })
 
-    this.COLLECTION_NAME = config.get("QDRANT_COLLECTION")
+    this.COLLECTION_NAME = config.get('QDRANT_COLLECTION')
 
     this.ensureCollection()
   }
@@ -228,7 +227,7 @@ export class QdrantService {
       await this.client.createCollection(this.COLLECTION_NAME, {
         vectors: {
           size: 1536, // text-embedding-3-small
-          distance: "Cosine",
+          distance: 'Cosine',
         },
       })
     }
@@ -287,7 +286,7 @@ async check() {
   ai-service:
     build: ./apps/ai-service
     ports:
-      - "3004:3004"
+      - '3004:3004'
     env_file:
       - ./apps/ai-service/.env
     depends_on:
@@ -297,7 +296,7 @@ async check() {
   qdrant:
     image: qdrant/qdrant:latest
     ports:
-      - "6333:6333"
+      - '6333:6333'
     volumes:
       - qdrant_data:/qdrant/storage
 
@@ -332,7 +331,7 @@ export class CostTracker {
     const cost = this.calculateCost(model, tokens)
 
     // Log para analytics
-    await this.logger.info("AI Usage", {
+    await this.logger.info('AI Usage', {
       model,
       tokens,
       cost,
@@ -341,11 +340,11 @@ export class CostTracker {
 
   private calculateCost(model: string, tokens: number): number {
     const rates = {
-      "gpt-4o-mini": {
+      'gpt-4o-mini': {
         input: 0.15 / 1_000_000, // $0.150 per 1M tokens
         output: 0.6 / 1_000_000,
       },
-      "text-embedding-3-small": {
+      'text-embedding-3-small': {
         input: 0.02 / 1_000_000,
       },
     }

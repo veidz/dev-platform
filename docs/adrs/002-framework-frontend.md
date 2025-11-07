@@ -37,7 +37,7 @@ Next.js 16 introduz mudanças arquiteturais que entregam ganhos mensuráveis de 
 Nova diretiva `"use cache"` habilita caching explícito em nível de componente/função:
 
 ```typescript
-"use cache"
+'use cache'
 async function fetchUserData(id: string) {
   // Cacheado automaticamente com chaves geradas pelo compilador
 }

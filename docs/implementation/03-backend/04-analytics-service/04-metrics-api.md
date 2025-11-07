@@ -47,13 +47,13 @@ export class MetricsQueryDto {
   endDate: string
 
   @IsOptional()
-  @IsEnum(["hour", "day", "week", "month"])
-  granularity?: "hour" | "day" | "week" | "month"
+  @IsEnum(['hour', 'day', 'week', 'month'])
+  granularity?: 'hour' | 'day' | 'week' | 'month'
 }
 
 export class TimeSeriesQueryDto extends MetricsQueryDto {
-  @IsEnum(["requests", "errors", "latency"])
-  metric: "requests" | "errors" | "latency"
+  @IsEnum(['requests', 'errors', 'latency'])
+  metric: 'requests' | 'errors' | 'latency'
 }
 
 export class TopEndpointsQueryDto {
@@ -77,8 +77,8 @@ export class TopEndpointsQueryDto {
   limit?: number = 10
 
   @IsOptional()
-  @IsEnum(["requests", "errors", "latency"])
-  sortBy?: "requests" | "errors" | "latency" = "requests"
+  @IsEnum(['requests', 'errors', 'latency'])
+  sortBy?: 'requests' | 'errors' | 'latency' = 'requests'
 }
 ```
 
@@ -114,7 +114,7 @@ export class MetricsService {
           lte: new Date(query.endDate),
         },
       },
-      orderBy: { bucketTimestamp: "asc" },
+      orderBy: { bucketTimestamp: 'asc' },
     })
   }
 
@@ -142,10 +142,10 @@ export class MetricsService {
 
   private calculateStatusDistribution(buckets: MetricsBucket[]) {
     return {
-      "2xx": sum(buckets.map((b) => b.status2xx)),
-      "3xx": sum(buckets.map((b) => b.status3xx)),
-      "4xx": sum(buckets.map((b) => b.status4xx)),
-      "5xx": sum(buckets.map((b) => b.status5xx)),
+      '2xx': sum(buckets.map((b) => b.status2xx)),
+      '3xx': sum(buckets.map((b) => b.status3xx)),
+      '4xx': sum(buckets.map((b) => b.status4xx)),
+      '5xx': sum(buckets.map((b) => b.status5xx)),
     }
   }
 }
@@ -266,41 +266,41 @@ async getGeographicDistribution(query: MetricsQueryDto): Promise<GeoDistribution
 ### Metrics Controller - Endpoints
 
 ```typescript
-@Controller("metrics")
+@Controller('metrics')
 @UseGuards(JwtAuthGuard)
 export class MetricsController {
   constructor(private metricsService: MetricsService) {}
 
-  @Get("overview")
+  @Get('overview')
   async getOverview(@Query() query: MetricsQueryDto) {
     return this.metricsService.getOverview(query)
   }
 
-  @Get("timeseries")
+  @Get('timeseries')
   async getTimeSeries(@Query() query: TimeSeriesQueryDto) {
     return this.metricsService.getTimeSeries(query)
   }
 
-  @Get("top-endpoints")
+  @Get('top-endpoints')
   async getTopEndpoints(@Query() query: TopEndpointsQueryDto) {
     return this.metricsService.getTopEndpoints(query)
   }
 
-  @Get("geographic")
+  @Get('geographic')
   async getGeographic(@Query() query: MetricsQueryDto) {
     return this.metricsService.getGeographicDistribution(query)
   }
 
-  @Get("error-rate")
+  @Get('error-rate')
   async getErrorRate(@Query() query: MetricsQueryDto) {
     const overview = await this.metricsService.getOverview(query)
     return { errorRate: overview.errorRate }
   }
 
-  @Get("latency-percentiles")
+  @Get('latency-percentiles')
   async getLatencyPercentiles(@Query() query: MetricsQueryDto) {
     // Calcular p50, p95, p99
-    const buckets = await this.metricsService["fetchBuckets"](query)
+    const buckets = await this.metricsService['fetchBuckets'](query)
 
     return {
       p50: this.calculatePercentile(buckets, 0.5),

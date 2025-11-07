@@ -265,28 +265,28 @@ export type JwtPayload = {
 ## Exemplo: auth.schemas.ts
 
 ```typescript
-import { z } from "zod"
+import { z } from 'zod'
 
 export const loginSchema = z.object({
-  email: z.string().email("Email inválido"),
-  password: z.string().min(8, "Senha deve ter no mínimo 8 caracteres"),
+  email: z.string().email('Email inválido'),
+  password: z.string().min(8, 'Senha deve ter no mínimo 8 caracteres'),
 })
 
 export const registerSchema = z
   .object({
-    email: z.string().email("Email inválido"),
-    name: z.string().min(2, "Nome muito curto"),
+    email: z.string().email('Email inválido'),
+    name: z.string().min(2, 'Nome muito curto'),
     password: z
       .string()
-      .min(12, "Senha deve ter no mínimo 12 caracteres")
-      .regex(/[A-Z]/, "Senha deve conter maiúscula")
-      .regex(/[a-z]/, "Senha deve conter minúscula")
-      .regex(/[0-9]/, "Senha deve conter número"),
+      .min(12, 'Senha deve ter no mínimo 12 caracteres')
+      .regex(/[A-Z]/, 'Senha deve conter maiúscula')
+      .regex(/[a-z]/, 'Senha deve conter minúscula')
+      .regex(/[0-9]/, 'Senha deve conter número'),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Senhas não conferem",
-    path: ["confirmPassword"],
+    message: 'Senhas não conferem',
+    path: ['confirmPassword'],
   })
 
 export type LoginDto = z.infer<typeof loginSchema>
@@ -296,11 +296,11 @@ export type RegisterDto = z.infer<typeof registerSchema>
 ## Exemplo: validation.ts
 
 ```typescript
-import { z } from "zod"
+import { z } from 'zod'
 
 export function validate<T>(
   schema: z.ZodSchema<T>,
-  data: unknown
+  data: unknown,
 ): { success: true; data: T } | { success: false; errors: string[] } {
   const result = schema.safeParse(data)
 
@@ -309,7 +309,7 @@ export function validate<T>(
   }
 
   const errors = result.error.errors.map((err) => {
-    return `${err.path.join(".")}: ${err.message}`
+    return `${err.path.join('.')}: ${err.message}`
   })
 
   return { success: false, errors }
@@ -341,7 +341,7 @@ export function success<T>(data: T, message?: string): ApiResponse<T> {
 export function error(
   code: string,
   message: string,
-  details?: unknown
+  details?: unknown,
 ): ApiResponse<never> {
   return { success: false, error: { code, message, details } }
 }

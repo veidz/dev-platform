@@ -57,19 +57,19 @@ export class ChatService {
   constructor(
     private searchService: SearchService,
     private openai: OpenAIService,
-    private prisma: PrismaService
+    private prisma: PrismaService,
   ) {}
 
   async chat(
     conversationId: string,
     message: string,
-    workspaceId: string
+    workspaceId: string,
   ): AsyncGenerator<string> {
     // 1. Buscar contexto relevante (RAG retrieval)
     const context = await this.searchService.search(
       message,
       workspaceId,
-      5 // top 5 documentos
+      5, // top 5 documentos
     )
 
     // 2. Buscar histórico da conversa
@@ -80,11 +80,11 @@ export class ChatService {
 
     // 4. Gerar resposta com streaming
     const stream = await this.openai.getClient().chat.completions.create({
-      model: "gpt-4o-mini",
+      model: 'gpt-4o-mini',
       messages: [
-        { role: "system", content: SYSTEM_PROMPT },
+        { role: 'system', content: SYSTEM_PROMPT },
         ...history.map((m) => ({ role: m.role, content: m.content })),
-        { role: "user", content: prompt },
+        { role: 'user', content: prompt },
       ],
       stream: true,
       temperature: 0.7,
@@ -92,10 +92,10 @@ export class ChatService {
     })
 
     // 5. Stream chunks
-    let fullResponse = ""
+    let fullResponse = ''
 
     for await (const chunk of stream) {
-      const content = chunk.choices[0]?.delta?.content || ""
+      const content = chunk.choices[0]?.delta?.content || ''
       fullResponse += content
       yield content
     }
@@ -107,33 +107,33 @@ export class ChatService {
   private buildPrompt(
     question: string,
     context: SearchResult[],
-    history: ChatMessage[]
+    history: ChatMessage[],
   ): string {
     const contextText = context
       .map((c) => `[${c.metadata.type}] ${c.text}`)
-      .join("\n\n")
+      .join('\n\n')
 
     return SYSTEM_PROMPT.replace(
-      "{context}",
-      contextText || "No context available"
+      '{context}',
+      contextText || 'No context available',
     )
-      .replace("{chat_history}", this.formatHistory(history))
-      .replace("{question}", question)
+      .replace('{chat_history}', this.formatHistory(history))
+      .replace('{question}', question)
   }
 
   private formatHistory(messages: ChatMessage[]): string {
     return messages
       .slice(-5) // Últimas 5 mensagens
       .map((m) => `${m.role}: ${m.content}`)
-      .join("\n")
+      .join('\n')
   }
 
   private async getConversationHistory(
-    conversationId: string
+    conversationId: string,
   ): Promise<ChatMessage[]> {
     return this.prisma.chatMessage.findMany({
       where: { conversationId },
-      orderBy: { createdAt: "asc" },
+      orderBy: { createdAt: 'asc' },
       take: 10, // Últimas 10 mensagens
     })
   }
@@ -142,18 +142,18 @@ export class ChatService {
     conversationId: string,
     userMessage: string,
     assistantMessage: string,
-    sources: SearchResult[]
+    sources: SearchResult[],
   ): Promise<void> {
     await this.prisma.chatMessage.createMany({
       data: [
         {
           conversationId,
-          role: "user",
+          role: 'user',
           content: userMessage,
         },
         {
           conversationId,
-          role: "assistant",
+          role: 'assistant',
           content: assistantMessage,
           metadata: {
             sources: sources.map((s) => ({
@@ -216,16 +216,16 @@ async deleteConversation(id: string): Promise<void> {
 ### Chat Controller - SSE Streaming
 
 ```typescript
-@Controller("chat")
+@Controller('chat')
 @UseGuards(JwtAuthGuard)
 export class ChatController {
   constructor(private chatService: ChatService) {}
 
-  @Sse("stream")
+  @Sse('stream')
   async streamChat(
-    @Query("conversationId") conversationId: string,
-    @Query("message") message: string,
-    @CurrentUser() user
+    @Query('conversationId') conversationId: string,
+    @Query('message') message: string,
+    @CurrentUser() user,
   ): Promise<Observable<MessageEvent>> {
     return new Observable((subscriber) => {
       ;(async () => {
@@ -233,7 +233,7 @@ export class ChatController {
           const stream = this.chatService.chat(
             conversationId,
             message,
-            user.workspaceId
+            user.workspaceId,
           )
 
           for await (const chunk of stream) {
@@ -250,30 +250,30 @@ export class ChatController {
     })
   }
 
-  @Post("conversations")
+  @Post('conversations')
   async createConversation(@CurrentUser() user) {
     return this.chatService.createConversation(user.id, user.workspaceId)
   }
 
-  @Get("conversations")
+  @Get('conversations')
   async listConversations(@CurrentUser() user) {
     return this.chatService.listConversations(user.id, user.workspaceId)
   }
 
-  @Get("conversations/:id")
-  async getConversation(@Param("id") id: string) {
+  @Get('conversations/:id')
+  async getConversation(@Param('id') id: string) {
     return this.prisma.chatConversation.findUnique({
       where: { id },
       include: {
         messages: {
-          orderBy: { createdAt: "asc" },
+          orderBy: { createdAt: 'asc' },
         },
       },
     })
   }
 
-  @Delete("conversations/:id")
-  async deleteConversation(@Param("id") id: string) {
+  @Delete('conversations/:id')
+  async deleteConversation(@Param('id') id: string) {
     return this.chatService.deleteConversation(id)
   }
 }

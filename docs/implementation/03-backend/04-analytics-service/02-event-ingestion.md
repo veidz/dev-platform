@@ -84,7 +84,7 @@ export class IngestionService {
 
   constructor(
     private prisma: PrismaService,
-    private geoipService: GeoIpService
+    private geoipService: GeoIpService,
   ) {
     // Flush automático a cada 5 segundos
     setInterval(() => this.flushBuffer(), this.FLUSH_INTERVAL_MS)
@@ -109,7 +109,7 @@ export class IngestionService {
     try {
       // Enriquecer com GeoIP
       const enrichedEvents = await Promise.all(
-        events.map((e) => this.enrichEvent(e))
+        events.map((e) => this.enrichEvent(e)),
       )
 
       // Insert em batch
@@ -120,7 +120,7 @@ export class IngestionService {
 
       this.logger.log(`Flushed ${events.length} events to database`)
     } catch (error) {
-      this.logger.error("Failed to flush events", error)
+      this.logger.error('Failed to flush events', error)
       // Re-adicionar ao buffer para retry
       this.eventBuffer.unshift(...events)
     }
@@ -184,13 +184,13 @@ export class IngestionController {
   constructor(private ingestionService: IngestionService) {}
 
   // Listener para eventos de API Gateway
-  @EventPattern("api.request.completed")
+  @EventPattern('api.request.completed')
   async handleApiRequest(@Payload() data: ApiRequestEventDto) {
     await this.ingestionService.ingestEvent(data)
   }
 
   // Listener para eventos de Mock Server
-  @EventPattern("mock.request")
+  @EventPattern('mock.request')
   async handleMockRequest(@Payload() data: ApiRequestEventDto) {
     await this.ingestionService.ingestEvent(data)
   }
@@ -202,18 +202,18 @@ export class IngestionController {
 Caso outros serviços prefiram HTTP POST ao invés de eventos:
 
 ```typescript
-@Controller("ingest")
+@Controller('ingest')
 export class IngestionController {
-  @Post("event")
+  @Post('event')
   async ingestViaHttp(@Body() dto: ApiRequestEventDto) {
     await this.ingestionService.ingestEvent(dto)
     return { success: true }
   }
 
-  @Post("events/batch")
+  @Post('events/batch')
   async ingestBatch(@Body() dto: { events: ApiRequestEventDto[] }) {
     await Promise.all(
-      dto.events.map((e) => this.ingestionService.ingestEvent(e))
+      dto.events.map((e) => this.ingestionService.ingestEvent(e)),
     )
     return { success: true, count: dto.events.length }
   }
@@ -309,10 +309,10 @@ async onModuleDestroy() {
 const events = Array(10000)
   .fill(null)
   .map(() => ({
-    workspaceId: "test",
-    apiId: "test",
-    method: "GET",
-    path: "/test",
+    workspaceId: 'test',
+    apiId: 'test',
+    method: 'GET',
+    path: '/test',
     statusCode: 200,
     responseTimeMs: 100,
     timestamp: new Date(),

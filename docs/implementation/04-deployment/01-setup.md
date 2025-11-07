@@ -56,7 +56,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: '22'
 
       - name: Install pnpm
         uses: pnpm/action-setup@v3
@@ -116,12 +116,12 @@ on:
   push:
     branches: [main]
     paths:
-      - "apps/api-gateway/**"
-      - "apps/api-management/**"
-      - "apps/mock-server/**"
-      - "apps/analytics/**"
-      - "apps/ai-service/**"
-      - "packages/shared/**"
+      - 'apps/api-gateway/**'
+      - 'apps/api-management/**'
+      - 'apps/mock-server/**'
+      - 'apps/analytics/**'
+      - 'apps/ai-service/**'
+      - 'packages/shared/**'
 
 jobs:
   deploy-services:
@@ -142,7 +142,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: '22'
 
       - name: Install Railway CLI
         run: npm install -g @railway/cli
@@ -176,9 +176,9 @@ on:
   push:
     branches: [main]
     paths:
-      - "apps/web/**"
-      - "packages/ui/**"
-      - "packages/shared/**"
+      - 'apps/web/**'
+      - 'packages/ui/**'
+      - 'packages/shared/**'
 
 jobs:
   deploy-web:
@@ -191,7 +191,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: '22'
 
       - name: Install Vercel CLI
         run: npm install -g vercel
@@ -220,7 +220,7 @@ name: E2E Tests
 
 on:
   schedule:
-    - cron: "0 */6 * * *" # A cada 6 horas
+    - cron: '0 */6 * * *' # A cada 6 horas
   workflow_dispatch: # Manual trigger
 
 jobs:
@@ -234,7 +234,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: '22'
 
       - name: Install pnpm
         uses: pnpm/action-setup@v3
@@ -276,7 +276,7 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: "Environment to migrate"
+        description: 'Environment to migrate'
         required: true
         type: choice
         options:
@@ -294,7 +294,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: '22'
 
       - name: Install pnpm
         uses: pnpm/action-setup@v3
@@ -336,24 +336,24 @@ Arquivo: `.github/dependabot.yml`
 ```yaml
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
     open-pull-requests-limit: 10
     groups:
       dev-dependencies:
         patterns:
-          - "@types/*"
-          - "eslint*"
-          - "prettier"
+          - '@types/*'
+          - 'eslint*'
+          - 'prettier'
       nestjs:
         patterns:
-          - "@nestjs/*"
+          - '@nestjs/*'
       react:
         patterns:
-          - "react*"
-          - "next"
+          - 'react*'
+          - 'next'
 ```
 
 - [ ] Criar `.github/dependabot.yml`

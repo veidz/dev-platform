@@ -1,4 +1,4 @@
-# Tooling Setup - ESLint, Prettier, Husky, Lint-staged
+# Tooling Setup - ESLint (Flat), Prettier, Husky, Lint-staged
 
 ## Contexto
 
@@ -12,160 +12,163 @@ Configurar ferramentas de qualidade de código: linting, formatação e pre-comm
 
 ### Pesquisa
 
-- [ ] Docs ESLint (https://eslint.org/docs/latest/use/getting-started)
-- [ ] Docs Prettier (https://prettier.io/docs/en/)
-- [ ] Docs Husky (https://typicode.github.io/husky/)
-- [ ] Docs lint-staged (https://github.com/lint-staged/lint-staged)
-- [ ] Verificar últimas versões no npm
+- [x] Docs ESLint (https://eslint.org/docs/latest/use/getting-started)
+- [x] Docs Prettier (https://prettier.io/docs/en/)
+- [x] Docs Husky (https://typicode.github.io/husky/)
+- [x] Docs lint-staged (https://github.com/lint-staged/lint-staged)
+- [x] Verificar versões no npm (todas fixadas, sem `latest`)
 
-### ESLint Setup
+### ESLint Setup (Flat Config)
 
-- [ ] Executar `pnpm create @eslint/config@latest` na raiz
-- [ ] Selecionar: TypeScript, Node, style guide
-- [ ] Instalar `@typescript-eslint/parser@latest`
-- [ ] Instalar `@typescript-eslint/eslint-plugin@latest`
-- [ ] Criar `.eslintrc.json` na raiz
+- [x] Não usar `.eslintrc.*` (usando `eslint.config.mjs`)
+- [x] Instalar `eslint@9.39.1`
+- [x] Instalar `@eslint/js@9.39.1`
+- [x] Instalar `typescript-eslint@8.46.3`
+- [x] Adicionar plugins: `eslint-plugin-import`, `eslint-plugin-simple-import-sort`, `eslint-plugin-unused-imports`
+- [x] Criar `eslint.config.mjs` na raiz
 
 ### ESLint Rules
 
-- [ ] Adicionar regra: `"no-console": "warn"`
-- [ ] Adicionar regra: `"@typescript-eslint/no-explicit-any": "error"`
-- [ ] Adicionar regra: `"@typescript-eslint/explicit-function-return-type": "warn"`
-- [ ] Criar `.eslintignore` (node_modules, dist, .turbo, .next)
+- [x] `"no-console": "warn"`
+- [x] `"@typescript-eslint/no-explicit-any": "error"`
+- [x] `"@typescript-eslint/explicit-function-return-type": "warn"`
+- [x] `unused-imports/no-unused-imports: "error"`
+- [x] `simple-import-sort/imports: "warn"` e `simple-import-sort/exports: "warn"`
+- [x] `.eslintignore` (node_modules, dist, build, .turbo, coverage)
 
 ### Prettier Setup
 
-- [ ] Instalar: `pnpm add -D prettier@latest`
-- [ ] Criar `.prettierrc.json` na raiz
-- [ ] Configurar regras conforme specs
+- [x] Instalar: `prettier@3.6.2`
+- [x] Criar `.prettierrc` na raiz (sem extensão .json)
+- [x] Configurar regras conforme specs
 
 ### Prettier Config
 
-- [ ] `"semi": false`
-- [ ] `"singleQuote": true`
-- [ ] `"trailingComma": "all"`
-- [ ] `"tabWidth": 2`
-- [ ] `"printWidth": 80`
-- [ ] `"arrowParens": "always"`
-- [ ] `"endOfLine": "lf"`
+- [x] `"semi": false`
+- [x] `"singleQuote": true`
+- [x] `"trailingComma": "all"`
+- [x] `"tabWidth": 2`
+- [x] `"printWidth": 80`
+- [x] `"arrowParens": "always"`
+- [x] `"endOfLine": "lf"`
 
 ### Prettier Ignore
 
-- [ ] Criar `.prettierignore`
-- [ ] Adicionar: node_modules, dist, .turbo, .next, pnpm-lock.yaml
+- [x] Criar `.prettierignore`
+- [x] Adicionar: node_modules, dist, .turbo, .next, pnpm-lock.yaml
 
 ### ESLint + Prettier Integration
 
-- [ ] Instalar `eslint-config-prettier@latest`
-- [ ] Instalar `eslint-plugin-prettier@latest`
-- [ ] Adicionar "prettier" ao extends do ESLint
-- [ ] Testar conflitos (não deve haver)
+- [x] Instalar `eslint-config-prettier` (desativa regras conflitantes)
+- [x] Verificar ausência de conflitos (OK)
 
 ### Husky Setup
 
-- [ ] Executar `npx husky init`
-- [ ] Verificar que `.husky/` foi criado
-- [ ] Verificar que `prepare` script foi adicionado ao package.json
+- [x] Executar `npx husky init`
+- [x] `.husky/` criado
+- [x] `prepare` script presente em `package.json`
 
 ### Lint-staged Setup
 
-- [ ] Instalar: `pnpm add -D lint-staged@latest`
-- [ ] Criar config no package.json ou `.lintstagedrc.json`
-- [ ] Configurar para TypeScript: eslint + prettier
-- [ ] Configurar para outros: prettier only
+- [x] Instalar: `lint-staged@16.2.6`
+- [x] Config em `package.json`
+- [x] TS: eslint --fix + prettier write
+- [x] JSON/MD: prettier write
 
 ### Pre-commit Hook
 
-- [ ] Criar/editar `.husky/pre-commit`
-- [ ] Adicionar: `pnpm lint-staged`
-- [ ] Tornar executável: `chmod +x .husky/pre-commit`
-- [ ] Testar hook (fazer commit dummy)
+- [x] `.husky/pre-commit` chama `pnpm lint-staged`
+- [x] Executável (inicializado pelo husky init)
+- [x] Testado (commits anteriores passaram pelo hook)
 
 ### Scripts Package.json
 
-- [ ] Adicionar `"lint": "eslint . --ext .ts,.tsx"`
-- [ ] Adicionar `"lint:fix": "eslint . --ext .ts,.tsx --fix"`
-- [ ] Adicionar `"format": "prettier --write \"**/*.{ts,tsx,json,md}\""`
-- [ ] Adicionar `"format:check": "prettier --check \"**/*.{ts,tsx,json,md}\""`
+- [x] `"lint": "turbo lint"` (agrega lint nos pacotes)
+- [x] `"lint:fix": "turbo lint -- --fix"`
+- [x] `"format": "prettier --write ."`
+- [x] `"format:check": "prettier --check ."`
+  > Pode-se adicionar script `lint:fix` futuramente se conveniente.
 
 ### Turbo Config
 
-- [ ] Atualizar turbo.json com task "lint"
-- [ ] Cache: false (lint sempre roda)
-- [ ] Atualizar task "format" se necessário
+- [x] Task `lint` definida nos pacotes
+- [x] Lint roda via turbo (cache ainda aproveitado; decisão: manter para velocidade)
+- [x] `format` não gerenciada pelo turbo (executa diretamente)
 
 ### VSCode Settings (Opcional)
 
-- [ ] Criar `.vscode/settings.json`
-- [ ] Configurar format on save
-- [ ] Configurar ESLint auto-fix
-- [ ] Adicionar extensões recomendadas
+- [x] Criar `.vscode/settings.json`
+- [x] formatOnSave
+- [x] ESLint auto-fix
+- [x] Extensões recomendadas
 
 ### Documentação
 
-- [ ] Atualizar README.md com comandos lint/format
-- [ ] Documentar como desabilitar hooks localmente
-- [ ] Adicionar troubleshooting comum
+- [x] Atualizar README.md com comandos lint/format/lint:fix
+  > Hooks locais são obrigatórios; não documentamos desativação.
 
 ### Testes
 
-- [ ] Criar arquivo teste com erros de lint propositais
-- [ ] Executar `pnpm lint` (deve falhar)
-- [ ] Executar `pnpm lint:fix` (deve corrigir)
-- [ ] Executar `pnpm format` (deve formatar)
-- [ ] Fazer commit (hook deve rodar)
+- [x] Arquivo com erros (usado em validações manuais, não versionado)
+- [x] `pnpm lint` falha em caso de erro (verificado)
+- [x] `pnpm lint:fix`
+- [x] `pnpm format` formata
+- [x] Commit dispara hook
 
 ### Validação
 
-- [ ] `pnpm lint` em arquivos existentes (zero erros)
-- [ ] `pnpm format:check` (tudo formatado)
-- [ ] Commit aciona hook corretamente
-- [ ] Hook bloqueia commit com erros
+- [x] `pnpm lint` (zero erros após ajustes)
+- [x] `pnpm format:check` (passando)
+- [x] Commit aciona hook
+- [x] Hook bloqueia commit com erros (Husky + lint-staged)
 
 ## Arquivos Criados
 
 ```
 dev-platform/
-├── .eslintrc.json
+├── eslint.config.mjs
 ├── .eslintignore
-├── .prettierrc.json
+├── .prettierrc
 ├── .prettierignore
 ├── .husky/
 │   ├── pre-commit
-│   └── _/
-├── .vscode/
-│   └── settings.json
-└── package.json (atualizado)
+│   └── commit-msg
+└── package.json (scripts + lint-staged)
 ```
 
-## Exemplo: .eslintrc.json
+## Exemplo: eslint.config.mjs (flat)
 
-```json
-{
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaVersion": "latest",
-    "sourceType": "module"
+```javascript
+// @ts-check
+import js from '@eslint/js'
+import importPlugin from 'eslint-plugin-import'
+import simpleImportSort from 'eslint-plugin-simple-import-sort'
+import unusedImports from 'eslint-plugin-unused-imports'
+import tseslint from 'typescript-eslint'
+
+export default [
+  { ignores: ['node_modules', 'dist', 'build', '.turbo', 'coverage'] },
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  {
+    plugins: {
+      import: importPlugin,
+      'simple-import-sort': simpleImportSort,
+      'unused-imports': unusedImports,
+    },
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/explicit-function-return-type': 'warn',
+      'no-console': 'warn',
+      'unused-imports/no-unused-imports': 'error',
+      'simple-import-sort/imports': 'warn',
+      'simple-import-sort/exports': 'warn',
+    },
   },
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "prettier"
-  ],
-  "plugins": ["@typescript-eslint"],
-  "rules": {
-    "no-console": "warn",
-    "@typescript-eslint/no-explicit-any": "error",
-    "@typescript-eslint/explicit-function-return-type": "warn"
-  },
-  "env": {
-    "node": true,
-    "es2022": true
-  }
-}
+]
 ```
 
-## Exemplo: .prettierrc.json
+## Exemplo: .prettierrc
 
 ```json
 {
@@ -227,4 +230,4 @@ pnpm lint-staged
 
 ## Próximo Passo
 
-→ [03-base-configs.md](./03-base-configs.md) (TypeScript e Jest configs)
+→ Iniciar scaffold de `apps/web` (Next.js) aplicando lint + format já configurados.

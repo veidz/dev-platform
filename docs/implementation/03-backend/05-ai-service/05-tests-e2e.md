@@ -35,7 +35,7 @@ class MockOpenAIService {
       chat: {
         completions: {
           create: jest.fn().mockResolvedValue({
-            choices: [{ message: { content: "Mocked AI response" } }],
+            choices: [{ message: { content: 'Mocked AI response' } }],
           }),
         },
       },
@@ -47,14 +47,14 @@ class MockOpenAIService {
 ### Test Suite 1: Embeddings & Indexing
 
 ```typescript
-describe("Embeddings & Indexing (E2E)", () => {
+describe('Embeddings & Indexing (E2E)', () => {
   let api: Api
   let endpoint: Endpoint
 
   beforeEach(async () => {
     api = await prisma.api.create({
       data: {
-        name: "Test API",
+        name: 'Test API',
         workspaceId: workspace.id,
         createdById: user.id,
       },
@@ -62,27 +62,27 @@ describe("Embeddings & Indexing (E2E)", () => {
 
     endpoint = await prisma.endpoint.create({
       data: {
-        method: "GET",
-        path: "/users",
-        description: "Get all users",
+        method: 'GET',
+        path: '/users',
+        description: 'Get all users',
         apiId: api.id,
-        responseSchema: { type: "array" },
+        responseSchema: { type: 'array' },
       },
     })
   })
 
-  it("should generate embeddings", async () => {
-    const text = "Test document"
+  it('should generate embeddings', async () => {
+    const text = 'Test document'
 
     const response = await request(app.getHttpServer())
-      .post("/api/ai/embeddings/generate")
+      .post('/api/ai/embeddings/generate')
       .send({ text })
       .expect(200)
 
     expect(response.body.embedding).toHaveLength(1536)
   })
 
-  it("should index API", async () => {
+  it('should index API', async () => {
     await request(app.getHttpServer())
       .post(`/api/ai/indexing/api/${api.id}`)
       .expect(201)
@@ -95,22 +95,22 @@ describe("Embeddings & Indexing (E2E)", () => {
     expect(indexed.length).toBeGreaterThan(0)
   })
 
-  it("should search indexed documents", async () => {
+  it('should search indexed documents', async () => {
     // Indexar primeiro
     await indexingService.indexAPI(api.id)
 
     // Buscar
     const response = await request(app.getHttpServer())
-      .get("/api/ai/search")
+      .get('/api/ai/search')
       .query({
-        query: "users endpoint",
+        query: 'users endpoint',
         workspaceId: workspace.id,
       })
       .expect(200)
 
     expect(response.body.results).toBeInstanceOf(Array)
-    expect(response.body.results[0]).toHaveProperty("text")
-    expect(response.body.results[0]).toHaveProperty("score")
+    expect(response.body.results[0]).toHaveProperty('text')
+    expect(response.body.results[0]).toHaveProperty('score')
   })
 })
 ```
@@ -118,7 +118,7 @@ describe("Embeddings & Indexing (E2E)", () => {
 ### Test Suite 2: Chat & RAG
 
 ```typescript
-describe("Chat & RAG (E2E)", () => {
+describe('Chat & RAG (E2E)', () => {
   let conversation: ChatConversation
 
   beforeEach(async () => {
@@ -134,22 +134,22 @@ describe("Chat & RAG (E2E)", () => {
     })
   })
 
-  it("should create conversation", async () => {
+  it('should create conversation', async () => {
     const response = await request(app.getHttpServer())
-      .post("/api/ai/chat/conversations")
-      .set("Authorization", `Bearer ${authToken}`)
+      .post('/api/ai/chat/conversations')
+      .set('Authorization', `Bearer ${authToken}`)
       .expect(201)
 
-    expect(response.body).toHaveProperty("id")
+    expect(response.body).toHaveProperty('id')
     expect(response.body.userId).toBe(user.id)
   })
 
-  it("should stream chat response", async () => {
+  it('should stream chat response', async () => {
     const chunks: string[] = []
 
     // SSE client
     const eventSource = new EventSource(
-      `${baseURL}/api/ai/chat/stream?conversationId=${conversation.id}&message=What endpoints are available?`
+      `${baseURL}/api/ai/chat/stream?conversationId=${conversation.id}&message=What endpoints are available?`,
     )
 
     await new Promise((resolve) => {
@@ -172,29 +172,29 @@ describe("Chat & RAG (E2E)", () => {
     })
 
     expect(messages).toHaveLength(2) // user + assistant
-    expect(messages[0].role).toBe("user")
-    expect(messages[1].role).toBe("assistant")
+    expect(messages[0].role).toBe('user')
+    expect(messages[1].role).toBe('assistant')
   })
 
-  it("should include sources in response", async () => {
+  it('should include sources in response', async () => {
     await chatService.chat(
       conversation.id,
-      "Tell me about the users endpoint",
-      workspace.id
+      'Tell me about the users endpoint',
+      workspace.id,
     )
 
     const assistantMsg = await prisma.chatMessage.findFirst({
       where: {
         conversationId: conversation.id,
-        role: "assistant",
+        role: 'assistant',
       },
     })
 
-    expect(assistantMsg.metadata).toHaveProperty("sources")
+    expect(assistantMsg.metadata).toHaveProperty('sources')
     expect(assistantMsg.metadata.sources).toBeInstanceOf(Array)
   })
 
-  it("should list conversations", async () => {
+  it('should list conversations', async () => {
     // Criar múltiplas conversas
     await prisma.chatConversation.createMany({
       data: [
@@ -204,8 +204,8 @@ describe("Chat & RAG (E2E)", () => {
     })
 
     const response = await request(app.getHttpServer())
-      .get("/api/ai/chat/conversations")
-      .set("Authorization", `Bearer ${authToken}`)
+      .get('/api/ai/chat/conversations')
+      .set('Authorization', `Bearer ${authToken}`)
       .expect(200)
 
     expect(response.body).toHaveLength(3) // incluindo beforeEach
@@ -216,11 +216,11 @@ describe("Chat & RAG (E2E)", () => {
 ### Test Suite 3: Generation
 
 ```typescript
-describe("Generation (E2E)", () => {
-  it("should generate endpoint description", async () => {
+describe('Generation (E2E)', () => {
+  it('should generate endpoint description', async () => {
     const response = await request(app.getHttpServer())
       .post(`/api/ai/generation/endpoint/${endpoint.id}/description`)
-      .set("Authorization", `Bearer ${authToken}`)
+      .set('Authorization', `Bearer ${authToken}`)
       .expect(200)
 
     expect(response.body.description).toBeTruthy()
@@ -233,42 +233,42 @@ describe("Generation (E2E)", () => {
     expect(updated.description).toBe(response.body.description)
   })
 
-  it("should generate TypeScript code", async () => {
+  it('should generate TypeScript code', async () => {
     const response = await request(app.getHttpServer())
       .get(`/api/ai/generation/endpoint/${endpoint.id}/code`)
-      .query({ language: "typescript" })
-      .set("Authorization", `Bearer ${authToken}`)
+      .query({ language: 'typescript' })
+      .set('Authorization', `Bearer ${authToken}`)
       .expect(200)
 
-    expect(response.body.code).toContain("fetch")
-    expect(response.body.code).toContain("interface")
-    expect(response.body.language).toBe("typescript")
+    expect(response.body.code).toContain('fetch')
+    expect(response.body.code).toContain('interface')
+    expect(response.body.language).toBe('typescript')
   })
 
-  it("should generate Python code", async () => {
+  it('should generate Python code', async () => {
     const response = await request(app.getHttpServer())
       .get(`/api/ai/generation/endpoint/${endpoint.id}/code`)
-      .query({ language: "python" })
-      .set("Authorization", `Bearer ${authToken}`)
+      .query({ language: 'python' })
+      .set('Authorization', `Bearer ${authToken}`)
       .expect(200)
 
-    expect(response.body.code).toContain("requests")
-    expect(response.body.code).toContain("def ")
+    expect(response.body.code).toContain('requests')
+    expect(response.body.code).toContain('def ')
   })
 
-  it("should generate mock scenarios", async () => {
+  it('should generate mock scenarios', async () => {
     const response = await request(app.getHttpServer())
       .post(`/api/ai/generation/endpoint/${endpoint.id}/mock-scenarios`)
-      .set("Authorization", `Bearer ${authToken}`)
+      .set('Authorization', `Bearer ${authToken}`)
       .expect(200)
 
     expect(response.body.scenarios).toBeInstanceOf(Array)
     expect(response.body.scenarios.length).toBeGreaterThan(2)
 
     const scenario = response.body.scenarios[0]
-    expect(scenario).toHaveProperty("name")
-    expect(scenario).toHaveProperty("statusCode")
-    expect(scenario).toHaveProperty("body")
+    expect(scenario).toHaveProperty('name')
+    expect(scenario).toHaveProperty('statusCode')
+    expect(scenario).toHaveProperty('body')
   })
 })
 ```
@@ -276,12 +276,12 @@ describe("Generation (E2E)", () => {
 ### Test Suite 4: Integration Flow
 
 ```typescript
-describe("Complete AI Flow (E2E)", () => {
-  it("should complete full AI lifecycle", async () => {
+describe('Complete AI Flow (E2E)', () => {
+  it('should complete full AI lifecycle', async () => {
     // 1. Criar API e endpoint
     const api = await prisma.api.create({
       data: {
-        name: "Payments API",
+        name: 'Payments API',
         workspaceId: workspace.id,
         createdById: user.id,
       },
@@ -289,14 +289,14 @@ describe("Complete AI Flow (E2E)", () => {
 
     const endpoint = await prisma.endpoint.create({
       data: {
-        method: "POST",
-        path: "/payments",
+        method: 'POST',
+        path: '/payments',
         apiId: api.id,
         requestSchema: {
-          type: "object",
+          type: 'object',
           properties: {
-            amount: { type: "number" },
-            currency: { type: "string" },
+            amount: { type: 'number' },
+            currency: { type: 'string' },
           },
         },
       },
@@ -305,7 +305,7 @@ describe("Complete AI Flow (E2E)", () => {
     // 2. Gerar descrição automática
     const descRes = await request(app.getHttpServer())
       .post(`/api/ai/generation/endpoint/${endpoint.id}/description`)
-      .set("Authorization", `Bearer ${authToken}`)
+      .set('Authorization', `Bearer ${authToken}`)
       .expect(200)
 
     expect(descRes.body.description).toBeTruthy()
@@ -317,8 +317,8 @@ describe("Complete AI Flow (E2E)", () => {
 
     // 4. Criar conversa e perguntar sobre API
     const convRes = await request(app.getHttpServer())
-      .post("/api/ai/chat/conversations")
-      .set("Authorization", `Bearer ${authToken}`)
+      .post('/api/ai/chat/conversations')
+      .set('Authorization', `Bearer ${authToken}`)
       .expect(201)
 
     const conversationId = convRes.body.id
@@ -326,27 +326,27 @@ describe("Complete AI Flow (E2E)", () => {
     // 5. Chat perguntando sobre payments endpoint
     const chatRes = await chatService.chat(
       conversationId,
-      "How do I create a payment?",
-      workspace.id
+      'How do I create a payment?',
+      workspace.id,
     )
 
     // Coletar resposta
-    let fullResponse = ""
+    let fullResponse = ''
     for await (const chunk of chatRes) {
       fullResponse += chunk
     }
 
     expect(fullResponse).toBeTruthy()
-    expect(fullResponse.toLowerCase()).toContain("payment")
+    expect(fullResponse.toLowerCase()).toContain('payment')
 
     // 6. Gerar código client
     const codeRes = await request(app.getHttpServer())
       .get(`/api/ai/generation/endpoint/${endpoint.id}/code`)
-      .query({ language: "typescript" })
-      .set("Authorization", `Bearer ${authToken}`)
+      .query({ language: 'typescript' })
+      .set('Authorization', `Bearer ${authToken}`)
       .expect(200)
 
-    expect(codeRes.body.code).toContain("/payments")
+    expect(codeRes.body.code).toContain('/payments')
   })
 })
 ```
@@ -354,12 +354,12 @@ describe("Complete AI Flow (E2E)", () => {
 ### Cost Tracking Test
 
 ```typescript
-it("should track AI usage and costs", async () => {
+it('should track AI usage and costs', async () => {
   const initialLogs = await prisma.aiUsageLog.count()
 
   // Fazer múltiplas operações AI
   await generationService.generateEndpointDescription(endpoint)
-  await chatService.chat(conversation.id, "test", workspace.id)
+  await chatService.chat(conversation.id, 'test', workspace.id)
 
   const finalLogs = await prisma.aiUsageLog.count()
 
@@ -369,16 +369,16 @@ it("should track AI usage and costs", async () => {
     where: { workspaceId: workspace.id },
   })
 
-  expect(logs[0]).toHaveProperty("model")
-  expect(logs[0]).toHaveProperty("tokensUsed")
-  expect(logs[0]).toHaveProperty("cost")
+  expect(logs[0]).toHaveProperty('model')
+  expect(logs[0]).toHaveProperty('tokensUsed')
+  expect(logs[0]).toHaveProperty('cost')
 })
 ```
 
 ### Performance Test
 
 ```typescript
-it("should handle concurrent requests", async () => {
+it('should handle concurrent requests', async () => {
   const requests = Array(20)
     .fill(null)
     .map(() => indexingService.indexAPI(api.id))
