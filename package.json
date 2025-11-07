@@ -3,10 +3,11 @@
   "private": true,
   "version": "0.1.0",
   "description": "Dev Platform",
+  "type": "module",
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=22.20.0"
   },
-  "packageManager": "pnpm@10.0.0",
+  "packageManager": "pnpm@10.20.0",
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
@@ -15,7 +16,18 @@
     "lint": "turbo lint",
     "typecheck": "turbo typecheck",
     "format": "prettier --write .",
-    "validate": "pnpm -w lint && pnpm -w typecheck && pnpm -w build"
+    "validate": "pnpm -w lint && pnpm -w typecheck && pnpm -w build",
+    "prepare": "husky",
+    "commitlint": "commitlint"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "8.46.3",
@@ -28,6 +40,10 @@
     "eslint-plugin-simple-import-sort": "12.1.1",
     "eslint-plugin-unused-imports": "4.3.0",
     "prettier": "3.6.2",
+    "husky": "9.1.7",
+    "lint-staged": "16.2.6",
+    "@commitlint/cli": "20.1.0",
+    "@commitlint/config-conventional": "20.0.0",
     "turbo": "2.6.0",
     "typescript": "5.9.3"
   }
