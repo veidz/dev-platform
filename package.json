@@ -16,9 +16,11 @@
     "lint": "turbo lint",
     "typecheck": "turbo typecheck",
     "format": "prettier --write .",
-    "validate": "pnpm -w lint && pnpm -w typecheck && pnpm -w build",
+    "format:check": "prettier --check .",
+    "validate": "pnpm -w lint && pnpm -w format:check",
     "prepare": "husky",
-    "commitlint": "commitlint"
+    "commitlint": "commitlint",
+    "clean": "rm -rf node_modules .turbo packages/*/dist apps/*/dist"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
