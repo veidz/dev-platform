@@ -1,0 +1,43 @@
+name: Docs Link Check
+
+on:
+  push:
+    branches: [main, develop, feat/*, fix/*, chore/*, refactor/*]
+    paths:
+      - 'README.md'
+      - 'docs/**'
+  pull_request:
+    paths:
+      - 'README.md'
+      - 'docs/**'
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Restore lychee cache
+        uses: actions/cache@v4
+        with:
+          path: .lycheecache
+          key: cache-lychee-${{ github.sha }}
+          restore-keys: |
+            cache-lychee-
+
+      - name: Link Checker
+        uses: lycheeverse/lychee-action@v2.7.0
+        with:
+          args: "--base . --cache --max-cache-age 1d --no-progress './**/*.md'"
+          fail: true
+          output: lychee/out.md
+          jobSummary: true
+
+      - name: Upload lychee report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lychee-report
+          path: lychee/out.md
