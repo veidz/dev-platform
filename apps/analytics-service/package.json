@@ -1,5 +1,23 @@
 {
   "name": "@dev-platform/analytics-service",
   "version": "0.1.0",
-  "private": true
+  "private": true,
+  "scripts": {
+    "dev": "nest start --watch",
+    "build": "nest build",
+    "start": "node dist/main",
+    "lint": "eslint .",
+    "test": "echo 'no tests yet'"
+  },
+  "dependencies": {
+    "@nestjs/common": "11.1.8",
+    "@nestjs/core": "11.1.8",
+    "@nestjs/platform-express": "11.1.8",
+    "@nestjs/config": "4.0.2",
+    "reflect-metadata": "0.2.2",
+    "rxjs": "7.8.2"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "11.0.10"
+  }
 }

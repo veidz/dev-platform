@@ -1,10 +1,14 @@
 // main.ts - bootstrap for api-gateway (NestJS placeholder)
 // NOTE: Implementation intentionally minimal until dependencies installed.
-// Explicit return type to satisfy lint rule, no console usage to keep code clean.
+import 'reflect-metadata'
+
+import { NestFactory } from '@nestjs/core'
+
+import { AppModule } from './app.module'
+
 async function bootstrap(): Promise<void> {
-  // Placeholder startup logic; will be replaced by NestFactory.create(AppModule)
-  // Keeping minimal to allow build pipeline integration before dependencies.
-  /* noop */
+  const app = await NestFactory.create(AppModule)
+  await app.listen(3001)
 }
 
 void bootstrap()
