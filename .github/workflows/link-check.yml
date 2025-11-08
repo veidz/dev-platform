@@ -30,7 +30,7 @@ jobs:
       - name: Link Checker
         uses: lycheeverse/lychee-action@v2.7.0
         with:
-          args: '--config .lychee.toml --root-dir ${{ github.workspace }} --no-progress README.md docs/**/*.md'
+          args: '--config .lychee.toml --root-dir ${{ github.workspace }} --no-progress README.md docs'
           fail: true
           output: lychee/out.md
           jobSummary: true
