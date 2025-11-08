@@ -11,8 +11,11 @@ exclude = [
   "https://app.devplatform.com/.*",
   "https://mock.devplatform.com/.*",
   "https://status.devplatform.com/.*",
-  # Unstable page often timing out in CI
-  "https://qdrant.tech/benchmarks/?"
+  # Unstable pages often timing out or resetting connections in CI
+  "https://qdrant.tech/benchmarks/?",
+  "https://amplication.com/blog/.*",
+  "https://eslint.org/docs/.*",
+  "https://axios-http.com/.*"
 ]
 
 # Include only markdown files.
