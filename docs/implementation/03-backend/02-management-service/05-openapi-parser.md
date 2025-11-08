@@ -13,7 +13,7 @@ Import de especificações OpenAPI/Swagger para criar APIs e endpoints automatic
 ### Pesquisa
 
 - [ ] OpenAPI 3.0 spec (https://swagger.io/specification/)
-- [ ] Swagger Parser docs
+- [ ] Swagger Parser docs (https://github.com/APIDevTools/swagger-parser)
 
 ### Dependencies
 
@@ -335,8 +335,8 @@ export class ImportController {
 ## Recursos
 
 - [OpenAPI 3.0 Specification](https://swagger.io/specification/)
-- [Swagger Parser](https://apitools.dev/swagger-parser/)
-- [OpenAPI Types](https://www.npmjs.com/package/openapi-types)
+- [Swagger Parser (GitHub)](https://github.com/APIDevTools/swagger-parser)
+- [OpenAPI Types](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-types)
 
 ## Próximo Passo
 

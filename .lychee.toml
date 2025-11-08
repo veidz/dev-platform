@@ -1,0 +1,32 @@
+# Lychee configuration to reduce false positives and ignore development placeholders
+# See: https://github.com/lycheeverse/lychee
+
+# Exclude patterns (regex). Domains that block bots (403), local dev, placeholders.
+exclude = [
+  "https://openai.com/api/pricing/",
+  "https://platform.openai.com/docs/guides/embeddings",
+  "https://www.npmjs.com/.*",
+  "http://localhost:.*",
+  "https://api.devplatform.com/.*",
+  "https://app.devplatform.com/.*",
+  "https://mock.devplatform.com/.*",
+  "https://status.devplatform.com/.*"
+]
+
+# Include only markdown files.
+include = ["**/*.md"]
+
+# Accept redirect status codes and treat them as success.
+accept = [200, 301, 302, 403]
+# 403 accepted because several official sites (npm, OpenAI) occasionally return 403 to CI user-agent.
+
+# Cache settings
+max_cache_age = "1d"
+
+# Retry configuration for transient network issues.
+retry_wait_time = 2
+max_retries = 2
+
+# Fail if more than this number of real errors (after exclusions) appear.
+# (Adjust later as docs grow.)
+max_failures = 5

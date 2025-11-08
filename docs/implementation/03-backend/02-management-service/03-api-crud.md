@@ -294,7 +294,7 @@ enum ApiStatus {
 
 - [OpenAPI Specification](https://swagger.io/specification/)
 - [API Versioning Best Practices](https://restfulapi.net/versioning/)
-- [Redis Caching Patterns](https://redis.io/docs/manual/patterns/)
+- [Redis Data Types Overview](https://redis.io/docs/latest/develop/data-types/)
 
 ## Próximo Passo
 

@@ -202,7 +202,9 @@ export class AppModule {}
 ## Recursos
 
 - [NestJS Throttler](https://docs.nestjs.com/security/rate-limiting)
-- [Redis Rate Limiting](https://redis.io/docs/manual/patterns/rate-limiter/)
+- [Redis Pub/Sub](https://redis.io/docs/latest/develop/pubsub/)
+- [Redis Streams](https://redis.io/docs/latest/develop/data-types/streams/)
+- [Rate limiting com Redis (artigo de referência)](https://cloudflare.com/learning/bots/what-is-rate-limiting/)
 
 ## Próximo Passo
 
