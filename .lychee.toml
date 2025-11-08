@@ -14,7 +14,7 @@ exclude = [
 ]
 
 # Include only markdown files.
-include = ["**/*.md"]
+include = ['README.md', 'docs/.*.md$']
 
 # Accept redirect status codes and treat them as success.
 accept = [200, 301, 302, 403]
