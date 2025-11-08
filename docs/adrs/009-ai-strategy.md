@@ -281,6 +281,6 @@ Rate limiting: 100 queries/usuário/dia para evitar abuse.
 - [Qdrant Documentation](https://qdrant.tech/documentation/)
 - [Production RAG Systems](https://www.pinecone.io/learn/retrieval-augmented-generation/)
 - [LangChain RAG](https://js.langchain.com/docs/tutorials/rag)
-- [Vector Database Comparison](https://benchmark.vectorview.ai/vectordbs.html)
+- [Vector DB Benchmarks (Qdrant)](https://qdrant.tech/benchmarks/)
 - [Prompt Engineering Guide](https://www.promptingguide.ai/)
 - [OpenAI GPT-4o-mini Pricing](https://openai.com/api/pricing/)

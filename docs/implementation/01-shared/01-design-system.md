@@ -308,7 +308,7 @@ describe("Button", () => {
 ## Recursos
 
 - [Shadcn/ui Docs](https://ui.shadcn.com)
-- [Storybook for React](https://storybook.js.org/docs/react/get-started/install)
+- [Storybook Install](https://storybook.js.org/docs/get-started/install)
 - [Tailwind CSS](https://tailwindcss.com/docs)
 - [Radix UI](https://www.radix-ui.com)
 - [tsup](https://tsup.egoist.dev)
