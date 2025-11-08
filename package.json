@@ -21,7 +21,12 @@
     "validate": "pnpm -w lint && pnpm -w format:check",
     "prepare": "husky",
     "commitlint": "commitlint",
-    "clean": "rm -rf node_modules .turbo packages/*/dist apps/*/dist"
+    "clean": "rm -rf node_modules .turbo packages/*/dist apps/*/dist",
+    "docker:up": "docker compose -f docker-compose.dev.yml up -d",
+    "docker:down": "docker compose -f docker-compose.dev.yml down",
+    "docker:logs": "docker compose -f docker-compose.dev.yml logs -f",
+    "docker:ps": "docker compose -f docker-compose.dev.yml ps",
+    "docker:restart": "docker compose -f docker-compose.dev.yml restart"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

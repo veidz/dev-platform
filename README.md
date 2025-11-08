@@ -181,17 +181,49 @@ pnpm install
 
 # Configure as variáveis de ambiente
 cp .env.example .env
-# Edite .env com suas credenciais
+# Edite .env com suas credenciais (opcional para desenvolvimento inicial)
+```
 
-# Inicie o ambiente de desenvolvimento
+### Docker (Infraestrutura)
+
+```bash
+# Subir containers (PostgreSQL, Redis, Qdrant)
+pnpm docker:up
+
+# Ver status dos containers
+pnpm docker:ps
+
+# Ver logs em tempo real
+pnpm docker:logs
+
+# Parar containers
+pnpm docker:down
+
+# Reiniciar containers
+pnpm docker:restart
+```
+
+Os serviços estarão disponíveis em:
+
+- **PostgreSQL**: `localhost:5432` (user: `devplatform`, db: `devplatform`)
+- **Redis**: `localhost:6379`
+- **Qdrant**: `localhost:6333` (API), `localhost:6334` (gRPC)
+
+### Desenvolvimento
+
+```bash
+# Inicie o ambiente de desenvolvimento (após Docker estar rodando)
 pnpm dev
 ```
 
 A aplicação estará disponível em:
 
-- Frontend: http://localhost:3000
-- API Gateway: http://localhost:4000
-- API Docs: http://localhost:4000/api
+- **API Gateway**: http://localhost:3001/health | http://localhost:3001/api (Swagger)
+- **Management Service**: http://localhost:3002/health | http://localhost:3002/api
+- **Mock Server**: http://localhost:3003/health | http://localhost:3003/api
+- **Analytics Service**: http://localhost:3004/health | http://localhost:3004/api
+- **AI Service**: http://localhost:3005/health | http://localhost:3005/api
+- **Frontend**: http://localhost:3000 _(em breve)_
 
 ### Desenvolvimento
 
