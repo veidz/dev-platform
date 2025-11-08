@@ -10,7 +10,9 @@ exclude = [
   "https://api.devplatform.com/.*",
   "https://app.devplatform.com/.*",
   "https://mock.devplatform.com/.*",
-  "https://status.devplatform.com/.*"
+  "https://status.devplatform.com/.*",
+  # Unstable page often timing out in CI
+  "https://qdrant.tech/benchmarks/?"
 ]
 
 # Include only markdown files.
@@ -24,8 +26,8 @@ accept = [200, 301, 302, 403]
 max_cache_age = "1d"
 
 # Retry configuration for transient network issues.
-retry_wait_time = 2
-max_retries = 2
+retry_wait_time = 3
+max_retries = 3
 
 # Fail if more than this number of real errors (after exclusions) appear.
 # (Adjust later as docs grow.)
