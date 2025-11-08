@@ -1,2 +1,2 @@
 // Placeholder UI entrypoint
-export const noop = () => undefined
+export const noop = (): undefined => undefined
