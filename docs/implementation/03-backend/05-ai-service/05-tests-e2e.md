@@ -1,4 +1,4 @@
-# AI Service - Testes End-to-End
+# AI Serviço - Testes End-to-End
 
 ## Contexto
 

@@ -1,4 +1,4 @@
-# Analytics Service - Alertas e Webhooks
+# Analytics Serviço - Alertas e Webhooks
 
 ## Contexto
 

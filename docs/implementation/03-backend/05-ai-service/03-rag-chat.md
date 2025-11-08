@@ -1,4 +1,4 @@
-# AI Service - RAG Chat Assistant
+# AI Serviço - RAG Chat Assistant
 
 ## Contexto
 

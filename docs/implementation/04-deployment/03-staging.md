@@ -103,7 +103,7 @@ SENTRY_ENVIRONMENT=staging
 
 - [ ] Criar `vercel.json` no app web
 - [ ] Configurar env vars no Vercel dashboard
-- [ ] Testar preview deployment no PR
+- [ ] Testar preview deployment por branch (push cria preview)
 
 ### Database Migrations - Staging
 

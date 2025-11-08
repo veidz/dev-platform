@@ -162,8 +162,6 @@ CMD ["node", "apps/web/server.js"]
 Arquivo: `docker-compose.dev.yml`
 
 ```yaml
-version: '3.9'
-
 services:
   postgres:
     image: postgres:16-alpine
@@ -251,13 +249,98 @@ networks:
 - [ ] Testar: `docker-compose -f docker-compose.dev.yml up -d`
 - [ ] Verificar health checks: `docker-compose ps`
 
+### Estrutura de Redes & Volumes (Dev)
+
+Rede padrão: `dev-platform-network` criada automaticamente. Caso precise isolar serviços (ex: banco separado), criar redes adicionais:
+
+```yaml
+networks:
+  dev-platform-network:
+    name: dev-platform-network
+  observability:
+    name: dev-platform-observability
+```
+
+Volumes persistentes definidos:
+
+- `postgres_data` – dados do PostgreSQL
+- `redis_data` – appendonly log do Redis
+- `qdrant_data` – armazenamento vetorial
+
+Limpeza completa (ATENÇÃO: destrói dados):
+
+```bash
+docker compose -f docker-compose.dev.yml down -v
+```
+
+### Arquivos .env (Dev)
+
+Cada microsserviço deverá ter um `.env` local para desenvolvimento. Exemplo `apps/api-gateway/.env.example`:
+
+```
+DATABASE_URL=postgresql://devplatform:dev123@postgres:5432/devplatform
+REDIS_URL=redis://redis:6379
+JWT_SECRET=dev-platform-secret
+OPENAI_API_KEY=sk-dev-placeholder
+QDRANT_URL=http://qdrant:6333
+```
+
+Recomendações:
+
+- Nunca commitar `.env` reais – usar apenas `.env.example`
+- Validar variáveis com zod/schema antes de iniciar aplicação
+
+### Execução Rápida
+
+Subir ambiente completo:
+
+```bash
+pnpm docker:dev
+```
+
+Ver logs em tempo real de um container específico:
+
+```bash
+docker compose -f docker-compose.dev.yml logs -f api-gateway
+```
+
+Parar tudo mantendo volumes:
+
+```bash
+pnpm docker:dev:down
+```
+
+Parar e limpar volumes (reset total):
+
+```bash
+docker compose -f docker-compose.dev.yml down -v
+```
+
+### Debug de Containers
+
+Entrar em shell de um serviço NestJS:
+
+```bash
+docker exec -it api-gateway sh
+```
+
+Ver espaço ocupado por imagens:
+
+```bash
+docker images | grep dev-platform
+```
+
+### Próximas Otimizações (Futuro)
+
+- Adicionar serviço de observabilidade (Prometheus + Grafana) em rede separada `observability`
+- Implementar build incremental usando `turbo prune` antes do build de produção
+- Adicionar estágio de verificação de vulnerabilidades (Trivy) no CI
+
 ### Docker Compose - Production
 
 Arquivo: `docker-compose.prod.yml`
 
 ```yaml
-version: '3.9'
-
 services:
   api-gateway:
     build:

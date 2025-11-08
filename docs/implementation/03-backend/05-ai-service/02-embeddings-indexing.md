@@ -1,4 +1,4 @@
-# AI Service - Embeddings & Indexing
+# AI Serviço - Embeddings & Indexing
 
 ## Contexto
 

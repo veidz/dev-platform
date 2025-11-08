@@ -1,4 +1,4 @@
-# Analytics Service - Setup Inicial
+# Analytics Serviço - Setup Inicial
 
 ## Contexto
 

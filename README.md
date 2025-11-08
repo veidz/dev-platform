@@ -183,12 +183,6 @@ pnpm install
 cp .env.example .env
 # Edite .env com suas credenciais
 
-# Inicie os serviços (Postgres, Redis, Qdrant)
-docker-compose up -d
-
-# Execute migrations
-pnpm db:migrate
-
 # Inicie o ambiente de desenvolvimento
 pnpm dev
 ```
@@ -235,11 +229,12 @@ pnpm typecheck
 
 A documentação completa está disponível em [`/docs`](./docs):
 
-- [Guia de Instalação](./docs/installation.md)
-- [Arquitetura](./docs/ARCHITECTURE.md)
+- [Documentação Geral](./docs/README.md)
+- [Especificação Técnica](./docs/technical-spec.md)
 - [ADRs (Architecture Decision Records)](./docs/adrs)
 - [API Reference](./docs/api)
-- [Guia de Desenvolvimento](./docs/CONTRIBUTING.md)
+- [Guides (Style/Testing)](./docs/guides/README.md)
+- [Roadmap de Implementação](./docs/implementation/README.md)
 
 ---
 

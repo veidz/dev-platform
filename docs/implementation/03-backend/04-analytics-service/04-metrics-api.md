@@ -1,4 +1,4 @@
-# Analytics Service - API de Métricas
+# Analytics Serviço - API de Métricas
 
 ## Contexto
 

@@ -1,4 +1,4 @@
-# Analytics Service - Ingestão de Eventos
+# Analytics Serviço - Ingestão de Eventos
 
 ## Contexto
 

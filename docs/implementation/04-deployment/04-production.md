@@ -289,7 +289,7 @@ jobs:
 
 - [ ] Criar `.github/workflows/deploy-production.yml`
 - [ ] Configurar Slack webhook
-- [ ] Testar deploy (merge PR para main)
+- [ ] Testar deploy (commit direto ou merge manual para main)
 
 ### Backup Strategy
 

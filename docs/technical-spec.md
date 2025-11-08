@@ -338,7 +338,7 @@ dev-platform/
 
 ### GitHub Actions Workflows
 
-**1. Continuous Integration** (on push/PR)
+**1. Continuous Integration** (executa em cada push)
 
 ```
 - Install dependencies (cache npm)

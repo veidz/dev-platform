@@ -1,4 +1,4 @@
-# AI Service - Code & Docs Generation
+# AI Serviço - Code & Docs Generation
 
 ## Contexto
 

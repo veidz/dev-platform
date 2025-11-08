@@ -1,4 +1,4 @@
-# AI Service - Setup Inicial
+# AI Serviço - Setup Inicial
 
 ## Contexto
 

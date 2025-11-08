@@ -317,17 +317,14 @@ jobs:
 - [ ] Testar migration em staging
 - [ ] Documentar processo de rollback
 
-### Branch Protection Rules
+### Branch Strategy (Projeto Pessoal)
 
-Configurar no GitHub → Settings → Branches:
+Fluxo simplificado sem PR obrigatório (commits diretos controlados):
 
-- [ ] Require pull request reviews (1 approval)
-- [ ] Require status checks to pass:
-  - [ ] lint-and-test
-  - [ ] build
-- [ ] Require branches to be up to date
-- [ ] Include administrators
-- [ ] Restrict who can push (protect main)
+- [ ] Ativar proteção básica da branch `main` (impede delete/force push)
+- [ ] Exigir status checks (lint & tests) antes de permitir merge manual futuro
+- [ ] Desabilitar exigência de review (uso individual)
+- [ ] Permitir fast-forward ou squash conforme necessidade
 
 ### Dependabot
 
@@ -367,12 +364,12 @@ updates:
 
 ### Validação
 
-- [ ] Pull request passa no CI ✅
+- [ ] CI (lint + tests) verde ✅
 - [ ] Deploy backend funciona ✅
 - [ ] Deploy frontend funciona ✅
 - [ ] E2E tests rodam ✅
 - [ ] Migrations funcionam ✅
-- [ ] Branch protection ativa ✅
+- [ ] Proteção básica da branch `main` ativa ✅
 
 ## Arquivos Criados
 

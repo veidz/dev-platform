@@ -1,4 +1,4 @@
-# Analytics Service - Jobs de Agregação
+# Analytics Serviço - Jobs de Agregação
 
 ## Contexto
 
