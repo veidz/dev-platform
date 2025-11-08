@@ -15,7 +15,8 @@ exclude = [
   "https://qdrant.tech/benchmarks/?",
   "https://amplication.com/blog/.*",
   "https://eslint.org/docs/.*",
-  "https://axios-http.com/.*"
+  "https://axios-http.com/.*",
+  "https://www.springfuse.com/.*"
 ]
 
 # Include only markdown files.
