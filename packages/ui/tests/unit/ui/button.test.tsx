@@ -55,5 +55,11 @@ describe('Button', () => {
       const button = screen.getByRole('button')
       expect(button.className).toContain('hover:bg-accent/20')
     })
+
+    it('renders link variant', () => {
+      render(<Button variant="link">Link</Button>)
+      const button = screen.getByRole('button')
+      expect(button.className).toContain('underline-offset-4')
+    })
   })
 })
