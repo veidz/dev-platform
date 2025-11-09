@@ -25,5 +25,11 @@ describe('Input', () => {
       const input = screen.getByRole('textbox')
       expect(input.getAttribute('type')).toBeNull()
     })
+
+    it('renders email type', () => {
+      render(<Input type="email" placeholder="email" />)
+      const input = screen.getByPlaceholderText('email')
+      expect(input.getAttribute('type')).toBe('email')
+    })
   })
 })
