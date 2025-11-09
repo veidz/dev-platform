@@ -141,5 +141,11 @@ describe('Button', () => {
       const button = screen.getByRole('button')
       expect(button.getAttribute('type')).toBe('submit')
     })
+
+    it('accepts aria-label', () => {
+      render(<Button aria-label="Close dialog">X</Button>)
+      const button = screen.getByRole('button', { name: /close dialog/i })
+      expect(button).toBeDefined()
+    })
   })
 })
