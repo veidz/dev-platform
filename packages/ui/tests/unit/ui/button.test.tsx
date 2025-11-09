@@ -105,5 +105,20 @@ describe('Button', () => {
       await user.click(button)
       expect(handleClick).toHaveBeenCalledTimes(1)
     })
+
+    it('does not trigger click when disabled', async () => {
+      const handleClick = jest.fn()
+      const user = userEvent.setup()
+
+      render(
+        <Button onClick={handleClick} disabled>
+          Disabled
+        </Button>,
+      )
+      const button = screen.getByRole('button')
+
+      await user.click(button)
+      expect(handleClick).not.toHaveBeenCalled()
+    })
   })
 })
