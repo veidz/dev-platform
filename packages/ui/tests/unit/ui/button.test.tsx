@@ -77,5 +77,12 @@ describe('Button', () => {
       expect(button.className).toContain('h-8')
       expect(button.className).toContain('px-3')
     })
+
+    it('renders large size', () => {
+      render(<Button size="lg">Large</Button>)
+      const button = screen.getByRole('button')
+      expect(button.className).toContain('h-10')
+      expect(button.className).toContain('px-8')
+    })
   })
 })
