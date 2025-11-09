@@ -182,9 +182,9 @@ import {
   Injectable,
   NotFoundException,
   ForbiddenException,
-} from "@nestjs/common"
-import { PrismaService } from "@/shared/prisma.service"
-import type { CreateWorkspaceDto } from "./dto/create-workspace.dto"
+} from '@nestjs/common'
+import { PrismaService } from '@/shared/prisma.service'
+import type { CreateWorkspaceDto } from './dto/create-workspace.dto'
 
 @Injectable()
 export class WorkspaceService {
@@ -217,7 +217,7 @@ export class WorkspaceService {
         members: {
           create: {
             userId,
-            role: "OWNER",
+            role: 'OWNER',
           },
         },
       },
@@ -232,8 +232,8 @@ export class WorkspaceService {
       },
     })
 
-    if (!member || member.role !== "OWNER") {
-      throw new ForbiddenException("Only owners can delete workspace")
+    if (!member || member.role !== 'OWNER') {
+      throw new ForbiddenException('Only owners can delete workspace')
     }
 
     return this.prisma.workspace.delete({ where: { id } })

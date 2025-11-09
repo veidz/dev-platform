@@ -13,7 +13,7 @@ Import de especificações OpenAPI/Swagger para criar APIs e endpoints automatic
 ### Pesquisa
 
 - [ ] OpenAPI 3.0 spec (https://swagger.io/specification/)
-- [ ] Swagger Parser docs
+- [ ] Swagger Parser docs (https://github.com/APIDevTools/swagger-parser)
 
 ### Dependencies
 
@@ -161,9 +161,9 @@ tests/
 ## Exemplo: openapi-parser.service.ts
 
 ```typescript
-import { Injectable, BadRequestException } from "@nestjs/common"
-import SwaggerParser from "@apidevtools/swagger-parser"
-import type { OpenAPIV3 } from "openapi-types"
+import { Injectable, BadRequestException } from '@nestjs/common'
+import SwaggerParser from '@apidevtools/swagger-parser'
+import type { OpenAPIV3 } from 'openapi-types'
 
 @Injectable()
 export class OpenApiParserService {
@@ -181,7 +181,7 @@ export class OpenApiParserService {
       name: spec.info.title,
       description: spec.info.description,
       version: spec.info.version,
-      baseUrl: spec.servers?.[0]?.url || "",
+      baseUrl: spec.servers?.[0]?.url || '',
     }
   }
 
@@ -191,7 +191,7 @@ export class OpenApiParserService {
     for (const [path, pathItem] of Object.entries(spec.paths)) {
       if (!pathItem) continue
 
-      const operations = ["get", "post", "put", "patch", "delete"] as const
+      const operations = ['get', 'post', 'put', 'patch', 'delete'] as const
 
       for (const method of operations) {
         const operation = pathItem[method]
@@ -203,8 +203,8 @@ export class OpenApiParserService {
           summary: operation.summary,
           description: operation.description,
           tags: operation.tags || [],
-          pathParams: this.extractParams(operation.parameters, "path"),
-          queryParams: this.extractParams(operation.parameters, "query"),
+          pathParams: this.extractParams(operation.parameters, 'path'),
+          queryParams: this.extractParams(operation.parameters, 'query'),
           requestSchema: this.extractRequestBody(operation.requestBody),
           responses: this.extractResponses(operation.responses),
         })
@@ -214,23 +214,23 @@ export class OpenApiParserService {
     return endpoints
   }
 
-  private extractParams(params: any[] | undefined, location: "path" | "query") {
+  private extractParams(params: any[] | undefined, location: 'path' | 'query') {
     if (!params) return []
     return params
       .filter((p) => p.in === location)
       .map((p) => ({
         name: p.name,
-        type: p.schema?.type || "string",
+        type: p.schema?.type || 'string',
         required: p.required || false,
         description: p.description,
       }))
   }
 
   private extractRequestBody(requestBody: any) {
-    if (!requestBody?.content?.["application/json"]?.schema) {
+    if (!requestBody?.content?.['application/json']?.schema) {
       return null
     }
-    return requestBody.content["application/json"].schema
+    return requestBody.content['application/json'].schema
   }
 
   private extractResponses(responses: any) {
@@ -238,7 +238,7 @@ export class OpenApiParserService {
     for (const [status, response] of Object.entries(responses)) {
       result[status] = {
         description: (response as any).description,
-        schema: (response as any).content?.["application/json"]?.schema,
+        schema: (response as any).content?.['application/json']?.schema,
       }
     }
     return result
@@ -249,20 +249,20 @@ export class OpenApiParserService {
 ## Exemplo: import.controller.ts
 
 ```typescript
-import { Controller, Post, Body } from "@nestjs/common"
-import { OpenApiParserService } from "./openapi-parser.service"
-import { ApiService } from "../api/api.service"
-import { EndpointService } from "../endpoint/endpoint.service"
+import { Controller, Post, Body } from '@nestjs/common'
+import { OpenApiParserService } from './openapi-parser.service'
+import { ApiService } from '../api/api.service'
+import { EndpointService } from '../endpoint/endpoint.service'
 
-@Controller("import")
+@Controller('import')
 export class ImportController {
   constructor(
     private parser: OpenApiParserService,
     private apiService: ApiService,
-    private endpointService: EndpointService
+    private endpointService: EndpointService,
   ) {}
 
-  @Post("openapi")
+  @Post('openapi')
   async importOpenApi(@Body() body: { spec: any; workspaceId: string }) {
     // Parse spec
     const spec = await this.parser.parse(body.spec)
@@ -276,7 +276,7 @@ export class ImportController {
 
     // Create endpoints (batch)
     const createdEndpoints = await Promise.all(
-      endpoints.map((ep) => this.endpointService.create(ep, api.id))
+      endpoints.map((ep) => this.endpointService.create(ep, api.id)),
     )
 
     return {
@@ -335,8 +335,8 @@ export class ImportController {
 ## Recursos
 
 - [OpenAPI 3.0 Specification](https://swagger.io/specification/)
-- [Swagger Parser](https://apitools.dev/swagger-parser/)
-- [OpenAPI Types](https://www.npmjs.com/package/openapi-types)
+- [Swagger Parser (GitHub)](https://github.com/APIDevTools/swagger-parser)
+- [OpenAPI Types](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-types)
 
 ## Próximo Passo
 

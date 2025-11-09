@@ -73,7 +73,7 @@ Para plataforma com 4-6 microsserviços e ~10 pacotes compartilhados, simplicida
 
 - Vercel otimiza automaticamente deploys apenas para apps alterados
 - Cache remoto elimina trabalho redundante em ambiente CI
-- Preview deployments para todos apps em single pull request
+- Preview deployments por branch (cada push gera preview isolado)
 
 ### Negativas
 

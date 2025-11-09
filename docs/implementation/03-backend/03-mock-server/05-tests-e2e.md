@@ -39,7 +39,7 @@ beforeAll(async () => {
     .overrideProvider(ConfigService)
     .useValue({
       get: jest.fn((key) => {
-        if (key === "DATABASE_URL") {
+        if (key === 'DATABASE_URL') {
           return process.env.TEST_DATABASE_URL
         }
         return process.env[key]
@@ -72,24 +72,24 @@ afterEach(async () => {
 async function seedTestData() {
   const user = await prisma.user.create({
     data: {
-      email: "test@example.com",
-      name: "Test User",
-      passwordHash: "hashed",
+      email: 'test@example.com',
+      name: 'Test User',
+      passwordHash: 'hashed',
     },
   })
 
   const workspace = await prisma.workspace.create({
     data: {
-      name: "Test Workspace",
-      slug: "test-ws",
+      name: 'Test Workspace',
+      slug: 'test-ws',
       ownerId: user.id,
     },
   })
 
   const api = await prisma.api.create({
     data: {
-      name: "Test API",
-      slug: "test-api",
+      name: 'Test API',
+      slug: 'test-api',
       workspaceId: workspace.id,
       createdById: user.id,
     },
@@ -97,18 +97,18 @@ async function seedTestData() {
 
   const endpoint = await prisma.endpoint.create({
     data: {
-      method: "GET",
-      path: "/users",
-      description: "Get all users",
+      method: 'GET',
+      path: '/users',
+      description: 'Get all users',
       apiId: api.id,
       responseSchema: {
-        type: "array",
+        type: 'array',
         items: {
-          type: "object",
+          type: 'object',
           properties: {
-            id: { type: "string" },
-            name: { type: "string" },
-            email: { type: "string", format: "email" },
+            id: { type: 'string' },
+            name: { type: 'string' },
+            email: { type: 'string', format: 'email' },
           },
         },
       },
@@ -122,7 +122,7 @@ async function seedTestData() {
 ### Test Suite 1: Mock Generation
 
 ```typescript
-describe("Mock Generation (E2E)", () => {
+describe('Mock Generation (E2E)', () => {
   let endpoint: Endpoint
 
   beforeEach(async () => {
@@ -130,25 +130,25 @@ describe("Mock Generation (E2E)", () => {
     endpoint = data.endpoint
   })
 
-  it("should generate mock from schema", async () => {
+  it('should generate mock from schema', async () => {
     const response = await request(app.getHttpServer())
       .get(`/api/mock/generator/endpoint/${endpoint.id}`)
       .expect(200)
 
     expect(response.body).toBeInstanceOf(Array)
-    expect(response.body[0]).toHaveProperty("id")
-    expect(response.body[0]).toHaveProperty("name")
-    expect(response.body[0]).toHaveProperty("email")
+    expect(response.body[0]).toHaveProperty('id')
+    expect(response.body[0]).toHaveProperty('name')
+    expect(response.body[0]).toHaveProperty('email')
   })
 
-  it("should generate multiple examples", async () => {
+  it('should generate multiple examples', async () => {
     const response = await request(app.getHttpServer())
-      .post("/api/mock/generator/preview")
+      .post('/api/mock/generator/preview')
       .send({
         schema: {
-          type: "object",
+          type: 'object',
           properties: {
-            name: { type: "string" },
+            name: { type: 'string' },
           },
         },
         count: 5,
@@ -158,7 +158,7 @@ describe("Mock Generation (E2E)", () => {
     expect(response.body).toHaveLength(5)
   })
 
-  it("should cache generated mocks", async () => {
+  it('should cache generated mocks', async () => {
     const start1 = Date.now()
     await request(app.getHttpServer())
       .get(`/api/mock/generator/endpoint/${endpoint.id}`)
@@ -180,7 +180,7 @@ describe("Mock Generation (E2E)", () => {
 ### Test Suite 2: Scenario Management
 
 ```typescript
-describe("Scenario Management (E2E)", () => {
+describe('Scenario Management (E2E)', () => {
   let user: User
   let endpoint: Endpoint
   let authToken: string
@@ -194,29 +194,29 @@ describe("Scenario Management (E2E)", () => {
     authToken = generateTestToken(user.id)
   })
 
-  it("should create custom scenario", async () => {
+  it('should create custom scenario', async () => {
     const response = await request(app.getHttpServer())
-      .post("/api/mock/scenarios")
-      .set("Authorization", `Bearer ${authToken}`)
+      .post('/api/mock/scenarios')
+      .set('Authorization', `Bearer ${authToken}`)
       .send({
-        name: "Not Found",
+        name: 'Not Found',
         endpointId: endpoint.id,
         statusCode: 404,
-        body: { error: "User not found" },
+        body: { error: 'User not found' },
         delay: 100,
       })
       .expect(201)
 
-    expect(response.body).toHaveProperty("id")
-    expect(response.body.name).toBe("Not Found")
+    expect(response.body).toHaveProperty('id')
+    expect(response.body.name).toBe('Not Found')
     expect(response.body.statusCode).toBe(404)
   })
 
-  it("should set scenario as default", async () => {
+  it('should set scenario as default', async () => {
     // Criar 2 scenarios
     const scenario1 = await prisma.mockScenario.create({
       data: {
-        name: "Success",
+        name: 'Success',
         endpointId: endpoint.id,
         statusCode: 200,
         body: { success: true },
@@ -227,7 +227,7 @@ describe("Scenario Management (E2E)", () => {
 
     const scenario2 = await prisma.mockScenario.create({
       data: {
-        name: "Error",
+        name: 'Error',
         endpointId: endpoint.id,
         statusCode: 500,
         body: { error: true },
@@ -238,7 +238,7 @@ describe("Scenario Management (E2E)", () => {
     // Definir scenario2 como default
     await request(app.getHttpServer())
       .patch(`/api/mock/scenarios/${scenario2.id}/set-default`)
-      .set("Authorization", `Bearer ${authToken}`)
+      .set('Authorization', `Bearer ${authToken}`)
       .expect(200)
 
     // Verificar que apenas scenario2 é default
@@ -250,26 +250,26 @@ describe("Scenario Management (E2E)", () => {
     expect(scenarios.find((s) => s.id === scenario2.id)?.isDefault).toBe(true)
   })
 
-  it("should list scenarios by endpoint", async () => {
+  it('should list scenarios by endpoint', async () => {
     // Criar 3 scenarios
     await prisma.mockScenario.createMany({
       data: [
         {
-          name: "Success",
+          name: 'Success',
           endpointId: endpoint.id,
           statusCode: 200,
           body: {},
           userId: user.id,
         },
         {
-          name: "Error",
+          name: 'Error',
           endpointId: endpoint.id,
           statusCode: 500,
           body: {},
           userId: user.id,
         },
         {
-          name: "Inactive",
+          name: 'Inactive',
           endpointId: endpoint.id,
           statusCode: 200,
           body: {},
@@ -281,17 +281,17 @@ describe("Scenario Management (E2E)", () => {
 
     const response = await request(app.getHttpServer())
       .get(`/api/mock/scenarios?endpointId=${endpoint.id}`)
-      .set("Authorization", `Bearer ${authToken}`)
+      .set('Authorization', `Bearer ${authToken}`)
       .expect(200)
 
     expect(response.body).toHaveLength(3)
   })
 
-  it("should filter active scenarios", async () => {
+  it('should filter active scenarios', async () => {
     await prisma.mockScenario.createMany({
       data: [
         {
-          name: "Active",
+          name: 'Active',
           endpointId: endpoint.id,
           statusCode: 200,
           body: {},
@@ -299,7 +299,7 @@ describe("Scenario Management (E2E)", () => {
           isActive: true,
         },
         {
-          name: "Inactive",
+          name: 'Inactive',
           endpointId: endpoint.id,
           statusCode: 200,
           body: {},
@@ -311,11 +311,11 @@ describe("Scenario Management (E2E)", () => {
 
     const response = await request(app.getHttpServer())
       .get(`/api/mock/scenarios?endpointId=${endpoint.id}&isActive=true`)
-      .set("Authorization", `Bearer ${authToken}`)
+      .set('Authorization', `Bearer ${authToken}`)
       .expect(200)
 
     expect(response.body).toHaveLength(1)
-    expect(response.body[0].name).toBe("Active")
+    expect(response.body[0].name).toBe('Active')
   })
 })
 ```
@@ -323,7 +323,7 @@ describe("Scenario Management (E2E)", () => {
 ### Test Suite 3: Mock Server HTTP
 
 ```typescript
-describe("Mock Server HTTP (E2E)", () => {
+describe('Mock Server HTTP (E2E)', () => {
   let workspace: Workspace
   let api: Api
   let endpoint: Endpoint
@@ -335,25 +335,25 @@ describe("Mock Server HTTP (E2E)", () => {
     endpoint = data.endpoint
   })
 
-  it("should serve auto-generated mock", async () => {
+  it('should serve auto-generated mock', async () => {
     const mockUrl = `/${workspace.id}/${api.id}/GET/users`
 
     const response = await request(app.getHttpServer()).get(mockUrl).expect(200)
 
     expect(response.body).toBeInstanceOf(Array)
-    expect(response.body[0]).toHaveProperty("id")
-    expect(response.body[0]).toHaveProperty("name")
-    expect(response.body[0]).toHaveProperty("email")
+    expect(response.body[0]).toHaveProperty('id')
+    expect(response.body[0]).toHaveProperty('name')
+    expect(response.body[0]).toHaveProperty('email')
   })
 
-  it("should serve custom scenario via header", async () => {
+  it('should serve custom scenario via header', async () => {
     // Criar scenario de erro
     await prisma.mockScenario.create({
       data: {
-        name: "Not Found",
+        name: 'Not Found',
         endpointId: endpoint.id,
         statusCode: 404,
-        body: { error: "Users not found" },
+        body: { error: 'Users not found' },
         userId: workspace.ownerId,
         isActive: true,
       },
@@ -361,20 +361,20 @@ describe("Mock Server HTTP (E2E)", () => {
 
     const response = await request(app.getHttpServer())
       .get(`/${workspace.id}/${api.id}/GET/users`)
-      .set("X-Mock-Scenario", "Not Found")
+      .set('X-Mock-Scenario', 'Not Found')
       .expect(404)
 
-    expect(response.body).toEqual({ error: "Users not found" })
+    expect(response.body).toEqual({ error: 'Users not found' })
   })
 
-  it("should use default scenario if no header", async () => {
+  it('should use default scenario if no header', async () => {
     // Criar scenario default
     await prisma.mockScenario.create({
       data: {
-        name: "Success",
+        name: 'Success',
         endpointId: endpoint.id,
         statusCode: 200,
-        body: { custom: "data" },
+        body: { custom: 'data' },
         userId: workspace.ownerId,
         isDefault: true,
         isActive: true,
@@ -385,16 +385,16 @@ describe("Mock Server HTTP (E2E)", () => {
       .get(`/${workspace.id}/${api.id}/GET/users`)
       .expect(200)
 
-    expect(response.body).toEqual({ custom: "data" })
+    expect(response.body).toEqual({ custom: 'data' })
   })
 
-  it("should apply delay from scenario", async () => {
+  it('should apply delay from scenario', async () => {
     await prisma.mockScenario.create({
       data: {
-        name: "Slow",
+        name: 'Slow',
         endpointId: endpoint.id,
         statusCode: 200,
-        body: { data: "slow" },
+        body: { data: 'slow' },
         delay: 500,
         userId: workspace.ownerId,
         isDefault: true,
@@ -411,43 +411,43 @@ describe("Mock Server HTTP (E2E)", () => {
     expect(elapsed).toBeGreaterThanOrEqual(500)
   })
 
-  it("should override delay via header", async () => {
+  it('should override delay via header', async () => {
     const start = Date.now()
     await request(app.getHttpServer())
       .get(`/${workspace.id}/${api.id}/GET/users`)
-      .set("X-Mock-Delay", "1000")
+      .set('X-Mock-Delay', '1000')
       .expect(200)
     const elapsed = Date.now() - start
 
     expect(elapsed).toBeGreaterThanOrEqual(1000)
   })
 
-  it("should override status code via header", async () => {
+  it('should override status code via header', async () => {
     await request(app.getHttpServer())
       .get(`/${workspace.id}/${api.id}/GET/users`)
-      .set("X-Mock-Status", "201")
+      .set('X-Mock-Status', '201')
       .expect(201)
   })
 
-  it("should return 404 for non-existent endpoint", async () => {
+  it('should return 404 for non-existent endpoint', async () => {
     const response = await request(app.getHttpServer())
       .get(`/${workspace.id}/${api.id}/GET/non-existent`)
       .expect(404)
 
-    expect(response.body).toHaveProperty("error")
-    expect(response.body.error).toContain("not found")
+    expect(response.body).toHaveProperty('error')
+    expect(response.body.error).toContain('not found')
   })
 
-  it("should handle nested paths", async () => {
+  it('should handle nested paths', async () => {
     // Criar endpoint com nested path
     const nestedEndpoint = await prisma.endpoint.create({
       data: {
-        method: "GET",
-        path: "/users/:id/posts",
+        method: 'GET',
+        path: '/users/:id/posts',
         apiId: api.id,
         responseSchema: {
-          type: "array",
-          items: { type: "object" },
+          type: 'array',
+          items: { type: 'object' },
         },
       },
     })
@@ -464,24 +464,24 @@ describe("Mock Server HTTP (E2E)", () => {
 ### Test Suite 4: Integration Flow
 
 ```typescript
-describe("Complete Integration Flow (E2E)", () => {
-  it("should complete full mock lifecycle", async () => {
+describe('Complete Integration Flow (E2E)', () => {
+  it('should complete full mock lifecycle', async () => {
     // 1. Seed initial data
     const { user, workspace, api, endpoint } = await seedTestData()
     const authToken = generateTestToken(user.id)
 
     // 2. Criar scenario customizado
     const createScenarioRes = await request(app.getHttpServer())
-      .post("/api/mock/scenarios")
-      .set("Authorization", `Bearer ${authToken}`)
+      .post('/api/mock/scenarios')
+      .set('Authorization', `Bearer ${authToken}`)
       .send({
-        name: "Success with Data",
+        name: 'Success with Data',
         endpointId: endpoint.id,
         statusCode: 200,
         body: {
           users: [
-            { id: "1", name: "Alice" },
-            { id: "2", name: "Bob" },
+            { id: '1', name: 'Alice' },
+            { id: '2', name: 'Bob' },
           ],
         },
         delay: 100,
@@ -497,35 +497,35 @@ describe("Complete Integration Flow (E2E)", () => {
       .expect(200)
 
     expect(mockRes.body.users).toHaveLength(2)
-    expect(mockRes.body.users[0].name).toBe("Alice")
+    expect(mockRes.body.users[0].name).toBe('Alice')
 
     // 4. Criar outro scenario (erro)
     await request(app.getHttpServer())
-      .post("/api/mock/scenarios")
-      .set("Authorization", `Bearer ${authToken}`)
+      .post('/api/mock/scenarios')
+      .set('Authorization', `Bearer ${authToken}`)
       .send({
-        name: "Server Error",
+        name: 'Server Error',
         endpointId: endpoint.id,
         statusCode: 500,
-        body: { error: "Internal server error" },
+        body: { error: 'Internal server error' },
       })
       .expect(201)
 
     // 5. Usar scenario específico via header
     const errorRes = await request(app.getHttpServer())
       .get(`/${workspace.id}/${api.id}/GET/users`)
-      .set("X-Mock-Scenario", "Server Error")
+      .set('X-Mock-Scenario', 'Server Error')
       .expect(500)
 
-    expect(errorRes.body.error).toBe("Internal server error")
+    expect(errorRes.body.error).toBe('Internal server error')
 
     // 6. Atualizar scenario default
     await request(app.getHttpServer())
       .patch(`/api/mock/scenarios/${scenarioId}`)
-      .set("Authorization", `Bearer ${authToken}`)
+      .set('Authorization', `Bearer ${authToken}`)
       .send({
         body: {
-          users: [{ id: "1", name: "Updated Alice" }],
+          users: [{ id: '1', name: 'Updated Alice' }],
         },
       })
       .expect(200)
@@ -535,7 +535,7 @@ describe("Complete Integration Flow (E2E)", () => {
       .get(`/${workspace.id}/${api.id}/GET/users`)
       .expect(200)
 
-    expect(updatedRes.body.users[0].name).toBe("Updated Alice")
+    expect(updatedRes.body.users[0].name).toBe('Updated Alice')
   })
 })
 ```
@@ -543,8 +543,8 @@ describe("Complete Integration Flow (E2E)", () => {
 ### Performance Tests
 
 ```typescript
-describe("Performance (E2E)", () => {
-  it("should handle concurrent requests", async () => {
+describe('Performance (E2E)', () => {
+  it('should handle concurrent requests', async () => {
     const { workspace, api } = await seedTestData()
     const mockUrl = `/${workspace.id}/${api.id}/GET/users`
 

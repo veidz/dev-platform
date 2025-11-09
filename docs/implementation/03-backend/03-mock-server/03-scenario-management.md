@@ -108,7 +108,7 @@ export class QueryScenariosDto {
 
   @IsOptional()
   @IsBoolean()
-  @Transform(({ value }) => value === "true")
+  @Transform(({ value }) => value === 'true')
   isActive?: boolean
 }
 ```
@@ -205,7 +205,7 @@ async findDefault(endpointId: string): Promise<MockScenario | null> {
 ### Scenario Controller - Endpoints
 
 ```typescript
-@Controller("scenarios")
+@Controller('scenarios')
 @UseGuards(JwtAuthGuard)
 export class ScenarioController {
   @Post()
@@ -221,28 +221,28 @@ export class ScenarioController {
     // retornar todos scenarios do user
   }
 
-  @Get(":id")
-  findOne(@Param("id") id: string) {
+  @Get(':id')
+  findOne(@Param('id') id: string) {
     return this.service.findOne(id)
   }
 
-  @Patch(":id")
-  update(@Param("id") id: string, @Body() dto: UpdateScenarioDto) {
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() dto: UpdateScenarioDto) {
     return this.service.update(id, dto)
   }
 
-  @Delete(":id")
-  delete(@Param("id") id: string) {
+  @Delete(':id')
+  delete(@Param('id') id: string) {
     return this.service.delete(id)
   }
 
-  @Patch(":id/toggle")
-  toggleActive(@Param("id") id: string) {
+  @Patch(':id/toggle')
+  toggleActive(@Param('id') id: string) {
     return this.service.toggleActive(id)
   }
 
-  @Patch(":id/set-default")
-  setAsDefault(@Param("id") id: string) {
+  @Patch(':id/set-default')
+  setAsDefault(@Param('id') id: string) {
     return this.service.setAsDefault(id)
   }
 }
@@ -255,45 +255,45 @@ Criar templates comuns para facilitar:
 ```typescript
 const SCENARIO_TEMPLATES = [
   {
-    name: "Success",
+    name: 'Success',
     statusCode: 200,
-    description: "Successful response",
+    description: 'Successful response',
   },
   {
-    name: "Created",
+    name: 'Created',
     statusCode: 201,
-    description: "Resource created successfully",
+    description: 'Resource created successfully',
   },
   {
-    name: "Bad Request",
+    name: 'Bad Request',
     statusCode: 400,
-    body: { error: "Invalid request parameters" },
+    body: { error: 'Invalid request parameters' },
   },
   {
-    name: "Unauthorized",
+    name: 'Unauthorized',
     statusCode: 401,
-    body: { error: "Authentication required" },
+    body: { error: 'Authentication required' },
   },
   {
-    name: "Forbidden",
+    name: 'Forbidden',
     statusCode: 403,
-    body: { error: "Insufficient permissions" },
+    body: { error: 'Insufficient permissions' },
   },
   {
-    name: "Not Found",
+    name: 'Not Found',
     statusCode: 404,
-    body: { error: "Resource not found" },
+    body: { error: 'Resource not found' },
   },
   {
-    name: "Server Error",
+    name: 'Server Error',
     statusCode: 500,
-    body: { error: "Internal server error" },
+    body: { error: 'Internal server error' },
   },
   {
-    name: "Slow Response",
+    name: 'Slow Response',
     statusCode: 200,
     delay: 3000,
-    description: "Simulates slow API",
+    description: 'Simulates slow API',
   },
 ]
 ```

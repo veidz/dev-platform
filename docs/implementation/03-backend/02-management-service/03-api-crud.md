@@ -189,14 +189,17 @@ tests/
 ## Exemplo: api.service.ts
 
 ```typescript
-import { Injectable, NotFoundException } from "@nestjs/common"
-import { PrismaService } from "@/shared/prisma.service"
-import { RedisService } from "@/shared/redis.service"
-import type { CreateApiDto } from "./dto/create-api.dto"
+import { Injectable, NotFoundException } from '@nestjs/common'
+import { PrismaService } from '@/shared/prisma.service'
+import { RedisService } from '@/shared/redis.service'
+import type { CreateApiDto } from './dto/create-api.dto'
 
 @Injectable()
 export class ApiService {
-  constructor(private prisma: PrismaService, private redis: RedisService) {}
+  constructor(
+    private prisma: PrismaService,
+    private redis: RedisService,
+  ) {}
 
   async findAll(workspaceId: string, filters?: QueryApiDto) {
     return this.prisma.aPI.findMany({
@@ -204,13 +207,13 @@ export class ApiService {
         workspaceId,
         ...(filters?.status && { status: filters.status }),
         ...(filters?.search && {
-          name: { contains: filters.search, mode: "insensitive" },
+          name: { contains: filters.search, mode: 'insensitive' },
         }),
       },
       include: {
         _count: { select: { endpoints: true } },
       },
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: 'desc' },
     })
   }
 
@@ -225,7 +228,7 @@ export class ApiService {
     })
 
     if (!api) {
-      throw new NotFoundException("API not found")
+      throw new NotFoundException('API not found')
     }
 
     // Cacheia por 10 minutos
@@ -243,7 +246,7 @@ export class ApiService {
     await this.redis.del(`api:${id}`)
 
     // Emite evento
-    await this.redis.publish("api.updated", JSON.stringify({ id }))
+    await this.redis.publish('api.updated', JSON.stringify({ id }))
 
     return updated
   }
@@ -251,7 +254,7 @@ export class ApiService {
   async remove(id: string) {
     await this.prisma.aPI.delete({ where: { id } })
     await this.redis.del(`api:${id}`)
-    await this.redis.publish("api.deleted", JSON.stringify({ id }))
+    await this.redis.publish('api.deleted', JSON.stringify({ id }))
   }
 }
 ```
@@ -291,7 +294,7 @@ enum ApiStatus {
 
 - [OpenAPI Specification](https://swagger.io/specification/)
 - [API Versioning Best Practices](https://restfulapi.net/versioning/)
-- [Redis Caching Patterns](https://redis.io/docs/manual/patterns/)
+- [Redis Data Types Overview](https://redis.io/docs/latest/develop/data-types/)
 
 ## Próximo Passo
 

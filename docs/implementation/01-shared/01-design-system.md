@@ -214,16 +214,16 @@ packages/ui/
 ## Exemplo: tsup.config.ts
 
 ```typescript
-import { defineConfig } from "tsup"
+import { defineConfig } from 'tsup'
 
 export default defineConfig({
-  entry: ["src/index.ts"],
-  format: ["esm", "cjs"],
+  entry: ['src/index.ts'],
+  format: ['esm', 'cjs'],
   dts: true,
   splitting: false,
   sourcemap: true,
   clean: true,
-  external: ["react", "react-dom"],
+  external: ['react', 'react-dom'],
 })
 ```
 
@@ -308,7 +308,7 @@ describe("Button", () => {
 ## Recursos
 
 - [Shadcn/ui Docs](https://ui.shadcn.com)
-- [Storybook for React](https://storybook.js.org/docs/react/get-started/install)
+- [Storybook Install](https://storybook.js.org/docs/get-started/install)
 - [Tailwind CSS](https://tailwindcss.com/docs)
 - [Radix UI](https://www.radix-ui.com)
 - [tsup](https://tsup.egoist.dev)

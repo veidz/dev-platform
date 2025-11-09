@@ -22,7 +22,7 @@ Cada ADR documenta uma decisão relevante, contexto, opções consideradas e con
 
 1. Crie um arquivo com o próximo número sequencial.
 2. Use o template dos ADRs existentes.
-3. Abra PR com título: `ADR: <assunto>`.
+3. Registre com commit: `docs: adr: <assunto>` (workflow pessoal, sem PR).
 
 ---
 

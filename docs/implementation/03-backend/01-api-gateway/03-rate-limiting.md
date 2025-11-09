@@ -143,9 +143,9 @@ tests/
 ## Exemplo: redis-throttler-storage.ts
 
 ```typescript
-import { Injectable } from "@nestjs/common"
-import { ThrottlerStorage } from "@nestjs/throttler"
-import { Redis } from "ioredis"
+import { Injectable } from '@nestjs/common'
+import { ThrottlerStorage } from '@nestjs/throttler'
+import { Redis } from 'ioredis'
 
 @Injectable()
 export class RedisThrottlerStorage implements ThrottlerStorage {
@@ -153,7 +153,7 @@ export class RedisThrottlerStorage implements ThrottlerStorage {
 
   async increment(
     key: string,
-    ttl: number
+    ttl: number,
   ): Promise<{ totalHits: number; timeToExpire: number }> {
     const multi = this.redis.multi()
     multi.incr(key)
@@ -173,11 +173,11 @@ export class RedisThrottlerStorage implements ThrottlerStorage {
 ## Exemplo: app.module.ts
 
 ```typescript
-import { Module } from "@nestjs/common"
-import { ThrottlerModule } from "@nestjs/throttler"
-import { APP_GUARD } from "@nestjs/core"
-import { ThrottlerGuard } from "@nestjs/throttler"
-import { RedisThrottlerStorage } from "./rate-limit/redis-throttler-storage"
+import { Module } from '@nestjs/common'
+import { ThrottlerModule } from '@nestjs/throttler'
+import { APP_GUARD } from '@nestjs/core'
+import { ThrottlerGuard } from '@nestjs/throttler'
+import { RedisThrottlerStorage } from './rate-limit/redis-throttler-storage'
 
 @Module({
   imports: [
@@ -202,7 +202,9 @@ export class AppModule {}
 ## Recursos
 
 - [NestJS Throttler](https://docs.nestjs.com/security/rate-limiting)
-- [Redis Rate Limiting](https://redis.io/docs/manual/patterns/rate-limiter/)
+- [Redis Pub/Sub](https://redis.io/docs/latest/develop/pubsub/)
+- [Redis Streams](https://redis.io/docs/latest/develop/data-types/streams/)
+- [Rate limiting com Redis (artigo de referência)](https://cloudflare.com/learning/bots/what-is-rate-limiting/)
 
 ## Próximo Passo
 

@@ -181,23 +181,49 @@ pnpm install
 
 # Configure as variáveis de ambiente
 cp .env.example .env
-# Edite .env com suas credenciais
+# Edite .env com suas credenciais (opcional para desenvolvimento inicial)
+```
 
-# Inicie os serviços (Postgres, Redis, Qdrant)
-docker-compose up -d
+### Docker (Infraestrutura)
 
-# Execute migrations
-pnpm db:migrate
+```bash
+# Subir containers (PostgreSQL, Redis, Qdrant)
+pnpm docker:up
 
-# Inicie o ambiente de desenvolvimento
+# Ver status dos containers
+pnpm docker:ps
+
+# Ver logs em tempo real
+pnpm docker:logs
+
+# Parar containers
+pnpm docker:down
+
+# Reiniciar containers
+pnpm docker:restart
+```
+
+Os serviços estarão disponíveis em:
+
+- **PostgreSQL**: `localhost:5432` (user: `devplatform`, db: `devplatform`)
+- **Redis**: `localhost:6379`
+- **Qdrant**: `localhost:6333` (API), `localhost:6334` (gRPC)
+
+### Desenvolvimento
+
+```bash
+# Inicie o ambiente de desenvolvimento (após Docker estar rodando)
 pnpm dev
 ```
 
 A aplicação estará disponível em:
 
-- Frontend: http://localhost:3000
-- API Gateway: http://localhost:4000
-- API Docs: http://localhost:4000/api
+- **API Gateway**: http://localhost:3001/health | http://localhost:3001/api (Swagger)
+- **Management Service**: http://localhost:3002/health | http://localhost:3002/api
+- **Mock Server**: http://localhost:3003/health | http://localhost:3003/api
+- **Analytics Service**: http://localhost:3004/health | http://localhost:3004/api
+- **AI Service**: http://localhost:3005/health | http://localhost:3005/api
+- **Frontend**: http://localhost:3000 _(em breve)_
 
 ### Desenvolvimento
 
@@ -219,6 +245,14 @@ pnpm test
 
 # Lint
 pnpm lint
+\n+# Lint com auto-fix (todas as packages)
+pnpm lint:fix
+\n+# Format (escreve alterações)
+pnpm format
+\n+# Format (somente verificação)
+pnpm format:check
+\n+# Type checking global
+pnpm typecheck
 ```
 
 ---
@@ -227,29 +261,76 @@ pnpm lint
 
 A documentação completa está disponível em [`/docs`](./docs):
 
-- [Guia de Instalação](./docs/installation.md)
-- [Arquitetura](./docs/ARCHITECTURE.md)
+- [Documentação Geral](./docs/README.md)
+- [Especificação Técnica](./docs/technical-spec.md)
 - [ADRs (Architecture Decision Records)](./docs/adrs)
 - [API Reference](./docs/api)
-- [Guia de Desenvolvimento](./docs/CONTRIBUTING.md)
+- [Guides (Style/Testing)](./docs/guides/README.md)
+- [Roadmap de Implementação](./docs/implementation/README.md)
 
 ---
 
 ## 🧪 Testes
 
+O projeto utiliza **Jest** para testes unitários e de integração, com cobertura de **100%** obrigatória.
+
+### Estrutura de Testes
+
+Cada serviço possui testes organizados em:
+
+- `tests/unit/` - Testes unitários de services, controllers, utils
+- `tests/integration/` - Testes de integração com banco de dados
+- `tests/e2e/` - Testes end-to-end de fluxos completos
+
+### Comandos de Teste
+
 ```bash
 # Rodar todos os testes
 pnpm test
 
-# Testes com coverage
-pnpm test:cov
+# Testes unitários apenas
+pnpm test:unit
+
+# Testes de integração
+pnpm test:integration
 
 # Testes E2E
 pnpm test:e2e
 
-# Watch mode
+# Testes com coverage (100% obrigatório)
+pnpm test:cov
+
+# Watch mode (desenvolvimento)
 pnpm test:watch
 ```
+
+### Executar testes de um serviço específico
+
+```bash
+# Via filter (recomendado)
+pnpm --filter=@dev-platform/api-gateway test:cov
+pnpm --filter=@dev-platform/management-service test:unit
+
+# Via workspace
+cd apps/api-gateway && pnpm test:cov
+```
+
+### Cobertura de Código
+
+O projeto exige **100% de cobertura** para:
+
+- Statements
+- Branches
+- Functions
+- Lines
+
+Arquivos excluídos da cobertura:
+
+- `*.module.ts` (NestJS modules)
+- `*.types.ts` (Type definitions)
+- `*.swagger.ts` (Swagger decorators)
+- `main.ts` (Bootstrap files)
+- `index.ts` (Export barrels)
 
 ---
 

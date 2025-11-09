@@ -188,19 +188,22 @@ tests/
 ## Exemplo: jwt.strategy.ts
 
 ```typescript
-import { Injectable, UnauthorizedException } from "@nestjs/common"
-import { PassportStrategy } from "@nestjs/passport"
-import { ExtractJwt, Strategy } from "passport-jwt"
-import { ConfigService } from "@nestjs/config"
-import type { JwtPayload } from "@dev-platform/shared"
-import { PrismaService } from "@/shared/prisma.service"
+import { Injectable, UnauthorizedException } from '@nestjs/common'
+import { PassportStrategy } from '@nestjs/passport'
+import { ExtractJwt, Strategy } from 'passport-jwt'
+import { ConfigService } from '@nestjs/config'
+import type { JwtPayload } from '@dev-platform/shared'
+import { PrismaService } from '@/shared/prisma.service'
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy, "jwt") {
-  constructor(private config: ConfigService, private prisma: PrismaService) {
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
+  constructor(
+    private config: ConfigService,
+    private prisma: PrismaService,
+  ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: config.get("JWT_SECRET"),
+      secretOrKey: config.get('JWT_SECRET'),
       ignoreExpiration: false,
     })
   }
@@ -211,7 +214,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, "jwt") {
     })
 
     if (!user) {
-      throw new UnauthorizedException("Token inválido")
+      throw new UnauthorizedException('Token inválido')
     }
 
     return user

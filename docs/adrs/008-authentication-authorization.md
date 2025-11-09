@@ -60,10 +60,10 @@ Fluxo separado para acesso programático:
 
 ```typescript
 enum Permission {
-  READ_API = "api:read",
-  WRITE_API = "api:write",
-  DELETE_API = "api:delete",
-  MANAGE_USERS = "users:manage",
+  READ_API = 'api:read',
+  WRITE_API = 'api:write',
+  DELETE_API = 'api:delete',
+  MANAGE_USERS = 'users:manage',
 }
 
 const roles = {
@@ -158,6 +158,6 @@ Autenticação two-factor baseada em TOTP via apps authenticator.
 
 - [Best Practices JWT](https://datatracker.ietf.org/doc/html/rfc8725)
 - [NestJS Authentication](https://docs.nestjs.com/security/authentication)
-- [Passport.js Strategies](http://www.passportjs.org/packages/)
+- [Passport.js](https://www.passportjs.org/)
 - [OWASP Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html)
 - [OAuth 2.0 RFC](https://datatracker.ietf.org/doc/html/rfc6749)

@@ -141,7 +141,7 @@ Implementar connection pooling e health checks. Monitorar contagem de conexões 
 ## Referências
 
 - [NestJS Microservices Transport](https://docs.nestjs.com/microservices/redis)
-- [Documentação Redis Pub/Sub](https://redis.io/docs/interact/pubsub/)
-- [Redis Streams vs Pub/Sub](https://redis.io/docs/data-types/streams/)
+- [Redis Pub/Sub (docs atuais)](https://redis.io/docs/latest/develop/pubsub/)
+- [Redis Streams (docs atuais)](https://redis.io/docs/latest/develop/data-types/streams/)
 - [Padrões de Comunicação Microservices](https://microservices.io/patterns/communication-style/messaging.html)
 - [Building Microservices com NestJS](https://amplication.com/blog/working-with-microservices-with-nestjs)

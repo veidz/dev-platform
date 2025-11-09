@@ -1,4 +1,4 @@
-# Analytics Service - Setup Inicial
+# Analytics Serviço - Setup Inicial
 
 ## Contexto
 
@@ -66,7 +66,6 @@ apps/analytics/
 ### Configuração Base
 
 - [ ] **main.ts**
-
   - [ ] Porta: 3003 (padrão) ou `process.env.ANALYTICS_PORT`
   - [ ] CORS habilitado
   - [ ] Global validation pipe
@@ -278,7 +277,7 @@ WEBHOOK_RETRY_DELAY_MS=1000
   analytics:
     build: ./apps/analytics
     ports:
-      - "3003:3003"
+      - '3003:3003'
     env_file:
       - ./apps/analytics/.env
     depends_on:
@@ -318,7 +317,7 @@ async function bootstrap() {
         host: process.env.REDIS_HOST,
         port: parseInt(process.env.REDIS_PORT),
       },
-    }
+    },
   )
 
   await app.listen()

@@ -1,4 +1,4 @@
-# Analytics Service - Alertas e Webhooks
+# Analytics Serviço - Alertas e Webhooks
 
 ## Contexto
 
@@ -63,11 +63,11 @@ export class CreateAlertDto {
   @IsString()
   endpointId?: string
 
-  @IsEnum(["error_rate", "latency_p95", "request_count", "latency_avg"])
-  metric: "error_rate" | "latency_p95" | "request_count" | "latency_avg"
+  @IsEnum(['error_rate', 'latency_p95', 'request_count', 'latency_avg'])
+  metric: 'error_rate' | 'latency_p95' | 'request_count' | 'latency_avg'
 
-  @IsEnum(["gt", "lt", "gte", "lte", "eq"])
-  operator: "gt" | "lt" | "gte" | "lte" | "eq"
+  @IsEnum(['gt', 'lt', 'gte', 'lte', 'eq'])
+  operator: 'gt' | 'lt' | 'gte' | 'lte' | 'eq'
 
   @IsNumber()
   threshold: number
@@ -78,8 +78,8 @@ export class CreateAlertDto {
   timeWindowMin: number
 
   @IsArray()
-  @IsEnum(["email", "slack", "webhook"], { each: true })
-  channels: ("email" | "slack" | "webhook")[]
+  @IsEnum(['email', 'slack', 'webhook'], { each: true })
+  channels: ('email' | 'slack' | 'webhook')[]
 
   @IsOptional()
   @IsUrl()
@@ -119,13 +119,13 @@ export class AlertsService {
   async findAll(workspaceId: string): Promise<Alert[]> {
     return this.prisma.alert.findMany({
       where: { workspaceId },
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: 'desc' },
     })
   }
 
   async findOne(id: string): Promise<Alert> {
     const alert = await this.prisma.alert.findUnique({ where: { id } })
-    if (!alert) throw new NotFoundException("Alert not found")
+    if (!alert) throw new NotFoundException('Alert not found')
     return alert
   }
 
@@ -259,7 +259,7 @@ export class NotificationsService {
   constructor(
     private webhooksService: WebhooksService,
     private emailService: EmailService,
-    private slackService: SlackService
+    private slackService: SlackService,
   ) {}
 
   async sendNotification(alert: Alert): Promise<void> {
@@ -267,15 +267,15 @@ export class NotificationsService {
 
     // Enviar para todos channels configurados
     await Promise.allSettled([
-      ...(alert.channels.includes("email")
+      ...(alert.channels.includes('email')
         ? [this.emailService.sendAlert(alert, message)]
         : []),
 
-      ...(alert.channels.includes("slack")
+      ...(alert.channels.includes('slack')
         ? [this.slackService.sendAlert(alert, message)]
         : []),
 
-      ...(alert.channels.includes("webhook")
+      ...(alert.channels.includes('webhook')
         ? [this.webhooksService.trigger(alert, message)]
         : []),
     ])
@@ -288,7 +288,7 @@ Metric: ${alert.metric}
 Condition: ${alert.operator} ${alert.threshold}
 Time Window: ${alert.timeWindowMin} minutes
 
-Description: ${alert.description || "N/A"}
+Description: ${alert.description || 'N/A'}
 
 View details: https://platform.com/analytics`
   }
@@ -301,8 +301,8 @@ View details: https://platform.com/analytics`
 @Injectable()
 export class WebhooksService {
   constructor(
-    @InjectQueue("webhooks") private webhooksQueue: Queue,
-    private httpService: HttpService
+    @InjectQueue('webhooks') private webhooksQueue: Queue,
+    private httpService: HttpService,
   ) {}
 
   async trigger(alert: Alert, message: string): Promise<void> {
@@ -310,7 +310,7 @@ export class WebhooksService {
 
     // Adicionar à fila para retry automático
     await this.webhooksQueue.add(
-      "send",
+      'send',
       {
         url: alert.webhookUrl,
         payload: {
@@ -323,18 +323,18 @@ export class WebhooksService {
       {
         attempts: 3,
         backoff: {
-          type: "exponential",
+          type: 'exponential',
           delay: 2000,
         },
-      }
+      },
     )
   }
 }
 
 // Processor
-@Processor("webhooks")
+@Processor('webhooks')
 export class WebhooksProcessor {
-  @Process("send")
+  @Process('send')
   async sendWebhook(job: Job<{ url: string; payload: any }>) {
     const { url, payload } = job.data
 
@@ -343,8 +343,8 @@ export class WebhooksProcessor {
         .post(url, payload, {
           timeout: 10000,
           headers: {
-            "Content-Type": "application/json",
-            "User-Agent": "DevPlatform-Webhooks/1.0",
+            'Content-Type': 'application/json',
+            'User-Agent': 'DevPlatform-Webhooks/1.0',
           },
         })
         .toPromise()
@@ -372,11 +372,11 @@ export class EmailService {
 
   constructor(private config: ConfigService) {
     this.transporter = nodemailer.createTransport({
-      host: config.get("SMTP_HOST"),
-      port: config.get("SMTP_PORT"),
+      host: config.get('SMTP_HOST'),
+      port: config.get('SMTP_PORT'),
       auth: {
-        user: config.get("SMTP_USER"),
-        pass: config.get("SMTP_PASS"),
+        user: config.get('SMTP_USER'),
+        pass: config.get('SMTP_PASS'),
       },
     })
   }
@@ -418,19 +418,19 @@ export class SlackService {
       text: message,
       blocks: [
         {
-          type: "section",
+          type: 'section',
           text: {
-            type: "mrkdwn",
+            type: 'mrkdwn',
             text: `*🚨 ${alert.name}*\n\n${message}`,
           },
         },
         {
-          type: "actions",
+          type: 'actions',
           elements: [
             {
-              type: "button",
-              text: { type: "plain_text", text: "View Dashboard" },
-              url: "https://platform.com/analytics",
+              type: 'button',
+              text: { type: 'plain_text', text: 'View Dashboard' },
+              url: 'https://platform.com/analytics',
             },
           ],
         },
@@ -466,7 +466,7 @@ model AlertHistory {
 ### Alert Controller
 
 ```typescript
-@Controller("alerts")
+@Controller('alerts')
 @UseGuards(JwtAuthGuard)
 export class AlertsController {
   @Post()
@@ -475,35 +475,35 @@ export class AlertsController {
   }
 
   @Get()
-  findAll(@Query("workspaceId") workspaceId: string) {
+  findAll(@Query('workspaceId') workspaceId: string) {
     return this.alertsService.findAll(workspaceId)
   }
 
-  @Get(":id")
-  findOne(@Param("id") id: string) {
+  @Get(':id')
+  findOne(@Param('id') id: string) {
     return this.alertsService.findOne(id)
   }
 
-  @Patch(":id")
-  update(@Param("id") id: string, @Body() dto: UpdateAlertDto) {
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() dto: UpdateAlertDto) {
     return this.alertsService.update(id, dto)
   }
 
-  @Delete(":id")
-  delete(@Param("id") id: string) {
+  @Delete(':id')
+  delete(@Param('id') id: string) {
     return this.alertsService.delete(id)
   }
 
-  @Patch(":id/toggle")
-  toggleActive(@Param("id") id: string) {
+  @Patch(':id/toggle')
+  toggleActive(@Param('id') id: string) {
     return this.alertsService.toggleActive(id)
   }
 
-  @Post(":id/test")
-  async testAlert(@Param("id") id: string) {
+  @Post(':id/test')
+  async testAlert(@Param('id') id: string) {
     const alert = await this.alertsService.findOne(id)
     await this.notificationsService.sendNotification(alert)
-    return { success: true, message: "Test notification sent" }
+    return { success: true, message: 'Test notification sent' }
   }
 }
 ```

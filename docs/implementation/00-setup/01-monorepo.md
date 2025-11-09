@@ -13,61 +13,61 @@ Configurar estrutura inicial do monorepo usando Turborepo + pnpm workspaces. Est
 
 ### Pesquisa e Preparação
 
-- [ ] Pesquisar docs oficiais do Turborepo (https://turbo.build/repo/docs)
-- [ ] Pesquisar docs do pnpm workspaces (https://pnpm.io/workspaces)
-- [ ] Verificar última versão do turbo no npm
-- [ ] Verificar última versão do pnpm
+- [x] Pesquisar docs oficiais do Turborepo (https://turbo.build/repo/docs)
+- [x] Pesquisar docs do pnpm workspaces (https://pnpm.io/workspaces)
+- [x] Verificar última versão do turbo no npm
+- [x] Verificar última versão do pnpm
 
 ### Inicialização do Projeto
 
-- [ ] Criar diretório `dev-platform/`
-- [ ] Executar `pnpm init` na raiz
-- [ ] Instalar Turborepo: `pnpm add -D turbo@latest`
-- [ ] Criar arquivo `pnpm-workspace.yaml`
+- [x] Criar diretório `dev-platform/`
+- [x] Executar `pnpm init` na raiz
+- [x] Instalar Turborepo: `pnpm add -D turbo@<versão fixada>`
+- [x] Criar arquivo `pnpm-workspace.yaml`
 
 ### Estrutura de Diretórios
 
-- [ ] Criar pasta `apps/`
-- [ ] Criar pasta `packages/`
-- [ ] Criar pasta `tests/` (unit, integration, e2e)
-- [ ] Criar pasta `docs/`
-- [ ] Criar pasta `.github/workflows/`
+- [x] Criar pasta `apps/`
+- [x] Criar pasta `packages/`
+- [ ] Criar pasta de `tests/` por serviço dentro de `apps/<serviço>/tests/` (unit, integration, e2e) — será feito no scaffold de cada serviço
+- [x] Criar pasta `docs/`
+- [x] Criar pasta `.github/workflows/`
 
 ### Configuração Turborepo
 
-- [ ] Criar `turbo.json` com pipeline básico
-- [ ] Definir tasks: lint, test, build, dev
-- [ ] Configurar dependências entre tasks
-- [ ] Configurar cache local e remoto (Vercel)
+- [x] Criar `turbo.json` com pipeline básico
+- [x] Definir tasks: lint, test, build, dev (e typecheck)
+- [x] Configurar dependências entre tasks
+- [ ] Configurar cache remoto (Vercel) — pendente até definir credenciais/projeto
 
 ### Scripts Package.json
 
-- [ ] Adicionar script `dev` (turbo dev)
-- [ ] Adicionar script `build` (turbo build)
-- [ ] Adicionar script `lint` (turbo lint)
-- [ ] Adicionar script `test` (turbo test)
-- [ ] Adicionar script `validate` (lint + test + build)
-- [ ] Adicionar script `clean` (remove node_modules, .turbo, dist)
+- [x] Adicionar script `dev` (turbo dev)
+- [x] Adicionar script `build` (turbo build)
+- [x] Adicionar script `lint` (turbo lint)
+- [x] Adicionar script `test` (turbo test)
+- [x] Adicionar script `validate` (somente lint + prettier check)
+- [x] Adicionar script `clean` (remove node_modules, .turbo, dist)
 
 ### Gitignore
 
-- [ ] Criar `.gitignore` com: node_modules, .turbo, dist, .env\*
-- [ ] Adicionar arquivos de IDE (\*.vscode, .idea)
-- [ ] Adicionar logs e cache
+- [x] Criar `.gitignore` com: node_modules, .turbo, dist, .env\*
+- [x] Adicionar arquivos de IDE (\*.vscode, .idea)
+- [x] Adicionar logs e cache
 
 ### Documentação
 
-- [ ] Criar `README.md` básico na raiz
-- [ ] Adicionar instruções de instalação
-- [ ] Adicionar comandos disponíveis
-- [ ] Adicionar estrutura de pastas
+- [x] Criar `README.md` básico na raiz
+- [x] Adicionar instruções de instalação
+- [x] Adicionar comandos disponíveis
+- [x] Adicionar estrutura de pastas
 
 ### Validação
 
-- [ ] Executar `pnpm install` (deve instalar sem erros)
-- [ ] Executar `pnpm dev` (deve rodar sem erros - mesmo sem apps)
-- [ ] Executar `pnpm build` (deve passar mesmo sem apps)
-- [ ] Verificar que `.turbo/` foi criado (cache)
+- [x] Executar `pnpm install` (deve instalar sem erros)
+- [x] Executar `pnpm dev` (deve rodar sem erros - mesmo sem apps)
+- [x] Executar `pnpm build` (deve passar mesmo sem apps)
+- [x] Verificar que `.turbo/` foi criado (cache)
 
 ## Arquivos Criados
 
@@ -75,15 +75,16 @@ Configurar estrutura inicial do monorepo usando Turborepo + pnpm workspaces. Est
 dev-platform/
 ├── package.json           # Scripts principais
 ├── pnpm-workspace.yaml    # Config workspaces
-├── turbo.json            # Config Turborepo
+├── turbo.json             # Config Turborepo
 ├── .gitignore            # Git ignore rules
 ├── README.md             # Documentação básica
 ├── apps/                 # Aplicações (vazio por enquanto)
 ├── packages/             # Pacotes compartilhados (vazio)
-├── tests/                # Testes (vazio)
-│   ├── unit/
-│   ├── integration/
-│   └── e2e/
+│
+│  # Os diretórios de testes serão criados por serviço
+│  # Exemplo (quando os serviços forem criados):
+│  # apps/api-gateway/tests/{unit,integration,e2e}
+│  # apps/management-service/tests/{unit,integration,e2e}
 ├── docs/                 # Documentação
 └── .github/
     └── workflows/        # CI/CD (vazio)
@@ -95,30 +96,32 @@ dev-platform/
 
 ```yaml
 packages:
-  - "apps/*"
-  - "packages/*"
+  - 'apps/*'
+  - 'packages/*'
 ```
 
 ### turbo.json (básico)
 
 ```json
 {
-  "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["**/.env.*local"],
+  "$schema": "https://turborepo.com/schema.json",
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "dist/**", "build/**"]
-    },
-    "lint": {
-      "cache": false
-    },
-    "test": {
-      "cache": false
+      "outputs": ["dist/**", "build/**"]
     },
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "lint": {},
+    "typecheck": {},
+    "test": {
+      "dependsOn": ["^build"]
+    },
+    "test:cov": {
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"]
     }
   }
 }
@@ -131,19 +134,24 @@ packages:
   "name": "dev-platform",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
     "lint": "turbo lint",
     "test": "turbo test",
-    "validate": "turbo lint test build",
-    "clean": "turbo clean && rm -rf node_modules .turbo"
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "validate": "pnpm -w lint && pnpm -w format:check",
+    "clean": "rm -rf node_modules .turbo packages/*/dist apps/*/dist"
   },
   "devDependencies": {
-    "turbo": "^2.3.3"
+    "turbo": "2.6.0"
   },
-  "packageManager": "pnpm@10.20.0"
+  "packageManager": "pnpm@10.0.0"
 }
+
+> Nota: `validate` foca apenas em qualidade de código (ESLint + Prettier check) para feedback rápido em PRs. Testes e build são executados em workflows separados (`tests.yml`).
 ```
 
 ## Recursos
