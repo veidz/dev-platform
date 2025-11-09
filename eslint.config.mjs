@@ -22,7 +22,7 @@ export default [
       'no-console': 'warn',
       'unused-imports/no-unused-imports': 'error',
       'simple-import-sort/imports': 'warn',
-      'simple-import-sort/exports': 'warn',
+      'simple-import-sort/exports': 'off',
       'import/no-default-export': 'off',
     },
   },
