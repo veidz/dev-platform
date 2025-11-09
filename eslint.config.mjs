@@ -2,6 +2,7 @@
 import js from '@eslint/js'
 import importPlugin from 'eslint-plugin-import'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
+import storybook from 'eslint-plugin-storybook'
 import unusedImports from 'eslint-plugin-unused-imports'
 import tseslint from 'typescript-eslint'
 
@@ -28,4 +29,5 @@ export default [
   {
     files: ['**/*.ts', '**/*.tsx'],
   },
+  ...storybook.configs['flat/recommended'],
 ]
