@@ -43,5 +43,11 @@ describe('Button', () => {
       const button = screen.getByRole('button')
       expect(button.className).toContain('border-2')
     })
+
+    it('renders secondary variant', () => {
+      render(<Button variant="secondary">Secondary</Button>)
+      const button = screen.getByRole('button')
+      expect(button.className).toContain('bg-secondary')
+    })
   })
 })
