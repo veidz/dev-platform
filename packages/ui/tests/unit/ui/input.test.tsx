@@ -18,4 +18,12 @@ describe('Input', () => {
       expect(input.className).toContain('rounded-md')
     })
   })
+
+  describe('types', () => {
+    it('renders text type by default', () => {
+      render(<Input />)
+      const input = screen.getByRole('textbox')
+      expect(input.getAttribute('type')).toBeNull()
+    })
+  })
 })
