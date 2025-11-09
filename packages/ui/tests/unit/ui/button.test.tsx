@@ -128,4 +128,12 @@ describe('Button', () => {
       expect(button.className).toContain('disabled:opacity-50')
     })
   })
+
+  describe('custom props', () => {
+    it('accepts custom className', () => {
+      render(<Button className="custom-class">Custom</Button>)
+      const button = screen.getByRole('button')
+      expect(button.className).toContain('custom-class')
+    })
+  })
 })
