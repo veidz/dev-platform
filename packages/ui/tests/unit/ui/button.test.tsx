@@ -62,4 +62,13 @@ describe('Button', () => {
       expect(button.className).toContain('underline-offset-4')
     })
   })
+
+  describe('sizes', () => {
+    it('renders default size', () => {
+      render(<Button size="default">Default Size</Button>)
+      const button = screen.getByRole('button')
+      expect(button.className).toContain('h-9')
+      expect(button.className).toContain('px-4')
+    })
+  })
 })
