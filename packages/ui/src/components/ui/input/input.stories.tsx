@@ -46,6 +46,13 @@ export const Password: Story = {
   },
 }
 
+export const Phone: Story = {
+  args: {
+    type: 'tel',
+    placeholder: '(11) 98765-4321',
+  },
+}
+
 export const Disabled: Story = {
   args: {
     placeholder: 'Disabled input',
@@ -65,8 +72,8 @@ export const AllTypes: Story = {
       <Input type="text" placeholder="Text input" />
       <Input type="email" placeholder="email@example.com" />
       <Input type="password" placeholder="Password" />
+      <Input type="tel" placeholder="(11) 98765-4321" />
       <Input type="number" placeholder="123" />
-      <Input type="tel" placeholder="+1 (555) 000-0000" />
       <Input type="url" placeholder="https://example.com" />
       <Input placeholder="Disabled" disabled />
     </div>
