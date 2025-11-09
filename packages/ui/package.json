@@ -3,15 +3,55 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./styles": "./src/styles/globals.css"
+  },
+  "files": [
+    "dist",
+    "src/styles"
+  ],
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsup",
+    "dev": "tsup --watch",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "eslint src",
-    "test": "echo 'no tests yet'"
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "echo 'no tests yet'",
+    "storybook": "storybook dev -p 6007",
+    "build-storybook": "storybook build"
+  },
+  "peerDependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   },
   "devDependencies": {
+    "@storybook/addon-docs": "^10.0.6",
+    "@storybook/react": "^10.0.6",
+    "@storybook/react-vite": "^10.0.6",
+    "@tailwindcss/vite": "^4.1.17",
+    "@types/react": "19.0.8",
+    "@types/react-dom": "19.0.3",
+    "eslint-plugin-storybook": "^10.0.6",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "storybook": "^10.0.6",
+    "tailwindcss": "4.1.17",
+    "tsup": "8.3.5",
     "typescript": "5.9.3"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.553.0",
+    "tailwind-merge": "^3.3.1"
   }
 }
