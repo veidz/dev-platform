@@ -272,19 +272,65 @@ A documentação completa está disponível em [`/docs`](./docs):
 
 ## 🧪 Testes
 
+O projeto utiliza **Jest** para testes unitários e de integração, com cobertura de **100%** obrigatória.
+
+### Estrutura de Testes
+
+Cada serviço possui testes organizados em:
+
+- `tests/unit/` - Testes unitários de services, controllers, utils
+- `tests/integration/` - Testes de integração com banco de dados
+- `tests/e2e/` - Testes end-to-end de fluxos completos
+
+### Comandos de Teste
+
 ```bash
 # Rodar todos os testes
 pnpm test
 
-# Testes com coverage
-pnpm test:cov
+# Testes unitários apenas
+pnpm test:unit
+
+# Testes de integração
+pnpm test:integration
 
 # Testes E2E
 pnpm test:e2e
 
-# Watch mode
+# Testes com coverage (100% obrigatório)
+pnpm test:cov
+
+# Watch mode (desenvolvimento)
 pnpm test:watch
 ```
+
+### Executar testes de um serviço específico
+
+```bash
+# Via filter (recomendado)
+pnpm --filter=@dev-platform/api-gateway test:cov
+pnpm --filter=@dev-platform/management-service test:unit
+
+# Via workspace
+cd apps/api-gateway && pnpm test:cov
+```
+
+### Cobertura de Código
+
+O projeto exige **100% de cobertura** para:
+
+- Statements
+- Branches
+- Functions
+- Lines
+
+Arquivos excluídos da cobertura:
+
+- `*.module.ts` (NestJS modules)
+- `*.types.ts` (Type definitions)
+- `*.swagger.ts` (Swagger decorators)
+- `main.ts` (Bootstrap files)
+- `index.ts` (Export barrels)
 
 ---
 

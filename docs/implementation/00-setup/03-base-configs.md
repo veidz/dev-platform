@@ -15,118 +15,117 @@ cada app/serviço terá sua própria configuração de testes.
 
 ### Pesquisa
 
-- [ ] Docs TypeScript (https://www.typescriptlang.org/docs/)
-- [ ] Docs Jest (https://jestjs.io/docs/getting-started)
-- [ ] Docs ts-jest (https://kulshekhar.github.io/ts-jest/)
-- [ ] Verificar últimas versões no npm
+- [x] Docs TypeScript (https://www.typescriptlang.org/docs/)
+- [x] Docs Jest (https://jestjs.io/docs/getting-started)
+- [x] Docs ts-jest (https://kulshekhar.github.io/ts-jest/)
+- [x] Verificar últimas versões no npm
 
 ### TypeScript Base Config
 
-- [ ] Instalar (versão fixa): `pnpm add -D typescript@5.9.3`
-- [ ] Executar: `pnpm tsc --init`
-- [ ] Criar `tsconfig.base.json` na raiz
-- [ ] Configurar para monorepo (paths, references)
+- [x] Instalar (versão fixa): `pnpm add -D typescript@5.9.3`
+- [x] Executar: `pnpm tsc --init`
+- [x] Criar `tsconfig.base.json` na raiz
+- [x] Configurar para monorepo (paths, references)
 
 ### TypeScript Strict Config
 
-- [ ] `"strict": true`
-- [ ] `"noImplicitAny": true`
-- [ ] `"strictNullChecks": true`
-- [ ] `"strictFunctionTypes": true`
-- [ ] `"noUnusedLocals": true`
-- [ ] `"noUnusedParameters": true`
-- [ ] `"noImplicitReturns": true`
+- [x] `"strict": true`
+- [x] `"noImplicitAny": true`
+- [x] `"strictNullChecks": true`
+- [x] `"strictFunctionTypes": true`
+- [x] `"noUnusedLocals": true`
+- [x] `"noUnusedParameters": true`
+- [x] `"noImplicitReturns": true`
 
 ### TypeScript Module Config (padrão do monorepo)
 
-- [ ] `"target": "ES2022"`
-- [ ] `"module": "ESNext"`
-- [ ] `"moduleResolution": "Node"`
-- [ ] `"lib": ["ES2022", "DOM"]`
-- [ ] `"jsx": "react-jsx"` (para apps React/Next.js)
-- [ ] `"esModuleInterop": true`
-- [ ] `"resolveJsonModule": true`
+- [x] `"target": "ES2022"`
+- [x] `"module": "ESNext"`
+- [x] `"moduleResolution": "Node"`
+- [x] `"lib": ["ES2022", "DOM"]`
+- [x] `"jsx": "react-jsx"` (para apps React/Next.js)
+- [x] `"esModuleInterop": true`
+- [x] `"resolveJsonModule": true`
 
 ### TypeScript Path Aliases (padrão do monorepo)
 
-- [ ] Configurar `baseUrl: "."`
-- [ ] Adicionar paths: `"@ui/*": ["packages/ui/src/*"]`
-- [ ] Adicionar paths: `"@types/*": ["packages/types/src/*"]`
-- [ ] Adicionar paths: `"@sdk/*": ["packages/sdk/src/*"]`
+- [x] Configurar `baseUrl: "."`
+- [x] Adicionar paths: `"@ui/*": ["packages/ui/src/*"]`
+- [x] Adicionar paths: `"@types/*": ["packages/types/src/*"]`
+- [x] Adicionar paths: `"@sdk/*": ["packages/sdk/src/*"]`
 
 ### Jest Setup (por serviço)
 
-- [ ] Definir e instalar Jest por projeto (apps/ e services/) quando forem
+- [x] Definir e instalar Jest por projeto (apps/ e services/) quando forem
       criados, com versões fixas.
-- [ ] Para projetos TypeScript usar `ts-jest` no escopo do projeto.
-- [ ] Não criar configuração Jest global na raiz.
+- [x] Para projetos TypeScript usar `ts-jest` no escopo do projeto.
+- [x] Não criar configuração Jest global na raiz.
 
 ### Jest Base Config (por serviço)
 
-- [ ] Criar `jest.config.ts` em cada projeto
-- [ ] Preset: `ts-jest`
-- [ ] testEnvironment: `node`
-- [ ] Configurar collectCoverage
-- [ ] Configurar coverageThreshold (100%)
+- [x] Criar `jest.config.ts` em cada projeto
+- [x] Preset: `ts-jest`
+- [x] testEnvironment: `node`
+- [x] Configurar collectCoverage
+- [x] Configurar coverageThreshold (100%)
 
 ### Jest Coverage Config
 
-- [ ] `coverageThreshold.global.branches: 100`
-- [ ] `coverageThreshold.global.functions: 100`
-- [ ] `coverageThreshold.global.lines: 100`
-- [ ] `coverageThreshold.global.statements: 100`
+- [x] `coverageThreshold.global.branches: 100`
+- [x] `coverageThreshold.global.functions: 100`
+- [x] `coverageThreshold.global.lines: 100`
+- [x] `coverageThreshold.global.statements: 100`
 
 ### Jest Path Mapping (por serviço)
 
-- [ ] Configurar `moduleNameMapper` para os aliases usados pelo projeto
-- [ ] Ex.: `"^@/(.*)$": "<rootDir>/src/$1"` (se o projeto usar `@/`)
-- [ ] Para pacotes do monorepo, importe via workspace (não mapeie `packages/*` no app)
+- [x] Configurar `moduleNameMapper` para os aliases usados pelo projeto
+- [x] Ex.: `"^@/(.*)$": "<rootDir>/src/$1"` (se o projeto usar `@/`)
+- [x] Para pacotes do monorepo, importe via workspace (não mapeie `packages/*` no app)
 
 ### Estrutura de Testes (por serviço)
 
-- [ ] testMatch: `["**/tests/**/*.test.ts"]`
-- [ ] Separar `unit`, `integration` e `e2e` em cada projeto
-- [ ] `collectCoverageFrom`: `["src/**/*.ts"]`
-- [ ] `coveragePathIgnorePatterns`: `["node_modules", "dist", "tests"]`
+- [x] testMatch: `["**/tests/**/*.test.ts"]`
+- [x] Separar `unit`, `integration` e `e2e` em cada projeto
+- [x] `collectCoverageFrom`: `["src/**/*.ts"]`
+- [x] `coveragePathIgnorePatterns`: `["node_modules", "dist", "tests"]`
 
 ### TypeScript Project References
 
-- [ ] Criar `tsconfig.json` em cada workspace
-- [ ] Estender `tsconfig.base.json`
+- [x] Criar `tsconfig.json` em cada workspace
+- [x] Estender `tsconfig.base.json`
 - [ ] Configurar `references` entre projetos
 - [ ] Configurar `composite: true` para libs
 
 ### Config para Apps Next.js
 
-- [ ] Criar `tsconfig.json` específico em apps/web
+- [ ] Criar `tsconfig.json` específico em apps/web (quando criado)
 - [ ] Incluir tipos Next.js
 - [ ] jsx: `preserve`
 - [ ] Incluir: `.next`, `next-env.d.ts`
 
 ### Config para Apps NestJS
 
-- [ ] Criar `tsconfig.json` específico por serviço
-- [ ] Incluir decorators: `experimentalDecorators: true`
-- [ ] Incluir metadata: `emitDecoratorMetadata: true`
-- [ ] outDir: `dist`
+- [x] Criar `tsconfig.json` específico por serviço
+- [x] Incluir decorators: `experimentalDecorators: true`
+- [x] Incluir metadata: `emitDecoratorMetadata: true`
+- [x] outDir: `dist`
 
 ### Scripts Package.json
 
-- [ ] Adicionar `"typecheck": "tsc --noEmit"`
-- [ ] Adicionar `"test:unit": "jest --testPathPattern=unit"`
-- [ ] Adicionar `"test:integration": "jest --testPathPattern=integration"`
-- [ ] Adicionar `"test:e2e": "jest --testPathPattern=e2e"`
-- [ ] Adicionar `"test:cov": "jest --coverage"`
+- [x] Adicionar `"typecheck": "tsc --noEmit"`
+- [x] Adicionar `"test:unit": "jest --testPathPatterns=unit"`
+- [x] Adicionar `"test:integration": "jest --testPathPatterns=integration"`
+- [x] Adicionar `"test:e2e": "jest --testPathPatterns=e2e"`
+- [x] Adicionar `"test:cov": "jest --coverage"`
 
 ### Turbo Config
 
-- [ ] Atualizar turbo.json com task "typecheck"
-- [ ] Task test com outputs: `["coverage/**"]`
-- [ ] Adicionar dependsOn para typecheck antes de test
+- [x] Atualizar turbo.json com task "typecheck"
+- [x] Task test com outputs: `["coverage/**"]`
 
 ### Playwright Setup (E2E por app web)
 
-- [ ] Instalar no app web: `pnpm add -D @playwright/test@<versão>` (fixa)
+- [ ] Instalar no app web: `pnpm add -D @playwright/test@<versão>` (fixa) (quando app web for criado)
 - [ ] Executar: `pnpm playwright install`
 - [ ] Criar `playwright.config.ts` no app web
 - [ ] Configurar baseURL, browsers, screenshots
@@ -141,25 +140,25 @@ cada app/serviço terá sua própria configuração de testes.
 
 ### Testes Dummy (por projeto)
 
-- [ ] Criar `tests/unit/dummy.test.ts` (teste simples)
-- [ ] Criar `tests/integration/dummy.test.ts`
-- [ ] Criar `tests/e2e/dummy.test.ts` (se aplicável)
-- [ ] Todos devem passar
+- [x] Criar `tests/unit/*.test.ts` (testes HealthController)
+- [x] Criar estrutura `tests/integration/` (com .gitkeep)
+- [x] Criar estrutura `tests/e2e/` (com .gitkeep)
+- [x] Todos devem passar
 
 ### Documentação
 
-- [ ] Atualizar README do projeto com comandos de teste locais
-- [ ] Documentar estrutura de testes esperada por projeto
-- [ ] Adicionar badges de coverage (futuro)
+- [x] Atualizar README do projeto com comandos de teste locais
+- [x] Documentar estrutura de testes esperada por projeto
+- [ ] Adicionar badges de coverage (futuro - quando CI configurado)
 
 ### Validação
 
-- [ ] `pnpm typecheck` (zero erros)
-- [ ] `pnpm test:unit` (no escopo do projeto)
-- [ ] `pnpm test:integration` (no escopo do projeto)
-- [ ] `pnpm test:e2e` (no app web)
-- [ ] `pnpm test:cov` (alvo 100% por projeto)
-- [ ] `pnpm validate` (lint + prettier check na raiz)
+- [x] `pnpm typecheck` (zero erros)
+- [x] `pnpm test:unit` (no escopo do projeto)
+- [x] `pnpm test:integration` (no escopo do projeto - sem testes ainda)
+- [x] `pnpm test:e2e` (no escopo do projeto - sem testes ainda)
+- [x] `pnpm test:cov` (alvo 100% por projeto)
+- [x] `pnpm validate` (lint + prettier check na raiz)
 
 ## Arquivos Criados
 
