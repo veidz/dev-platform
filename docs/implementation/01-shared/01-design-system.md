@@ -54,15 +54,15 @@ Criar pacote de componentes UI compartilhado usando Shadcn/ui (Radix + Tailwind)
 
 ### Instalar Componentes Base
 
-- [x] Button (manual com CVA variants)
-- [x] Input (manual)
-- [x] Card (6 subcomponentes)
-- [x] Label (manual)
-- [ ] `npx shadcn@latest add dialog`
-- [ ] `npx shadcn@latest add dropdown-menu`
-- [ ] `npx shadcn@latest add table`
-- [ ] `npx shadcn@latest add toast`
-- [ ] `npx shadcn@latest add form`
+- [x] Button (manual com CVA variants - 9 stories)
+- [x] Input (manual - 6 stories incluindo Phone BR)
+- [x] Card (6 subcomponentes - 4 stories)
+- [x] Label (manual atualizado com @radix-ui/react-label - 4 stories)
+- [x] Dialog (@radix-ui/react-dialog - 4 stories)
+- [x] Dropdown Menu (@radix-ui/react-dropdown-menu - 6 stories)
+- [x] Table (HTML + Tailwind - 4 stories)
+- [x] Toast (@radix-ui/react-toast + useToast hook - 5 stories com Success/Info/Destructive)
+- [x] Form (react-hook-form + zod + @radix-ui/react-label/slot - 2 stories)
 
 ### Componentes Customizados
 
@@ -82,17 +82,21 @@ Criar pacote de componentes UI compartilhado usando Shadcn/ui (Radix + Tailwind)
 
 - [x] Importar globals.css no preview
 - [x] Configurar backgrounds (light/dark)
-- [ ] Adicionar viewports customizados
-- [ ] Configurar addons adicionais
+- [x] Configurado com dark theme por padrão
+- [ ] Adicionar viewports customizados (opcional)
+- [ ] Configurar addons adicionais (opcional)
 
 ### Stories Base
 
 - [x] Criar `Button.stories.tsx` (9 variants)
-- [x] Criar `Input.stories.tsx` (5 variants)
+- [x] Criar `Input.stories.tsx` (6 variants - adicionado Phone BR)
 - [x] Criar `Card.stories.tsx` (4 variants)
 - [x] Criar `Label.stories.tsx` (4 variants)
-- [ ] Criar `Dialog.stories.tsx`
-- [ ] Criar `Form.stories.tsx`
+- [x] Criar `Dialog.stories.tsx` (4 variants: Default, WithFooter, CustomWidth, Scrollable)
+- [x] Criar `DropdownMenu.stories.tsx` (6 variants: Default, WithShortcuts, WithCheckboxes, WithRadioGroup, WithSubMenu, Destructive)
+- [x] Criar `Table.stories.tsx` (4 variants: Default, WithFooter, Simple, WithStatusBadges)
+- [x] Criar `Toast.stories.tsx` (5 variants: Default, WithAction, Destructive, Success, Info, Multiple)
+- [x] Criar `Form.stories.tsx` (2 variants: ProfileForm, Login)
 
 ### Stories Customizados
 
@@ -118,7 +122,8 @@ Criar pacote de componentes UI compartilhado usando Shadcn/ui (Radix + Tailwind)
 ### Exports
 
 - [x] Criar `src/index.ts` principal
-- [x] Exportar todos componentes UI base (Button, Input, Card, Label)
+- [x] Exportar todos componentes UI base (Button, Input, Card, Label, Dialog, DropdownMenu, Table, Toast, Form)
+- [x] Exportar ~70+ named exports incluindo componentes, tipos e utilities
 - [ ] Exportar componentes customizados (CodeEditor, DataTable, Chart)
 - [ ] Exportar theme provider e tokens
 
@@ -144,6 +149,9 @@ Criar pacote de componentes UI compartilhado usando Shadcn/ui (Radix + Tailwind)
 - [x] `"build": "tsup"` (DTS incluído no tsup)
 - [x] `"build-storybook": "storybook build"`
 - [x] `"lint": "eslint src/"`
+- [x] `"format": "prettier --write ."`
+- [x] `"format:check": "prettier --check ."`
+- [x] `"typecheck": "tsc -p tsconfig.json --noEmit"`
 
 ### Testes
 
@@ -314,6 +322,64 @@ describe("Button", () => {
 - [Tailwind CSS](https://tailwindcss.com/docs)
 - [Radix UI](https://www.radix-ui.com)
 - [tsup](https://tsup.egoist.dev)
+
+## Correções e Melhorias Aplicadas
+
+### Organização de Arquivos
+
+- ✅ Componentes reorganizados em estrutura de pastas (ComponentName/component-name.tsx + stories + index.ts)
+
+### Tooling Fixes
+
+- ✅ ESLint/Prettier conflict resolvido (disabled simple-import-sort/exports)
+- ✅ React 19 deprecation fix (React.ElementRef → React.ComponentRef em todos componentes)
+
+### Melhorias de Componentes
+
+- ✅ Toast: Adicionados variants success (green) e info (blue) com cores distintas
+- ✅ Input: Placeholder de telefone atualizado para formato brasileiro (11) 98765-4321
+- ✅ Label: Atualizado para usar @radix-ui/react-label
+
+### Build Output
+
+- ✅ ESM: 28.34 KB
+- ✅ CJS: 32.55 KB
+- ✅ DTS: 12.45 KB
+- ✅ 29+ stories no Storybook
+- ✅ Zero erros TypeScript
+- ✅ Zero warnings de lint
+
+## Status Atual
+
+**✅ Completo - 11 Componentes Base:**
+
+1. Button (9 stories)
+2. Input (6 stories)
+3. Card (4 stories)
+4. Label (4 stories)
+5. Dialog (4 stories)
+6. Dropdown Menu (6 stories)
+7. Table (4 stories)
+8. Toast (5 stories)
+9. Form (2 stories)
+
+**🔲 Pendente - Componentes Customizados:**
+
+- CodeEditor (Monaco wrapper)
+- DataTable (virtualizado)
+- Chart (Recharts wrapper)
+
+**🔲 Pendente - Design System:**
+
+- Theme Provider
+- Design Tokens (colors, spacing, typography)
+- Viewports customizados no Storybook
+
+**🔲 Pendente - Testes:**
+
+- Unit tests (100% coverage)
+- Integration tests
+- Accessibility tests (jest-axe)
 
 ## Próximo Passo
 
