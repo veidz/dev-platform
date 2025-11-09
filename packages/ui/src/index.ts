@@ -8,6 +8,23 @@ export {
   CardHeader,
   CardTitle,
 } from './components/ui/card'
+export {
+  AreaChart,
+  BarChart,
+  ComposedChart,
+  LineChart,
+  PieChart,
+} from './components/ui/chart'
+export type {
+  AreaChartProps,
+  BarChartProps,
+  BaseChartProps,
+  ChartDataPoint,
+  ChartType,
+  ComposedChartProps,
+  LineChartProps,
+  PieChartProps,
+} from './components/ui/chart'
 export { CodeEditor } from './components/ui/code-editor'
 export type {
   CodeEditorLanguage,
