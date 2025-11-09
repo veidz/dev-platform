@@ -23,5 +23,12 @@ describe('HealthController', () => {
       expect(result).toHaveProperty('status')
       expect(result.status).toBe('ok')
     })
+
+    it('should return an object with service property', () => {
+      const result = controller.check()
+
+      expect(result).toHaveProperty('service')
+      expect(result.service).toBe('ai-service')
+    })
   })
 })
