@@ -107,17 +107,10 @@ Criar pacote de componentes UI compartilhado usando Shadcn/ui (Radix + Tailwind)
 
 ### Design Tokens
 
-- [ ] Criar `src/tokens/colors.ts`
-- [ ] Criar `src/tokens/spacing.ts`
-- [ ] Criar `src/tokens/typography.ts`
-- [ ] Exportar em `src/tokens/index.ts`
-
-### Theme Provider
-
-- [ ] Criar `src/providers/ThemeProvider.tsx`
-- [ ] Implementar dark/light toggle
-- [ ] Persistir em localStorage
-- [ ] Exportar hook `useTheme()`
+- [x] Criar `src/tokens/colors.ts`
+- [x] Criar `src/tokens/spacing.ts`
+- [x] Criar `src/tokens/typography.ts`
+- [x] Exportar em `src/tokens/index.ts`
 
 ### Exports
 
@@ -125,7 +118,7 @@ Criar pacote de componentes UI compartilhado usando Shadcn/ui (Radix + Tailwind)
 - [x] Exportar todos componentes UI base (Button, Input, Card, Label, Dialog, DropdownMenu, Table, Toast, Form)
 - [x] Exportar ~70+ named exports incluindo componentes, tipos e utilities
 - [x] Exportar componentes customizados (CodeEditor, DataTable, Chart)
-- [ ] Exportar theme provider e tokens
+- [x] Exportar tokens (colors, spacing, typography com tipos)
 
 ### Package.json Config
 
@@ -155,11 +148,16 @@ Criar pacote de componentes UI compartilhado usando Shadcn/ui (Radix + Tailwind)
 
 ### Testes
 
-- [ ] Criar `tests/unit/ui/Button.test.tsx`
-- [ ] Criar `tests/unit/ui/Input.test.tsx`
-- [ ] Instalar `@testing-library/react@latest`
-- [ ] Instalar `@testing-library/jest-dom@latest`
-- [ ] Configurar jest para React
+- [x] Instalar `@testing-library/react@latest` (16.3.0)
+- [x] Instalar `@testing-library/jest-dom@latest` (6.9.1)
+- [x] Instalar `@testing-library/user-event@latest` (14.6.1)
+- [x] Instalar `jest@latest` (30.2.0) + `ts-jest` (29.4.5)
+- [x] Instalar `jest-environment-jsdom@latest` (30.2.0)
+- [x] Configurar jest.config.ts com 100% coverage threshold
+- [x] Criar tests/setup.ts com jest-dom
+- [x] Criar tests/unit/ui/ directory
+- [ ] Criar `tests/unit/ui/button.test.tsx` (completo)
+- [ ] Criar `tests/unit/ui/input.test.tsx` (completo)
 
 ### Accessibility Tests
 
@@ -199,13 +197,15 @@ packages/ui/
 │   │   │   └── CodeEditor.types.ts
 │   │   ├── DataTable/
 │   │   └── Chart/
-│   ├── providers/
-│   │   └── ThemeProvider.tsx
 │   ├── tokens/
 │   │   ├── colors.ts
 │   │   ├── spacing.ts
+│   │   ├── typography.ts
 │   │   └── index.ts
-│   ├── globals.css
+│   ├── lib/
+│   │   └── utils.ts
+│   ├── styles/
+│   │   └── globals.css
 │   └── index.ts
 ├── .storybook/
 │   ├── main.ts
@@ -235,55 +235,6 @@ export default defineConfig({
   clean: true,
   external: ['react', 'react-dom'],
 })
-```
-
-## Exemplo: ThemeProvider.tsx
-
-```typescript
-import { createContext, useContext, useEffect, useState } from "react"
-
-type Theme = "dark" | "light" | "system"
-
-type ThemeContextType = {
-  theme: Theme
-  setTheme: (theme: Theme) => void
-}
-
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
-
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>(() => {
-    return (localStorage.getItem("theme") as Theme) || "system"
-  })
-
-  useEffect(() => {
-    const root = window.document.documentElement
-    root.classList.remove("light", "dark")
-
-    if (theme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches
-        ? "dark"
-        : "light"
-      root.classList.add(systemTheme)
-      return
-    }
-
-    root.classList.add(theme)
-  }, [theme])
-
-  return (
-    <ThemeContext.Provider value={{ theme, setTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  )
-}
-
-export const useTheme = () => {
-  const context = useContext(ThemeContext)
-  if (!context) throw new Error("useTheme must be used within ThemeProvider")
-  return context
-}
 ```
 
 ## Exemplo: Button.test.tsx
@@ -369,11 +320,13 @@ describe("Button", () => {
 - DataTable (virtualizado)
 - Chart (Recharts wrapper)
 
-**🔲 Pendente - Design System:**
+**✅ Completo - Design System:**
 
-- Theme Provider
 - Design Tokens (colors, spacing, typography)
-- Viewports customizados no Storybook
+
+**🔲 Pendente - Storybook:**
+
+- Viewports customizados (opcional)
 
 **🔲 Pendente - Testes:**
 
