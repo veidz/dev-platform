@@ -66,10 +66,10 @@ Criar pacote de componentes UI compartilhado usando Shadcn/ui (Radix + Tailwind)
 
 ### Componentes Customizados
 
-- [ ] Criar `src/components/CodeEditor/` (Monaco wrapper)
-- [ ] Criar `src/components/DataTable/` (virtualizado)
-- [ ] Criar `src/components/Chart/` (Recharts wrapper)
-- [ ] Criar tipos em `.types.ts` para cada
+- [x] Criar `src/components/CodeEditor/` (Monaco wrapper)
+- [x] Criar `src/components/DataTable/` (virtualizado)
+- [x] Criar `src/components/Chart/` (Recharts wrapper)
+- [x] Criar tipos em `.types.ts` para cada
 
 ### Storybook Setup
 
@@ -100,10 +100,10 @@ Criar pacote de componentes UI compartilhado usando Shadcn/ui (Radix + Tailwind)
 
 ### Stories Customizados
 
-- [ ] Criar `CodeEditor.stories.tsx`
-- [ ] Criar `DataTable.stories.tsx`
-- [ ] Criar `Chart.stories.tsx`
-- [ ] Adicionar variants e exemplos
+- [x] Criar `CodeEditor.stories.tsx` (9 stories)
+- [x] Criar `DataTable.stories.tsx` (8 stories)
+- [x] Criar `Chart.stories.tsx` (14 stories)
+- [x] Adicionar variants e exemplos
 
 ### Design Tokens
 
@@ -124,7 +124,7 @@ Criar pacote de componentes UI compartilhado usando Shadcn/ui (Radix + Tailwind)
 - [x] Criar `src/index.ts` principal
 - [x] Exportar todos componentes UI base (Button, Input, Card, Label, Dialog, DropdownMenu, Table, Toast, Form)
 - [x] Exportar ~70+ named exports incluindo componentes, tipos e utilities
-- [ ] Exportar componentes customizados (CodeEditor, DataTable, Chart)
+- [x] Exportar componentes customizados (CodeEditor, DataTable, Chart)
 - [ ] Exportar theme provider e tokens
 
 ### Package.json Config
