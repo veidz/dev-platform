@@ -9,5 +9,13 @@ describe('Input', () => {
       const input = screen.getByPlaceholderText('Test input')
       expect(input.tagName).toBe('INPUT')
     })
+
+    it('applies default classes', () => {
+      render(<Input />)
+      const input = screen.getByRole('textbox')
+      expect(input.className).toContain('flex')
+      expect(input.className).toContain('h-9')
+      expect(input.className).toContain('rounded-md')
+    })
   })
 })
