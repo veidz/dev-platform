@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { describe, expect, it } from '@jest/globals'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -154,6 +154,14 @@ describe('Button', () => {
       render(<Button ref={ref}>Ref Button</Button>)
       expect(ref.current).toBeDefined()
       expect(ref.current?.tagName).toBe('BUTTON')
+    })
+  })
+
+  describe('buttonVariants helper', () => {
+    it('generates correct default classes', () => {
+      const classes = buttonVariants()
+      expect(classes).toContain('bg-primary')
+      expect(classes).toContain('h-9')
     })
   })
 })
