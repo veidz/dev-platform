@@ -174,5 +174,10 @@ describe('Button', () => {
       expect(classes).toContain('h-10')
       expect(classes).toContain('px-8')
     })
+
+    it('accepts custom className', () => {
+      const classes = buttonVariants({ className: 'custom' })
+      expect(classes).toContain('custom')
+    })
   })
 })
