@@ -8,6 +8,12 @@ export {
   CardHeader,
   CardTitle,
 } from './components/ui/card'
+export { CodeEditor } from './components/ui/code-editor'
+export type {
+  CodeEditorLanguage,
+  CodeEditorProps,
+  CodeEditorTheme,
+} from './components/ui/code-editor'
 export {
   Dialog,
   DialogClose,
@@ -61,14 +67,14 @@ export {
 } from './components/ui/table'
 export {
   Toast,
+  toast,
   ToastAction,
   ToastClose,
   ToastDescription,
+  Toaster,
   ToastProvider,
   ToastTitle,
   ToastViewport,
-  Toaster,
-  toast,
   useToast,
   type ToastActionElement,
   type ToastProps,
