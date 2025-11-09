@@ -31,5 +31,11 @@ describe('Button', () => {
       expect(button.className).toContain('bg-primary')
       expect(button.className).toContain('text-primary-foreground')
     })
+
+    it('renders destructive variant', () => {
+      render(<Button variant="destructive">Delete</Button>)
+      const button = screen.getByRole('button')
+      expect(button.className).toContain('bg-destructive')
+    })
   })
 })
