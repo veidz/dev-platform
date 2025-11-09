@@ -163,5 +163,10 @@ describe('Button', () => {
       expect(classes).toContain('bg-primary')
       expect(classes).toContain('h-9')
     })
+
+    it('generates correct variant classes', () => {
+      const classes = buttonVariants({ variant: 'destructive' })
+      expect(classes).toContain('bg-destructive')
+    })
   })
 })
