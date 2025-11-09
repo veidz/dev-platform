@@ -21,7 +21,7 @@ export default [
       '@typescript-eslint/explicit-function-return-type': 'warn',
       'no-console': 'warn',
       'unused-imports/no-unused-imports': 'error',
-      'simple-import-sort/imports': 'warn',
+      'simple-import-sort/imports': 'off',
       'simple-import-sort/exports': 'off',
       'import/no-default-export': 'off',
     },
