@@ -12,51 +12,52 @@ Criar pacote de componentes UI compartilhado usando Shadcn/ui (Radix + Tailwind)
 
 ### Pesquisa
 
-- [ ] Docs Shadcn/ui (https://ui.shadcn.com)
-- [ ] Docs Storybook (https://storybook.js.org)
-- [ ] Docs Tailwind CSS (https://tailwindcss.com)
-- [ ] Verificar versões no npm
+- [x] Docs Shadcn/ui (https://ui.shadcn.com)
+- [x] Docs Storybook (https://storybook.js.org)
+- [x] Docs Tailwind CSS (https://tailwindcss.com)
+- [x] Verificar versões no npm
 
 ### Criar Package
 
-- [ ] Navegar para `packages/`
-- [ ] Criar `packages/ui/`
-- [ ] Executar `pnpm init` em packages/ui
-- [ ] Configurar name: `@dev-platform/ui`
+- [x] Navegar para `packages/`
+- [x] Criar `packages/ui/`
+- [x] Executar `pnpm init` em packages/ui
+- [x] Configurar name: `@dev-platform/ui`
 
 ### TypeScript Config
 
-- [ ] Criar `tsconfig.json` estendendo base
-- [ ] Configurar `composite: true`
-- [ ] Configurar `declarationMap: true`
-- [ ] jsx: `react-jsx`
+- [x] Criar `tsconfig.json` estendendo base
+- [x] Configurar `composite: true` (removido - conflito com tsup)
+- [x] Configurar `declarationMap: true`
+- [x] jsx: `react-jsx`
 
 ### Tailwind Setup
 
-- [ ] Instalar: `pnpm add -D tailwindcss@latest`
-- [ ] Instalar: `pnpm add -D postcss@latest`
-- [ ] Instalar: `pnpm add -D autoprefixer@latest`
-- [ ] Executar: `npx tailwindcss init -p`
+- [x] Instalar: `pnpm add -D tailwindcss@latest` (4.1.17)
+- [x] Instalar: `pnpm add -D postcss@latest` (8.5.6)
+- [x] Instalar: `pnpm add -D autoprefixer@latest` (10.4.21)
+- [x] Criar configs manualmente (não usamos init)
 
 ### Tailwind Config
 
-- [ ] Configurar content paths
-- [ ] Adicionar theme colors customizados
-- [ ] Configurar dark mode (class strategy)
-- [ ] Criar `globals.css` base
+- [x] Configurar content paths
+- [x] Adicionar theme colors customizados (HSL system)
+- [x] Configurar dark mode (class strategy)
+- [x] Criar `globals.css` base
 
 ### Shadcn/ui Init
 
-- [ ] Executar: `npx shadcn@latest init`
-- [ ] Escolher style: Default ou New York
-- [ ] Configurar baseColor
-- [ ] Configurar components path: `src/components/ui`
+- [x] Criamos componentes manualmente seguindo pattern Shadcn
+- [x] Configurado com Radix UI + CVA + Tailwind
+- [x] Path: `src/components/ui`
+- [x] Utility function `cn()` implementada
 
 ### Instalar Componentes Base
 
-- [ ] `npx shadcn@latest add button`
-- [ ] `npx shadcn@latest add input`
-- [ ] `npx shadcn@latest add card`
+- [x] Button (manual com CVA variants)
+- [x] Input (manual)
+- [x] Card (6 subcomponentes)
+- [x] Label (manual)
 - [ ] `npx shadcn@latest add dialog`
 - [ ] `npx shadcn@latest add dropdown-menu`
 - [ ] `npx shadcn@latest add table`
@@ -72,23 +73,24 @@ Criar pacote de componentes UI compartilhado usando Shadcn/ui (Radix + Tailwind)
 
 ### Storybook Setup
 
-- [ ] Executar: `npx storybook@latest init`
-- [ ] Escolher Vite + React
-- [ ] Configurar Tailwind no Storybook
-- [ ] Criar `.storybook/preview.ts`
+- [x] Executar: `npx storybook@latest init` (v10.0.6)
+- [x] Vite + React configurado
+- [x] Configurar Tailwind no Storybook (viteFinal com alias @/)
+- [x] `.storybook/preview.ts` criado
 
 ### Storybook Config
 
-- [ ] Importar globals.css no preview
-- [ ] Configurar dark mode addon
+- [x] Importar globals.css no preview
+- [x] Configurar backgrounds (light/dark)
 - [ ] Adicionar viewports customizados
-- [ ] Configurar backgrounds
+- [ ] Configurar addons adicionais
 
 ### Stories Base
 
-- [ ] Criar `Button.stories.tsx`
-- [ ] Criar `Input.stories.tsx`
-- [ ] Criar `Card.stories.tsx`
+- [x] Criar `Button.stories.tsx` (9 variants)
+- [x] Criar `Input.stories.tsx` (5 variants)
+- [x] Criar `Card.stories.tsx` (4 variants)
+- [x] Criar `Label.stories.tsx` (4 variants)
 - [ ] Criar `Dialog.stories.tsx`
 - [ ] Criar `Form.stories.tsx`
 
@@ -115,33 +117,33 @@ Criar pacote de componentes UI compartilhado usando Shadcn/ui (Radix + Tailwind)
 
 ### Exports
 
-- [ ] Criar `src/index.ts` principal
-- [ ] Exportar todos componentes UI
-- [ ] Exportar componentes customizados
+- [x] Criar `src/index.ts` principal
+- [x] Exportar todos componentes UI base (Button, Input, Card, Label)
+- [ ] Exportar componentes customizados (CodeEditor, DataTable, Chart)
 - [ ] Exportar theme provider e tokens
 
 ### Package.json Config
 
-- [ ] main: `dist/index.js`
-- [ ] module: `dist/index.mjs`
-- [ ] types: `dist/index.d.ts`
-- [ ] exports com subpaths
-- [ ] peerDependencies: react, react-dom
+- [x] main: `dist/index.js`
+- [x] module: `dist/index.mjs`
+- [x] types: `dist/index.d.ts`
+- [x] exports com subpaths (. e ./styles)
+- [x] peerDependencies: react ^18.0.0 || ^19.0.0, react-dom
 
 ### Build Config
 
-- [ ] Instalar: `pnpm add -D tsup@latest`
-- [ ] Criar `tsup.config.ts`
-- [ ] Configurar entry: `src/index.ts`
-- [ ] Format: esm + cjs
-- [ ] dts: true
+- [x] Instalar: `pnpm add -D tsup@latest` (8.3.5)
+- [x] Criar `tsup.config.ts`
+- [x] Configurar entry: `src/index.ts`
+- [x] Format: esm + cjs
+- [x] dts: true
 
 ### Scripts
 
-- [ ] `"dev": "storybook dev -p 6006"`
-- [ ] `"build": "tsup && tsc --emitDeclarationOnly"`
-- [ ] `"build:storybook": "storybook build"`
-- [ ] `"lint": "eslint src/"`
+- [x] `"storybook": "storybook dev -p 6007"`
+- [x] `"build": "tsup"` (DTS incluído no tsup)
+- [x] `"build-storybook": "storybook build"`
+- [x] `"lint": "eslint src/"`
 
 ### Testes
 
