@@ -120,5 +120,12 @@ describe('Button', () => {
       await user.click(button)
       expect(handleClick).not.toHaveBeenCalled()
     })
+
+    it('applies disabled styles', () => {
+      render(<Button disabled>Disabled</Button>)
+      const button = screen.getByRole('button')
+      expect(button.hasAttribute('disabled')).toBe(true)
+      expect(button.className).toContain('disabled:opacity-50')
+    })
   })
 })
