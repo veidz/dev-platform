@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 import { describe, expect, it } from '@jest/globals'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { createRef } from 'react'
 
 describe('Button', () => {
   describe('rendering', () => {
@@ -146,6 +147,13 @@ describe('Button', () => {
       render(<Button aria-label="Close dialog">X</Button>)
       const button = screen.getByRole('button', { name: /close dialog/i })
       expect(button).toBeDefined()
+    })
+
+    it('forwards ref correctly', () => {
+      const ref = createRef<HTMLButtonElement>()
+      render(<Button ref={ref}>Ref Button</Button>)
+      expect(ref.current).toBeDefined()
+      expect(ref.current?.tagName).toBe('BUTTON')
     })
   })
 })
