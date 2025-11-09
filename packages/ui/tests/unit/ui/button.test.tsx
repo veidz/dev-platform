@@ -168,5 +168,11 @@ describe('Button', () => {
       const classes = buttonVariants({ variant: 'destructive' })
       expect(classes).toContain('bg-destructive')
     })
+
+    it('generates correct size classes', () => {
+      const classes = buttonVariants({ size: 'lg' })
+      expect(classes).toContain('h-10')
+      expect(classes).toContain('px-8')
+    })
   })
 })
