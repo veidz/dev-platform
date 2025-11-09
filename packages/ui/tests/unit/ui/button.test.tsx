@@ -23,4 +23,13 @@ describe('Button', () => {
       expect(button.className).toContain('bg-primary')
     })
   })
+
+  describe('variants', () => {
+    it('renders default variant', () => {
+      render(<Button variant="default">Default</Button>)
+      const button = screen.getByRole('button')
+      expect(button.className).toContain('bg-primary')
+      expect(button.className).toContain('text-primary-foreground')
+    })
+  })
 })
