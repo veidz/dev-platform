@@ -10,5 +10,11 @@ describe('Button', () => {
       expect(element).toBeDefined()
       expect(element.textContent).toBe('Click me')
     })
+
+    it('renders as button element by default', () => {
+      render(<Button>Test</Button>)
+      const button = screen.getByRole('button', { name: /test/i })
+      expect(button.tagName).toBe('BUTTON')
+    })
   })
 })
