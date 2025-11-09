@@ -135,5 +135,11 @@ describe('Button', () => {
       const button = screen.getByRole('button')
       expect(button.className).toContain('custom-class')
     })
+
+    it('accepts type prop', () => {
+      render(<Button type="submit">Submit</Button>)
+      const button = screen.getByRole('button')
+      expect(button.getAttribute('type')).toBe('submit')
+    })
   })
 })
