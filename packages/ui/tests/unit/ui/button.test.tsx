@@ -16,5 +16,11 @@ describe('Button', () => {
       const button = screen.getByRole('button', { name: /test/i })
       expect(button.tagName).toBe('BUTTON')
     })
+
+    it('applies default variant classes', () => {
+      render(<Button>Default</Button>)
+      const button = screen.getByRole('button')
+      expect(button.className).toContain('bg-primary')
+    })
   })
 })
