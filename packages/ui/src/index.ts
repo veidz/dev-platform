@@ -14,6 +14,8 @@ export type {
   CodeEditorProps,
   CodeEditorTheme,
 } from './components/ui/code-editor'
+export { DataTable } from './components/ui/data-table'
+export type { DataTableProps, DataTableState } from './components/ui/data-table'
 export {
   Dialog,
   DialogClose,
