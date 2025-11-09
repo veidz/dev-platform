@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { describe, expect, it } from '@jest/globals'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 describe('Button', () => {
   describe('rendering', () => {
@@ -90,6 +91,19 @@ describe('Button', () => {
       const button = screen.getByRole('button')
       expect(button.className).toContain('h-9')
       expect(button.className).toContain('w-9')
+    })
+  })
+
+  describe('interactions', () => {
+    it('handles click events', async () => {
+      const handleClick = jest.fn()
+      const user = userEvent.setup()
+
+      render(<Button onClick={handleClick}>Click</Button>)
+      const button = screen.getByRole('button')
+
+      await user.click(button)
+      expect(handleClick).toHaveBeenCalledTimes(1)
     })
   })
 })
