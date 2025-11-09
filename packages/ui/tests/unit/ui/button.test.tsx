@@ -37,5 +37,11 @@ describe('Button', () => {
       const button = screen.getByRole('button')
       expect(button.className).toContain('bg-destructive')
     })
+
+    it('renders outline variant', () => {
+      render(<Button variant="outline">Outline</Button>)
+      const button = screen.getByRole('button')
+      expect(button.className).toContain('border-2')
+    })
   })
 })
