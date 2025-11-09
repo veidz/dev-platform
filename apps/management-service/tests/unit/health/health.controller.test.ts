@@ -16,5 +16,12 @@ describe('HealthController', () => {
         service: 'management-service',
       })
     })
+
+    it('should return an object with status property', () => {
+      const result = controller.check()
+
+      expect(result).toHaveProperty('status')
+      expect(result.status).toBe('ok')
+    })
   })
 })
