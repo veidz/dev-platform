@@ -49,5 +49,11 @@ describe('Button', () => {
       const button = screen.getByRole('button')
       expect(button.className).toContain('bg-secondary')
     })
+
+    it('renders ghost variant', () => {
+      render(<Button variant="ghost">Ghost</Button>)
+      const button = screen.getByRole('button')
+      expect(button.className).toContain('hover:bg-accent/20')
+    })
   })
 })
