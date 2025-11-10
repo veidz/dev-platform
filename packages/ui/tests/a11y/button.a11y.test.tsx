@@ -38,4 +38,14 @@ describe('Button Accessibility', () => {
     const results = await axe(container)
     expect(results).toHaveNoViolations()
   })
+
+  it('should not have violations with icon button', async () => {
+    const { container } = render(
+      <Button size="icon" aria-label="Search">
+        🔍
+      </Button>,
+    )
+    const results = await axe(container)
+    expect(results).toHaveNoViolations()
+  })
 })
