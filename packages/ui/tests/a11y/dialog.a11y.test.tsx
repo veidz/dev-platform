@@ -37,4 +37,24 @@ describe('Dialog Accessibility', () => {
     const results = await axe(container)
     expect(results).toHaveNoViolations()
   })
+
+  it('should not have violations with dialog title and description', async () => {
+    const { container } = render(
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button>Open</Button>
+        </DialogTrigger>
+        <DialogContent aria-describedby="dialog-description">
+          <DialogHeader>
+            <DialogTitle>Confirm Action</DialogTitle>
+            <DialogDescription id="dialog-description">
+              Are you sure you want to continue with this action?
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>,
+    )
+    const results = await axe(container)
+    expect(results).toHaveNoViolations()
+  })
 })
