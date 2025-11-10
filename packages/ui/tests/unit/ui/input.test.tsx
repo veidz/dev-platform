@@ -142,5 +142,11 @@ describe('Input', () => {
       const input = screen.getByRole('textbox') as HTMLInputElement
       expect(input.value).toBe('preset value')
     })
+
+    it('accepts defaultValue prop', () => {
+      render(<Input defaultValue="default" />)
+      const input = screen.getByRole('textbox') as HTMLInputElement
+      expect(input.value).toBe('default')
+    })
   })
 })
