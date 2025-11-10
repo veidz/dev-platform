@@ -201,5 +201,11 @@ describe('Input', () => {
       ref.current?.focus()
       expect(document.activeElement).toBe(ref.current)
     })
+
+    it('applies focus-visible ring styles', () => {
+      render(<Input placeholder="test" />)
+      const input = screen.getByPlaceholderText('test')
+      expect(input.className).toContain('focus-visible:ring-1')
+    })
   })
 })
