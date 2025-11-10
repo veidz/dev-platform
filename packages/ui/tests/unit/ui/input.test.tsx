@@ -160,5 +160,11 @@ describe('Input', () => {
       const input = screen.getByPlaceholderText('numbers')
       expect(input.getAttribute('pattern')).toBe('[0-9]*')
     })
+
+    it('accepts name prop', () => {
+      render(<Input name="username" placeholder="test" />)
+      const input = screen.getByPlaceholderText('test')
+      expect(input.getAttribute('name')).toBe('username')
+    })
   })
 })
