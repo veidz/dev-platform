@@ -43,5 +43,11 @@ describe('Input', () => {
       const input = screen.getByPlaceholderText('number')
       expect(input.getAttribute('type')).toBe('number')
     })
+
+    it('renders tel type', () => {
+      render(<Input type="tel" placeholder="phone" />)
+      const input = screen.getByPlaceholderText('phone')
+      expect(input.getAttribute('type')).toBe('tel')
+    })
   })
 })
