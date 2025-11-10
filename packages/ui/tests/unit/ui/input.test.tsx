@@ -166,5 +166,11 @@ describe('Input', () => {
       const input = screen.getByPlaceholderText('test')
       expect(input.getAttribute('name')).toBe('username')
     })
+
+    it('accepts id prop', () => {
+      render(<Input id="email-input" placeholder="test" />)
+      const input = screen.getByPlaceholderText('test')
+      expect(input.getAttribute('id')).toBe('email-input')
+    })
   })
 })
