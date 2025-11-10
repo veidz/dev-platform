@@ -67,5 +67,15 @@ describe('Input', () => {
       await user.type(input, 'Hello World')
       expect(input.value).toBe('Hello World')
     })
+
+    it('handles onChange callback', async () => {
+      const handleChange = jest.fn()
+      const user = userEvent.setup()
+      render(<Input onChange={handleChange} placeholder="test" />)
+      const input = screen.getByPlaceholderText('test')
+
+      await user.type(input, 'a')
+      expect(handleChange).toHaveBeenCalled()
+    })
   })
 })
