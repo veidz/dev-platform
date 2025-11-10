@@ -129,4 +129,12 @@ describe('Input', () => {
       expect(input.hasAttribute('required')).toBe(true)
     })
   })
+
+  describe('custom props', () => {
+    it('accepts custom className', () => {
+      render(<Input className="custom-class" placeholder="test" />)
+      const input = screen.getByPlaceholderText('test')
+      expect(input.className).toContain('custom-class')
+    })
+  })
 })
