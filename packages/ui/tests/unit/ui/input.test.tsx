@@ -178,5 +178,11 @@ describe('Input', () => {
       const input = screen.getByRole('textbox', { name: /search input/i })
       expect(input).toBeDefined()
     })
+
+    it('accepts aria-describedby', () => {
+      render(<Input aria-describedby="helper-text" placeholder="test" />)
+      const input = screen.getByPlaceholderText('test')
+      expect(input.getAttribute('aria-describedby')).toBe('helper-text')
+    })
   })
 })
