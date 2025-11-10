@@ -156,8 +156,8 @@ Criar pacote de componentes UI compartilhado usando Shadcn/ui (Radix + Tailwind)
 - [x] Configurar jest.config.ts com 100% coverage threshold
 - [x] Criar tests/setup.ts com jest-dom
 - [x] Criar tests/unit/ui/ directory
-- [ ] Criar `tests/unit/ui/button.test.tsx` (completo)
-- [ ] Criar `tests/unit/ui/input.test.tsx` (completo)
+- [x] Criar `tests/unit/ui/button.test.tsx` (24 testes - 100% coverage)
+- [x] Criar `tests/unit/ui/input.test.tsx` (29 testes - 100% coverage)
 
 ### Accessibility Tests
 
