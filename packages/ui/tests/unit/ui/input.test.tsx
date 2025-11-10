@@ -136,5 +136,11 @@ describe('Input', () => {
       const input = screen.getByPlaceholderText('test')
       expect(input.className).toContain('custom-class')
     })
+
+    it('accepts value prop', () => {
+      render(<Input value="preset value" onChange={() => {}} />)
+      const input = screen.getByRole('textbox') as HTMLInputElement
+      expect(input.value).toBe('preset value')
+    })
   })
 })
