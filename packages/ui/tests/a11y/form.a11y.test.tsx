@@ -56,4 +56,29 @@ describe('Form Accessibility', () => {
     const results = await axe(container)
     expect(results).toHaveNoViolations()
   })
+
+  it('should not have violations with multiple form fields', async () => {
+    const { container } = render(
+      <form>
+        <div>
+          <Label htmlFor="username">Username</Label>
+          <Input id="username" type="text" placeholder="Enter username" />
+        </div>
+        <div>
+          <Label htmlFor="email-form">Email</Label>
+          <Input id="email-form" type="email" placeholder="Enter email" />
+        </div>
+        <div>
+          <Label htmlFor="password-form">Password</Label>
+          <Input
+            id="password-form"
+            type="password"
+            placeholder="Enter password"
+          />
+        </div>
+      </form>,
+    )
+    const results = await axe(container)
+    expect(results).toHaveNoViolations()
+  })
 })
