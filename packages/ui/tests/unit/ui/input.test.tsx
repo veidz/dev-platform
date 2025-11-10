@@ -122,5 +122,11 @@ describe('Input', () => {
       const input = screen.getByPlaceholderText('readonly')
       expect(input.hasAttribute('readonly')).toBe(true)
     })
+
+    it('applies required state', () => {
+      render(<Input required placeholder="required" />)
+      const input = screen.getByPlaceholderText('required')
+      expect(input.hasAttribute('required')).toBe(true)
+    })
   })
 })
