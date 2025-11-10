@@ -98,5 +98,14 @@ describe('Input', () => {
       await user.tab()
       expect(handleBlur).toHaveBeenCalledTimes(1)
     })
+
+    it('does not accept input when disabled', async () => {
+      const user = userEvent.setup()
+      render(<Input disabled placeholder="disabled" />)
+      const input = screen.getByPlaceholderText('disabled') as HTMLInputElement
+
+      await user.type(input, 'test')
+      expect(input.value).toBe('')
+    })
   })
 })
