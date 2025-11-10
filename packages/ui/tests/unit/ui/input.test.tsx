@@ -172,5 +172,11 @@ describe('Input', () => {
       const input = screen.getByPlaceholderText('test')
       expect(input.getAttribute('id')).toBe('email-input')
     })
+
+    it('accepts aria-label', () => {
+      render(<Input aria-label="Search input" />)
+      const input = screen.getByRole('textbox', { name: /search input/i })
+      expect(input).toBeDefined()
+    })
   })
 })
