@@ -116,5 +116,11 @@ describe('Input', () => {
       expect(input.hasAttribute('disabled')).toBe(true)
       expect(input.className).toContain('disabled:opacity-50')
     })
+
+    it('applies readonly state', () => {
+      render(<Input readOnly placeholder="readonly" />)
+      const input = screen.getByPlaceholderText('readonly')
+      expect(input.hasAttribute('readonly')).toBe(true)
+    })
   })
 })
