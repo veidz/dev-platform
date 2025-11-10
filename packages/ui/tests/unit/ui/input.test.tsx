@@ -49,5 +49,11 @@ describe('Input', () => {
       const input = screen.getByPlaceholderText('phone')
       expect(input.getAttribute('type')).toBe('tel')
     })
+
+    it('renders search type', () => {
+      render(<Input type="search" placeholder="search" />)
+      const input = screen.getByPlaceholderText('search')
+      expect(input.getAttribute('type')).toBe('search')
+    })
   })
 })
