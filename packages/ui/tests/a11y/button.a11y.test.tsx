@@ -11,4 +11,19 @@ describe('Button Accessibility', () => {
     const results = await axe(container)
     expect(results).toHaveNoViolations()
   })
+
+  it('should not have violations with different variants', async () => {
+    const { container } = render(
+      <>
+        <Button variant="default">Default</Button>
+        <Button variant="destructive">Destructive</Button>
+        <Button variant="outline">Outline</Button>
+        <Button variant="secondary">Secondary</Button>
+        <Button variant="ghost">Ghost</Button>
+        <Button variant="link">Link</Button>
+      </>,
+    )
+    const results = await axe(container)
+    expect(results).toHaveNoViolations()
+  })
 })
