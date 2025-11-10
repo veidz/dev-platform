@@ -37,5 +37,11 @@ describe('Input', () => {
       const input = screen.getByPlaceholderText('password')
       expect(input.getAttribute('type')).toBe('password')
     })
+
+    it('renders number type', () => {
+      render(<Input type="number" placeholder="number" />)
+      const input = screen.getByPlaceholderText('number')
+      expect(input.getAttribute('type')).toBe('number')
+    })
   })
 })
