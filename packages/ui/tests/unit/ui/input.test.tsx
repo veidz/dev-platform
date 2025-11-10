@@ -154,5 +154,11 @@ describe('Input', () => {
       const input = screen.getByPlaceholderText('max10')
       expect(input.getAttribute('maxLength')).toBe('10')
     })
+
+    it('accepts pattern prop', () => {
+      render(<Input pattern="[0-9]*" placeholder="numbers" />)
+      const input = screen.getByPlaceholderText('numbers')
+      expect(input.getAttribute('pattern')).toBe('[0-9]*')
+    })
   })
 })
