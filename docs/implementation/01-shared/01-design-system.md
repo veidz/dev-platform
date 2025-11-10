@@ -161,10 +161,11 @@ Criar pacote de componentes UI compartilhado usando Shadcn/ui (Radix + Tailwind)
 
 ### Accessibility Tests
 
-- [ ] Instalar `jest-axe@latest`
-- [ ] Testar Button com axe
-- [ ] Testar Form inputs com axe
-- [ ] Testar Dialog (focus trap) com axe
+- [x] Instalar `jest-axe@latest` (10.0.0)
+- [x] Criar `tests/a11y/button.a11y.test.tsx` (5 testes)
+- [x] Criar `tests/a11y/form.a11y.test.tsx` (5 testes)
+- [x] Criar `tests/a11y/dialog.a11y.test.tsx` (4 testes)
+- [x] Configurar toHaveNoViolations matcher
 
 ### Documentação
 
