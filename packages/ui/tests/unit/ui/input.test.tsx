@@ -87,5 +87,16 @@ describe('Input', () => {
       await user.click(input)
       expect(handleFocus).toHaveBeenCalledTimes(1)
     })
+
+    it('handles onBlur callback', async () => {
+      const handleBlur = jest.fn()
+      const user = userEvent.setup()
+      render(<Input onBlur={handleBlur} placeholder="test" />)
+      const input = screen.getByPlaceholderText('test')
+
+      await user.click(input)
+      await user.tab()
+      expect(handleBlur).toHaveBeenCalledTimes(1)
+    })
   })
 })
