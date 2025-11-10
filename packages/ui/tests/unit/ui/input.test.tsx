@@ -108,4 +108,13 @@ describe('Input', () => {
       expect(input.value).toBe('')
     })
   })
+
+  describe('states', () => {
+    it('applies disabled state', () => {
+      render(<Input disabled placeholder="disabled" />)
+      const input = screen.getByPlaceholderText('disabled')
+      expect(input.hasAttribute('disabled')).toBe(true)
+      expect(input.className).toContain('disabled:opacity-50')
+    })
+  })
 })
