@@ -77,5 +77,15 @@ describe('Input', () => {
       await user.type(input, 'a')
       expect(handleChange).toHaveBeenCalled()
     })
+
+    it('handles onFocus callback', async () => {
+      const handleFocus = jest.fn()
+      const user = userEvent.setup()
+      render(<Input onFocus={handleFocus} placeholder="test" />)
+      const input = screen.getByPlaceholderText('test')
+
+      await user.click(input)
+      expect(handleFocus).toHaveBeenCalledTimes(1)
+    })
   })
 })
