@@ -57,4 +57,34 @@ describe('Dialog Accessibility', () => {
     const results = await axe(container)
     expect(results).toHaveNoViolations()
   })
+
+  it('should not have violations with dialog containing form', async () => {
+    const { container } = render(
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button>Edit Profile</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Profile</DialogTitle>
+            <DialogDescription>
+              Update your profile information
+            </DialogDescription>
+          </DialogHeader>
+          <form>
+            <label htmlFor="name">Name</label>
+            <input id="name" type="text" />
+            <label htmlFor="email-dialog">Email</label>
+            <input id="email-dialog" type="email" />
+          </form>
+          <DialogFooter>
+            <Button type="button">Cancel</Button>
+            <Button type="submit">Save</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>,
+    )
+    const results = await axe(container)
+    expect(results).toHaveNoViolations()
+  })
 })
