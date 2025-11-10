@@ -26,4 +26,10 @@ describe('Button Accessibility', () => {
     const results = await axe(container)
     expect(results).toHaveNoViolations()
   })
+
+  it('should not have violations when disabled', async () => {
+    const { container } = render(<Button disabled>Disabled Button</Button>)
+    const results = await axe(container)
+    expect(results).toHaveNoViolations()
+  })
 })
