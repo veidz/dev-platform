@@ -148,5 +148,11 @@ describe('Input', () => {
       const input = screen.getByRole('textbox') as HTMLInputElement
       expect(input.value).toBe('default')
     })
+
+    it('accepts maxLength prop', () => {
+      render(<Input maxLength={10} placeholder="max10" />)
+      const input = screen.getByPlaceholderText('max10')
+      expect(input.getAttribute('maxLength')).toBe('10')
+    })
   })
 })
