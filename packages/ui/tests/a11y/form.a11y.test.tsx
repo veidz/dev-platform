@@ -44,4 +44,16 @@ describe('Form Accessibility', () => {
     const results = await axe(container)
     expect(results).toHaveNoViolations()
   })
+
+  it('should not have violations with aria-describedby', async () => {
+    const { container } = render(
+      <div>
+        <Label htmlFor="password">Password</Label>
+        <Input id="password" type="password" aria-describedby="password-help" />
+        <span id="password-help">Must be at least 8 characters</span>
+      </div>,
+    )
+    const results = await axe(container)
+    expect(results).toHaveNoViolations()
+  })
 })
