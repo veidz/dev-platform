@@ -33,4 +33,15 @@ describe('Form Accessibility', () => {
     const results = await axe(container)
     expect(results).toHaveNoViolations()
   })
+
+  it('should not have violations with disabled input', async () => {
+    const { container } = render(
+      <div>
+        <Label htmlFor="disabled-field">Disabled Field</Label>
+        <Input id="disabled-field" disabled placeholder="Disabled" />
+      </div>,
+    )
+    const results = await axe(container)
+    expect(results).toHaveNoViolations()
+  })
 })
