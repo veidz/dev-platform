@@ -32,4 +32,10 @@ describe('Button Accessibility', () => {
     const results = await axe(container)
     expect(results).toHaveNoViolations()
   })
+
+  it('should not have violations with aria-label', async () => {
+    const { container } = render(<Button aria-label="Close">X</Button>)
+    const results = await axe(container)
+    expect(results).toHaveNoViolations()
+  })
 })
