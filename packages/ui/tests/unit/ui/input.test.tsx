@@ -1,6 +1,7 @@
 import { Input } from '@/components/ui/input'
 import { describe, expect, it } from '@jest/globals'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 describe('Input', () => {
   describe('rendering', () => {
@@ -54,6 +55,17 @@ describe('Input', () => {
       render(<Input type="search" placeholder="search" />)
       const input = screen.getByPlaceholderText('search')
       expect(input.getAttribute('type')).toBe('search')
+    })
+  })
+
+  describe('interactions', () => {
+    it('handles value changes', async () => {
+      const user = userEvent.setup()
+      render(<Input placeholder="Type here" />)
+      const input = screen.getByPlaceholderText('Type here') as HTMLInputElement
+
+      await user.type(input, 'Hello World')
+      expect(input.value).toBe('Hello World')
     })
   })
 })
