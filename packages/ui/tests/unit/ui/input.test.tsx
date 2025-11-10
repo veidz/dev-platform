@@ -193,4 +193,13 @@ describe('Input', () => {
       expect(ref.current?.tagName).toBe('INPUT')
     })
   })
+
+  describe('focus management', () => {
+    it('can be focused programmatically', () => {
+      const ref = createRef<HTMLInputElement>()
+      render(<Input ref={ref} />)
+      ref.current?.focus()
+      expect(document.activeElement).toBe(ref.current)
+    })
+  })
 })
