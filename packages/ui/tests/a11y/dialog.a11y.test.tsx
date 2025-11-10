@@ -87,4 +87,22 @@ describe('Dialog Accessibility', () => {
     const results = await axe(container)
     expect(results).toHaveNoViolations()
   })
+
+  it('should not have violations with minimal dialog', async () => {
+    const { container } = render(
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button>Info</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Information</DialogTitle>
+          </DialogHeader>
+          <p>This is an informational dialog.</p>
+        </DialogContent>
+      </Dialog>,
+    )
+    const results = await axe(container)
+    expect(results).toHaveNoViolations()
+  })
 })
