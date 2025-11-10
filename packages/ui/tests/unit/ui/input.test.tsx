@@ -2,6 +2,7 @@ import { Input } from '@/components/ui/input'
 import { describe, expect, it } from '@jest/globals'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { createRef } from 'react'
 
 describe('Input', () => {
   describe('rendering', () => {
@@ -183,6 +184,13 @@ describe('Input', () => {
       render(<Input aria-describedby="helper-text" placeholder="test" />)
       const input = screen.getByPlaceholderText('test')
       expect(input.getAttribute('aria-describedby')).toBe('helper-text')
+    })
+
+    it('forwards ref correctly', () => {
+      const ref = createRef<HTMLInputElement>()
+      render(<Input ref={ref} />)
+      expect(ref.current).toBeDefined()
+      expect(ref.current?.tagName).toBe('INPUT')
     })
   })
 })
