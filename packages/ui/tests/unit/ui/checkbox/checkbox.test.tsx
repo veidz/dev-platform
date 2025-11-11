@@ -64,5 +64,12 @@ describe('Checkbox', () => {
       expect(checkbox).toHaveAttribute('data-state', 'checked')
       expect(checkbox).toBeChecked()
     })
+
+    it('should be indeterminate when checked is "indeterminate"', () => {
+      render(<Checkbox checked="indeterminate" />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveAttribute('data-state', 'indeterminate')
+      expect(checkbox).toHaveAttribute('aria-checked', 'mixed')
+    })
   })
 })
