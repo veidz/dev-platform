@@ -349,4 +349,12 @@ describe('Checkbox', () => {
       expect(checkbox).toHaveClass('w-4')
     })
   })
+
+  describe('Ref Forwarding', () => {
+    it('should forward ref to checkbox element', () => {
+      const ref = { current: null as HTMLButtonElement | null }
+      render(<Checkbox ref={ref} />)
+      expect(ref.current).toBeInstanceOf(HTMLButtonElement)
+    })
+  })
 })
