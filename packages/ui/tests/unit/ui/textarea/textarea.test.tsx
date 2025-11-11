@@ -126,5 +126,15 @@ describe('Textarea', () => {
 
       expect(handleBlur).toHaveBeenCalled()
     })
+
+    it('handles multiline input', async () => {
+      const user = userEvent.setup()
+      render(<Textarea />)
+
+      const textarea = screen.getByRole('textbox')
+      await user.type(textarea, 'Line 1{Enter}Line 2{Enter}Line 3')
+
+      expect(textarea).toHaveValue('Line 1\nLine 2\nLine 3')
+    })
   })
 })
