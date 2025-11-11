@@ -323,5 +323,13 @@ describe('Checkbox', () => {
       expect(checkbox).toHaveClass('border')
       expect(checkbox).toHaveClass('border-primary')
     })
+
+    it('should apply focus styles', () => {
+      render(<Checkbox />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveClass('focus-visible:outline-none')
+      expect(checkbox).toHaveClass('focus-visible:ring-2')
+      expect(checkbox).toHaveClass('focus-visible:ring-offset-2')
+    })
   })
 })
