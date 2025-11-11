@@ -230,5 +230,11 @@ describe('Checkbox', () => {
       const checkbox = screen.getByRole('checkbox')
       expect(checkbox).toHaveAttribute('aria-checked', 'true')
     })
+
+    it('should have aria-checked="mixed" when indeterminate', () => {
+      render(<Checkbox checked="indeterminate" />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveAttribute('aria-checked', 'mixed')
+    })
   })
 })
