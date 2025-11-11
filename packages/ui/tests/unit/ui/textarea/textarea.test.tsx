@@ -245,4 +245,15 @@ describe('Textarea', () => {
       expect(screen.getByLabelText('Biography')).toBeInTheDocument()
     })
   })
+
+  describe('Styling', () => {
+    it('applies base styles', () => {
+      render(<Textarea />)
+      const textarea = screen.getByRole('textbox')
+      expect(textarea).toHaveClass('flex')
+      expect(textarea).toHaveClass('min-h-20')
+      expect(textarea).toHaveClass('w-full')
+      expect(textarea).toHaveClass('rounded-md')
+    })
+  })
 })
