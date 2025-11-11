@@ -114,5 +114,16 @@ describe('Checkbox', () => {
       await user.click(checkbox)
       expect(checkbox).not.toBeChecked()
     })
+
+    it('should call onCheckedChange when clicked', async () => {
+      const user = userEvent.setup()
+      const onCheckedChange = jest.fn()
+      render(<Checkbox onCheckedChange={onCheckedChange} />)
+      const checkbox = screen.getByRole('checkbox')
+
+      await user.click(checkbox)
+      expect(onCheckedChange).toHaveBeenCalledTimes(1)
+      expect(onCheckedChange).toHaveBeenCalledWith(true)
+    })
   })
 })
