@@ -1,6 +1,7 @@
 import { Checkbox } from '@/components/ui/checkbox'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { useState } from 'react'
 
 describe('Checkbox', () => {
   describe('Rendering', () => {
@@ -184,6 +185,30 @@ describe('Checkbox', () => {
       await user.click(checkbox)
 
       expect(onCheckedChange).toHaveBeenCalledTimes(3)
+    })
+
+    it('should work with controlled state', async () => {
+      const user = userEvent.setup()
+      const ControlledCheckbox = () => {
+        const [checked, setChecked] = useState(false)
+        return (
+          <Checkbox
+            checked={checked}
+            onCheckedChange={(value) => setChecked(!!value)}
+          />
+        )
+      }
+
+      render(<ControlledCheckbox />)
+      const checkbox = screen.getByRole('checkbox')
+
+      expect(checkbox).not.toBeChecked()
+
+      await user.click(checkbox)
+      expect(checkbox).toBeChecked()
+
+      await user.click(checkbox)
+      expect(checkbox).not.toBeChecked()
     })
   })
 })
