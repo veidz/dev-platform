@@ -204,5 +204,10 @@ describe('Textarea', () => {
         'helper-text',
       )
     })
+
+    it('can be marked as invalid with aria-invalid', () => {
+      render(<Textarea aria-invalid />)
+      expect(screen.getByRole('textbox')).toHaveAttribute('aria-invalid')
+    })
   })
 })
