@@ -136,5 +136,15 @@ describe('Textarea', () => {
 
       expect(textarea).toHaveValue('Line 1\nLine 2\nLine 3')
     })
+
+    it('respects maxLength attribute', async () => {
+      const user = userEvent.setup()
+      render(<Textarea maxLength={10} />)
+
+      const textarea = screen.getByRole('textbox')
+      await user.type(textarea, 'This is a very long text')
+
+      expect(textarea).toHaveValue('This is a ')
+    })
   })
 })
