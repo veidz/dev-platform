@@ -59,5 +59,10 @@ describe('Textarea', () => {
       render(<Textarea disabled />)
       expect(screen.getByRole('textbox')).toHaveClass('disabled:opacity-50')
     })
+
+    it('applies readonly state', () => {
+      render(<Textarea readOnly />)
+      expect(screen.getByRole('textbox')).toHaveAttribute('readonly')
+    })
   })
 })
