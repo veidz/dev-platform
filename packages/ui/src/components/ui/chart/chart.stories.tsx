@@ -18,7 +18,6 @@ const meta = {
 
 export default meta
 
-// Sample data for line/bar/area charts
 const monthlyData = [
   { month: 'Jan', revenue: 4000, expenses: 2400, profit: 1600 },
   { month: 'Feb', revenue: 3000, expenses: 1398, profit: 1602 },
@@ -55,7 +54,6 @@ const trafficData = [
   { hour: '21:00', visitors: 290 },
 ]
 
-// Sample data for pie chart
 const categoryData = [
   { name: 'Electronics', value: 4500, fill: '#8884d8' },
   { name: 'Clothing', value: 3200, fill: '#82ca9d' },

@@ -19,7 +19,6 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-// Sample data types
 interface User {
   id: string
   name: string
@@ -37,7 +36,6 @@ interface Product {
   inStock: boolean
 }
 
-// Sample data
 const sampleUsers: User[] = [
   {
     id: '1',
@@ -168,7 +166,6 @@ const sampleProducts: Product[] = [
   },
 ]
 
-// User columns
 const userColumns: ColumnDef<User>[] = [
   {
     accessorKey: 'name',
@@ -204,7 +201,6 @@ const userColumns: ColumnDef<User>[] = [
   },
 ]
 
-// Product columns
 const productColumns: ColumnDef<Product>[] = [
   {
     accessorKey: 'id',

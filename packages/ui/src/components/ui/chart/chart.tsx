@@ -28,7 +28,6 @@ import type {
   PieChartProps,
 } from './chart.types'
 
-// Default colors for charts
 const DEFAULT_COLORS = [
   '#8884d8',
   '#82ca9d',

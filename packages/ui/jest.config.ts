@@ -14,7 +14,7 @@ const config: Config = {
     'src/**/*.{ts,tsx}',
     '!src/**/*.stories.tsx',
     '!src/**/*.types.ts',
-    '!src/index.ts',
+    '!src/**/index.ts',
     '!src/tokens/**',
   ],
   coverageThreshold: {

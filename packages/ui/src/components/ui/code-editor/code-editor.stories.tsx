@@ -161,7 +161,7 @@ for i in range(10):
 
 export const SQL: Story = {
   args: {
-    defaultValue: `SELECT 
+    defaultValue: `SELECT
   u.id,
   u.name,
   u.email,
