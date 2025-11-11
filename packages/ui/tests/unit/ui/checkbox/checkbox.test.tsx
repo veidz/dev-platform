@@ -77,5 +77,11 @@ describe('Checkbox', () => {
       const checkbox = screen.getByRole('checkbox')
       expect(checkbox).toBeDisabled()
     })
+
+    it('should have disabled attribute', () => {
+      render(<Checkbox disabled />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveAttribute('disabled')
+    })
   })
 })
