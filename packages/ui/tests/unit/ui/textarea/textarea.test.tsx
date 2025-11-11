@@ -48,4 +48,11 @@ describe('Textarea', () => {
       expect(screen.getByRole('textbox')).toHaveAttribute('cols', '50')
     })
   })
+
+  describe('States', () => {
+    it('applies disabled state', () => {
+      render(<Textarea disabled />)
+      expect(screen.getByRole('textbox')).toBeDisabled()
+    })
+  })
 })
