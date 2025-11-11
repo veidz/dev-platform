@@ -210,4 +210,28 @@ describe('Textarea', () => {
       expect(screen.getByRole('textbox')).toHaveAttribute('aria-invalid')
     })
   })
+
+  describe('Form Integration', () => {
+    it('submits with form data', () => {
+      const handleSubmit = jest.fn((e) => {
+        e.preventDefault()
+        const formData = new FormData(e.currentTarget)
+        return formData.get('message')
+      })
+
+      render(
+        <form onSubmit={handleSubmit}>
+          <Textarea name="message" defaultValue="Test message" />
+          <button type="submit">Submit</button>
+        </form>,
+      )
+
+      const button = screen.getByRole('button')
+      button.click()
+
+      expect(handleSubmit).toHaveBeenCalled()
+      const result = handleSubmit.mock.results[0].value
+      expect(result).toBe('Test message')
+    })
+  })
 })
