@@ -125,5 +125,15 @@ describe('Checkbox', () => {
       expect(onCheckedChange).toHaveBeenCalledTimes(1)
       expect(onCheckedChange).toHaveBeenCalledWith(true)
     })
+
+    it('should call onCheckedChange with false when unchecking', async () => {
+      const user = userEvent.setup()
+      const onCheckedChange = jest.fn()
+      render(<Checkbox defaultChecked onCheckedChange={onCheckedChange} />)
+      const checkbox = screen.getByRole('checkbox')
+
+      await user.click(checkbox)
+      expect(onCheckedChange).toHaveBeenCalledWith(false)
+    })
   })
 })
