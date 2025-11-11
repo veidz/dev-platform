@@ -357,4 +357,33 @@ describe('Select', () => {
       expect(trigger).toHaveAttribute('aria-autocomplete', 'none')
     })
   })
+
+  describe('Integration', () => {
+    it('renders complete Select with all components', () => {
+      render(
+        <Select defaultValue="apple">
+          <SelectTrigger>
+            <SelectValue placeholder="Select fruit" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectScrollUpButton />
+            <SelectGroup>
+              <SelectLabel>Fruits</SelectLabel>
+              <SelectItem value="apple">Apple</SelectItem>
+              <SelectItem value="banana">Banana</SelectItem>
+            </SelectGroup>
+            <SelectSeparator />
+            <SelectGroup>
+              <SelectLabel>Vegetables</SelectLabel>
+              <SelectItem value="carrot">Carrot</SelectItem>
+              <SelectItem value="potato">Potato</SelectItem>
+            </SelectGroup>
+            <SelectScrollDownButton />
+          </SelectContent>
+        </Select>,
+      )
+
+      expect(screen.getByRole('combobox')).toHaveTextContent('Apple')
+    })
+  })
 })
