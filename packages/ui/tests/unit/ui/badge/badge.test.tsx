@@ -76,4 +76,19 @@ describe('Badge', () => {
       expect(badge).toHaveClass('bg-primary')
     })
   })
+
+  describe('Styling', () => {
+    it('should have base styles', () => {
+      render(<Badge>Badge</Badge>)
+      const badge = screen.getByText('Badge')
+      expect(badge).toHaveClass('inline-flex')
+      expect(badge).toHaveClass('items-center')
+      expect(badge).toHaveClass('rounded-full')
+      expect(badge).toHaveClass('border')
+      expect(badge).toHaveClass('px-2.5')
+      expect(badge).toHaveClass('py-0.5')
+      expect(badge).toHaveClass('text-xs')
+      expect(badge).toHaveClass('font-semibold')
+    })
+  })
 })
