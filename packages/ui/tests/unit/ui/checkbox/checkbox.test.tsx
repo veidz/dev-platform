@@ -50,4 +50,12 @@ describe('Checkbox', () => {
       expect(checkbox).toBeInTheDocument()
     })
   })
+
+  describe('States', () => {
+    it('should be unchecked by default', () => {
+      render(<Checkbox />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveAttribute('data-state', 'unchecked')
+    })
+  })
 })
