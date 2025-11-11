@@ -188,5 +188,23 @@ describe('Select', () => {
 
       expect(screen.getByRole('combobox')).toBeInTheDocument()
     })
+
+    it('renders label with custom className', () => {
+      render(
+        <Select defaultValue="test">
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel className="custom-label">Label</SelectLabel>
+              <SelectItem value="test">Test</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>,
+      )
+
+      expect(screen.getByRole('combobox')).toBeInTheDocument()
+    })
   })
 })
