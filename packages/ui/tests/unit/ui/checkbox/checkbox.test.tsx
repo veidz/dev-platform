@@ -264,5 +264,16 @@ describe('Checkbox', () => {
       const results = await axe(container)
       expect(results).toHaveNoViolations()
     })
+
+    it('should announce state changes to screen readers', async () => {
+      const user = userEvent.setup()
+      render(<Checkbox aria-label="Accept" />)
+      const checkbox = screen.getByRole('checkbox', { name: 'Accept' })
+
+      expect(checkbox).toHaveAttribute('aria-checked', 'false')
+
+      await user.click(checkbox)
+      expect(checkbox).toHaveAttribute('aria-checked', 'true')
+    })
   })
 })
