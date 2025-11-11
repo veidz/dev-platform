@@ -38,5 +38,16 @@ describe('Checkbox', () => {
       const checkbox = screen.getByRole('checkbox')
       expect(checkbox).toHaveAttribute('id', 'terms')
     })
+
+    it('should associate with label using htmlFor', () => {
+      render(
+        <>
+          <Checkbox id="accept" />
+          <label htmlFor="accept">Accept</label>
+        </>,
+      )
+      const checkbox = screen.getByRole('checkbox', { name: 'Accept' })
+      expect(checkbox).toBeInTheDocument()
+    })
   })
 })
