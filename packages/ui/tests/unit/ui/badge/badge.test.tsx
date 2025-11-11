@@ -48,5 +48,12 @@ describe('Badge', () => {
       const badge = screen.getByText('Outline')
       expect(badge).toHaveClass('text-foreground')
     })
+
+    it('should render success variant', () => {
+      render(<Badge variant="success">Success</Badge>)
+      const badge = screen.getByText('Success')
+      expect(badge).toHaveClass('bg-green-500')
+      expect(badge).toHaveClass('text-white')
+    })
   })
 })
