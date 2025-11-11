@@ -178,5 +178,18 @@ describe('Textarea', () => {
       render(<Textarea aria-label="Message input" />)
       expect(screen.getByLabelText('Message input')).toBeInTheDocument()
     })
+
+    it('can be labeled with aria-labelledby', () => {
+      render(
+        <>
+          <label id="message-label">Message</label>
+          <Textarea aria-labelledby="message-label" />
+        </>,
+      )
+      expect(screen.getByRole('textbox')).toHaveAttribute(
+        'aria-labelledby',
+        'message-label',
+      )
+    })
   })
 })
