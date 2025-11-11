@@ -281,5 +281,22 @@ describe('Select', () => {
 
       expect(screen.getByRole('combobox')).toBeInTheDocument()
     })
+
+    it('renders scroll buttons', () => {
+      render(
+        <Select defaultValue="test">
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectScrollUpButton />
+            <SelectItem value="test">Test</SelectItem>
+            <SelectScrollDownButton />
+          </SelectContent>
+        </Select>,
+      )
+
+      expect(screen.getByRole('combobox')).toBeInTheDocument()
+    })
   })
 })
