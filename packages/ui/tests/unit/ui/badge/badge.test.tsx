@@ -13,5 +13,11 @@ describe('Badge', () => {
       const badge = screen.getByText('Badge')
       expect(badge).toHaveClass('custom-class')
     })
+
+    it('should render as a div element', () => {
+      const { container } = render(<Badge>Badge</Badge>)
+      const badge = container.firstChild
+      expect(badge).toBeInstanceOf(HTMLDivElement)
+    })
   })
 })
