@@ -20,4 +20,13 @@ describe('Badge', () => {
       expect(badge).toBeInstanceOf(HTMLDivElement)
     })
   })
+
+  describe('Variants', () => {
+    it('should render default variant', () => {
+      render(<Badge variant="default">Default</Badge>)
+      const badge = screen.getByText('Default')
+      expect(badge).toHaveClass('bg-primary')
+      expect(badge).toHaveClass('text-primary-foreground')
+    })
+  })
 })
