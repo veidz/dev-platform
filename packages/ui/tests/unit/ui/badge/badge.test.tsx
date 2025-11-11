@@ -180,5 +180,14 @@ describe('Badge', () => {
 
       expect(container.firstChild).toBeInTheDocument()
     })
+
+    it('should accept onMouseLeave handler', () => {
+      const handleMouseLeave = jest.fn()
+      const { container } = render(
+        <Badge onMouseLeave={handleMouseLeave}>Hoverable</Badge>,
+      )
+
+      expect(container.firstChild).toBeInTheDocument()
+    })
   })
 })
