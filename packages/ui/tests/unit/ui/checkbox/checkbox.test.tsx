@@ -83,5 +83,12 @@ describe('Checkbox', () => {
       const checkbox = screen.getByRole('checkbox')
       expect(checkbox).toHaveAttribute('disabled')
     })
+
+    it('should apply disabled styles', () => {
+      render(<Checkbox disabled />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveClass('disabled:cursor-not-allowed')
+      expect(checkbox).toHaveClass('disabled:opacity-50')
+    })
   })
 })
