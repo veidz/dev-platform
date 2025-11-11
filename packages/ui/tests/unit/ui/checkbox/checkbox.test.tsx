@@ -297,8 +297,13 @@ describe('Checkbox', () => {
     it('should pass name prop to checkbox', () => {
       render(<Checkbox name="newsletter" />)
       const checkbox = screen.getByRole('checkbox')
-
       expect(checkbox).toBeInTheDocument()
+    })
+
+    it('should have value attribute', () => {
+      render(<Checkbox value="yes" />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveAttribute('value', 'yes')
     })
   })
 })
