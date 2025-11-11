@@ -106,7 +106,7 @@ export function DataTable<TData, TValue>({
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <TableHead key={header.id}>
-                    {header.isPlaceholder ? null : (
+                    {!header.isPlaceholder && (
                       <div
                         className={cn(
                           'flex items-center space-x-2',
