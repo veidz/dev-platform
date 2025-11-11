@@ -233,5 +233,16 @@ describe('Textarea', () => {
       const result = handleSubmit.mock.results[0].value
       expect(result).toBe('Test message')
     })
+
+    it('works with label element', () => {
+      render(
+        <>
+          <label htmlFor="bio">Biography</label>
+          <Textarea id="bio" />
+        </>,
+      )
+
+      expect(screen.getByLabelText('Biography')).toBeInTheDocument()
+    })
   })
 })
