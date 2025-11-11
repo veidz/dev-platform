@@ -12,5 +12,10 @@ describe('Textarea', () => {
       render(<Textarea placeholder="Enter text" />)
       expect(screen.getByPlaceholderText('Enter text')).toBeInTheDocument()
     })
+
+    it('renders with default value', () => {
+      render(<Textarea defaultValue="Default text" />)
+      expect(screen.getByRole('textbox')).toHaveValue('Default text')
+    })
   })
 })
