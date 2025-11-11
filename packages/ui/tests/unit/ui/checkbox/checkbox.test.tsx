@@ -293,5 +293,12 @@ describe('Checkbox', () => {
 
       expect(handleSubmit).toHaveBeenCalled()
     })
+
+    it('should pass name prop to checkbox', () => {
+      render(<Checkbox name="newsletter" />)
+      const checkbox = screen.getByRole('checkbox')
+
+      expect(checkbox).toBeInTheDocument()
+    })
   })
 })
