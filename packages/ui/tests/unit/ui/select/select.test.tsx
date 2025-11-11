@@ -150,5 +150,20 @@ describe('Select', () => {
 
       expect(screen.getByRole('combobox')).toHaveTextContent('Option 1')
     })
+
+    it('renders with default value', () => {
+      render(
+        <Select defaultValue="option2">
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="option1">Option 1</SelectItem>
+            <SelectItem value="option2">Option 2</SelectItem>
+          </SelectContent>
+        </Select>,
+      )
+      expect(screen.getByRole('combobox')).toHaveTextContent('Option 2')
+    })
   })
 })
