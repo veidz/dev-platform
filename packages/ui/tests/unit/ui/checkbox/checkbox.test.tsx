@@ -312,4 +312,16 @@ describe('Checkbox', () => {
       expect(checkbox).toBeRequired()
     })
   })
+
+  describe('Styling', () => {
+    it('should apply base styles', () => {
+      render(<Checkbox />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveClass('h-4')
+      expect(checkbox).toHaveClass('w-4')
+      expect(checkbox).toHaveClass('rounded-sm')
+      expect(checkbox).toHaveClass('border')
+      expect(checkbox).toHaveClass('border-primary')
+    })
+  })
 })
