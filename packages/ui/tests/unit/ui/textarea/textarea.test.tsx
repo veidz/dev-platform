@@ -255,5 +255,12 @@ describe('Textarea', () => {
       expect(textarea).toHaveClass('w-full')
       expect(textarea).toHaveClass('rounded-md')
     })
+
+    it('applies focus styles', () => {
+      render(<Textarea />)
+      expect(screen.getByRole('textbox')).toHaveClass(
+        'focus-visible:outline-none',
+      )
+    })
   })
 })
