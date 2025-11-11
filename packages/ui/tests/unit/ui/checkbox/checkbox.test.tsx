@@ -14,5 +14,11 @@ describe('Checkbox', () => {
       const checkbox = screen.getByRole('checkbox', { name: 'Accept terms' })
       expect(checkbox).toBeInTheDocument()
     })
+
+    it('should render unchecked by default', () => {
+      render(<Checkbox />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).not.toBeChecked()
+    })
   })
 })
