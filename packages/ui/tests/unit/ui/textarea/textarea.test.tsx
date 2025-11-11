@@ -270,4 +270,12 @@ describe('Textarea', () => {
       expect(textarea).toHaveClass('w-full')
     })
   })
+
+  describe('Ref Forwarding', () => {
+    it('forwards ref to textarea element', () => {
+      const ref = { current: null as HTMLTextAreaElement | null }
+      render(<Textarea ref={ref} />)
+      expect(ref.current).toBeInstanceOf(HTMLTextAreaElement)
+    })
+  })
 })
