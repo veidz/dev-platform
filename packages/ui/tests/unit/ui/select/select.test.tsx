@@ -1,7 +1,9 @@
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select/select'
@@ -164,6 +166,27 @@ describe('Select', () => {
         </Select>,
       )
       expect(screen.getByRole('combobox')).toHaveTextContent('Option 2')
+    })
+  })
+
+  describe('SelectGroup and SelectLabel', () => {
+    it('renders group with label', () => {
+      render(
+        <Select defaultValue="apple">
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Fruits</SelectLabel>
+              <SelectItem value="apple">Apple</SelectItem>
+              <SelectItem value="banana">Banana</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>,
+      )
+
+      expect(screen.getByRole('combobox')).toBeInTheDocument()
     })
   })
 })
