@@ -160,4 +160,16 @@ describe('Badge', () => {
       expect(badge).toBeEmptyDOMElement()
     })
   })
+
+  describe('Event Handlers', () => {
+    it('should handle onClick event', () => {
+      const handleClick = jest.fn()
+      render(<Badge onClick={handleClick}>Clickable</Badge>)
+
+      const badge = screen.getByText('Clickable')
+      badge.click()
+
+      expect(handleClick).toHaveBeenCalledTimes(1)
+    })
+  })
 })
