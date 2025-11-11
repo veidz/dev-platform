@@ -226,5 +226,22 @@ describe('Select', () => {
 
       expect(screen.getByRole('combobox')).toBeInTheDocument()
     })
+
+    it('renders separator with custom className', () => {
+      render(
+        <Select defaultValue="option1">
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="option1">Option 1</SelectItem>
+            <SelectSeparator className="custom-separator" />
+            <SelectItem value="option2">Option 2</SelectItem>
+          </SelectContent>
+        </Select>,
+      )
+
+      expect(screen.getByRole('combobox')).toBeInTheDocument()
+    })
   })
 })
