@@ -112,5 +112,11 @@ describe('Badge', () => {
       render(<Badge data-testid="custom-badge">Badge</Badge>)
       expect(screen.getByTestId('custom-badge')).toBeInTheDocument()
     })
+
+    it('should accept aria attributes', () => {
+      render(<Badge aria-label="Status badge">Badge</Badge>)
+      const badge = screen.getByLabelText('Status badge')
+      expect(badge).toBeInTheDocument()
+    })
   })
 })
