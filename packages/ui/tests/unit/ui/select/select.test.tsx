@@ -299,4 +299,24 @@ describe('Select', () => {
       expect(screen.getByRole('combobox')).toBeInTheDocument()
     })
   })
+
+  describe('Controlled State', () => {
+    it('works in controlled mode', () => {
+      const handleChange = jest.fn()
+
+      render(
+        <Select value="option1" onValueChange={handleChange}>
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="option1">Option 1</SelectItem>
+            <SelectItem value="option2">Option 2</SelectItem>
+          </SelectContent>
+        </Select>,
+      )
+
+      expect(screen.getByRole('combobox')).toHaveTextContent('Option 1')
+    })
+  })
 })
