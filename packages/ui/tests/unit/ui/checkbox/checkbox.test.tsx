@@ -160,5 +160,17 @@ describe('Checkbox', () => {
       await user.keyboard(' ')
       expect(checkbox).not.toBeChecked()
     })
+
+    it('should not toggle on Enter key (default button behavior)', async () => {
+      const user = userEvent.setup()
+      render(<Checkbox />)
+      const checkbox = screen.getByRole('checkbox')
+      checkbox.focus()
+
+      expect(checkbox).not.toBeChecked()
+
+      await user.keyboard('{Enter}')
+      expect(checkbox).not.toBeChecked()
+    })
   })
 })
