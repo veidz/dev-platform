@@ -114,5 +114,23 @@ describe('Select', () => {
 
       expect(screen.getByRole('combobox')).toBeInTheDocument()
     })
+
+    it('renders disabled item', () => {
+      render(
+        <Select defaultValue="enabled">
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="enabled">Enabled</SelectItem>
+            <SelectItem value="disabled" disabled>
+              Disabled
+            </SelectItem>
+          </SelectContent>
+        </Select>,
+      )
+
+      expect(screen.getByRole('combobox')).toBeInTheDocument()
+    })
   })
 })
