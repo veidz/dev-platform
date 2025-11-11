@@ -7,5 +7,10 @@ describe('Textarea', () => {
       render(<Textarea />)
       expect(screen.getByRole('textbox')).toBeInTheDocument()
     })
+
+    it('renders with placeholder', () => {
+      render(<Textarea placeholder="Enter text" />)
+      expect(screen.getByPlaceholderText('Enter text')).toBeInTheDocument()
+    })
   })
 })
