@@ -64,5 +64,10 @@ describe('Textarea', () => {
       render(<Textarea readOnly />)
       expect(screen.getByRole('textbox')).toHaveAttribute('readonly')
     })
+
+    it('applies required state', () => {
+      render(<Textarea required />)
+      expect(screen.getByRole('textbox')).toBeRequired()
+    })
   })
 })
