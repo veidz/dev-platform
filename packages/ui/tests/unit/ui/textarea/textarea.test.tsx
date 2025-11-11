@@ -74,5 +74,10 @@ describe('Textarea', () => {
       render(<Textarea error />)
       expect(screen.getByRole('textbox')).toHaveClass('border-destructive')
     })
+
+    it('does not apply error styles when error prop is false', () => {
+      render(<Textarea error={false} />)
+      expect(screen.getByRole('textbox')).not.toHaveClass('border-destructive')
+    })
   })
 })
