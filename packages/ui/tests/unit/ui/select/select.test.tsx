@@ -80,5 +80,20 @@ describe('Select', () => {
 
       expect(screen.getByRole('combobox')).toBeInTheDocument()
     })
+
+    it('renders with custom className', () => {
+      render(
+        <Select defaultValue="test">
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent className="custom-content">
+            <SelectItem value="test">Test</SelectItem>
+          </SelectContent>
+        </Select>,
+      )
+
+      expect(screen.getByRole('combobox')).toBeInTheDocument()
+    })
   })
 })
