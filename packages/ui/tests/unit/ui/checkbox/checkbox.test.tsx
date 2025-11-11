@@ -57,5 +57,12 @@ describe('Checkbox', () => {
       const checkbox = screen.getByRole('checkbox')
       expect(checkbox).toHaveAttribute('data-state', 'unchecked')
     })
+
+    it('should be checked when checked prop is true', () => {
+      render(<Checkbox checked />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveAttribute('data-state', 'checked')
+      expect(checkbox).toBeChecked()
+    })
   })
 })
