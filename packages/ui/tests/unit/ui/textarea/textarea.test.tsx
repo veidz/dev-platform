@@ -27,5 +27,10 @@ describe('Textarea', () => {
       render(<Textarea className="custom-class" />)
       expect(screen.getByRole('textbox')).toHaveClass('custom-class')
     })
+
+    it('renders with id', () => {
+      render(<Textarea id="message" />)
+      expect(screen.getByRole('textbox')).toHaveAttribute('id', 'message')
+    })
   })
 })
