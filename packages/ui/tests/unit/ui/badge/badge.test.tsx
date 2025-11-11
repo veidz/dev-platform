@@ -28,5 +28,12 @@ describe('Badge', () => {
       expect(badge).toHaveClass('bg-primary')
       expect(badge).toHaveClass('text-primary-foreground')
     })
+
+    it('should render secondary variant', () => {
+      render(<Badge variant="secondary">Secondary</Badge>)
+      const badge = screen.getByText('Secondary')
+      expect(badge).toHaveClass('bg-secondary')
+      expect(badge).toHaveClass('text-secondary-foreground')
+    })
   })
 })
