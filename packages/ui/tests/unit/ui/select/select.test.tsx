@@ -400,5 +400,22 @@ describe('Select', () => {
 
       expect(screen.getByRole('listbox')).toBeInTheDocument()
     })
+
+    it('renders with onOpenChange callback', () => {
+      const handleOpenChange = jest.fn()
+
+      render(
+        <Select onOpenChange={handleOpenChange}>
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="test">Test</SelectItem>
+          </SelectContent>
+        </Select>,
+      )
+
+      expect(screen.getByRole('combobox')).toBeInTheDocument()
+    })
   })
 })
