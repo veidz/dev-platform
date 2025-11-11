@@ -131,4 +131,11 @@ describe('Badge', () => {
       expect(badge).toHaveAttribute('role', 'status')
     })
   })
+
+  describe('Content', () => {
+    it('should render with text content', () => {
+      render(<Badge>Text Content</Badge>)
+      expect(screen.getByText('Text Content')).toBeInTheDocument()
+    })
+  })
 })
