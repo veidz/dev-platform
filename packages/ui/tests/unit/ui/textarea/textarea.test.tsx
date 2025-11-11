@@ -114,5 +114,17 @@ describe('Textarea', () => {
 
       expect(handleFocus).toHaveBeenCalled()
     })
+
+    it('handles onBlur event', async () => {
+      const user = userEvent.setup()
+      const handleBlur = jest.fn()
+      render(<Textarea onBlur={handleBlur} />)
+
+      const textarea = screen.getByRole('textbox')
+      await user.click(textarea)
+      await user.tab()
+
+      expect(handleBlur).toHaveBeenCalled()
+    })
   })
 })
