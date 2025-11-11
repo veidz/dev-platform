@@ -190,4 +190,12 @@ describe('Badge', () => {
       expect(container.firstChild).toBeInTheDocument()
     })
   })
+
+  describe('Edge Cases', () => {
+    it('should handle very long text', () => {
+      const longText = 'A'.repeat(100)
+      render(<Badge>{longText}</Badge>)
+      expect(screen.getByText(longText)).toBeInTheDocument()
+    })
+  })
 })
