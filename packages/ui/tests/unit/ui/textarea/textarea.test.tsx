@@ -22,5 +22,10 @@ describe('Textarea', () => {
       render(<Textarea value="Controlled text" onChange={() => {}} />)
       expect(screen.getByRole('textbox')).toHaveValue('Controlled text')
     })
+
+    it('renders with custom className', () => {
+      render(<Textarea className="custom-class" />)
+      expect(screen.getByRole('textbox')).toHaveClass('custom-class')
+    })
   })
 })
