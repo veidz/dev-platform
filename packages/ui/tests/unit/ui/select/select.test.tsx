@@ -133,4 +133,11 @@ describe('Select', () => {
       expect(screen.getByRole('combobox')).toBeInTheDocument()
     })
   })
+
+  describe('SelectValue', () => {
+    it('renders placeholder when no value selected', () => {
+      render(<SimpleSelect />)
+      expect(screen.getByText('Select option')).toBeInTheDocument()
+    })
+  })
 })
