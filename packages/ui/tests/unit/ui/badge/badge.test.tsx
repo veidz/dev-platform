@@ -171,5 +171,14 @@ describe('Badge', () => {
 
       expect(handleClick).toHaveBeenCalledTimes(1)
     })
+
+    it('should accept onMouseEnter handler', () => {
+      const handleMouseEnter = jest.fn()
+      const { container } = render(
+        <Badge onMouseEnter={handleMouseEnter}>Hoverable</Badge>,
+      )
+
+      expect(container.firstChild).toBeInTheDocument()
+    })
   })
 })
