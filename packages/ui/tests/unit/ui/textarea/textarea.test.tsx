@@ -37,5 +37,10 @@ describe('Textarea', () => {
       render(<Textarea name="description" />)
       expect(screen.getByRole('textbox')).toHaveAttribute('name', 'description')
     })
+
+    it('renders with rows attribute', () => {
+      render(<Textarea rows={10} />)
+      expect(screen.getByRole('textbox')).toHaveAttribute('rows', '10')
+    })
   })
 })
