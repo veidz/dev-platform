@@ -92,5 +92,16 @@ describe('Textarea', () => {
 
       expect(textarea).toHaveValue('Hello World')
     })
+
+    it('handles onChange event', async () => {
+      const user = userEvent.setup()
+      const handleChange = jest.fn()
+      render(<Textarea onChange={handleChange} />)
+
+      const textarea = screen.getByRole('textbox')
+      await user.type(textarea, 'Test')
+
+      expect(handleChange).toHaveBeenCalled()
+    })
   })
 })
