@@ -331,5 +331,14 @@ describe('Checkbox', () => {
       expect(checkbox).toHaveClass('focus-visible:ring-2')
       expect(checkbox).toHaveClass('focus-visible:ring-offset-2')
     })
+
+    it('should apply checked styles', () => {
+      render(<Checkbox checked />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveClass('data-[state=checked]:bg-primary')
+      expect(checkbox).toHaveClass(
+        'data-[state=checked]:text-primary-foreground',
+      )
+    })
   })
 })
