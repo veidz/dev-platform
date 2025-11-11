@@ -98,16 +98,18 @@ export {
   TableHeader,
   TableRow,
 } from './components/ui/table'
+export { Textarea } from './components/ui/textarea'
+export type { TextareaProps } from './components/ui/textarea'
 export {
   Toast,
-  toast,
   ToastAction,
   ToastClose,
   ToastDescription,
-  Toaster,
   ToastProvider,
   ToastTitle,
   ToastViewport,
+  Toaster,
+  toast,
   useToast,
   type ToastActionElement,
   type ToastProps,
