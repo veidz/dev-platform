@@ -118,5 +118,11 @@ describe('Badge', () => {
       const badge = screen.getByLabelText('Status badge')
       expect(badge).toBeInTheDocument()
     })
+
+    it('should accept id attribute', () => {
+      render(<Badge id="badge-id">Badge</Badge>)
+      const badge = screen.getByText('Badge')
+      expect(badge).toHaveAttribute('id', 'badge-id')
+    })
   })
 })
