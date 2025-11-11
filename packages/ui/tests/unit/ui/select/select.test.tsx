@@ -337,4 +337,12 @@ describe('Select', () => {
       expect(screen.getByRole('combobox')).toBeInTheDocument()
     })
   })
+
+  describe('Accessibility', () => {
+    it('has correct ARIA attributes on trigger', () => {
+      render(<SimpleSelect />)
+      const trigger = screen.getByRole('combobox')
+      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    })
+  })
 })
