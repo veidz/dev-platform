@@ -35,5 +35,12 @@ describe('Badge', () => {
       expect(badge).toHaveClass('bg-secondary')
       expect(badge).toHaveClass('text-secondary-foreground')
     })
+
+    it('should render destructive variant', () => {
+      render(<Badge variant="destructive">Destructive</Badge>)
+      const badge = screen.getByText('Destructive')
+      expect(badge).toHaveClass('bg-destructive')
+      expect(badge).toHaveClass('text-destructive-foreground')
+    })
   })
 })
