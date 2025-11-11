@@ -340,5 +340,13 @@ describe('Checkbox', () => {
         'data-[state=checked]:text-primary-foreground',
       )
     })
+
+    it('should merge custom className with default styles', () => {
+      render(<Checkbox className="custom-checkbox" />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveClass('custom-checkbox')
+      expect(checkbox).toHaveClass('h-4')
+      expect(checkbox).toHaveClass('w-4')
+    })
   })
 })
