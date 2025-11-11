@@ -152,5 +152,12 @@ describe('Badge', () => {
       render(<Badge>{42}</Badge>)
       expect(screen.getByText('42')).toBeInTheDocument()
     })
+
+    it('should render with empty content', () => {
+      const { container } = render(<Badge />)
+      const badge = container.firstChild
+      expect(badge).toBeInTheDocument()
+      expect(badge).toBeEmptyDOMElement()
+    })
   })
 })
