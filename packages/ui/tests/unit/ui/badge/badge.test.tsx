@@ -147,5 +147,10 @@ describe('Badge', () => {
       expect(screen.getByText('Prefix')).toBeInTheDocument()
       expect(screen.getByText(/Text/)).toBeInTheDocument()
     })
+
+    it('should render with numeric content', () => {
+      render(<Badge>{42}</Badge>)
+      expect(screen.getByText('42')).toBeInTheDocument()
+    })
   })
 })
