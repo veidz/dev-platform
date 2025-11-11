@@ -64,4 +64,21 @@ describe('Select', () => {
       expect(trigger).toBeDisabled()
     })
   })
+
+  describe('SelectContent', () => {
+    it('renders SelectContent component', () => {
+      render(
+        <Select defaultValue="test">
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="test">Test</SelectItem>
+          </SelectContent>
+        </Select>,
+      )
+
+      expect(screen.getByRole('combobox')).toBeInTheDocument()
+    })
+  })
 })
