@@ -191,5 +191,18 @@ describe('Textarea', () => {
         'message-label',
       )
     })
+
+    it('can have aria-describedby', () => {
+      render(
+        <>
+          <Textarea aria-describedby="helper-text" />
+          <p id="helper-text">Helper text</p>
+        </>,
+      )
+      expect(screen.getByRole('textbox')).toHaveAttribute(
+        'aria-describedby',
+        'helper-text',
+      )
+    })
   })
 })
