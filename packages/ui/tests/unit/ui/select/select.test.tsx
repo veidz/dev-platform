@@ -48,5 +48,20 @@ describe('Select', () => {
       const svg = trigger.querySelector('svg')
       expect(svg).toBeInTheDocument()
     })
+
+    it('applies disabled styles when disabled', () => {
+      render(
+        <Select disabled>
+          <SelectTrigger>
+            <SelectValue placeholder="Disabled" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="test">Test</SelectItem>
+          </SelectContent>
+        </Select>,
+      )
+      const trigger = screen.getByRole('combobox')
+      expect(trigger).toBeDisabled()
+    })
   })
 })
