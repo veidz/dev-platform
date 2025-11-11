@@ -8,5 +8,11 @@ describe('Checkbox', () => {
       const checkbox = screen.getByRole('checkbox')
       expect(checkbox).toBeInTheDocument()
     })
+
+    it('should render with aria-label', () => {
+      render(<Checkbox aria-label="Accept terms" />)
+      const checkbox = screen.getByRole('checkbox', { name: 'Accept terms' })
+      expect(checkbox).toBeInTheDocument()
+    })
   })
 })
