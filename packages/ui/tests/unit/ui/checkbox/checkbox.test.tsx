@@ -32,5 +32,11 @@ describe('Checkbox', () => {
       const checkbox = screen.getByRole('checkbox')
       expect(checkbox).toHaveClass('custom-class')
     })
+
+    it('should render with id', () => {
+      render(<Checkbox id="terms" />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveAttribute('id', 'terms')
+    })
   })
 })
