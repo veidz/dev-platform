@@ -71,5 +71,11 @@ describe('Checkbox', () => {
       expect(checkbox).toHaveAttribute('data-state', 'indeterminate')
       expect(checkbox).toHaveAttribute('aria-checked', 'mixed')
     })
+
+    it('should be disabled when disabled prop is true', () => {
+      render(<Checkbox disabled />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toBeDisabled()
+    })
   })
 })
