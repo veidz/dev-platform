@@ -277,5 +277,13 @@ describe('Textarea', () => {
       render(<Textarea ref={ref} />)
       expect(ref.current).toBeInstanceOf(HTMLTextAreaElement)
     })
+
+    it('can focus textarea via ref', () => {
+      const ref = { current: null as HTMLTextAreaElement | null }
+      render(<Textarea ref={ref} />)
+
+      ref.current?.focus()
+      expect(ref.current).toHaveFocus()
+    })
   })
 })
