@@ -202,5 +202,18 @@ describe('Badge', () => {
       render(<Badge>{'<>&"\'`'}</Badge>)
       expect(screen.getByText('<>&"\'`')).toBeInTheDocument()
     })
+
+    it('should handle multiple badges', () => {
+      render(
+        <div>
+          <Badge>Badge 1</Badge>
+          <Badge>Badge 2</Badge>
+          <Badge>Badge 3</Badge>
+        </div>,
+      )
+      expect(screen.getByText('Badge 1')).toBeInTheDocument()
+      expect(screen.getByText('Badge 2')).toBeInTheDocument()
+      expect(screen.getByText('Badge 3')).toBeInTheDocument()
+    })
   })
 })
