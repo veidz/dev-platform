@@ -4,6 +4,7 @@ import {
   SelectGroup,
   SelectItem,
   SelectLabel,
+  SelectSeparator,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select/select'
@@ -200,6 +201,25 @@ describe('Select', () => {
               <SelectLabel className="custom-label">Label</SelectLabel>
               <SelectItem value="test">Test</SelectItem>
             </SelectGroup>
+          </SelectContent>
+        </Select>,
+      )
+
+      expect(screen.getByRole('combobox')).toBeInTheDocument()
+    })
+  })
+
+  describe('SelectSeparator', () => {
+    it('renders separator', () => {
+      render(
+        <Select defaultValue="option1">
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="option1">Option 1</SelectItem>
+            <SelectSeparator />
+            <SelectItem value="option2">Option 2</SelectItem>
           </SelectContent>
         </Select>,
       )
