@@ -124,5 +124,11 @@ describe('Badge', () => {
       const badge = screen.getByText('Badge')
       expect(badge).toHaveAttribute('id', 'badge-id')
     })
+
+    it('should accept role attribute', () => {
+      render(<Badge role="status">Badge</Badge>)
+      const badge = screen.getByText('Badge')
+      expect(badge).toHaveAttribute('role', 'status')
+    })
   })
 })
