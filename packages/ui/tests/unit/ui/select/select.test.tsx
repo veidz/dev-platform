@@ -385,5 +385,20 @@ describe('Select', () => {
 
       expect(screen.getByRole('combobox')).toHaveTextContent('Apple')
     })
+
+    it('renders with open prop', () => {
+      render(
+        <Select open>
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="test">Test</SelectItem>
+          </SelectContent>
+        </Select>,
+      )
+
+      expect(screen.getByRole('listbox')).toBeInTheDocument()
+    })
   })
 })
