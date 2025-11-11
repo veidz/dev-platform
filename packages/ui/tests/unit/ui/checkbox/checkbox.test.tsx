@@ -276,4 +276,22 @@ describe('Checkbox', () => {
       expect(checkbox).toHaveAttribute('aria-checked', 'true')
     })
   })
+
+  describe('Form Integration', () => {
+    it('should work with form submission', async () => {
+      const handleSubmit = jest.fn((e) => e.preventDefault())
+
+      render(
+        <form onSubmit={handleSubmit}>
+          <Checkbox name="terms" value="accepted" defaultChecked />
+          <button type="submit">Submit</button>
+        </form>,
+      )
+
+      const submitButton = screen.getByRole('button', { name: 'Submit' })
+      await userEvent.click(submitButton)
+
+      expect(handleSubmit).toHaveBeenCalled()
+    })
+  })
 })
