@@ -6,6 +6,7 @@ import {
   SelectValue,
 } from '@/components/ui/select/select'
 import { render, screen } from '@testing-library/react'
+import { userEvent } from '@testing-library/user-event'
 
 describe('Select', () => {
   const SimpleSelect = () => (
@@ -138,6 +139,16 @@ describe('Select', () => {
     it('renders placeholder when no value selected', () => {
       render(<SimpleSelect />)
       expect(screen.getByText('Select option')).toBeInTheDocument()
+    })
+
+    it('renders selected value', async () => {
+      const user = userEvent.setup()
+      render(<SimpleSelect />)
+
+      await user.click(screen.getByRole('combobox'))
+      await user.click(screen.getByText('Option 1'))
+
+      expect(screen.getByRole('combobox')).toHaveTextContent('Option 1')
     })
   })
 })
