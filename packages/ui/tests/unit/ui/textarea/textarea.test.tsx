@@ -262,5 +262,12 @@ describe('Textarea', () => {
         'focus-visible:outline-none',
       )
     })
+
+    it('merges custom className with base styles', () => {
+      render(<Textarea className="custom-height" />)
+      const textarea = screen.getByRole('textbox')
+      expect(textarea).toHaveClass('custom-height')
+      expect(textarea).toHaveClass('w-full')
+    })
   })
 })
