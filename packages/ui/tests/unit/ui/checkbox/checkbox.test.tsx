@@ -20,5 +20,11 @@ describe('Checkbox', () => {
       const checkbox = screen.getByRole('checkbox')
       expect(checkbox).not.toBeChecked()
     })
+
+    it('should render checked when defaultChecked is true', () => {
+      render(<Checkbox defaultChecked />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toBeChecked()
+    })
   })
 })
