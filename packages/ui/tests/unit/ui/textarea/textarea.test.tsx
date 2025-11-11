@@ -1,5 +1,6 @@
 import { Textarea } from '@/components/ui/textarea/textarea'
 import { render, screen } from '@testing-library/react'
+import { userEvent } from '@testing-library/user-event'
 
 describe('Textarea', () => {
   describe('Rendering', () => {
@@ -78,6 +79,18 @@ describe('Textarea', () => {
     it('does not apply error styles when error prop is false', () => {
       render(<Textarea error={false} />)
       expect(screen.getByRole('textbox')).not.toHaveClass('border-destructive')
+    })
+  })
+
+  describe('User Interactions', () => {
+    it('handles text input', async () => {
+      const user = userEvent.setup()
+      render(<Textarea />)
+
+      const textarea = screen.getByRole('textbox')
+      await user.type(textarea, 'Hello World')
+
+      expect(textarea).toHaveValue('Hello World')
     })
   })
 })
