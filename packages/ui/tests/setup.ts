@@ -6,6 +6,12 @@ global.ResizeObserver = class ResizeObserver {
   disconnect(): void {}
 }
 
+Element.prototype.scrollIntoView = jest.fn()
+
+Element.prototype.hasPointerCapture = jest.fn()
+
+Element.prototype.releasePointerCapture = jest.fn()
+
 const originalError = console.error
 const originalWarn = console.warn
 

@@ -1,0 +1,31 @@
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select/select'
+import { render, screen } from '@testing-library/react'
+
+describe('Select', () => {
+  const SimpleSelect = () => (
+    <Select>
+      <SelectTrigger>
+        <SelectValue placeholder="Select option" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="option1">Option 1</SelectItem>
+        <SelectItem value="option2">Option 2</SelectItem>
+        <SelectItem value="option3">Option 3</SelectItem>
+      </SelectContent>
+    </Select>
+  )
+
+  describe('SelectTrigger', () => {
+    it('renders with placeholder', () => {
+      render(<SimpleSelect />)
+      expect(screen.getByRole('combobox')).toBeInTheDocument()
+      expect(screen.getByText('Select option')).toBeInTheDocument()
+    })
+  })
+})
