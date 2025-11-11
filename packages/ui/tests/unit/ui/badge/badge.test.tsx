@@ -62,5 +62,12 @@ describe('Badge', () => {
       expect(badge).toHaveClass('bg-yellow-500')
       expect(badge).toHaveClass('text-white')
     })
+
+    it('should render info variant', () => {
+      render(<Badge variant="info">Info</Badge>)
+      const badge = screen.getByText('Info')
+      expect(badge).toHaveClass('bg-blue-500')
+      expect(badge).toHaveClass('text-white')
+    })
   })
 })
