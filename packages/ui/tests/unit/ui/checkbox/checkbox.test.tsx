@@ -1,5 +1,6 @@
 import { Checkbox } from '@/components/ui/checkbox'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 describe('Checkbox', () => {
   describe('Rendering', () => {
@@ -96,6 +97,22 @@ describe('Checkbox', () => {
       const checkbox = screen.getByRole('checkbox')
       expect(checkbox).toBeChecked()
       expect(checkbox).toBeDisabled()
+    })
+  })
+
+  describe('User Interactions', () => {
+    it('should toggle checked state on click', async () => {
+      const user = userEvent.setup()
+      render(<Checkbox />)
+      const checkbox = screen.getByRole('checkbox')
+
+      expect(checkbox).not.toBeChecked()
+
+      await user.click(checkbox)
+      expect(checkbox).toBeChecked()
+
+      await user.click(checkbox)
+      expect(checkbox).not.toBeChecked()
     })
   })
 })
