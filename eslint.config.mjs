@@ -29,5 +29,20 @@ export default [
   {
     files: ['**/*.ts', '**/*.tsx'],
   },
+  {
+    files: [
+      '**/*.test.ts',
+      '**/*.test.tsx',
+      '**/*.spec.ts',
+      '**/*.spec.tsx',
+      '**/tests/**/*.ts',
+      '**/tests/**/*.tsx',
+    ],
+    rules: {
+      'no-console': 'off',
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
   ...storybook.configs['flat/recommended'],
 ]
