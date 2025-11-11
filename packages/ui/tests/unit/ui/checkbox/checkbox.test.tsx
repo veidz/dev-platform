@@ -305,5 +305,11 @@ describe('Checkbox', () => {
       const checkbox = screen.getByRole('checkbox')
       expect(checkbox).toHaveAttribute('value', 'yes')
     })
+
+    it('should be required when required prop is true', () => {
+      render(<Checkbox required />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toBeRequired()
+    })
   })
 })
