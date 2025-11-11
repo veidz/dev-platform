@@ -264,5 +264,22 @@ describe('Select', () => {
 
       expect(screen.getByRole('combobox')).toBeInTheDocument()
     })
+
+    it('renders scroll down button with custom className', () => {
+      render(
+        <Select defaultValue="test">
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectScrollUpButton />
+            <SelectItem value="test">Test</SelectItem>
+            <SelectScrollDownButton className="custom-scroll-down" />
+          </SelectContent>
+        </Select>,
+      )
+
+      expect(screen.getByRole('combobox')).toBeInTheDocument()
+    })
   })
 })
