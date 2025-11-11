@@ -243,5 +243,14 @@ describe('Checkbox', () => {
       expect(checkbox).toHaveAttribute('disabled')
       expect(checkbox).toBeDisabled()
     })
+
+    it('should be keyboard accessible', async () => {
+      const user = userEvent.setup()
+      render(<Checkbox />)
+      const checkbox = screen.getByRole('checkbox')
+
+      await user.tab()
+      expect(checkbox).toHaveFocus()
+    })
   })
 })
