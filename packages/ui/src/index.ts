@@ -27,6 +27,7 @@ export type {
   LineChartProps,
   PieChartProps,
 } from './components/ui/chart'
+export { Checkbox } from './components/ui/checkbox'
 export { CodeEditor } from './components/ui/code-editor'
 export type {
   CodeEditorLanguage,
