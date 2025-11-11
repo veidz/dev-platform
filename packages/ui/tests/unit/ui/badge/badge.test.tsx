@@ -69,5 +69,11 @@ describe('Badge', () => {
       expect(badge).toHaveClass('bg-blue-500')
       expect(badge).toHaveClass('text-white')
     })
+
+    it('should use default variant when not specified', () => {
+      render(<Badge>Default Variant</Badge>)
+      const badge = screen.getByText('Default Variant')
+      expect(badge).toHaveClass('bg-primary')
+    })
   })
 })
