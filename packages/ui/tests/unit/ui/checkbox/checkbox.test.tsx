@@ -211,4 +211,12 @@ describe('Checkbox', () => {
       expect(checkbox).not.toBeChecked()
     })
   })
+
+  describe('Accessibility', () => {
+    it('should have role="checkbox"', () => {
+      render(<Checkbox />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveAttribute('role', 'checkbox')
+    })
+  })
 })
