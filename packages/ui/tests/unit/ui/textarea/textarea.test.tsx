@@ -146,5 +146,15 @@ describe('Textarea', () => {
 
       expect(textarea).toHaveValue('This is a ')
     })
+
+    it('does not allow input when disabled', async () => {
+      const user = userEvent.setup()
+      render(<Textarea disabled />)
+
+      const textarea = screen.getByRole('textbox')
+      await user.type(textarea, 'Test')
+
+      expect(textarea).toHaveValue('')
+    })
   })
 })
