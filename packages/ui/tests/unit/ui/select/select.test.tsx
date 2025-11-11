@@ -41,5 +41,12 @@ describe('Select', () => {
       )
       expect(screen.getByRole('combobox')).toHaveClass('custom-class')
     })
+
+    it('renders with chevron icon', () => {
+      render(<SimpleSelect />)
+      const trigger = screen.getByRole('combobox')
+      const svg = trigger.querySelector('svg')
+      expect(svg).toBeInTheDocument()
+    })
   })
 })
