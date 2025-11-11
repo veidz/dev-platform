@@ -145,5 +145,20 @@ describe('Checkbox', () => {
       await user.click(checkbox)
       expect(onCheckedChange).not.toHaveBeenCalled()
     })
+
+    it('should toggle on Space key', async () => {
+      const user = userEvent.setup()
+      render(<Checkbox />)
+      const checkbox = screen.getByRole('checkbox')
+      checkbox.focus()
+
+      expect(checkbox).not.toBeChecked()
+
+      await user.keyboard(' ')
+      expect(checkbox).toBeChecked()
+
+      await user.keyboard(' ')
+      expect(checkbox).not.toBeChecked()
+    })
   })
 })
