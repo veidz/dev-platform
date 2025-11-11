@@ -69,5 +69,10 @@ describe('Textarea', () => {
       render(<Textarea required />)
       expect(screen.getByRole('textbox')).toBeRequired()
     })
+
+    it('applies error styles when error prop is true', () => {
+      render(<Textarea error />)
+      expect(screen.getByRole('textbox')).toHaveClass('border-destructive')
+    })
   })
 })
