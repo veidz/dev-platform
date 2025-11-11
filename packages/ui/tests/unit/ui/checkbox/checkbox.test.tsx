@@ -1,6 +1,7 @@
 import { Checkbox } from '@/components/ui/checkbox'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { axe } from 'jest-axe'
 import { useState } from 'react'
 
 describe('Checkbox', () => {
@@ -251,6 +252,17 @@ describe('Checkbox', () => {
 
       await user.tab()
       expect(checkbox).toHaveFocus()
+    })
+
+    it('should not have accessibility violations', async () => {
+      const { container } = render(
+        <>
+          <Checkbox id="test" />
+          <label htmlFor="test">Test Label</label>
+        </>,
+      )
+      const results = await axe(container)
+      expect(results).toHaveNoViolations()
     })
   })
 })
