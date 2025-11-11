@@ -135,5 +135,15 @@ describe('Checkbox', () => {
       await user.click(checkbox)
       expect(onCheckedChange).toHaveBeenCalledWith(false)
     })
+
+    it('should not toggle when disabled', async () => {
+      const user = userEvent.setup()
+      const onCheckedChange = jest.fn()
+      render(<Checkbox disabled onCheckedChange={onCheckedChange} />)
+      const checkbox = screen.getByRole('checkbox')
+
+      await user.click(checkbox)
+      expect(onCheckedChange).not.toHaveBeenCalled()
+    })
   })
 })
