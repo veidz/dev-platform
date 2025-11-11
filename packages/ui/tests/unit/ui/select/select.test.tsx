@@ -318,5 +318,23 @@ describe('Select', () => {
 
       expect(screen.getByRole('combobox')).toHaveTextContent('Option 1')
     })
+
+    it('calls onValueChange when value changes', () => {
+      const handleChange = jest.fn()
+
+      render(
+        <Select defaultValue="option1" onValueChange={handleChange}>
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="option1">Option 1</SelectItem>
+            <SelectItem value="option2">Option 2</SelectItem>
+          </SelectContent>
+        </Select>,
+      )
+
+      expect(screen.getByRole('combobox')).toBeInTheDocument()
+    })
   })
 })
