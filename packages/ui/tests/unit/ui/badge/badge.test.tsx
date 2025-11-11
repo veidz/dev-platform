@@ -90,5 +90,11 @@ describe('Badge', () => {
       expect(badge).toHaveClass('text-xs')
       expect(badge).toHaveClass('font-semibold')
     })
+
+    it('should have transition styles', () => {
+      render(<Badge>Badge</Badge>)
+      const badge = screen.getByText('Badge')
+      expect(badge).toHaveClass('transition-colors')
+    })
   })
 })
