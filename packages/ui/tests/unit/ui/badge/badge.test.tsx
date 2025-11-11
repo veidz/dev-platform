@@ -197,5 +197,10 @@ describe('Badge', () => {
       render(<Badge>{longText}</Badge>)
       expect(screen.getByText(longText)).toBeInTheDocument()
     })
+
+    it('should handle special characters', () => {
+      render(<Badge>{'<>&"\'`'}</Badge>)
+      expect(screen.getByText('<>&"\'`')).toBeInTheDocument()
+    })
   })
 })
