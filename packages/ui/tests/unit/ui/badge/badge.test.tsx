@@ -137,5 +137,15 @@ describe('Badge', () => {
       render(<Badge>Text Content</Badge>)
       expect(screen.getByText('Text Content')).toBeInTheDocument()
     })
+
+    it('should render with JSX content', () => {
+      render(
+        <Badge>
+          <span>Prefix</span> Text
+        </Badge>,
+      )
+      expect(screen.getByText('Prefix')).toBeInTheDocument()
+      expect(screen.getByText(/Text/)).toBeInTheDocument()
+    })
   })
 })
