@@ -17,5 +17,10 @@ describe('Textarea', () => {
       render(<Textarea defaultValue="Default text" />)
       expect(screen.getByRole('textbox')).toHaveValue('Default text')
     })
+
+    it('renders with controlled value', () => {
+      render(<Textarea value="Controlled text" onChange={() => {}} />)
+      expect(screen.getByRole('textbox')).toHaveValue('Controlled text')
+    })
   })
 })
