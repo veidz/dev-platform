@@ -173,5 +173,10 @@ describe('Textarea', () => {
       render(<Textarea />)
       expect(screen.getByRole('textbox')).toBeInTheDocument()
     })
+
+    it('can be labeled with aria-label', () => {
+      render(<Textarea aria-label="Message input" />)
+      expect(screen.getByLabelText('Message input')).toBeInTheDocument()
+    })
   })
 })
