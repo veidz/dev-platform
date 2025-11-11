@@ -96,5 +96,14 @@ describe('Badge', () => {
       const badge = screen.getByText('Badge')
       expect(badge).toHaveClass('transition-colors')
     })
+
+    it('should have focus styles', () => {
+      render(<Badge>Badge</Badge>)
+      const badge = screen.getByText('Badge')
+      expect(badge).toHaveClass('focus:outline-none')
+      expect(badge).toHaveClass('focus:ring-2')
+      expect(badge).toHaveClass('focus:ring-ring')
+      expect(badge).toHaveClass('focus:ring-offset-2')
+    })
   })
 })
