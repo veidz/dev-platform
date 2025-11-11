@@ -103,5 +103,16 @@ describe('Textarea', () => {
 
       expect(handleChange).toHaveBeenCalled()
     })
+
+    it('handles onFocus event', async () => {
+      const user = userEvent.setup()
+      const handleFocus = jest.fn()
+      render(<Textarea onFocus={handleFocus} />)
+
+      const textarea = screen.getByRole('textbox')
+      await user.click(textarea)
+
+      expect(handleFocus).toHaveBeenCalled()
+    })
   })
 })
