@@ -167,4 +167,11 @@ describe('Textarea', () => {
       expect(textarea).toHaveValue('Read only')
     })
   })
+
+  describe('Accessibility', () => {
+    it('has correct role', () => {
+      render(<Textarea />)
+      expect(screen.getByRole('textbox')).toBeInTheDocument()
+    })
+  })
 })
