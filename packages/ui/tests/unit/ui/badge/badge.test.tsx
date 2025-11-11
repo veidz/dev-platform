@@ -106,4 +106,11 @@ describe('Badge', () => {
       expect(badge).toHaveClass('focus:ring-offset-2')
     })
   })
+
+  describe('HTML Attributes', () => {
+    it('should accept data attributes', () => {
+      render(<Badge data-testid="custom-badge">Badge</Badge>)
+      expect(screen.getByTestId('custom-badge')).toBeInTheDocument()
+    })
+  })
 })
