@@ -27,5 +27,19 @@ describe('Select', () => {
       expect(screen.getByRole('combobox')).toBeInTheDocument()
       expect(screen.getByText('Select option')).toBeInTheDocument()
     })
+
+    it('renders with custom className', () => {
+      render(
+        <Select>
+          <SelectTrigger className="custom-class">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="test">Test</SelectItem>
+          </SelectContent>
+        </Select>,
+      )
+      expect(screen.getByRole('combobox')).toHaveClass('custom-class')
+    })
   })
 })
