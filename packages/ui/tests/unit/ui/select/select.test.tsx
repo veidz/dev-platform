@@ -4,6 +4,8 @@ import {
   SelectGroup,
   SelectItem,
   SelectLabel,
+  SelectScrollDownButton,
+  SelectScrollUpButton,
   SelectSeparator,
   SelectTrigger,
   SelectValue,
@@ -237,6 +239,25 @@ describe('Select', () => {
             <SelectItem value="option1">Option 1</SelectItem>
             <SelectSeparator className="custom-separator" />
             <SelectItem value="option2">Option 2</SelectItem>
+          </SelectContent>
+        </Select>,
+      )
+
+      expect(screen.getByRole('combobox')).toBeInTheDocument()
+    })
+  })
+
+  describe('Scroll Buttons', () => {
+    it('renders scroll up button with custom className', () => {
+      render(
+        <Select defaultValue="test">
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectScrollUpButton className="custom-scroll-up" />
+            <SelectItem value="test">Test</SelectItem>
+            <SelectScrollDownButton />
           </SelectContent>
         </Select>,
       )
