@@ -156,5 +156,15 @@ describe('Textarea', () => {
 
       expect(textarea).toHaveValue('')
     })
+
+    it('does not allow input when readonly', async () => {
+      const user = userEvent.setup()
+      render(<Textarea readOnly value="Read only" />)
+
+      const textarea = screen.getByRole('textbox')
+      await user.type(textarea, 'Test')
+
+      expect(textarea).toHaveValue('Read only')
+    })
   })
 })
