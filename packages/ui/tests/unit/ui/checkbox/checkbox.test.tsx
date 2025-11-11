@@ -356,5 +356,12 @@ describe('Checkbox', () => {
       render(<Checkbox ref={ref} />)
       expect(ref.current).toBeInstanceOf(HTMLButtonElement)
     })
+
+    it('should allow calling focus via ref', () => {
+      const ref = { current: null as HTMLButtonElement | null }
+      render(<Checkbox ref={ref} />)
+      ref.current?.focus()
+      expect(ref.current).toHaveFocus()
+    })
   })
 })
