@@ -350,5 +350,11 @@ describe('Select', () => {
       const trigger = screen.getByRole('combobox')
       expect(trigger).toHaveAttribute('aria-controls')
     })
+
+    it('has correct aria-autocomplete attribute', () => {
+      render(<SimpleSelect />)
+      const trigger = screen.getByRole('combobox')
+      expect(trigger).toHaveAttribute('aria-autocomplete', 'none')
+    })
   })
 })
