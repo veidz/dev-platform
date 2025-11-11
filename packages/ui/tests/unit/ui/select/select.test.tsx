@@ -344,5 +344,11 @@ describe('Select', () => {
       const trigger = screen.getByRole('combobox')
       expect(trigger).toHaveAttribute('aria-expanded', 'false')
     })
+
+    it('has correct aria-controls attribute', () => {
+      render(<SimpleSelect />)
+      const trigger = screen.getByRole('combobox')
+      expect(trigger).toHaveAttribute('aria-controls')
+    })
   })
 })
