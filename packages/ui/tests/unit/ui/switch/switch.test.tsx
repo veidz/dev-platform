@@ -301,4 +301,15 @@ describe('Switch', () => {
       expect(switchElement).toBeInTheDocument()
     })
   })
+
+  describe('Styling', () => {
+    it('should apply base styles', () => {
+      render(<Switch />)
+      const switchElement = screen.getByRole('switch')
+      expect(switchElement).toHaveClass('h-6')
+      expect(switchElement).toHaveClass('w-11')
+      expect(switchElement).toHaveClass('rounded-full')
+      expect(switchElement).toHaveClass('inline-flex')
+    })
+  })
 })
