@@ -543,5 +543,19 @@ describe('Tabs', () => {
       expect(screen.getByRole('tabpanel')).toBeInTheDocument()
       expect(screen.getByRole('tabpanel')).toBeEmptyDOMElement()
     })
+
+    it('should handle single tab', () => {
+      render(
+        <Tabs defaultValue="tab1">
+          <TabsList>
+            <TabsTrigger value="tab1">Only Tab</TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">Only Content</TabsContent>
+        </Tabs>,
+      )
+
+      expect(screen.getByText('Only Tab')).toBeInTheDocument()
+      expect(screen.getByText('Only Content')).toBeInTheDocument()
+    })
   })
 })
