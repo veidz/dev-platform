@@ -173,5 +173,18 @@ describe('Switch', () => {
       await user.keyboard('{Enter}')
       expect(switchElement).toBeChecked()
     })
+
+    it('should handle rapid clicks', async () => {
+      const user = userEvent.setup()
+      const onCheckedChange = jest.fn()
+      render(<Switch onCheckedChange={onCheckedChange} />)
+      const switchElement = screen.getByRole('switch')
+
+      await user.click(switchElement)
+      await user.click(switchElement)
+      await user.click(switchElement)
+
+      expect(onCheckedChange).toHaveBeenCalledTimes(3)
+    })
   })
 })
