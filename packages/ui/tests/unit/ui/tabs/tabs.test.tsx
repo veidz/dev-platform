@@ -193,5 +193,26 @@ describe('Tabs', () => {
       await user.keyboard('{ArrowLeft}')
       expect(screen.getByText('Tab 2')).toHaveFocus()
     })
+
+    it('should wrap around with arrow keys', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Tabs defaultValue="tab1">
+          <TabsList>
+            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
+            <TabsTrigger value="tab2">Tab 2</TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">Content 1</TabsContent>
+          <TabsContent value="tab2">Content 2</TabsContent>
+        </Tabs>,
+      )
+
+      const tab2 = screen.getByText('Tab 2')
+      tab2.focus()
+
+      await user.keyboard('{ArrowRight}')
+      expect(screen.getByText('Tab 1')).toHaveFocus()
+    })
   })
 })
