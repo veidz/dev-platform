@@ -162,4 +162,26 @@ describe('Tooltip', () => {
       })
     })
   })
+
+  describe('Positioning', () => {
+    it('should render on top by default', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <TooltipProvider delayDuration={0}>
+          <Tooltip>
+            <TooltipTrigger>Hover me</TooltipTrigger>
+            <TooltipContent>Tooltip content</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>,
+      )
+
+      await user.hover(screen.getByText('Hover me'))
+
+      await waitFor(() => {
+        const tooltip = screen.getByRole('tooltip')
+        expect(tooltip.parentElement).toHaveAttribute('data-side', 'top')
+      })
+    })
+  })
 })
