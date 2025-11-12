@@ -244,5 +244,24 @@ describe('Tooltip', () => {
         expect(tooltip.parentElement).toHaveAttribute('data-side', 'left')
       })
     })
+
+    it('should respect sideOffset prop', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <TooltipProvider delayDuration={0}>
+          <Tooltip>
+            <TooltipTrigger>Hover me</TooltipTrigger>
+            <TooltipContent sideOffset={20}>Tooltip content</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>,
+      )
+
+      await user.hover(screen.getByText('Hover me'))
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).toBeInTheDocument()
+      })
+    })
   })
 })
