@@ -230,4 +230,19 @@ describe('Slider', () => {
       expect(slider).toBeInTheDocument()
     })
   })
+
+  describe('Styling', () => {
+    it('should apply custom className to root element', () => {
+      render(
+        <Slider
+          defaultValue={[50]}
+          max={100}
+          className="custom-slider"
+          data-testid="slider-root"
+        />,
+      )
+      const slider = screen.getByTestId('slider-root')
+      expect(slider).toHaveClass('custom-slider')
+    })
+  })
 })
