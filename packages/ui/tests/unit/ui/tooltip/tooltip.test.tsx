@@ -555,5 +555,25 @@ describe('Tooltip', () => {
         expect(screen.getByRole('tooltip')).toBeInTheDocument()
       })
     })
+
+    it('should forward ref to content', async () => {
+      const user = userEvent.setup()
+      const ref = jest.fn()
+
+      render(
+        <TooltipProvider delayDuration={0}>
+          <Tooltip>
+            <TooltipTrigger>Hover me</TooltipTrigger>
+            <TooltipContent ref={ref}>Tooltip content</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>,
+      )
+
+      await user.hover(screen.getByText('Hover me'))
+
+      await waitFor(() => {
+        expect(ref).toHaveBeenCalled()
+      })
+    })
   })
 })
