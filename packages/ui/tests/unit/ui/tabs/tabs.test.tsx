@@ -386,4 +386,23 @@ describe('Tabs', () => {
       expect(onValueChange).toHaveBeenCalledTimes(1)
     })
   })
+
+  describe('Accessibility', () => {
+    it('should have correct ARIA roles', () => {
+      render(
+        <Tabs defaultValue="tab1">
+          <TabsList>
+            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
+            <TabsTrigger value="tab2">Tab 2</TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">Content 1</TabsContent>
+          <TabsContent value="tab2">Content 2</TabsContent>
+        </Tabs>,
+      )
+
+      expect(screen.getByRole('tablist')).toBeInTheDocument()
+      expect(screen.getAllByRole('tab')).toHaveLength(2)
+      expect(screen.getByRole('tabpanel')).toBeInTheDocument()
+    })
+  })
 })
