@@ -261,4 +261,24 @@ describe('Tabs', () => {
       expect(screen.getByText('Tab 3')).toHaveFocus()
     })
   })
+
+  describe('Disabled State', () => {
+    it('should render disabled trigger', () => {
+      render(
+        <Tabs defaultValue="tab1">
+          <TabsList>
+            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
+            <TabsTrigger value="tab2" disabled>
+              Tab 2
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">Content 1</TabsContent>
+          <TabsContent value="tab2">Content 2</TabsContent>
+        </Tabs>,
+      )
+
+      const tab2 = screen.getByText('Tab 2')
+      expect(tab2).toBeDisabled()
+    })
+  })
 })
