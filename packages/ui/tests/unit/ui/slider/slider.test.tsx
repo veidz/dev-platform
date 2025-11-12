@@ -209,4 +209,19 @@ describe('Slider', () => {
       expect(slider).toHaveAttribute('aria-orientation', 'vertical')
     })
   })
+
+  describe('Form Integration', () => {
+    it('should work within a form', () => {
+      const handleSubmit = jest.fn((e) => e.preventDefault())
+      render(
+        <form onSubmit={handleSubmit}>
+          <Slider defaultValue={[50]} max={100} name="volume" />
+          <button type="submit">Submit</button>
+        </form>,
+      )
+
+      const slider = screen.getByRole('slider')
+      expect(slider).toBeInTheDocument()
+    })
+  })
 })
