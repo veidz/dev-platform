@@ -136,5 +136,31 @@ describe('Tabs', () => {
       expect(tab1).toHaveAttribute('data-state', 'inactive')
       expect(tab2).toHaveAttribute('data-state', 'active')
     })
+
+    it('should switch between multiple tabs', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Tabs defaultValue="tab1">
+          <TabsList>
+            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
+            <TabsTrigger value="tab2">Tab 2</TabsTrigger>
+            <TabsTrigger value="tab3">Tab 3</TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">Content 1</TabsContent>
+          <TabsContent value="tab2">Content 2</TabsContent>
+          <TabsContent value="tab3">Content 3</TabsContent>
+        </Tabs>,
+      )
+
+      await user.click(screen.getByText('Tab 2'))
+      expect(screen.getByText('Content 2')).toBeInTheDocument()
+
+      await user.click(screen.getByText('Tab 3'))
+      expect(screen.getByText('Content 3')).toBeInTheDocument()
+
+      await user.click(screen.getByText('Tab 1'))
+      expect(screen.getByText('Content 1')).toBeInTheDocument()
+    })
   })
 })
