@@ -34,5 +34,11 @@ describe('Switch', () => {
       const switchElement = screen.getByRole('switch')
       expect(switchElement).toHaveClass('custom-class')
     })
+
+    it('should render with id', () => {
+      render(<Switch id="airplane-mode" />)
+      const switchElement = screen.getByRole('switch')
+      expect(switchElement).toHaveAttribute('id', 'airplane-mode')
+    })
   })
 })
