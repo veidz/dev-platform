@@ -90,6 +90,7 @@ export {
   SelectTrigger,
   SelectValue,
 } from './components/ui/select'
+export { Slider } from './components/ui/slider'
 export { Switch } from './components/ui/switch'
 export {
   Table,
