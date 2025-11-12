@@ -38,4 +38,12 @@ describe('Slider', () => {
       expect(slider).toHaveAttribute('aria-valuemax', '50')
     })
   })
+
+  describe('States', () => {
+    it('should render disabled state', () => {
+      render(<Slider defaultValue={[50]} max={100} disabled />)
+      const slider = screen.getByRole('slider')
+      expect(slider).toHaveAttribute('data-disabled')
+    })
+  })
 })
