@@ -434,4 +434,17 @@ describe('RadioGroup', () => {
       expect(radioGroup).toBeInTheDocument()
     })
   })
+
+  describe('Styling', () => {
+    it('should apply base styles to RadioGroup', () => {
+      render(
+        <RadioGroup>
+          <RadioGroupItem value="option-1" />
+        </RadioGroup>,
+      )
+      const radioGroup = screen.getByRole('radiogroup')
+      expect(radioGroup).toHaveClass('grid')
+      expect(radioGroup).toHaveClass('gap-2')
+    })
+  })
 })
