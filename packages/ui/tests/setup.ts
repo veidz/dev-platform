@@ -26,7 +26,9 @@ beforeAll(() => {
     if (
       message.includes('DialogContent') ||
       message.includes('DialogTitle') ||
-      message.includes('aria-describedby')
+      message.includes('aria-describedby') ||
+      message.includes('act(...)') ||
+      message.includes('was not wrapped in act')
     ) {
       return
     }
@@ -38,7 +40,9 @@ beforeAll(() => {
     if (
       message.includes('DialogContent') ||
       message.includes('Description') ||
-      message.includes('aria-describedby')
+      message.includes('aria-describedby') ||
+      message.includes('act(...)') ||
+      message.includes('was not wrapped in act')
     ) {
       return
     }
