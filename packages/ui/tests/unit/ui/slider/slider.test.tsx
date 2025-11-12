@@ -156,4 +156,17 @@ describe('Slider', () => {
       expect(sliders[1]).toHaveAttribute('aria-valuenow', '75')
     })
   })
+
+  describe('Accessibility', () => {
+    it('should render with proper accessibility structure', () => {
+      render(
+        <Slider defaultValue={[50]} max={100} aria-label="Volume control" />,
+      )
+      const slider = screen.getByRole('slider')
+      expect(slider).toBeInTheDocument()
+      expect(slider).toHaveAttribute('aria-valuemin', '0')
+      expect(slider).toHaveAttribute('aria-valuemax', '100')
+      expect(slider).toHaveAttribute('aria-valuenow', '50')
+    })
+  })
 })
