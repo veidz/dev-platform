@@ -493,4 +493,16 @@ describe('RadioGroup', () => {
       expect(radio).toHaveClass('h-4')
     })
   })
+
+  describe('Ref Forwarding', () => {
+    it('should forward ref to radio group element', () => {
+      const ref = { current: null as HTMLDivElement | null }
+      render(
+        <RadioGroup ref={ref}>
+          <RadioGroupItem value="option-1" />
+        </RadioGroup>,
+      )
+      expect(ref.current).toBeInstanceOf(HTMLDivElement)
+    })
+  })
 })
