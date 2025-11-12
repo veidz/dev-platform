@@ -102,5 +102,18 @@ describe('RadioGroup', () => {
       expect(radio2).toBeChecked()
       expect(radio3).not.toBeChecked()
     })
+
+    it('should be disabled when RadioGroup is disabled', () => {
+      render(
+        <RadioGroup disabled>
+          <RadioGroupItem value="option-1" aria-label="Option 1" />
+          <RadioGroupItem value="option-2" aria-label="Option 2" />
+        </RadioGroup>,
+      )
+      const radios = screen.getAllByRole('radio')
+      radios.forEach((radio) => {
+        expect(radio).toBeDisabled()
+      })
+    })
   })
 })
