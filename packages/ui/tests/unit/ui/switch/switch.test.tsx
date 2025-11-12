@@ -115,5 +115,16 @@ describe('Switch', () => {
       await user.click(switchElement)
       expect(switchElement).not.toBeChecked()
     })
+
+    it('should call onCheckedChange when clicked', async () => {
+      const user = userEvent.setup()
+      const onCheckedChange = jest.fn()
+      render(<Switch onCheckedChange={onCheckedChange} />)
+      const switchElement = screen.getByRole('switch')
+
+      await user.click(switchElement)
+      expect(onCheckedChange).toHaveBeenCalledTimes(1)
+      expect(onCheckedChange).toHaveBeenCalledWith(true)
+    })
   })
 })
