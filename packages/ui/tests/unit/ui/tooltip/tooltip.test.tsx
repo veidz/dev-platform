@@ -387,4 +387,30 @@ describe('Tooltip', () => {
       })
     })
   })
+
+  describe('Accessibility', () => {
+    it('should have correct ARIA attributes on trigger', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <TooltipProvider delayDuration={0}>
+          <Tooltip>
+            <TooltipTrigger>Hover me</TooltipTrigger>
+            <TooltipContent>Tooltip content</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>,
+      )
+
+      const trigger = screen.getByText('Hover me')
+      expect(trigger).toHaveAttribute('data-state', 'closed')
+
+      await user.hover(trigger)
+
+      await waitFor(() => {
+        expect(trigger).toHaveAttribute('data-state')
+        const state = trigger.getAttribute('data-state')
+        expect(state).toMatch(/open/)
+      })
+    })
+  })
 })
