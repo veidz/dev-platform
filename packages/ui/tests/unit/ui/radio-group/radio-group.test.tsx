@@ -292,5 +292,18 @@ describe('RadioGroup', () => {
       const radioGroup = screen.getByRole('radiogroup')
       expect(radioGroup).toHaveAttribute('role', 'radiogroup')
     })
+
+    it('should have role="radio" for each item', () => {
+      render(
+        <RadioGroup>
+          <RadioGroupItem value="option-1" />
+          <RadioGroupItem value="option-2" />
+        </RadioGroup>,
+      )
+      const radios = screen.getAllByRole('radio')
+      radios.forEach((radio) => {
+        expect(radio).toHaveAttribute('role', 'radio')
+      })
+    })
   })
 })
