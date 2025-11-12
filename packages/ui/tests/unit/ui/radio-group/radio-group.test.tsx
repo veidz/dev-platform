@@ -460,5 +460,17 @@ describe('RadioGroup', () => {
       expect(radio).toHaveClass('border')
       expect(radio).toHaveClass('border-primary')
     })
+
+    it('should apply focus styles', () => {
+      render(
+        <RadioGroup>
+          <RadioGroupItem value="option-1" aria-label="Option 1" />
+        </RadioGroup>,
+      )
+      const radio = screen.getByLabelText('Option 1')
+      expect(radio).toHaveClass('focus:outline-none')
+      expect(radio).toHaveClass('focus-visible:ring-2')
+      expect(radio).toHaveClass('focus-visible:ring-offset-2')
+    })
   })
 })
