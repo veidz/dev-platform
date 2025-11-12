@@ -531,5 +531,29 @@ describe('Tooltip', () => {
         expect(tooltip).toBeInTheDocument()
       })
     })
+
+    it('should handle rich content', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <TooltipProvider delayDuration={0}>
+          <Tooltip>
+            <TooltipTrigger>Hover me</TooltipTrigger>
+            <TooltipContent>
+              <div>
+                <strong>Title</strong>
+                <p>Description</p>
+              </div>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>,
+      )
+
+      await user.hover(screen.getByText('Hover me'))
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).toBeInTheDocument()
+      })
+    })
   })
 })
