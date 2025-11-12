@@ -1,6 +1,7 @@
 import { Switch } from '@/components/ui/switch'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { axe } from 'jest-axe'
 import { useState } from 'react'
 
 describe('Switch', () => {
@@ -240,6 +241,17 @@ describe('Switch', () => {
 
       await user.tab()
       expect(switchElement).toHaveFocus()
+    })
+
+    it('should not have accessibility violations', async () => {
+      const { container } = render(
+        <>
+          <Switch id="test" />
+          <label htmlFor="test">Test Label</label>
+        </>,
+      )
+      const results = await axe(container)
+      expect(results).toHaveNoViolations()
     })
   })
 })
