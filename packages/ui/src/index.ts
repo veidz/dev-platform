@@ -102,6 +102,7 @@ export {
   TableHeader,
   TableRow,
 } from './components/ui/table'
+export { Tabs, TabsContent, TabsList, TabsTrigger } from './components/ui/tabs'
 export { Textarea } from './components/ui/textarea'
 export type { TextareaProps } from './components/ui/textarea'
 export {
