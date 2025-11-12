@@ -575,5 +575,26 @@ describe('Tooltip', () => {
         expect(ref).toHaveBeenCalled()
       })
     })
+
+    it('should work with asChild prop', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <TooltipProvider delayDuration={0}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button>Custom button</button>
+            </TooltipTrigger>
+            <TooltipContent>Tooltip content</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>,
+      )
+
+      await user.hover(screen.getByText('Custom button'))
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).toBeInTheDocument()
+      })
+    })
   })
 })
