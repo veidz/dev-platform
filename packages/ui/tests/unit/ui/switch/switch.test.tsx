@@ -340,4 +340,12 @@ describe('Switch', () => {
       expect(switchElement).toHaveClass('w-11')
     })
   })
+
+  describe('Ref Forwarding', () => {
+    it('should forward ref to switch element', () => {
+      const ref = { current: null as HTMLButtonElement | null }
+      render(<Switch ref={ref} />)
+      expect(ref.current).toBeInstanceOf(HTMLButtonElement)
+    })
+  })
 })
