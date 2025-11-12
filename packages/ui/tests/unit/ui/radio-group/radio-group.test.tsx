@@ -281,4 +281,16 @@ describe('RadioGroup', () => {
       expect(radio).toBeChecked()
     })
   })
+
+  describe('Accessibility', () => {
+    it('should have role="radiogroup"', () => {
+      render(
+        <RadioGroup>
+          <RadioGroupItem value="option-1" />
+        </RadioGroup>,
+      )
+      const radioGroup = screen.getByRole('radiogroup')
+      expect(radioGroup).toHaveAttribute('role', 'radiogroup')
+    })
+  })
 })
