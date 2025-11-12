@@ -282,5 +282,11 @@ describe('Switch', () => {
 
       expect(handleSubmit).toHaveBeenCalled()
     })
+
+    it('should pass name prop', () => {
+      render(<Switch name="settings" />)
+      const switchElement = screen.getByRole('switch')
+      expect(switchElement).toBeInTheDocument()
+    })
   })
 })
