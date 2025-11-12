@@ -430,5 +430,23 @@ describe('Tabs', () => {
       expect(tab1).toHaveAttribute('aria-selected', 'false')
       expect(tab2).toHaveAttribute('aria-selected', 'true')
     })
+
+    it('should have aria-controls linking tab to panel', () => {
+      render(
+        <Tabs defaultValue="tab1">
+          <TabsList>
+            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">Content 1</TabsContent>
+        </Tabs>,
+      )
+
+      const tab = screen.getByRole('tab')
+      const panel = screen.getByRole('tabpanel')
+
+      const panelId = panel.getAttribute('id')
+      expect(panelId).toBeTruthy()
+      expect(tab).toHaveAttribute('aria-controls', panelId!)
+    })
   })
 })
