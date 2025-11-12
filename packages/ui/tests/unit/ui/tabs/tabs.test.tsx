@@ -280,5 +280,27 @@ describe('Tabs', () => {
       const tab2 = screen.getByText('Tab 2')
       expect(tab2).toBeDisabled()
     })
+
+    it('should not switch to disabled tab on click', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Tabs defaultValue="tab1">
+          <TabsList>
+            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
+            <TabsTrigger value="tab2" disabled>
+              Tab 2
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">Content 1</TabsContent>
+          <TabsContent value="tab2">Content 2</TabsContent>
+        </Tabs>,
+      )
+
+      await user.click(screen.getByText('Tab 2'))
+
+      expect(screen.getByText('Content 1')).toBeInTheDocument()
+      expect(screen.queryByText('Content 2')).not.toBeInTheDocument()
+    })
   })
 })
