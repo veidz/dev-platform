@@ -117,5 +117,24 @@ describe('Tooltip', () => {
         expect(screen.queryByRole('tooltip')).not.toBeInTheDocument()
       })
     })
+
+    it('should show tooltip on focus', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <TooltipProvider delayDuration={0}>
+          <Tooltip>
+            <TooltipTrigger>Hover me</TooltipTrigger>
+            <TooltipContent>Tooltip content</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>,
+      )
+
+      await user.tab()
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).toBeInTheDocument()
+      })
+    })
   })
 })
