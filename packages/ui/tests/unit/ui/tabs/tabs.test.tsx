@@ -448,5 +448,21 @@ describe('Tabs', () => {
       expect(panelId).toBeTruthy()
       expect(tab).toHaveAttribute('aria-controls', panelId!)
     })
+
+    it('should have correct aria-orientation for vertical tabs', () => {
+      render(
+        <Tabs defaultValue="tab1" orientation="vertical">
+          <TabsList>
+            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
+            <TabsTrigger value="tab2">Tab 2</TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">Content 1</TabsContent>
+          <TabsContent value="tab2">Content 2</TabsContent>
+        </Tabs>,
+      )
+
+      const tablist = screen.getByRole('tablist')
+      expect(tablist).toHaveAttribute('aria-orientation', 'vertical')
+    })
   })
 })
