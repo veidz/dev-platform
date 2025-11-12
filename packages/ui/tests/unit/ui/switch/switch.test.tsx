@@ -319,5 +319,11 @@ describe('Switch', () => {
       expect(switchElement).toHaveClass('focus-visible:ring-2')
       expect(switchElement).toHaveClass('focus-visible:ring-offset-2')
     })
+
+    it('should apply checked styles', () => {
+      render(<Switch checked />)
+      const switchElement = screen.getByRole('switch')
+      expect(switchElement).toHaveClass('data-[state=checked]:bg-primary')
+    })
   })
 })
