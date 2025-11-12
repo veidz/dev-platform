@@ -328,4 +328,41 @@ describe('Tabs', () => {
       expect(screen.getByText('Tab 3')).toHaveFocus()
     })
   })
+
+  describe('Controlled Mode', () => {
+    it('should work in controlled mode', async () => {
+      const user = userEvent.setup()
+      const onValueChange = jest.fn()
+
+      const { rerender } = render(
+        <Tabs value="tab1" onValueChange={onValueChange}>
+          <TabsList>
+            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
+            <TabsTrigger value="tab2">Tab 2</TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">Content 1</TabsContent>
+          <TabsContent value="tab2">Content 2</TabsContent>
+        </Tabs>,
+      )
+
+      expect(screen.getByText('Content 1')).toBeInTheDocument()
+
+      await user.click(screen.getByText('Tab 2'))
+
+      expect(onValueChange).toHaveBeenCalledWith('tab2')
+
+      rerender(
+        <Tabs value="tab2" onValueChange={onValueChange}>
+          <TabsList>
+            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
+            <TabsTrigger value="tab2">Tab 2</TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">Content 1</TabsContent>
+          <TabsContent value="tab2">Content 2</TabsContent>
+        </Tabs>,
+      )
+
+      expect(screen.getByText('Content 2')).toBeInTheDocument()
+    })
+  })
 })
