@@ -361,5 +361,24 @@ describe('RadioGroup', () => {
       const results = await axe(container)
       expect(results).toHaveNoViolations()
     })
+
+    it('should announce state changes to screen readers', async () => {
+      const user = userEvent.setup()
+      render(
+        <RadioGroup>
+          <RadioGroupItem value="option-1" aria-label="Option 1" />
+          <RadioGroupItem value="option-2" aria-label="Option 2" />
+        </RadioGroup>,
+      )
+      const radio1 = screen.getByLabelText('Option 1')
+      const radio2 = screen.getByLabelText('Option 2')
+
+      expect(radio1).toHaveAttribute('aria-checked', 'false')
+      expect(radio2).toHaveAttribute('aria-checked', 'false')
+
+      await user.click(radio1)
+      expect(radio1).toHaveAttribute('aria-checked', 'true')
+      expect(radio2).toHaveAttribute('aria-checked', 'false')
+    })
   })
 })
