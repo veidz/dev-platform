@@ -302,5 +302,30 @@ describe('Tabs', () => {
       expect(screen.getByText('Content 1')).toBeInTheDocument()
       expect(screen.queryByText('Content 2')).not.toBeInTheDocument()
     })
+
+    it('should skip disabled tabs with keyboard navigation', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Tabs defaultValue="tab1">
+          <TabsList>
+            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
+            <TabsTrigger value="tab2" disabled>
+              Tab 2
+            </TabsTrigger>
+            <TabsTrigger value="tab3">Tab 3</TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">Content 1</TabsContent>
+          <TabsContent value="tab2">Content 2</TabsContent>
+          <TabsContent value="tab3">Content 3</TabsContent>
+        </Tabs>,
+      )
+
+      const tab1 = screen.getByText('Tab 1')
+      tab1.focus()
+
+      await user.keyboard('{ArrowRight}')
+      expect(screen.getByText('Tab 3')).toHaveFocus()
+    })
   })
 })
