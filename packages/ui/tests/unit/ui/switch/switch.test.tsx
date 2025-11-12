@@ -1,6 +1,7 @@
 import { Switch } from '@/components/ui/switch'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { useState } from 'react'
 
 describe('Switch', () => {
   describe('Rendering', () => {
@@ -185,6 +186,25 @@ describe('Switch', () => {
       await user.click(switchElement)
 
       expect(onCheckedChange).toHaveBeenCalledTimes(3)
+    })
+
+    it('should work with controlled state', async () => {
+      const user = userEvent.setup()
+      const ControlledSwitch = () => {
+        const [checked, setChecked] = useState(false)
+        return <Switch checked={checked} onCheckedChange={setChecked} />
+      }
+
+      render(<ControlledSwitch />)
+      const switchElement = screen.getByRole('switch')
+
+      expect(switchElement).not.toBeChecked()
+
+      await user.click(switchElement)
+      expect(switchElement).toBeChecked()
+
+      await user.click(switchElement)
+      expect(switchElement).not.toBeChecked()
     })
   })
 })
