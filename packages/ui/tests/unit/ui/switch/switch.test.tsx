@@ -126,5 +126,15 @@ describe('Switch', () => {
       expect(onCheckedChange).toHaveBeenCalledTimes(1)
       expect(onCheckedChange).toHaveBeenCalledWith(true)
     })
+
+    it('should call onCheckedChange with false when unchecking', async () => {
+      const user = userEvent.setup()
+      const onCheckedChange = jest.fn()
+      render(<Switch defaultChecked onCheckedChange={onCheckedChange} />)
+      const switchElement = screen.getByRole('switch')
+
+      await user.click(switchElement)
+      expect(onCheckedChange).toHaveBeenCalledWith(false)
+    })
   })
 })
