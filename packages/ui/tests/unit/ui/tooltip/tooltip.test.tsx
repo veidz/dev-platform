@@ -91,5 +91,31 @@ describe('Tooltip', () => {
         expect(screen.getByRole('tooltip')).toBeInTheDocument()
       })
     })
+
+    it('should hide tooltip on unhover', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <TooltipProvider delayDuration={0}>
+          <Tooltip>
+            <TooltipTrigger>Hover me</TooltipTrigger>
+            <TooltipContent>Tooltip content</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>,
+      )
+
+      const trigger = screen.getByText('Hover me')
+      await user.hover(trigger)
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).toBeInTheDocument()
+      })
+
+      await user.keyboard('{Escape}')
+
+      await waitFor(() => {
+        expect(screen.queryByRole('tooltip')).not.toBeInTheDocument()
+      })
+    })
   })
 })
