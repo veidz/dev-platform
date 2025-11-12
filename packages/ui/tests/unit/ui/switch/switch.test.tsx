@@ -207,4 +207,12 @@ describe('Switch', () => {
       expect(switchElement).not.toBeChecked()
     })
   })
+
+  describe('Accessibility', () => {
+    it('should have role="switch"', () => {
+      render(<Switch />)
+      const switchElement = screen.getByRole('switch')
+      expect(switchElement).toHaveAttribute('role', 'switch')
+    })
+  })
 })
