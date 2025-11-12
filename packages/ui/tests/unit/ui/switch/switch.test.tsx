@@ -8,5 +8,13 @@ describe('Switch', () => {
       const switchElement = screen.getByRole('switch')
       expect(switchElement).toBeInTheDocument()
     })
+
+    it('should render with aria-label', () => {
+      render(<Switch aria-label="Toggle feature" />)
+      const switchElement = screen.getByRole('switch', {
+        name: 'Toggle feature',
+      })
+      expect(switchElement).toBeInTheDocument()
+    })
   })
 })
