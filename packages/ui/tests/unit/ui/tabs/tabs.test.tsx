@@ -579,5 +579,20 @@ describe('Tabs', () => {
       expect(screen.getAllByRole('tab')).toHaveLength(10)
       expect(screen.getByText('Content 1')).toBeInTheDocument()
     })
+
+    it('should forward ref to TabsList', () => {
+      const ref = jest.fn()
+
+      render(
+        <Tabs defaultValue="tab1">
+          <TabsList ref={ref}>
+            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">Content 1</TabsContent>
+        </Tabs>,
+      )
+
+      expect(ref).toHaveBeenCalled()
+    })
   })
 })
