@@ -115,5 +115,18 @@ describe('Slider', () => {
       await user.keyboard('{End}')
       expect(slider).toHaveAttribute('aria-valuenow', '100')
     })
+
+    it('should support keyboard navigation with Page Up/Down', async () => {
+      const user = userEvent.setup()
+      render(<Slider defaultValue={[50]} max={100} step={10} />)
+
+      const slider = screen.getByRole('slider')
+      slider.focus()
+
+      await user.keyboard('{PageUp}')
+      const afterPageUp = slider.getAttribute('aria-valuenow')
+
+      expect(Number.parseInt(afterPageUp || '0')).toBeGreaterThan(50)
+    })
   })
 })
