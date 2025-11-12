@@ -30,5 +30,12 @@ describe('Slider', () => {
       const slider = screen.getByTestId('slider-root')
       expect(slider).toHaveClass('custom-class')
     })
+
+    it('should render with min and max attributes', () => {
+      render(<Slider defaultValue={[20]} min={10} max={50} />)
+      const slider = screen.getByRole('slider')
+      expect(slider).toHaveAttribute('aria-valuemin', '10')
+      expect(slider).toHaveAttribute('aria-valuemax', '50')
+    })
   })
 })
