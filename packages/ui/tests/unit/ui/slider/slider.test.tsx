@@ -17,5 +17,18 @@ describe('Slider', () => {
       expect(sliders[0]).toHaveAttribute('aria-valuenow', '25')
       expect(sliders[1]).toHaveAttribute('aria-valuenow', '75')
     })
+
+    it('should render with custom className', () => {
+      render(
+        <Slider
+          defaultValue={[50]}
+          max={100}
+          className="custom-class"
+          data-testid="slider-root"
+        />,
+      )
+      const slider = screen.getByTestId('slider-root')
+      expect(slider).toHaveClass('custom-class')
+    })
   })
 })
