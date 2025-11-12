@@ -557,5 +557,27 @@ describe('Tabs', () => {
       expect(screen.getByText('Only Tab')).toBeInTheDocument()
       expect(screen.getByText('Only Content')).toBeInTheDocument()
     })
+
+    it('should handle many tabs', () => {
+      render(
+        <Tabs defaultValue="tab1">
+          <TabsList>
+            {Array.from({ length: 10 }, (_, i) => (
+              <TabsTrigger key={i} value={`tab${i + 1}`}>
+                Tab {i + 1}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+          {Array.from({ length: 10 }, (_, i) => (
+            <TabsContent key={i} value={`tab${i + 1}`}>
+              Content {i + 1}
+            </TabsContent>
+          ))}
+        </Tabs>,
+      )
+
+      expect(screen.getAllByRole('tab')).toHaveLength(10)
+      expect(screen.getByText('Content 1')).toBeInTheDocument()
+    })
   })
 })
