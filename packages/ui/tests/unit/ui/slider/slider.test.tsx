@@ -1,5 +1,6 @@
 import { Slider } from '@/components/ui/slider'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 describe('Slider', () => {
   describe('Rendering', () => {
@@ -85,6 +86,20 @@ describe('Slider', () => {
 
       const slider = screen.getByRole('slider')
       expect(slider).toBeInTheDocument()
+    })
+
+    it('should support keyboard navigation with arrow keys', async () => {
+      const user = userEvent.setup()
+      render(<Slider defaultValue={[50]} max={100} step={1} />)
+
+      const slider = screen.getByRole('slider')
+      slider.focus()
+
+      await user.keyboard('{ArrowRight}')
+      expect(slider).toHaveAttribute('aria-valuenow', '51')
+
+      await user.keyboard('{ArrowLeft}')
+      expect(slider).toHaveAttribute('aria-valuenow', '50')
     })
   })
 })
