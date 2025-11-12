@@ -285,5 +285,11 @@ describe('Slider', () => {
       expect(slider).toHaveAttribute('aria-valuemin', '10')
       expect(slider).toHaveAttribute('aria-valuemax', '10')
     })
+
+    it('should handle very small step values', () => {
+      render(<Slider defaultValue={[0.5]} min={0} max={1} step={0.01} />)
+      const slider = screen.getByRole('slider')
+      expect(slider).toHaveAttribute('aria-valuenow', '0.5')
+    })
   })
 })
