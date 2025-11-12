@@ -24,5 +24,19 @@ describe('RadioGroup', () => {
       const radios = screen.getAllByRole('radio')
       expect(radios).toHaveLength(3)
     })
+
+    it('should render with default value', () => {
+      render(
+        <RadioGroup defaultValue="option-2">
+          <RadioGroupItem value="option-1" />
+          <RadioGroupItem value="option-2" />
+          <RadioGroupItem value="option-3" />
+        </RadioGroup>,
+      )
+      const radios = screen.getAllByRole('radio')
+      expect(radios[1]).toBeChecked()
+      expect(radios[0]).not.toBeChecked()
+      expect(radios[2]).not.toBeChecked()
+    })
   })
 })
