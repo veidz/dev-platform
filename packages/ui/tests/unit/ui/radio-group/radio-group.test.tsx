@@ -401,5 +401,15 @@ describe('RadioGroup', () => {
 
       expect(handleSubmit).toHaveBeenCalled()
     })
+
+    it('should pass name prop to RadioGroup', () => {
+      render(
+        <RadioGroup name="preference">
+          <RadioGroupItem value="option-1" aria-label="Option 1" />
+        </RadioGroup>,
+      )
+      const radioGroup = screen.getByRole('radiogroup')
+      expect(radioGroup).toBeInTheDocument()
+    })
   })
 })
