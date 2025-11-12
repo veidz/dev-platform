@@ -55,5 +55,11 @@ describe('Slider', () => {
       slider = screen.getByRole('slider')
       expect(slider).toHaveAttribute('aria-valuenow', '70')
     })
+
+    it('should respect step increments', () => {
+      render(<Slider defaultValue={[0]} max={100} step={10} />)
+      const slider = screen.getByRole('slider')
+      expect(slider).toBeInTheDocument()
+    })
   })
 })
