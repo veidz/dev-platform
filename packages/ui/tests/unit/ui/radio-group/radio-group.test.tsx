@@ -225,5 +225,20 @@ describe('RadioGroup', () => {
       await user.keyboard('{ArrowUp}')
       expect(radio2).toHaveFocus()
     })
+
+    it('should select with Space key', async () => {
+      const user = userEvent.setup()
+      render(
+        <RadioGroup>
+          <RadioGroupItem value="option-1" aria-label="Option 1" />
+          <RadioGroupItem value="option-2" aria-label="Option 2" />
+        </RadioGroup>,
+      )
+      const radio1 = screen.getByLabelText('Option 1')
+
+      radio1.focus()
+      await user.keyboard(' ')
+      expect(radio1).toBeChecked()
+    })
   })
 })
