@@ -128,5 +128,16 @@ describe('RadioGroup', () => {
       expect(radio1).not.toBeDisabled()
       expect(radio2).toBeDisabled()
     })
+
+    it('should apply disabled styles', () => {
+      render(
+        <RadioGroup>
+          <RadioGroupItem value="option-1" disabled aria-label="Option 1" />
+        </RadioGroup>,
+      )
+      const radio = screen.getByLabelText('Option 1')
+      expect(radio).toHaveClass('disabled:cursor-not-allowed')
+      expect(radio).toHaveClass('disabled:opacity-50')
+    })
   })
 })
