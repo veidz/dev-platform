@@ -187,5 +187,13 @@ describe('Slider', () => {
       const root = screen.getByTestId('slider-root')
       expect(root).toHaveAttribute('id', 'custom-slider')
     })
+
+    it('should have proper ARIA attributes', () => {
+      render(<Slider defaultValue={[50]} min={0} max={100} />)
+      const slider = screen.getByRole('slider')
+      expect(slider).toHaveAttribute('aria-valuenow', '50')
+      expect(slider).toHaveAttribute('aria-valuemin', '0')
+      expect(slider).toHaveAttribute('aria-valuemax', '100')
+    })
   })
 })
