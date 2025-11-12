@@ -276,4 +276,14 @@ describe('Slider', () => {
       expect(ref.current?.tagName).toBe('SPAN')
     })
   })
+
+  describe('Edge Cases', () => {
+    it('should handle min equal to max', () => {
+      render(<Slider defaultValue={[10]} min={10} max={10} />)
+      const slider = screen.getByRole('slider')
+      expect(slider).toHaveAttribute('aria-valuenow', '10')
+      expect(slider).toHaveAttribute('aria-valuemin', '10')
+      expect(slider).toHaveAttribute('aria-valuemax', '10')
+    })
+  })
 })
