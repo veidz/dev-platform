@@ -174,5 +174,18 @@ describe('Slider', () => {
       const slider = screen.getByRole('slider')
       expect(slider).toBeInTheDocument()
     })
+
+    it('should support custom id on root element', () => {
+      render(
+        <Slider
+          defaultValue={[50]}
+          max={100}
+          id="custom-slider"
+          data-testid="slider-root"
+        />,
+      )
+      const root = screen.getByTestId('slider-root')
+      expect(root).toHaveAttribute('id', 'custom-slider')
+    })
   })
 })
