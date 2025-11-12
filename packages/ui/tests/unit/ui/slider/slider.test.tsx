@@ -268,5 +268,12 @@ describe('Slider', () => {
       render(<Slider ref={ref} defaultValue={[50]} max={100} />)
       expect(ref.current).toBeInstanceOf(HTMLSpanElement)
     })
+
+    it('should allow ref access to slider root', () => {
+      const ref = createRef<HTMLSpanElement>()
+      render(<Slider ref={ref} defaultValue={[50]} max={100} />)
+      expect(ref.current).toBeInstanceOf(HTMLElement)
+      expect(ref.current?.tagName).toBe('SPAN')
+    })
   })
 })
