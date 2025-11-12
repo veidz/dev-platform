@@ -52,5 +52,21 @@ describe('Tabs', () => {
       const list = screen.getByRole('tablist')
       expect(list).toHaveClass('custom-list')
     })
+
+    it('should render with custom className on TabsTrigger', () => {
+      render(
+        <Tabs defaultValue="tab1">
+          <TabsList>
+            <TabsTrigger value="tab1" className="custom-trigger">
+              Tab 1
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">Content 1</TabsContent>
+        </Tabs>,
+      )
+
+      const trigger = screen.getByRole('tab', { name: 'Tab 1' })
+      expect(trigger).toHaveClass('custom-trigger')
+    })
   })
 })
