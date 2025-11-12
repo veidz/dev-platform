@@ -309,4 +309,32 @@ describe('Tooltip', () => {
       })
     })
   })
+
+  describe('Controlled Mode', () => {
+    it('should work in controlled mode with open prop', async () => {
+      const { rerender } = render(
+        <TooltipProvider>
+          <Tooltip open={false}>
+            <TooltipTrigger>Hover me</TooltipTrigger>
+            <TooltipContent>Tooltip content</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>,
+      )
+
+      expect(screen.queryByRole('tooltip')).not.toBeInTheDocument()
+
+      rerender(
+        <TooltipProvider>
+          <Tooltip open={true}>
+            <TooltipTrigger>Hover me</TooltipTrigger>
+            <TooltipContent>Tooltip content</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>,
+      )
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).toBeInTheDocument()
+      })
+    })
+  })
 })
