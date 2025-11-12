@@ -299,5 +299,25 @@ describe('Slider', () => {
       expect(slider).toHaveAttribute('aria-valuemin', '-50')
       expect(slider).toHaveAttribute('aria-valuemax', '50')
     })
+
+    it('should prevent range thumbs from crossing', async () => {
+      const user = userEvent.setup()
+      render(<Slider defaultValue={[40, 60]} max={100} step={1} />)
+
+      const sliders = screen.getAllByRole('slider')
+      sliders[0].focus()
+
+      for (let i = 0; i < 30; i++) {
+        await user.keyboard('{ArrowRight}')
+      }
+
+      const firstValue = Number.parseInt(
+        sliders[0].getAttribute('aria-valuenow') || '0',
+      )
+      const secondValue = Number.parseInt(
+        sliders[1].getAttribute('aria-valuenow') || '0',
+      )
+      expect(firstValue).toBeLessThanOrEqual(secondValue)
+    })
   })
 })
