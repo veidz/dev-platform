@@ -289,5 +289,24 @@ describe('Tooltip', () => {
         { timeout: 200 },
       )
     })
+
+    it('should show instantly with zero delay', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <TooltipProvider delayDuration={0}>
+          <Tooltip>
+            <TooltipTrigger>Hover me</TooltipTrigger>
+            <TooltipContent>Tooltip content</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>,
+      )
+
+      await user.hover(screen.getByText('Hover me'))
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).toBeInTheDocument()
+      })
+    })
   })
 })
