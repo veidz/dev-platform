@@ -446,5 +446,19 @@ describe('RadioGroup', () => {
       expect(radioGroup).toHaveClass('grid')
       expect(radioGroup).toHaveClass('gap-2')
     })
+
+    it('should apply base styles to RadioGroupItem', () => {
+      render(
+        <RadioGroup>
+          <RadioGroupItem value="option-1" aria-label="Option 1" />
+        </RadioGroup>,
+      )
+      const radio = screen.getByLabelText('Option 1')
+      expect(radio).toHaveClass('h-4')
+      expect(radio).toHaveClass('w-4')
+      expect(radio).toHaveClass('rounded-full')
+      expect(radio).toHaveClass('border')
+      expect(radio).toHaveClass('border-primary')
+    })
   })
 })
