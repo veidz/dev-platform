@@ -28,5 +28,11 @@ describe('Switch', () => {
       const switchElement = screen.getByRole('switch')
       expect(switchElement).toBeChecked()
     })
+
+    it('should render with custom className', () => {
+      render(<Switch className="custom-class" />)
+      const switchElement = screen.getByRole('switch')
+      expect(switchElement).toHaveClass('custom-class')
+    })
   })
 })
