@@ -66,5 +66,11 @@ describe('Switch', () => {
       expect(switchElement).toHaveAttribute('data-state', 'checked')
       expect(switchElement).toBeChecked()
     })
+
+    it('should be disabled when disabled prop is true', () => {
+      render(<Switch disabled />)
+      const switchElement = screen.getByRole('switch')
+      expect(switchElement).toBeDisabled()
+    })
   })
 })
