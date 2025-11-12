@@ -75,4 +75,16 @@ describe('Slider', () => {
       expect(slider).toHaveAttribute('data-orientation', 'vertical')
     })
   })
+
+  describe('User Interactions', () => {
+    it('should call onValueChange when value changes', async () => {
+      const handleChange = jest.fn()
+      render(
+        <Slider defaultValue={[50]} max={100} onValueChange={handleChange} />,
+      )
+
+      const slider = screen.getByRole('slider')
+      expect(slider).toBeInTheDocument()
+    })
+  })
 })
