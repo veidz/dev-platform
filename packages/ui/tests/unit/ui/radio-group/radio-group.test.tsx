@@ -472,5 +472,25 @@ describe('RadioGroup', () => {
       expect(radio).toHaveClass('focus-visible:ring-2')
       expect(radio).toHaveClass('focus-visible:ring-offset-2')
     })
+
+    it('should merge custom className with default styles', () => {
+      render(
+        <RadioGroup className="custom-group">
+          <RadioGroupItem
+            value="option-1"
+            className="custom-item"
+            aria-label="Option 1"
+          />
+        </RadioGroup>,
+      )
+      const radioGroup = screen.getByRole('radiogroup')
+      const radio = screen.getByLabelText('Option 1')
+
+      expect(radioGroup).toHaveClass('custom-group')
+      expect(radioGroup).toHaveClass('grid')
+
+      expect(radio).toHaveClass('custom-item')
+      expect(radio).toHaveClass('h-4')
+    })
   })
 })
