@@ -65,5 +65,15 @@ describe('RadioGroup', () => {
       const radioGroup = screen.getByRole('radiogroup')
       expect(radioGroup).toHaveClass('custom-class')
     })
+
+    it('should render radio item with custom className', () => {
+      render(
+        <RadioGroup>
+          <RadioGroupItem value="option-1" className="custom-item" />
+        </RadioGroup>,
+      )
+      const radio = screen.getByRole('radio')
+      expect(radio).toHaveClass('custom-item')
+    })
   })
 })
