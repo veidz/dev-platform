@@ -195,5 +195,12 @@ describe('Slider', () => {
       expect(slider).toHaveAttribute('aria-valuemin', '0')
       expect(slider).toHaveAttribute('aria-valuemax', '100')
     })
+
+    it('should be keyboard focusable', () => {
+      render(<Slider defaultValue={[50]} max={100} />)
+      const slider = screen.getByRole('slider')
+      slider.focus()
+      expect(slider).toHaveFocus()
+    })
   })
 })
