@@ -4,7 +4,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 describe('Tooltip', () => {
   describe('Rendering', () => {
@@ -46,6 +47,28 @@ describe('Tooltip', () => {
 
       const trigger = screen.getByText('Hover me')
       expect(trigger).toHaveClass('custom-trigger')
+    })
+
+    it('should render with custom className on content', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <TooltipProvider delayDuration={0}>
+          <Tooltip>
+            <TooltipTrigger>Hover me</TooltipTrigger>
+            <TooltipContent className="custom-content">
+              Tooltip content
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>,
+      )
+
+      await user.hover(screen.getByText('Hover me'))
+
+      await waitFor(() => {
+        const content = screen.getByRole('tooltip').parentElement
+        expect(content).toHaveClass('custom-content')
+      })
     })
   })
 })
