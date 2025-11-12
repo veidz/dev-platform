@@ -336,5 +336,25 @@ describe('Tooltip', () => {
         expect(screen.getByRole('tooltip')).toBeInTheDocument()
       })
     })
+
+    it('should call onOpenChange callback', async () => {
+      const user = userEvent.setup()
+      const onOpenChange = jest.fn()
+
+      render(
+        <TooltipProvider delayDuration={0}>
+          <Tooltip onOpenChange={onOpenChange}>
+            <TooltipTrigger>Hover me</TooltipTrigger>
+            <TooltipContent>Tooltip content</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>,
+      )
+
+      await user.hover(screen.getByText('Hover me'))
+
+      await waitFor(() => {
+        expect(onOpenChange).toHaveBeenCalledWith(true)
+      })
+    })
   })
 })
