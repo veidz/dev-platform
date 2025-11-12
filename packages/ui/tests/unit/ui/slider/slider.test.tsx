@@ -143,5 +143,17 @@ describe('Slider', () => {
       const slider = screen.getByRole('slider')
       expect(slider).toHaveAttribute('data-disabled')
     })
+
+    it('should handle range slider interactions independently', async () => {
+      const user = userEvent.setup()
+      render(<Slider defaultValue={[25, 75]} max={100} step={1} />)
+
+      const sliders = screen.getAllByRole('slider')
+      sliders[0].focus()
+
+      await user.keyboard('{ArrowRight}')
+      expect(sliders[0]).toHaveAttribute('aria-valuenow', '26')
+      expect(sliders[1]).toHaveAttribute('aria-valuenow', '75')
+    })
   })
 })
