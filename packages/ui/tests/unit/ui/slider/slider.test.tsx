@@ -9,5 +9,13 @@ describe('Slider', () => {
       expect(slider).toBeInTheDocument()
       expect(slider).toHaveAttribute('aria-valuenow', '50')
     })
+
+    it('should render range slider with two thumbs', () => {
+      render(<Slider defaultValue={[25, 75]} max={100} />)
+      const sliders = screen.getAllByRole('slider')
+      expect(sliders).toHaveLength(2)
+      expect(sliders[0]).toHaveAttribute('aria-valuenow', '25')
+      expect(sliders[1]).toHaveAttribute('aria-valuenow', '75')
+    })
   })
 })
