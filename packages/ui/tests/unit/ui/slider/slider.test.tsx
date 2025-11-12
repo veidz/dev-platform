@@ -1,6 +1,7 @@
 import { Slider } from '@/components/ui/slider'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { createRef } from 'react'
 
 describe('Slider', () => {
   describe('Rendering', () => {
@@ -258,6 +259,14 @@ describe('Slider', () => {
       expect(slider).toHaveClass('relative')
       expect(slider).toHaveClass('flex')
       expect(slider).toHaveClass('extra-class')
+    })
+  })
+
+  describe('Ref Forwarding', () => {
+    it('should forward ref to slider root element', () => {
+      const ref = createRef<HTMLSpanElement>()
+      render(<Slider ref={ref} defaultValue={[50]} max={100} />)
+      expect(ref.current).toBeInstanceOf(HTMLSpanElement)
     })
   })
 })
