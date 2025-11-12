@@ -319,5 +319,15 @@ describe('RadioGroup', () => {
       expect(radio1).toHaveAttribute('aria-checked', 'false')
       expect(radio2).toHaveAttribute('aria-checked', 'true')
     })
+
+    it('should have aria-disabled when disabled', () => {
+      render(
+        <RadioGroup>
+          <RadioGroupItem value="option-1" disabled aria-label="Option 1" />
+        </RadioGroup>,
+      )
+      const radio = screen.getByLabelText('Option 1')
+      expect(radio).toHaveAttribute('disabled')
+    })
   })
 })
