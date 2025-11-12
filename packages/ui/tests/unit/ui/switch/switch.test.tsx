@@ -161,5 +161,17 @@ describe('Switch', () => {
       await user.keyboard(' ')
       expect(switchElement).not.toBeChecked()
     })
+
+    it('should toggle on Enter key', async () => {
+      const user = userEvent.setup()
+      render(<Switch />)
+      const switchElement = screen.getByRole('switch')
+      switchElement.focus()
+
+      expect(switchElement).not.toBeChecked()
+
+      await user.keyboard('{Enter}')
+      expect(switchElement).toBeChecked()
+    })
   })
 })
