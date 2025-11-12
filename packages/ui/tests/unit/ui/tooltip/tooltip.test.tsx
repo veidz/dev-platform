@@ -33,5 +33,19 @@ describe('Tooltip', () => {
 
       expect(screen.queryByRole('tooltip')).not.toBeInTheDocument()
     })
+
+    it('should render with custom className on trigger', () => {
+      render(
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger className="custom-trigger">Hover me</TooltipTrigger>
+            <TooltipContent>Tooltip content</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>,
+      )
+
+      const trigger = screen.getByText('Hover me')
+      expect(trigger).toHaveClass('custom-trigger')
+    })
   })
 })
