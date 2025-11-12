@@ -294,5 +294,11 @@ describe('Switch', () => {
       const switchElement = screen.getByRole('switch')
       expect(switchElement).toHaveAttribute('value', 'on')
     })
+
+    it('should accept required prop in form', () => {
+      render(<Switch required />)
+      const switchElement = screen.getByRole('switch')
+      expect(switchElement).toBeInTheDocument()
+    })
   })
 })
