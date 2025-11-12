@@ -404,5 +404,31 @@ describe('Tabs', () => {
       expect(screen.getAllByRole('tab')).toHaveLength(2)
       expect(screen.getByRole('tabpanel')).toBeInTheDocument()
     })
+
+    it('should have correct aria-selected attributes', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Tabs defaultValue="tab1">
+          <TabsList>
+            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
+            <TabsTrigger value="tab2">Tab 2</TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">Content 1</TabsContent>
+          <TabsContent value="tab2">Content 2</TabsContent>
+        </Tabs>,
+      )
+
+      const tab1 = screen.getByText('Tab 1')
+      const tab2 = screen.getByText('Tab 2')
+
+      expect(tab1).toHaveAttribute('aria-selected', 'true')
+      expect(tab2).toHaveAttribute('aria-selected', 'false')
+
+      await user.click(tab2)
+
+      expect(tab1).toHaveAttribute('aria-selected', 'false')
+      expect(tab2).toHaveAttribute('aria-selected', 'true')
+    })
   })
 })
