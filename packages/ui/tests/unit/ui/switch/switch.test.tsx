@@ -253,5 +253,16 @@ describe('Switch', () => {
       const results = await axe(container)
       expect(results).toHaveNoViolations()
     })
+
+    it('should announce state changes to screen readers', async () => {
+      const user = userEvent.setup()
+      render(<Switch aria-label="Toggle" />)
+      const switchElement = screen.getByRole('switch', { name: 'Toggle' })
+
+      expect(switchElement).toHaveAttribute('aria-checked', 'false')
+
+      await user.click(switchElement)
+      expect(switchElement).toHaveAttribute('aria-checked', 'true')
+    })
   })
 })
