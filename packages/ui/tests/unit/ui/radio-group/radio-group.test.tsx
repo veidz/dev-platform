@@ -38,5 +38,22 @@ describe('RadioGroup', () => {
       expect(radios[0]).not.toBeChecked()
       expect(radios[2]).not.toBeChecked()
     })
+
+    it('should render with labels', () => {
+      render(
+        <RadioGroup>
+          <div>
+            <RadioGroupItem value="option-1" id="opt1" />
+            <label htmlFor="opt1">Option 1</label>
+          </div>
+          <div>
+            <RadioGroupItem value="option-2" id="opt2" />
+            <label htmlFor="opt2">Option 2</label>
+          </div>
+        </RadioGroup>,
+      )
+      expect(screen.getByLabelText('Option 1')).toBeInTheDocument()
+      expect(screen.getByLabelText('Option 2')).toBeInTheDocument()
+    })
   })
 })
