@@ -1,5 +1,6 @@
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 describe('RadioGroup', () => {
   describe('Rendering', () => {
@@ -74,6 +75,32 @@ describe('RadioGroup', () => {
       )
       const radio = screen.getByRole('radio')
       expect(radio).toHaveClass('custom-item')
+    })
+  })
+
+  describe('States', () => {
+    it('should have only one radio checked at a time', async () => {
+      const user = userEvent.setup()
+      render(
+        <RadioGroup>
+          <RadioGroupItem value="option-1" aria-label="Option 1" />
+          <RadioGroupItem value="option-2" aria-label="Option 2" />
+          <RadioGroupItem value="option-3" aria-label="Option 3" />
+        </RadioGroup>,
+      )
+      const radio1 = screen.getByLabelText('Option 1')
+      const radio2 = screen.getByLabelText('Option 2')
+      const radio3 = screen.getByLabelText('Option 3')
+
+      await user.click(radio1)
+      expect(radio1).toBeChecked()
+      expect(radio2).not.toBeChecked()
+      expect(radio3).not.toBeChecked()
+
+      await user.click(radio2)
+      expect(radio1).not.toBeChecked()
+      expect(radio2).toBeChecked()
+      expect(radio3).not.toBeChecked()
     })
   })
 })
