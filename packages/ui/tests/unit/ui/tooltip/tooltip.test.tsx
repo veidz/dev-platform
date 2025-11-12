@@ -412,5 +412,25 @@ describe('Tooltip', () => {
         expect(state).toMatch(/open/)
       })
     })
+
+    it('should have role tooltip on content', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <TooltipProvider delayDuration={0}>
+          <Tooltip>
+            <TooltipTrigger>Hover me</TooltipTrigger>
+            <TooltipContent>Tooltip content</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>,
+      )
+
+      await user.hover(screen.getByText('Hover me'))
+
+      await waitFor(() => {
+        const tooltip = screen.getByRole('tooltip')
+        expect(tooltip).toBeInTheDocument()
+      })
+    })
   })
 })
