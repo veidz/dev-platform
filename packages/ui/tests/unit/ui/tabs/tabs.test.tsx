@@ -594,5 +594,22 @@ describe('Tabs', () => {
 
       expect(ref).toHaveBeenCalled()
     })
+
+    it('should forward ref to TabsTrigger', () => {
+      const ref = jest.fn()
+
+      render(
+        <Tabs defaultValue="tab1">
+          <TabsList>
+            <TabsTrigger value="tab1" ref={ref}>
+              Tab 1
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">Content 1</TabsContent>
+        </Tabs>,
+      )
+
+      expect(ref).toHaveBeenCalled()
+    })
   })
 })
