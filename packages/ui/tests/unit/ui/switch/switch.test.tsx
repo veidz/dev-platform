@@ -347,5 +347,12 @@ describe('Switch', () => {
       render(<Switch ref={ref} />)
       expect(ref.current).toBeInstanceOf(HTMLButtonElement)
     })
+
+    it('should allow calling focus via ref', () => {
+      const ref = { current: null as HTMLButtonElement | null }
+      render(<Switch ref={ref} />)
+      ref.current?.focus()
+      expect(ref.current).toHaveFocus()
+    })
   })
 })
