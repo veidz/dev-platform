@@ -20,5 +20,18 @@ describe('Tooltip', () => {
 
       expect(screen.getByText('Hover me')).toBeInTheDocument()
     })
+
+    it('should not show content initially', () => {
+      render(
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>Hover me</TooltipTrigger>
+            <TooltipContent>Tooltip content</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>,
+      )
+
+      expect(screen.queryByRole('tooltip')).not.toBeInTheDocument()
+    })
   })
 })
