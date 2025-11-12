@@ -16,5 +16,11 @@ describe('Switch', () => {
       })
       expect(switchElement).toBeInTheDocument()
     })
+
+    it('should render unchecked by default', () => {
+      render(<Switch />)
+      const switchElement = screen.getByRole('switch')
+      expect(switchElement).not.toBeChecked()
+    })
   })
 })
