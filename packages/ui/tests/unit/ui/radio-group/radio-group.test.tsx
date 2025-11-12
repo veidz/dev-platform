@@ -150,4 +150,22 @@ describe('RadioGroup', () => {
       expect(radioGroup).toBeInTheDocument()
     })
   })
+
+  describe('User Interactions', () => {
+    it('should select radio on click', async () => {
+      const user = userEvent.setup()
+      render(
+        <RadioGroup>
+          <RadioGroupItem value="option-1" aria-label="Option 1" />
+          <RadioGroupItem value="option-2" aria-label="Option 2" />
+        </RadioGroup>,
+      )
+      const radio1 = screen.getByLabelText('Option 1')
+
+      expect(radio1).not.toBeChecked()
+
+      await user.click(radio1)
+      expect(radio1).toBeChecked()
+    })
+  })
 })
