@@ -288,5 +288,11 @@ describe('Switch', () => {
       const switchElement = screen.getByRole('switch')
       expect(switchElement).toBeInTheDocument()
     })
+
+    it('should have value attribute', () => {
+      render(<Switch value="on" />)
+      const switchElement = screen.getByRole('switch')
+      expect(switchElement).toHaveAttribute('value', 'on')
+    })
   })
 })
