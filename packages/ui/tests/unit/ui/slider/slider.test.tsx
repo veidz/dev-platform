@@ -291,5 +291,13 @@ describe('Slider', () => {
       const slider = screen.getByRole('slider')
       expect(slider).toHaveAttribute('aria-valuenow', '0.5')
     })
+
+    it('should handle negative values', () => {
+      render(<Slider defaultValue={[-10]} min={-50} max={50} />)
+      const slider = screen.getByRole('slider')
+      expect(slider).toHaveAttribute('aria-valuenow', '-10')
+      expect(slider).toHaveAttribute('aria-valuemin', '-50')
+      expect(slider).toHaveAttribute('aria-valuemax', '50')
+    })
   })
 })
