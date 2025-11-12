@@ -421,5 +421,17 @@ describe('RadioGroup', () => {
       const radio = screen.getByLabelText('Option 1')
       expect(radio).toHaveAttribute('value', 'test-value')
     })
+
+    it('should accept required prop in form context', () => {
+      render(
+        <form>
+          <RadioGroup required>
+            <RadioGroupItem value="option-1" aria-label="Option 1" />
+          </RadioGroup>
+        </form>,
+      )
+      const radioGroup = screen.getByRole('radiogroup')
+      expect(radioGroup).toBeInTheDocument()
+    })
   })
 })
