@@ -224,5 +224,25 @@ describe('Tooltip', () => {
         expect(tooltip.parentElement).toHaveAttribute('data-side', 'bottom')
       })
     })
+
+    it('should render on left side', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <TooltipProvider delayDuration={0}>
+          <Tooltip>
+            <TooltipTrigger>Hover me</TooltipTrigger>
+            <TooltipContent side="left">Tooltip content</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>,
+      )
+
+      await user.hover(screen.getByText('Hover me'))
+
+      await waitFor(() => {
+        const tooltip = screen.getByRole('tooltip')
+        expect(tooltip.parentElement).toHaveAttribute('data-side', 'left')
+      })
+    })
   })
 })
