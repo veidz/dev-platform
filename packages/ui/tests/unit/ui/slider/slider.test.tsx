@@ -101,5 +101,19 @@ describe('Slider', () => {
       await user.keyboard('{ArrowLeft}')
       expect(slider).toHaveAttribute('aria-valuenow', '50')
     })
+
+    it('should support keyboard navigation with Home/End keys', async () => {
+      const user = userEvent.setup()
+      render(<Slider defaultValue={[50]} min={0} max={100} />)
+
+      const slider = screen.getByRole('slider')
+      slider.focus()
+
+      await user.keyboard('{Home}')
+      expect(slider).toHaveAttribute('aria-valuenow', '0')
+
+      await user.keyboard('{End}')
+      expect(slider).toHaveAttribute('aria-valuenow', '100')
+    })
   })
 })
