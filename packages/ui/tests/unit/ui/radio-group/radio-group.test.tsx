@@ -201,5 +201,29 @@ describe('RadioGroup', () => {
       await user.click(radio)
       expect(onValueChange).not.toHaveBeenCalled()
     })
+
+    it('should navigate with arrow keys', async () => {
+      const user = userEvent.setup()
+      render(
+        <RadioGroup>
+          <RadioGroupItem value="option-1" aria-label="Option 1" />
+          <RadioGroupItem value="option-2" aria-label="Option 2" />
+          <RadioGroupItem value="option-3" aria-label="Option 3" />
+        </RadioGroup>,
+      )
+      const radio1 = screen.getByLabelText('Option 1')
+      const radio2 = screen.getByLabelText('Option 2')
+      const radio3 = screen.getByLabelText('Option 3')
+
+      radio1.focus()
+      await user.keyboard('{ArrowDown}')
+      expect(radio2).toHaveFocus()
+
+      await user.keyboard('{ArrowDown}')
+      expect(radio3).toHaveFocus()
+
+      await user.keyboard('{ArrowUp}')
+      expect(radio2).toHaveFocus()
+    })
   })
 })
