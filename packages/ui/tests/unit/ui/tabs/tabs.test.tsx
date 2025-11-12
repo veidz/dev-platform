@@ -38,5 +38,19 @@ describe('Tabs', () => {
       expect(screen.getByText('Tab 2')).toBeInTheDocument()
       expect(screen.getByText('Tab 3')).toBeInTheDocument()
     })
+
+    it('should render with custom className on TabsList', () => {
+      render(
+        <Tabs defaultValue="tab1">
+          <TabsList className="custom-list">
+            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">Content 1</TabsContent>
+        </Tabs>,
+      )
+
+      const list = screen.getByRole('tablist')
+      expect(list).toHaveClass('custom-list')
+    })
   })
 })
