@@ -411,5 +411,15 @@ describe('RadioGroup', () => {
       const radioGroup = screen.getByRole('radiogroup')
       expect(radioGroup).toBeInTheDocument()
     })
+
+    it('should have value attribute on items', () => {
+      render(
+        <RadioGroup>
+          <RadioGroupItem value="test-value" aria-label="Option 1" />
+        </RadioGroup>,
+      )
+      const radio = screen.getByLabelText('Option 1')
+      expect(radio).toHaveAttribute('value', 'test-value')
+    })
   })
 })
