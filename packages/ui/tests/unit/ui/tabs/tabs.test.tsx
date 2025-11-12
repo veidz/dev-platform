@@ -214,5 +214,28 @@ describe('Tabs', () => {
       await user.keyboard('{ArrowRight}')
       expect(screen.getByText('Tab 1')).toHaveFocus()
     })
+
+    it('should focus first tab with Home key', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Tabs defaultValue="tab3">
+          <TabsList>
+            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
+            <TabsTrigger value="tab2">Tab 2</TabsTrigger>
+            <TabsTrigger value="tab3">Tab 3</TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">Content 1</TabsContent>
+          <TabsContent value="tab2">Content 2</TabsContent>
+          <TabsContent value="tab3">Content 3</TabsContent>
+        </Tabs>,
+      )
+
+      const tab3 = screen.getByText('Tab 3')
+      tab3.focus()
+
+      await user.keyboard('{Home}')
+      expect(screen.getByText('Tab 1')).toHaveFocus()
+    })
   })
 })
