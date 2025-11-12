@@ -40,5 +40,16 @@ describe('Switch', () => {
       const switchElement = screen.getByRole('switch')
       expect(switchElement).toHaveAttribute('id', 'airplane-mode')
     })
+
+    it('should associate with label using htmlFor', () => {
+      render(
+        <>
+          <Switch id="toggle" />
+          <label htmlFor="toggle">Toggle</label>
+        </>,
+      )
+      const switchElement = screen.getByRole('switch', { name: 'Toggle' })
+      expect(switchElement).toBeInTheDocument()
+    })
   })
 })
