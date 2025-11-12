@@ -128,5 +128,20 @@ describe('Slider', () => {
 
       expect(Number.parseInt(afterPageUp || '0')).toBeGreaterThan(50)
     })
+
+    it('should not respond to interactions when disabled', () => {
+      const handleChange = jest.fn()
+      render(
+        <Slider
+          defaultValue={[50]}
+          max={100}
+          disabled
+          onValueChange={handleChange}
+        />,
+      )
+
+      const slider = screen.getByRole('slider')
+      expect(slider).toHaveAttribute('data-disabled')
+    })
   })
 })
