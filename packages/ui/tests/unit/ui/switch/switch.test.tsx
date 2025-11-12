@@ -232,5 +232,14 @@ describe('Switch', () => {
       const switchElement = screen.getByRole('switch')
       expect(switchElement).toHaveAttribute('disabled')
     })
+
+    it('should be keyboard accessible', async () => {
+      const user = userEvent.setup()
+      render(<Switch />)
+      const switchElement = screen.getByRole('switch')
+
+      await user.tab()
+      expect(switchElement).toHaveFocus()
+    })
   })
 })
