@@ -528,4 +528,20 @@ describe('Tabs', () => {
       expect(screen.getByText('Tab 2')).toHaveFocus()
     })
   })
+
+  describe('Edge Cases', () => {
+    it('should handle empty content', () => {
+      render(
+        <Tabs defaultValue="tab1">
+          <TabsList>
+            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1"></TabsContent>
+        </Tabs>,
+      )
+
+      expect(screen.getByRole('tabpanel')).toBeInTheDocument()
+      expect(screen.getByRole('tabpanel')).toBeEmptyDOMElement()
+    })
+  })
 })
