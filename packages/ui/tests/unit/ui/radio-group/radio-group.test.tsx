@@ -381,4 +381,25 @@ describe('RadioGroup', () => {
       expect(radio2).toHaveAttribute('aria-checked', 'false')
     })
   })
+
+  describe('Form Integration', () => {
+    it('should work with form submission', async () => {
+      const handleSubmit = jest.fn((e) => e.preventDefault())
+
+      render(
+        <form onSubmit={handleSubmit}>
+          <RadioGroup name="option" defaultValue="option-1">
+            <RadioGroupItem value="option-1" aria-label="Option 1" />
+            <RadioGroupItem value="option-2" aria-label="Option 2" />
+          </RadioGroup>
+          <button type="submit">Submit</button>
+        </form>,
+      )
+
+      const submitButton = screen.getByRole('button', { name: 'Submit' })
+      await userEvent.click(submitButton)
+
+      expect(handleSubmit).toHaveBeenCalled()
+    })
+  })
 })
