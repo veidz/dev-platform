@@ -85,5 +85,12 @@ describe('Switch', () => {
       expect(switchElement).toHaveClass('disabled:cursor-not-allowed')
       expect(switchElement).toHaveClass('disabled:opacity-50')
     })
+
+    it('should be checked and disabled', () => {
+      render(<Switch checked disabled />)
+      const switchElement = screen.getByRole('switch')
+      expect(switchElement).toBeChecked()
+      expect(switchElement).toBeDisabled()
+    })
   })
 })
