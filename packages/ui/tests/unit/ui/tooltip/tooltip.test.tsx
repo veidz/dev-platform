@@ -478,4 +478,36 @@ describe('Tooltip', () => {
       })
     })
   })
+
+  describe('Multiple Tooltips', () => {
+    it('should handle multiple tooltips independently', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <TooltipProvider delayDuration={0}>
+          <Tooltip>
+            <TooltipTrigger>Trigger 1</TooltipTrigger>
+            <TooltipContent>Content 1</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger>Trigger 2</TooltipTrigger>
+            <TooltipContent>Content 2</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>,
+      )
+
+      await user.hover(screen.getByText('Trigger 1'))
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).toBeInTheDocument()
+      })
+
+      await user.unhover(screen.getByText('Trigger 1'))
+      await user.hover(screen.getByText('Trigger 2'))
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).toBeInTheDocument()
+      })
+    })
+  })
 })
