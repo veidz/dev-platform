@@ -15,6 +15,8 @@ Element.prototype.hasPointerCapture = jest.fn()
 
 Element.prototype.releasePointerCapture = jest.fn()
 
+Element.prototype.setPointerCapture = jest.fn()
+
 const originalError = console.error
 const originalWarn = console.warn
 
