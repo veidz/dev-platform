@@ -329,5 +329,19 @@ describe('RadioGroup', () => {
       const radio = screen.getByLabelText('Option 1')
       expect(radio).toHaveAttribute('disabled')
     })
+
+    it('should be keyboard accessible', async () => {
+      const user = userEvent.setup()
+      render(
+        <RadioGroup>
+          <RadioGroupItem value="option-1" aria-label="Option 1" />
+          <RadioGroupItem value="option-2" aria-label="Option 2" />
+        </RadioGroup>,
+      )
+      const radio1 = screen.getByLabelText('Option 1')
+
+      await user.tab()
+      expect(radio1).toHaveFocus()
+    })
   })
 })
