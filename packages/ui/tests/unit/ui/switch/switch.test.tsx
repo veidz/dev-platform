@@ -146,5 +146,20 @@ describe('Switch', () => {
       await user.click(switchElement)
       expect(onCheckedChange).not.toHaveBeenCalled()
     })
+
+    it('should toggle on Space key', async () => {
+      const user = userEvent.setup()
+      render(<Switch />)
+      const switchElement = screen.getByRole('switch')
+      switchElement.focus()
+
+      expect(switchElement).not.toBeChecked()
+
+      await user.keyboard(' ')
+      expect(switchElement).toBeChecked()
+
+      await user.keyboard(' ')
+      expect(switchElement).not.toBeChecked()
+    })
   })
 })
