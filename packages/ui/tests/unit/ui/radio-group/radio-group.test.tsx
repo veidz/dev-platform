@@ -187,5 +187,19 @@ describe('RadioGroup', () => {
       expect(onValueChange).toHaveBeenCalledWith('option-2')
       expect(onValueChange).toHaveBeenCalledTimes(2)
     })
+
+    it('should not call onValueChange when disabled', async () => {
+      const user = userEvent.setup()
+      const onValueChange = jest.fn()
+      render(
+        <RadioGroup onValueChange={onValueChange} disabled>
+          <RadioGroupItem value="option-1" aria-label="Option 1" />
+        </RadioGroup>,
+      )
+      const radio = screen.getByLabelText('Option 1')
+
+      await user.click(radio)
+      expect(onValueChange).not.toHaveBeenCalled()
+    })
   })
 })
