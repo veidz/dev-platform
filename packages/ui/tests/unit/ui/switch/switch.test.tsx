@@ -72,5 +72,11 @@ describe('Switch', () => {
       const switchElement = screen.getByRole('switch')
       expect(switchElement).toBeDisabled()
     })
+
+    it('should have disabled attribute', () => {
+      render(<Switch disabled />)
+      const switchElement = screen.getByRole('switch')
+      expect(switchElement).toHaveAttribute('disabled')
+    })
   })
 })
