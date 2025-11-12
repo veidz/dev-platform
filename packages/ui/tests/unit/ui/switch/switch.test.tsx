@@ -325,5 +325,11 @@ describe('Switch', () => {
       const switchElement = screen.getByRole('switch')
       expect(switchElement).toHaveClass('data-[state=checked]:bg-primary')
     })
+
+    it('should apply unchecked styles', () => {
+      render(<Switch />)
+      const switchElement = screen.getByRole('switch')
+      expect(switchElement).toHaveClass('data-[state=unchecked]:bg-input')
+    })
   })
 })
