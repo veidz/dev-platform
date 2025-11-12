@@ -220,5 +220,11 @@ describe('Switch', () => {
       const switchElement = screen.getByRole('switch')
       expect(switchElement).toHaveAttribute('aria-checked', 'false')
     })
+
+    it('should have aria-checked="true" when checked', () => {
+      render(<Switch checked />)
+      const switchElement = screen.getByRole('switch')
+      expect(switchElement).toHaveAttribute('aria-checked', 'true')
+    })
   })
 })
