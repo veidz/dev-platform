@@ -452,5 +452,30 @@ describe('Tooltip', () => {
         expect(screen.getByRole('tooltip')).toBeInTheDocument()
       })
     })
+
+    it('should close on Escape key', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <TooltipProvider delayDuration={0}>
+          <Tooltip>
+            <TooltipTrigger>Hover me</TooltipTrigger>
+            <TooltipContent>Tooltip content</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>,
+      )
+
+      await user.hover(screen.getByText('Hover me'))
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).toBeInTheDocument()
+      })
+
+      await user.keyboard('{Escape}')
+
+      await waitFor(() => {
+        expect(screen.queryByRole('tooltip')).not.toBeInTheDocument()
+      })
+    })
   })
 })
