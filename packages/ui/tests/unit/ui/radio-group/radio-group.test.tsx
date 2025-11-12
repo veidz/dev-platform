@@ -139,5 +139,15 @@ describe('RadioGroup', () => {
       expect(radio).toHaveClass('disabled:cursor-not-allowed')
       expect(radio).toHaveClass('disabled:opacity-50')
     })
+
+    it('should accept required prop', () => {
+      render(
+        <RadioGroup required>
+          <RadioGroupItem value="option-1" aria-label="Option 1" />
+        </RadioGroup>,
+      )
+      const radioGroup = screen.getByRole('radiogroup')
+      expect(radioGroup).toBeInTheDocument()
+    })
   })
 })
