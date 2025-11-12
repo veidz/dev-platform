@@ -1,6 +1,7 @@
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { axe } from 'jest-axe'
 import { useState } from 'react'
 
 describe('RadioGroup', () => {
@@ -342,6 +343,23 @@ describe('RadioGroup', () => {
 
       await user.tab()
       expect(radio1).toHaveFocus()
+    })
+
+    it('should not have accessibility violations', async () => {
+      const { container } = render(
+        <RadioGroup>
+          <div>
+            <RadioGroupItem value="option-1" id="test1" />
+            <label htmlFor="test1">Test Label 1</label>
+          </div>
+          <div>
+            <RadioGroupItem value="option-2" id="test2" />
+            <label htmlFor="test2">Test Label 2</label>
+          </div>
+        </RadioGroup>,
+      )
+      const results = await axe(container)
+      expect(results).toHaveNoViolations()
     })
   })
 })
