@@ -265,5 +265,20 @@ describe('RadioGroup', () => {
       expect(radio2).toBeChecked()
       expect(radio1).not.toBeChecked()
     })
+
+    it('should not unselect when clicking selected radio', async () => {
+      const user = userEvent.setup()
+      render(
+        <RadioGroup defaultValue="option-1">
+          <RadioGroupItem value="option-1" aria-label="Option 1" />
+        </RadioGroup>,
+      )
+      const radio = screen.getByLabelText('Option 1')
+
+      expect(radio).toBeChecked()
+
+      await user.click(radio)
+      expect(radio).toBeChecked()
+    })
   })
 })
