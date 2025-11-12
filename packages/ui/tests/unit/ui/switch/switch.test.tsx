@@ -22,5 +22,11 @@ describe('Switch', () => {
       const switchElement = screen.getByRole('switch')
       expect(switchElement).not.toBeChecked()
     })
+
+    it('should render checked when defaultChecked is true', () => {
+      render(<Switch defaultChecked />)
+      const switchElement = screen.getByRole('switch')
+      expect(switchElement).toBeChecked()
+    })
   })
 })
