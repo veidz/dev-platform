@@ -78,5 +78,12 @@ describe('Switch', () => {
       const switchElement = screen.getByRole('switch')
       expect(switchElement).toHaveAttribute('disabled')
     })
+
+    it('should apply disabled styles', () => {
+      render(<Switch disabled />)
+      const switchElement = screen.getByRole('switch')
+      expect(switchElement).toHaveClass('disabled:cursor-not-allowed')
+      expect(switchElement).toHaveClass('disabled:opacity-50')
+    })
   })
 })
