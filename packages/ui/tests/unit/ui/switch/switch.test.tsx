@@ -311,5 +311,13 @@ describe('Switch', () => {
       expect(switchElement).toHaveClass('rounded-full')
       expect(switchElement).toHaveClass('inline-flex')
     })
+
+    it('should apply focus styles', () => {
+      render(<Switch />)
+      const switchElement = screen.getByRole('switch')
+      expect(switchElement).toHaveClass('focus-visible:outline-none')
+      expect(switchElement).toHaveClass('focus-visible:ring-2')
+      expect(switchElement).toHaveClass('focus-visible:ring-offset-2')
+    })
   })
 })
