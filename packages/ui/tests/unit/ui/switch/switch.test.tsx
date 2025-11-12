@@ -136,5 +136,15 @@ describe('Switch', () => {
       await user.click(switchElement)
       expect(onCheckedChange).toHaveBeenCalledWith(false)
     })
+
+    it('should not toggle when disabled', async () => {
+      const user = userEvent.setup()
+      const onCheckedChange = jest.fn()
+      render(<Switch disabled onCheckedChange={onCheckedChange} />)
+      const switchElement = screen.getByRole('switch')
+
+      await user.click(switchElement)
+      expect(onCheckedChange).not.toHaveBeenCalled()
+    })
   })
 })
