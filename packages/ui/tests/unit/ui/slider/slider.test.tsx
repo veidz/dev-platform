@@ -202,5 +202,11 @@ describe('Slider', () => {
       slider.focus()
       expect(slider).toHaveFocus()
     })
+
+    it('should support aria-orientation for vertical slider', () => {
+      render(<Slider defaultValue={[50]} max={100} orientation="vertical" />)
+      const slider = screen.getByRole('slider')
+      expect(slider).toHaveAttribute('aria-orientation', 'vertical')
+    })
   })
 })
