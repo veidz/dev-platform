@@ -92,5 +92,11 @@ describe('Switch', () => {
       expect(switchElement).toBeChecked()
       expect(switchElement).toBeDisabled()
     })
+
+    it('should accept required prop', () => {
+      render(<Switch required />)
+      const switchElement = screen.getByRole('switch')
+      expect(switchElement).toBeInTheDocument()
+    })
   })
 })
