@@ -244,5 +244,20 @@ describe('Slider', () => {
       const slider = screen.getByTestId('slider-root')
       expect(slider).toHaveClass('custom-slider')
     })
+
+    it('should maintain base styles with custom className', () => {
+      render(
+        <Slider
+          defaultValue={[50]}
+          max={100}
+          className="extra-class"
+          data-testid="slider-root"
+        />,
+      )
+      const slider = screen.getByTestId('slider-root')
+      expect(slider).toHaveClass('relative')
+      expect(slider).toHaveClass('flex')
+      expect(slider).toHaveClass('extra-class')
+    })
   })
 })
