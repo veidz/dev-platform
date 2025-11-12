@@ -167,5 +167,25 @@ describe('RadioGroup', () => {
       await user.click(radio1)
       expect(radio1).toBeChecked()
     })
+
+    it('should call onValueChange when selection changes', async () => {
+      const user = userEvent.setup()
+      const onValueChange = jest.fn()
+      render(
+        <RadioGroup onValueChange={onValueChange}>
+          <RadioGroupItem value="option-1" aria-label="Option 1" />
+          <RadioGroupItem value="option-2" aria-label="Option 2" />
+        </RadioGroup>,
+      )
+      const radio1 = screen.getByLabelText('Option 1')
+      const radio2 = screen.getByLabelText('Option 2')
+
+      await user.click(radio1)
+      expect(onValueChange).toHaveBeenCalledWith('option-1')
+
+      await user.click(radio2)
+      expect(onValueChange).toHaveBeenCalledWith('option-2')
+      expect(onValueChange).toHaveBeenCalledTimes(2)
+    })
   })
 })
