@@ -265,4 +265,22 @@ describe('Switch', () => {
       expect(switchElement).toHaveAttribute('aria-checked', 'true')
     })
   })
+
+  describe('Form Integration', () => {
+    it('should work with form submission', async () => {
+      const handleSubmit = jest.fn((e) => e.preventDefault())
+
+      render(
+        <form onSubmit={handleSubmit}>
+          <Switch name="notifications" defaultChecked />
+          <button type="submit">Submit</button>
+        </form>,
+      )
+
+      const submitButton = screen.getByRole('button', { name: 'Submit' })
+      await userEvent.click(submitButton)
+
+      expect(handleSubmit).toHaveBeenCalled()
+    })
+  })
 })
