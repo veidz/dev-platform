@@ -1,11 +1,11 @@
 import Editor from '@monaco-editor/react'
-import * as React from 'react'
+import { forwardRef, useMemo } from 'react'
 
 import { cn } from '@/lib/utils'
 
 import type { CodeEditorProps } from './code-editor.types'
 
-export const CodeEditor = React.forwardRef<HTMLDivElement, CodeEditorProps>(
+export const CodeEditor = forwardRef<HTMLDivElement, CodeEditorProps>(
   (
     {
       value,
@@ -26,7 +26,7 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, CodeEditorProps>(
     },
     ref,
   ) => {
-    const editorOptions = React.useMemo(
+    const editorOptions = useMemo(
       () => ({
         readOnly,
         minimap: { enabled: false },

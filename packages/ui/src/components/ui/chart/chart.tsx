@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { forwardRef } from 'react'
 import {
   Area,
   Bar,
@@ -37,7 +37,7 @@ const DEFAULT_COLORS = [
   '#d084d0',
 ]
 
-export const LineChart = React.forwardRef<HTMLDivElement, LineChartProps>(
+export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
   (
     {
       data,
@@ -83,7 +83,7 @@ export const LineChart = React.forwardRef<HTMLDivElement, LineChartProps>(
 
 LineChart.displayName = 'LineChart'
 
-export const BarChart = React.forwardRef<HTMLDivElement, BarChartProps>(
+export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
   (
     {
       data,
@@ -127,7 +127,7 @@ export const BarChart = React.forwardRef<HTMLDivElement, BarChartProps>(
 
 BarChart.displayName = 'BarChart'
 
-export const AreaChart = React.forwardRef<HTMLDivElement, AreaChartProps>(
+export const AreaChart = forwardRef<HTMLDivElement, AreaChartProps>(
   (
     {
       data,
@@ -177,7 +177,7 @@ export const AreaChart = React.forwardRef<HTMLDivElement, AreaChartProps>(
 
 AreaChart.displayName = 'AreaChart'
 
-export const PieChart = React.forwardRef<HTMLDivElement, PieChartProps>(
+export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
   (
     {
       data,
@@ -227,10 +227,7 @@ export const PieChart = React.forwardRef<HTMLDivElement, PieChartProps>(
 
 PieChart.displayName = 'PieChart'
 
-export const ComposedChart = React.forwardRef<
-  HTMLDivElement,
-  ComposedChartProps
->(
+export const ComposedChart = forwardRef<HTMLDivElement, ComposedChartProps>(
   (
     {
       data,

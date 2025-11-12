@@ -7,7 +7,8 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import { ChevronDown, ChevronsUpDown, ChevronUp } from 'lucide-react'
-import * as React from 'react'
+import type { JSX } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -35,20 +36,18 @@ export function DataTable<TData, TValue>({
   onRowSelectionChange,
   emptyMessage = 'No results.',
   className,
-}: DataTableProps<TData, TValue>): React.JSX.Element {
-  const [sorting, setSorting] = React.useState<
+}: DataTableProps<TData, TValue>): JSX.Element {
+  const [sorting, setSorting] = useState<
     import('@tanstack/react-table').SortingState
   >([])
-  const [columnFilters, setColumnFilters] = React.useState<
+  const [columnFilters, setColumnFilters] = useState<
     import('@tanstack/react-table').ColumnFiltersState
   >([])
-  const [columnVisibility, setColumnVisibility] = React.useState<
+  const [columnVisibility, setColumnVisibility] = useState<
     import('@tanstack/react-table').VisibilityState
   >({})
-  const [rowSelection, setRowSelection] = React.useState<
-    Record<string, boolean>
-  >({})
-  const [pagination, setPagination] = React.useState<
+  const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({})
+  const [pagination, setPagination] = useState<
     import('@tanstack/react-table').PaginationState
   >({
     pageIndex: 0,
@@ -88,7 +87,7 @@ export function DataTable<TData, TValue>({
     }),
   })
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (enableRowSelection && onRowSelectionChange) {
       const selectedRows = table
         .getFilteredSelectedRowModel()
