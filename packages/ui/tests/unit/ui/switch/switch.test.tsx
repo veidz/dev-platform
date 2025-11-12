@@ -52,4 +52,12 @@ describe('Switch', () => {
       expect(switchElement).toBeInTheDocument()
     })
   })
+
+  describe('States', () => {
+    it('should be unchecked by default', () => {
+      render(<Switch />)
+      const switchElement = screen.getByRole('switch')
+      expect(switchElement).toHaveAttribute('data-state', 'unchecked')
+    })
+  })
 })
