@@ -45,5 +45,15 @@ describe('Slider', () => {
       const slider = screen.getByRole('slider')
       expect(slider).toHaveAttribute('data-disabled')
     })
+
+    it('should update value on controlled change', () => {
+      const { rerender } = render(<Slider value={[30]} max={100} />)
+      let slider = screen.getByRole('slider')
+      expect(slider).toHaveAttribute('aria-valuenow', '30')
+
+      rerender(<Slider value={[70]} max={100} />)
+      slider = screen.getByRole('slider')
+      expect(slider).toHaveAttribute('aria-valuenow', '70')
+    })
   })
 })
