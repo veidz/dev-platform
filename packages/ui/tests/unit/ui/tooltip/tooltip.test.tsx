@@ -264,4 +264,30 @@ describe('Tooltip', () => {
       })
     })
   })
+
+  describe('Delay', () => {
+    it('should respect custom delay duration', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <TooltipProvider delayDuration={100}>
+          <Tooltip>
+            <TooltipTrigger>Hover me</TooltipTrigger>
+            <TooltipContent>Tooltip content</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>,
+      )
+
+      await user.hover(screen.getByText('Hover me'))
+
+      expect(screen.queryByRole('tooltip')).not.toBeInTheDocument()
+
+      await waitFor(
+        () => {
+          expect(screen.getByRole('tooltip')).toBeInTheDocument()
+        },
+        { timeout: 200 },
+      )
+    })
+  })
 })
