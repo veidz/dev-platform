@@ -504,5 +504,15 @@ describe('RadioGroup', () => {
       )
       expect(ref.current).toBeInstanceOf(HTMLDivElement)
     })
+
+    it('should forward ref to radio item element', () => {
+      const ref = { current: null as HTMLButtonElement | null }
+      render(
+        <RadioGroup>
+          <RadioGroupItem value="option-1" ref={ref} />
+        </RadioGroup>,
+      )
+      expect(ref.current).toBeInstanceOf(HTMLButtonElement)
+    })
   })
 })
