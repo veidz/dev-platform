@@ -1,5 +1,6 @@
 import { Switch } from '@/components/ui/switch'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 describe('Switch', () => {
   describe('Rendering', () => {
@@ -97,6 +98,22 @@ describe('Switch', () => {
       render(<Switch required />)
       const switchElement = screen.getByRole('switch')
       expect(switchElement).toBeInTheDocument()
+    })
+  })
+
+  describe('User Interactions', () => {
+    it('should toggle checked state on click', async () => {
+      const user = userEvent.setup()
+      render(<Switch />)
+      const switchElement = screen.getByRole('switch')
+
+      expect(switchElement).not.toBeChecked()
+
+      await user.click(switchElement)
+      expect(switchElement).toBeChecked()
+
+      await user.click(switchElement)
+      expect(switchElement).not.toBeChecked()
     })
   })
 })
