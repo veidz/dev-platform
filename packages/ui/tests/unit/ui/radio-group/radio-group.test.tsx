@@ -55,5 +55,15 @@ describe('RadioGroup', () => {
       expect(screen.getByLabelText('Option 1')).toBeInTheDocument()
       expect(screen.getByLabelText('Option 2')).toBeInTheDocument()
     })
+
+    it('should render with custom className', () => {
+      render(
+        <RadioGroup className="custom-class">
+          <RadioGroupItem value="option-1" />
+        </RadioGroup>,
+      )
+      const radioGroup = screen.getByRole('radiogroup')
+      expect(radioGroup).toHaveClass('custom-class')
+    })
   })
 })
