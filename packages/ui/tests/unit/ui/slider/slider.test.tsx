@@ -223,5 +223,11 @@ describe('Slider', () => {
       const slider = screen.getByRole('slider')
       expect(slider).toBeInTheDocument()
     })
+
+    it('should support name attribute for form submission', () => {
+      render(<Slider defaultValue={[50]} max={100} name="brightness" />)
+      const slider = screen.getByRole('slider')
+      expect(slider).toBeInTheDocument()
+    })
   })
 })
