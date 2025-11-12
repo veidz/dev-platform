@@ -331,5 +331,13 @@ describe('Switch', () => {
       const switchElement = screen.getByRole('switch')
       expect(switchElement).toHaveClass('data-[state=unchecked]:bg-input')
     })
+
+    it('should merge custom className with default styles', () => {
+      render(<Switch className="custom-switch" />)
+      const switchElement = screen.getByRole('switch')
+      expect(switchElement).toHaveClass('custom-switch')
+      expect(switchElement).toHaveClass('h-6')
+      expect(switchElement).toHaveClass('w-11')
+    })
   })
 })
