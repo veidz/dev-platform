@@ -119,6 +119,12 @@ export {
   type ToastActionElement,
   type ToastProps,
 } from './components/ui/toast'
+export {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from './components/ui/tooltip'
 export { cn } from './lib/utils'
 
 export {
