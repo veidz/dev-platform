@@ -514,5 +514,16 @@ describe('RadioGroup', () => {
       )
       expect(ref.current).toBeInstanceOf(HTMLButtonElement)
     })
+
+    it('should allow calling focus via ref', () => {
+      const ref = { current: null as HTMLButtonElement | null }
+      render(
+        <RadioGroup>
+          <RadioGroupItem value="option-1" ref={ref} />
+        </RadioGroup>,
+      )
+      ref.current?.focus()
+      expect(ref.current).toHaveFocus()
+    })
   })
 })
