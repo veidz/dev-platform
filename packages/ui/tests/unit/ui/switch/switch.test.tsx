@@ -214,5 +214,11 @@ describe('Switch', () => {
       const switchElement = screen.getByRole('switch')
       expect(switchElement).toHaveAttribute('role', 'switch')
     })
+
+    it('should have aria-checked="false" when unchecked', () => {
+      render(<Switch />)
+      const switchElement = screen.getByRole('switch')
+      expect(switchElement).toHaveAttribute('aria-checked', 'false')
+    })
   })
 })
