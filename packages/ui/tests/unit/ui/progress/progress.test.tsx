@@ -88,5 +88,13 @@ describe('Progress', () => {
       const progressBar = screen.getByRole('progressbar')
       expect(progressBar).toHaveAttribute('aria-valuemax', '200')
     })
+
+    it('should calculate percentage correctly with custom max', () => {
+      render(<Progress value={25} max={50} />)
+
+      const progressBar = screen.getByRole('progressbar')
+      expect(progressBar).toHaveAttribute('aria-valuenow', '25')
+      expect(progressBar).toHaveAttribute('aria-valuemax', '50')
+    })
   })
 })
