@@ -91,5 +91,14 @@ describe('Separator', () => {
       const separator = screen.getByRole('separator')
       expect(separator).toBeInTheDocument()
     })
+
+    it('should be accessible to screen readers when not decorative', () => {
+      render(<Separator decorative={false} aria-label="Content divider" />)
+
+      const separator = screen.getByRole('separator', {
+        name: 'Content divider',
+      })
+      expect(separator).toBeInTheDocument()
+    })
   })
 })
