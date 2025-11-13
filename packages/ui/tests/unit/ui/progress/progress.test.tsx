@@ -105,5 +105,12 @@ describe('Progress', () => {
       const progressBar = screen.getByRole('progressbar')
       expect(progressBar).toBeInTheDocument()
     })
+
+    it('should not have aria-valuenow when indeterminate', () => {
+      render(<Progress value={null} />)
+
+      const progressBar = screen.getByRole('progressbar')
+      expect(progressBar).not.toHaveAttribute('aria-valuenow')
+    })
   })
 })
