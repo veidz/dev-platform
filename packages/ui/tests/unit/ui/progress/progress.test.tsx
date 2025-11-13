@@ -97,4 +97,13 @@ describe('Progress', () => {
       expect(progressBar).toHaveAttribute('aria-valuemax', '50')
     })
   })
+
+  describe('Indeterminate State', () => {
+    it('should handle null value for indeterminate state', () => {
+      render(<Progress value={null} />)
+
+      const progressBar = screen.getByRole('progressbar')
+      expect(progressBar).toBeInTheDocument()
+    })
+  })
 })
