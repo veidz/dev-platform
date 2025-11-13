@@ -39,5 +39,17 @@ describe('Progress', () => {
       const progressBar = screen.getByRole('progressbar')
       expect(progressBar).toHaveAttribute('aria-valuenow', '33')
     })
+
+    it('should update value when prop changes', () => {
+      const { rerender } = render(<Progress value={25} />)
+
+      let progressBar = screen.getByRole('progressbar')
+      expect(progressBar).toHaveAttribute('aria-valuenow', '25')
+
+      rerender(<Progress value={75} />)
+
+      progressBar = screen.getByRole('progressbar')
+      expect(progressBar).toHaveAttribute('aria-valuenow', '75')
+    })
   })
 })
