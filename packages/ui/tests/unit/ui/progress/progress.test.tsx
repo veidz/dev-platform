@@ -149,5 +149,14 @@ describe('Progress', () => {
       const progressBar = screen.getByRole('progressbar')
       expect(progressBar).toHaveAttribute('aria-valuenow', '50')
     })
+
+    it('should be accessible by screen readers', () => {
+      render(<Progress value={75} aria-label="Loading progress" />)
+
+      const progressBar = screen.getByRole('progressbar', {
+        name: 'Loading progress',
+      })
+      expect(progressBar).toBeInTheDocument()
+    })
   })
 })
