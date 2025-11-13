@@ -141,4 +141,14 @@ describe('Separator', () => {
       expect(ref.current).toBe(container.querySelector('[data-orientation]'))
     })
   })
+
+  describe('Additional Props', () => {
+    it('should accept additional props', () => {
+      const { container } = render(<Separator data-testid="custom-separator" />)
+
+      const separator = container.querySelector('[data-testid]')
+      expect(separator).toBeInTheDocument()
+      expect(separator).toHaveAttribute('data-testid', 'custom-separator')
+    })
+  })
 })
