@@ -53,5 +53,19 @@ describe('Separator', () => {
       const separator = container.querySelector('[data-orientation]')
       expect(separator).toHaveClass('h-full', 'w-[1px]')
     })
+
+    it('should update orientation when prop changes', () => {
+      const { container, rerender } = render(
+        <Separator orientation="horizontal" />,
+      )
+
+      let separator = container.querySelector('[data-orientation]')
+      expect(separator).toHaveAttribute('data-orientation', 'horizontal')
+
+      rerender(<Separator orientation="vertical" />)
+
+      separator = container.querySelector('[data-orientation]')
+      expect(separator).toHaveAttribute('data-orientation', 'vertical')
+    })
   })
 })
