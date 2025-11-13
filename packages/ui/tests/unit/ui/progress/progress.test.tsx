@@ -51,5 +51,12 @@ describe('Progress', () => {
       progressBar = screen.getByRole('progressbar')
       expect(progressBar).toHaveAttribute('aria-valuenow', '75')
     })
+
+    it('should handle 0% value', () => {
+      render(<Progress value={0} />)
+
+      const progressBar = screen.getByRole('progressbar')
+      expect(progressBar).toHaveAttribute('aria-valuenow', '0')
+    })
   })
 })
