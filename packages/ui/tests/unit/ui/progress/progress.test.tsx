@@ -187,4 +187,13 @@ describe('Progress', () => {
       expect(indicator).toBeInTheDocument()
     })
   })
+
+  describe('Edge Cases', () => {
+    it('should handle negative values', () => {
+      render(<Progress value={-10} />)
+
+      const progressBar = screen.getByRole('progressbar')
+      expect(progressBar).toBeInTheDocument()
+    })
+  })
 })
