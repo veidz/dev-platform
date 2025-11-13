@@ -5,6 +5,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 describe('Accordion', () => {
   describe('Rendering', () => {
@@ -69,6 +70,26 @@ describe('Accordion', () => {
       const item = container.querySelector('.custom-item')
       expect(item).toBeInTheDocument()
       expect(item).toHaveClass('border-b')
+    })
+  })
+
+  describe('Single Type', () => {
+    it('should expand item when trigger clicked', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Question</AccordionTrigger>
+            <AccordionContent>Answer</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      )
+
+      const trigger = screen.getByRole('button')
+      await user.click(trigger)
+
+      expect(screen.getByText('Answer')).toBeVisible()
     })
   })
 })
