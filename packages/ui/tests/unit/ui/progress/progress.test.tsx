@@ -112,5 +112,12 @@ describe('Progress', () => {
       const progressBar = screen.getByRole('progressbar')
       expect(progressBar).not.toHaveAttribute('aria-valuenow')
     })
+
+    it('should have correct data-state when indeterminate', () => {
+      const { container } = render(<Progress value={null} />)
+
+      const indicator = container.querySelector('[data-state="indeterminate"]')
+      expect(indicator).toBeInTheDocument()
+    })
   })
 })
