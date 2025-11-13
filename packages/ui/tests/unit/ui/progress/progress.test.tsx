@@ -174,5 +174,17 @@ describe('Progress', () => {
       const indicator = container.querySelector('[data-state="loading"]')
       expect(indicator).toBeInTheDocument()
     })
+
+    it('should update state when transitioning to complete', () => {
+      const { container, rerender } = render(<Progress value={50} />)
+
+      let indicator = container.querySelector('[data-state="loading"]')
+      expect(indicator).toBeInTheDocument()
+
+      rerender(<Progress value={100} />)
+
+      indicator = container.querySelector('[data-state="complete"]')
+      expect(indicator).toBeInTheDocument()
+    })
   })
 })
