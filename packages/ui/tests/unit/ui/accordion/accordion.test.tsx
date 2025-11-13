@@ -42,5 +42,18 @@ describe('Accordion', () => {
       const triggers = screen.getAllByRole('button')
       expect(triggers).toHaveLength(3)
     })
+
+    it('should render trigger with correct text', () => {
+      render(
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Is it accessible?</AccordionTrigger>
+            <AccordionContent>Yes.</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      )
+
+      expect(screen.getByText('Is it accessible?')).toBeInTheDocument()
+    })
   })
 })
