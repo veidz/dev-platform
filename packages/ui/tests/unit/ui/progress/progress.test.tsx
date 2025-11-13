@@ -73,4 +73,13 @@ describe('Progress', () => {
       expect(progressBar).toHaveAttribute('aria-valuenow', '33.33')
     })
   })
+
+  describe('Max Prop', () => {
+    it('should have default max of 100', () => {
+      render(<Progress value={50} />)
+
+      const progressBar = screen.getByRole('progressbar')
+      expect(progressBar).toHaveAttribute('aria-valuemax', '100')
+    })
+  })
 })
