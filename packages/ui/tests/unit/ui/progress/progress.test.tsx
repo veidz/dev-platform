@@ -167,5 +167,12 @@ describe('Progress', () => {
       const indicator = container.querySelector('[data-state="complete"]')
       expect(indicator).toBeInTheDocument()
     })
+
+    it('should have loading state when value is between 0 and max', () => {
+      const { container } = render(<Progress value={50} />)
+
+      const indicator = container.querySelector('[data-state="loading"]')
+      expect(indicator).toBeInTheDocument()
+    })
   })
 })
