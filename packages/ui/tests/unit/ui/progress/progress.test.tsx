@@ -216,5 +216,12 @@ describe('Progress', () => {
 
       expect(ref.current).toBeInstanceOf(HTMLDivElement)
     })
+
+    it('should accept additional props', () => {
+      render(<Progress value={50} data-testid="custom-progress" />)
+
+      const progressBar = screen.getByTestId('custom-progress')
+      expect(progressBar).toBeInTheDocument()
+    })
   })
 })
