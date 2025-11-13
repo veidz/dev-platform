@@ -91,6 +91,7 @@ export {
   SelectTrigger,
   SelectValue,
 } from './components/ui/select'
+export { Separator } from './components/ui/separator'
 export { Slider } from './components/ui/slider'
 export { Switch } from './components/ui/switch'
 export {
