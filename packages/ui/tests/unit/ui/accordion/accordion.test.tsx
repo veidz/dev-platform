@@ -215,5 +215,28 @@ describe('Accordion', () => {
       expect(screen.queryByText('Answer 1')).not.toBeInTheDocument()
       expect(screen.getByText('Answer 2')).toBeVisible()
     })
+
+    it('should open multiple items with defaultValue (multiple)', () => {
+      render(
+        <Accordion type="multiple" defaultValue={['item-1', 'item-3']}>
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Question 1</AccordionTrigger>
+            <AccordionContent>Answer 1</AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-2">
+            <AccordionTrigger>Question 2</AccordionTrigger>
+            <AccordionContent>Answer 2</AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-3">
+            <AccordionTrigger>Question 3</AccordionTrigger>
+            <AccordionContent>Answer 3</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      )
+
+      expect(screen.getByText('Answer 1')).toBeVisible()
+      expect(screen.queryByText('Answer 2')).not.toBeInTheDocument()
+      expect(screen.getByText('Answer 3')).toBeVisible()
+    })
   })
 })
