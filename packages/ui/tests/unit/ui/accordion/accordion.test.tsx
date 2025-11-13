@@ -112,5 +112,31 @@ describe('Accordion', () => {
       await user.click(trigger)
       expect(screen.queryByText('Answer')).not.toBeInTheDocument()
     })
+
+    it('should close previous item when opening new one', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Question 1</AccordionTrigger>
+            <AccordionContent>Answer 1</AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-2">
+            <AccordionTrigger>Question 2</AccordionTrigger>
+            <AccordionContent>Answer 2</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      )
+
+      const [trigger1, trigger2] = screen.getAllByRole('button')
+
+      await user.click(trigger1)
+      expect(screen.getByText('Answer 1')).toBeVisible()
+
+      await user.click(trigger2)
+      expect(screen.getByText('Answer 2')).toBeVisible()
+      expect(screen.queryByText('Answer 1')).not.toBeInTheDocument()
+    })
   })
 })
