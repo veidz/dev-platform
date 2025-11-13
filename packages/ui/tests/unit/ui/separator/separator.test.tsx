@@ -84,5 +84,12 @@ describe('Separator', () => {
       expect(separator).toBeInTheDocument()
       expect(separator).toHaveAttribute('role', 'none')
     })
+
+    it('should have separator role when not decorative', () => {
+      render(<Separator decorative={false} />)
+
+      const separator = screen.getByRole('separator')
+      expect(separator).toBeInTheDocument()
+    })
   })
 })
