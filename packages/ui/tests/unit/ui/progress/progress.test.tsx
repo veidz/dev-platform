@@ -128,5 +128,12 @@ describe('Progress', () => {
       const progressBar = screen.getByRole('progressbar')
       expect(progressBar).toBeInTheDocument()
     })
+
+    it('should have aria-valuemin of 0', () => {
+      render(<Progress value={50} />)
+
+      const progressBar = screen.getByRole('progressbar')
+      expect(progressBar).toHaveAttribute('aria-valuemin', '0')
+    })
   })
 })
