@@ -209,5 +209,12 @@ describe('Progress', () => {
       const progressBar = screen.getByRole('progressbar')
       expect(progressBar).toHaveAttribute('aria-valuenow', '0.001')
     })
+
+    it('should forward ref correctly', () => {
+      const ref = { current: null }
+      render(<Progress value={50} ref={ref} />)
+
+      expect(ref.current).toBeInstanceOf(HTMLDivElement)
+    })
   })
 })
