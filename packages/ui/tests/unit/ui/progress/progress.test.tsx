@@ -202,5 +202,12 @@ describe('Progress', () => {
       const progressBar = screen.getByRole('progressbar')
       expect(progressBar).toBeInTheDocument()
     })
+
+    it('should handle very small decimal values', () => {
+      render(<Progress value={0.001} />)
+
+      const progressBar = screen.getByRole('progressbar')
+      expect(progressBar).toHaveAttribute('aria-valuenow', '0.001')
+    })
   })
 })
