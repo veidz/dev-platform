@@ -159,4 +159,13 @@ describe('Progress', () => {
       expect(progressBar).toBeInTheDocument()
     })
   })
+
+  describe('Data States', () => {
+    it('should have complete state when value is max', () => {
+      const { container } = render(<Progress value={100} />)
+
+      const indicator = container.querySelector('[data-state="complete"]')
+      expect(indicator).toBeInTheDocument()
+    })
+  })
 })
