@@ -195,5 +195,12 @@ describe('Progress', () => {
       const progressBar = screen.getByRole('progressbar')
       expect(progressBar).toBeInTheDocument()
     })
+
+    it('should handle values greater than max', () => {
+      render(<Progress value={150} />)
+
+      const progressBar = screen.getByRole('progressbar')
+      expect(progressBar).toBeInTheDocument()
+    })
   })
 })
