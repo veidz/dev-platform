@@ -28,7 +28,8 @@ beforeAll(() => {
       message.includes('DialogTitle') ||
       message.includes('aria-describedby') ||
       message.includes('act(...)') ||
-      message.includes('was not wrapped in act')
+      message.includes('was not wrapped in act') ||
+      message.includes('Invalid prop `value`')
     ) {
       return
     }
