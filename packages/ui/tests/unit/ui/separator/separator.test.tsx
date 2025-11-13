@@ -131,4 +131,14 @@ describe('Separator', () => {
       expect(separator).toHaveAttribute('aria-labelledby', 'section-title')
     })
   })
+
+  describe('Ref Forwarding', () => {
+    it('should forward ref correctly', () => {
+      const ref = { current: null }
+      const { container } = render(<Separator ref={ref} />)
+
+      expect(ref.current).toBeInstanceOf(HTMLDivElement)
+      expect(ref.current).toBe(container.querySelector('[data-orientation]'))
+    })
+  })
 })
