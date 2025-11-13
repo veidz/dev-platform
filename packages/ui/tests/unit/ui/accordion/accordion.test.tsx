@@ -139,4 +139,31 @@ describe('Accordion', () => {
       expect(screen.queryByText('Answer 1')).not.toBeInTheDocument()
     })
   })
+
+  describe('Multiple Type', () => {
+    it('should allow multiple items to be open', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Accordion type="multiple">
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Question 1</AccordionTrigger>
+            <AccordionContent>Answer 1</AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-2">
+            <AccordionTrigger>Question 2</AccordionTrigger>
+            <AccordionContent>Answer 2</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      )
+
+      const [trigger1, trigger2] = screen.getAllByRole('button')
+
+      await user.click(trigger1)
+      await user.click(trigger2)
+
+      expect(screen.getByText('Answer 1')).toBeVisible()
+      expect(screen.getByText('Answer 2')).toBeVisible()
+    })
+  })
 })
