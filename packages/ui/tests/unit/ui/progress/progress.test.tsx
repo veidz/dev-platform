@@ -65,5 +65,12 @@ describe('Progress', () => {
       const progressBar = screen.getByRole('progressbar')
       expect(progressBar).toHaveAttribute('aria-valuenow', '100')
     })
+
+    it('should handle decimal values', () => {
+      render(<Progress value={33.33} />)
+
+      const progressBar = screen.getByRole('progressbar')
+      expect(progressBar).toHaveAttribute('aria-valuenow', '33.33')
+    })
   })
 })
