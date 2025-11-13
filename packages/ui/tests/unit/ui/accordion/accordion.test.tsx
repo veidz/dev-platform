@@ -239,4 +239,24 @@ describe('Accordion', () => {
       expect(screen.getByText('Answer 3')).toBeVisible()
     })
   })
+
+  describe('Disabled State', () => {
+    it('should not expand disabled item', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1" disabled>
+            <AccordionTrigger>Question</AccordionTrigger>
+            <AccordionContent>Answer</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      )
+
+      const trigger = screen.getByRole('button')
+      await user.click(trigger)
+
+      expect(screen.queryByText('Answer')).not.toBeInTheDocument()
+    })
+  })
 })
