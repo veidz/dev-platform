@@ -101,4 +101,13 @@ describe('Separator', () => {
       expect(separator).toBeInTheDocument()
     })
   })
+
+  describe('ARIA Attributes', () => {
+    it('should have data-orientation attribute', () => {
+      render(<Separator decorative={false} orientation="horizontal" />)
+
+      const separator = screen.getByRole('separator')
+      expect(separator).toHaveAttribute('data-orientation', 'horizontal')
+    })
+  })
 })
