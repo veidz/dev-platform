@@ -55,5 +55,20 @@ describe('Accordion', () => {
 
       expect(screen.getByText('Is it accessible?')).toBeInTheDocument()
     })
+
+    it('should apply custom className to AccordionItem', () => {
+      const { container } = render(
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1" className="custom-item">
+            <AccordionTrigger>Question</AccordionTrigger>
+            <AccordionContent>Answer</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      )
+
+      const item = container.querySelector('.custom-item')
+      expect(item).toBeInTheDocument()
+      expect(item).toHaveClass('border-b')
+    })
   })
 })
