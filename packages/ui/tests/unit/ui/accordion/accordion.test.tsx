@@ -91,5 +91,26 @@ describe('Accordion', () => {
 
       expect(screen.getByText('Answer')).toBeVisible()
     })
+
+    it('should collapse item when clicked again (collapsible)', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Question</AccordionTrigger>
+            <AccordionContent>Answer</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      )
+
+      const trigger = screen.getByRole('button')
+
+      await user.click(trigger)
+      expect(screen.getByText('Answer')).toBeVisible()
+
+      await user.click(trigger)
+      expect(screen.queryByText('Answer')).not.toBeInTheDocument()
+    })
   })
 })
