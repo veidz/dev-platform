@@ -109,5 +109,14 @@ describe('Separator', () => {
       const separator = screen.getByRole('separator')
       expect(separator).toHaveAttribute('data-orientation', 'horizontal')
     })
+
+    it('should accept aria-label', () => {
+      render(<Separator decorative={false} aria-label="Section divider" />)
+
+      const separator = screen.getByRole('separator', {
+        name: 'Section divider',
+      })
+      expect(separator).toBeInTheDocument()
+    })
   })
 })
