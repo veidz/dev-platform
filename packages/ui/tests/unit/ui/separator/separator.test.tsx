@@ -24,4 +24,13 @@ describe('Separator', () => {
       expect(separator).toHaveClass('shrink-0', 'bg-border')
     })
   })
+
+  describe('Orientation', () => {
+    it('should render horizontal by default', () => {
+      const { container } = render(<Separator />)
+
+      const separator = container.querySelector('[data-orientation]')
+      expect(separator).toHaveAttribute('data-orientation', 'horizontal')
+    })
+  })
 })
