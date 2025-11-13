@@ -23,5 +23,12 @@ describe('Progress', () => {
       const progressBar = screen.getByRole('progressbar')
       expect(progressBar).toHaveClass('custom-class')
     })
+
+    it('should render indicator element', () => {
+      const { container } = render(<Progress value={50} />)
+
+      const indicator = container.querySelector('[data-state]')
+      expect(indicator).toBeInTheDocument()
+    })
   })
 })
