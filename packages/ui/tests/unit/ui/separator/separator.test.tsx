@@ -76,5 +76,13 @@ describe('Separator', () => {
       const separator = screen.queryByRole('separator')
       expect(separator).not.toBeInTheDocument()
     })
+
+    it('should not have separator role when decorative', () => {
+      const { container } = render(<Separator decorative={true} />)
+
+      const separator = container.querySelector('[data-orientation]')
+      expect(separator).toBeInTheDocument()
+      expect(separator).toHaveAttribute('role', 'none')
+    })
   })
 })
