@@ -118,5 +118,17 @@ describe('Separator', () => {
       })
       expect(separator).toBeInTheDocument()
     })
+
+    it('should accept aria-labelledby', () => {
+      render(
+        <div>
+          <h2 id="section-title">Section Title</h2>
+          <Separator decorative={false} aria-labelledby="section-title" />
+        </div>,
+      )
+
+      const separator = screen.getByRole('separator')
+      expect(separator).toHaveAttribute('aria-labelledby', 'section-title')
+    })
   })
 })
