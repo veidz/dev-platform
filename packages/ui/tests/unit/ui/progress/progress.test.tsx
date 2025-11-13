@@ -31,4 +31,13 @@ describe('Progress', () => {
       expect(indicator).toBeInTheDocument()
     })
   })
+
+  describe('Value Updates', () => {
+    it('should display correct value', () => {
+      render(<Progress value={33} />)
+
+      const progressBar = screen.getByRole('progressbar')
+      expect(progressBar).toHaveAttribute('aria-valuenow', '33')
+    })
+  })
 })
