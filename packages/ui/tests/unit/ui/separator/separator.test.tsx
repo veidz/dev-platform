@@ -1,5 +1,5 @@
 import { Separator } from '@/components/ui/separator'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 
 describe('Separator', () => {
   describe('Rendering', () => {
@@ -66,6 +66,15 @@ describe('Separator', () => {
 
       separator = container.querySelector('[data-orientation]')
       expect(separator).toHaveAttribute('data-orientation', 'vertical')
+    })
+  })
+
+  describe('Decorative', () => {
+    it('should be decorative by default', () => {
+      render(<Separator />)
+
+      const separator = screen.queryByRole('separator')
+      expect(separator).not.toBeInTheDocument()
     })
   })
 })
