@@ -16,5 +16,12 @@ describe('Separator', () => {
       const separator = container.querySelector('[data-orientation]')
       expect(separator).toHaveClass('custom-class')
     })
+
+    it('should apply default styles', () => {
+      const { container } = render(<Separator />)
+
+      const separator = container.querySelector('[data-orientation]')
+      expect(separator).toHaveClass('shrink-0', 'bg-border')
+    })
   })
 })
