@@ -150,5 +150,12 @@ describe('Separator', () => {
       expect(separator).toBeInTheDocument()
       expect(separator).toHaveAttribute('data-testid', 'custom-separator')
     })
+
+    it('should accept custom data attributes', () => {
+      const { container } = render(<Separator data-custom="value" />)
+
+      const separator = container.querySelector('[data-orientation]')
+      expect(separator).toHaveAttribute('data-custom', 'value')
+    })
   })
 })
