@@ -142,5 +142,12 @@ describe('Progress', () => {
       const progressBar = screen.getByRole('progressbar')
       expect(progressBar).toHaveAttribute('aria-valuemax')
     })
+
+    it('should have aria-valuenow when value is set', () => {
+      render(<Progress value={50} />)
+
+      const progressBar = screen.getByRole('progressbar')
+      expect(progressBar).toHaveAttribute('aria-valuenow', '50')
+    })
   })
 })
