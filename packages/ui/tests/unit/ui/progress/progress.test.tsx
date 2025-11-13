@@ -120,4 +120,13 @@ describe('Progress', () => {
       expect(indicator).toBeInTheDocument()
     })
   })
+
+  describe('Accessibility', () => {
+    it('should have progressbar role', () => {
+      render(<Progress value={50} />)
+
+      const progressBar = screen.getByRole('progressbar')
+      expect(progressBar).toBeInTheDocument()
+    })
+  })
 })
