@@ -46,5 +46,12 @@ describe('Separator', () => {
       const separator = container.querySelector('[data-orientation]')
       expect(separator).toHaveAttribute('data-orientation', 'vertical')
     })
+
+    it('should render vertical separator with correct styles', () => {
+      const { container } = render(<Separator orientation="vertical" />)
+
+      const separator = container.querySelector('[data-orientation]')
+      expect(separator).toHaveClass('h-full', 'w-[1px]')
+    })
   })
 })
