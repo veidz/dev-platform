@@ -164,4 +164,32 @@ describe('NavigationMenu', () => {
       expect(link).toHaveClass('rounded-md')
     })
   })
+
+  describe('Keyboard Navigation', () => {
+    it('should support Tab navigation', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuLink href="/first">First</NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink href="/second">Second</NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      const firstLink = screen.getByText('First')
+      const secondLink = screen.getByText('Second')
+
+      firstLink.focus()
+      expect(firstLink).toHaveFocus()
+
+      await user.tab()
+      expect(secondLink).toHaveFocus()
+    })
+  })
 })
