@@ -220,5 +220,21 @@ describe('Avatar', () => {
       expect(ref.current).toBeInstanceOf(HTMLSpanElement)
       expect(ref.current).toHaveClass('rounded-full')
     })
+
+    it('should forward ref to AvatarImage', () => {
+      const ref = createRef<HTMLImageElement>()
+      render(
+        <Avatar>
+          <AvatarImage
+            ref={ref}
+            src="https://example.com/img-ref.jpg"
+            alt="Image Ref"
+          />
+          <AvatarFallback>IR</AvatarFallback>
+        </Avatar>,
+      )
+
+      expect(ref.current).toBeDefined()
+    })
   })
 })
