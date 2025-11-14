@@ -8,6 +8,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu/navigation-menu'
 
 describe('NavigationMenu', () => {
@@ -141,6 +142,26 @@ describe('NavigationMenu', () => {
 
       const link = screen.getByText('Test Link')
       expect(link).toHaveAttribute('href', '/test')
+    })
+
+    it('should apply navigationMenuTriggerStyle utility', () => {
+      render(
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                className={navigationMenuTriggerStyle}
+                href="/styled"
+              >
+                Styled Link
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      const link = screen.getByText('Styled Link')
+      expect(link).toHaveClass('rounded-md')
     })
   })
 })
