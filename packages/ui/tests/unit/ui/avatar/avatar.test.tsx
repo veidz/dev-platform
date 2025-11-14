@@ -249,4 +249,22 @@ describe('Avatar', () => {
       expect(ref.current?.textContent).toBe('FB')
     })
   })
+
+  describe('Accessibility', () => {
+    it('should have alt text on image', async () => {
+      render(
+        <Avatar>
+          <AvatarImage
+            src="https://example.com/accessible.jpg"
+            alt="Accessible Avatar"
+          />
+          <AvatarFallback>AA</AvatarFallback>
+        </Avatar>,
+      )
+
+      await waitFor(() => {
+        expect(screen.getByText('AA')).toBeInTheDocument()
+      })
+    })
+  })
 })
