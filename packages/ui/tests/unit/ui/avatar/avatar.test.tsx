@@ -276,5 +276,17 @@ describe('Avatar', () => {
 
       expect(screen.getByText('SR')).toBeInTheDocument()
     })
+
+    it('should support aria-label on Avatar', () => {
+      render(
+        <Avatar aria-label="User avatar">
+          <AvatarImage src="https://example.com/user.jpg" alt="User" />
+          <AvatarFallback>US</AvatarFallback>
+        </Avatar>,
+      )
+
+      const avatar = screen.getByLabelText('User avatar')
+      expect(avatar).toBeInTheDocument()
+    })
   })
 })
