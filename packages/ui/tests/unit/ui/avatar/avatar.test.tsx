@@ -78,5 +78,15 @@ describe('Avatar', () => {
         expect(screen.getByText('EM')).toBeInTheDocument()
       })
     })
+
+    it('should show fallback when no image provided', () => {
+      render(
+        <Avatar>
+          <AvatarFallback>NO</AvatarFallback>
+        </Avatar>,
+      )
+
+      expect(screen.getByText('NO')).toBeInTheDocument()
+    })
   })
 })
