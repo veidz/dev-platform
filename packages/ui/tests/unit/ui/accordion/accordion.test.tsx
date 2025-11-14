@@ -408,5 +408,26 @@ describe('Accordion', () => {
       const trigger = screen.getByRole('button')
       expect(trigger).toHaveClass('custom-trigger')
     })
+
+    it('should apply custom className to AccordionContent', async () => {
+      const user = userEvent.setup()
+
+      const { container } = render(
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Question</AccordionTrigger>
+            <AccordionContent className="custom-content">
+              Answer
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      )
+
+      const trigger = screen.getByRole('button')
+      await user.click(trigger)
+
+      const content = container.querySelector('.custom-content')
+      expect(content).toBeInTheDocument()
+    })
   })
 })
