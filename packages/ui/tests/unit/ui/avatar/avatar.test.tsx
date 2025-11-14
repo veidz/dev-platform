@@ -266,5 +266,15 @@ describe('Avatar', () => {
         expect(screen.getByText('AA')).toBeInTheDocument()
       })
     })
+
+    it('should render fallback text for screen readers', () => {
+      render(
+        <Avatar>
+          <AvatarFallback>SR</AvatarFallback>
+        </Avatar>,
+      )
+
+      expect(screen.getByText('SR')).toBeInTheDocument()
+    })
   })
 })
