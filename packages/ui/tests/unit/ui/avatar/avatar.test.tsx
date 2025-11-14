@@ -38,5 +38,17 @@ describe('Avatar', () => {
       expect(screen.getByText('U1')).toBeInTheDocument()
       expect(screen.getByText('U2')).toBeInTheDocument()
     })
+
+    it('should apply custom className to Avatar', () => {
+      render(
+        <Avatar className="custom-avatar">
+          <AvatarImage src="https://example.com/avatar.jpg" alt="Test" />
+          <AvatarFallback>T</AvatarFallback>
+        </Avatar>,
+      )
+
+      const fallback = screen.getByText('T')
+      expect(fallback.parentElement).toHaveClass('custom-avatar')
+    })
   })
 })
