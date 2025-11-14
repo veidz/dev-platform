@@ -329,5 +329,31 @@ describe('Accordion', () => {
       const region = screen.getByRole('region')
       expect(region).toBeInTheDocument()
     })
+
+    it('should support keyboard navigation', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Question 1</AccordionTrigger>
+            <AccordionContent>Answer 1</AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-2">
+            <AccordionTrigger>Question 2</AccordionTrigger>
+            <AccordionContent>Answer 2</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      )
+
+      const [trigger1] = screen.getAllByRole('button')
+      trigger1.focus()
+
+      await user.keyboard('{Enter}')
+      expect(screen.getByText('Answer 1')).toBeVisible()
+
+      await user.keyboard('{Enter}')
+      expect(screen.queryByText('Answer 1')).not.toBeInTheDocument()
+    })
   })
 })
