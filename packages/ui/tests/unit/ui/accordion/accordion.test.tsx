@@ -310,5 +310,24 @@ describe('Accordion', () => {
 
       expect(trigger).toHaveAttribute('aria-expanded', 'true')
     })
+
+    it('should have region role on content when expanded', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Question</AccordionTrigger>
+            <AccordionContent>Answer</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      )
+
+      const trigger = screen.getByRole('button')
+      await user.click(trigger)
+
+      const region = screen.getByRole('region')
+      expect(region).toBeInTheDocument()
+    })
   })
 })
