@@ -114,5 +114,20 @@ describe('Avatar', () => {
         expect(screen.getByText('VL')).toBeInTheDocument()
       })
     })
+
+    it('should apply custom className to image', () => {
+      render(
+        <Avatar>
+          <AvatarImage
+            src="https://example.com/image.jpg"
+            alt="Image"
+            className="custom-image"
+          />
+          <AvatarFallback>IM</AvatarFallback>
+        </Avatar>,
+      )
+
+      expect(screen.getByText('IM')).toBeInTheDocument()
+    })
   })
 })
