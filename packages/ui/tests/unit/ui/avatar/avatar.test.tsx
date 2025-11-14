@@ -155,5 +155,16 @@ describe('Avatar', () => {
       const fallback = screen.getByText('LG')
       expect(fallback.parentElement).toHaveClass('h-16', 'w-16')
     })
+
+    it('should apply custom size classes', () => {
+      render(
+        <Avatar className="h-24 w-24">
+          <AvatarFallback className="text-2xl">XL</AvatarFallback>
+        </Avatar>,
+      )
+
+      const avatar = screen.getByText('XL').parentElement
+      expect(avatar).toHaveClass('h-24', 'w-24')
+    })
   })
 })
