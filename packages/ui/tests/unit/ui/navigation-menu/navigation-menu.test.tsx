@@ -327,5 +327,25 @@ describe('NavigationMenu', () => {
       const list = container.querySelector('.custom-list')
       expect(list).toBeInTheDocument()
     })
+
+    it('should apply custom className to Trigger', () => {
+      render(
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger className="custom-trigger">
+                Custom
+              </NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <div>Content</div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      const trigger = screen.getByText('Custom')
+      expect(trigger).toHaveClass('custom-trigger')
+    })
   })
 })
