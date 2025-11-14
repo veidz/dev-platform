@@ -48,5 +48,20 @@ describe('Breadcrumb', () => {
       expect(screen.getByText('Docs')).toBeInTheDocument()
       expect(screen.getByText('Current')).toBeInTheDocument()
     })
+
+    it('should apply custom className to Breadcrumb', () => {
+      render(
+        <Breadcrumb className="custom-breadcrumb">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbPage>Home</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>,
+      )
+
+      const nav = screen.getByRole('navigation')
+      expect(nav).toHaveClass('custom-breadcrumb')
+    })
   })
 })
