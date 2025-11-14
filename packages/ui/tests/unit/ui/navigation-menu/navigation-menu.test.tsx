@@ -384,5 +384,21 @@ describe('NavigationMenu', () => {
       expect(ref.current).toBeInstanceOf(HTMLElement)
       expect(ref.current?.tagName).toBe('NAV')
     })
+
+    it('should forward ref to NavigationMenuList', () => {
+      const ref = createRef<HTMLUListElement>()
+
+      render(
+        <NavigationMenu>
+          <NavigationMenuList ref={ref}>
+            <NavigationMenuItem>
+              <NavigationMenuLink href="/test">Test</NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      expect(ref.current).toBeInstanceOf(HTMLUListElement)
+    })
   })
 })
