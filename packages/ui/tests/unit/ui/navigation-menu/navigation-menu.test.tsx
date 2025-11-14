@@ -295,5 +295,20 @@ describe('NavigationMenu', () => {
       const nav = screen.getByRole('navigation')
       expect(nav).toBeInTheDocument()
     })
+
+    it('should support aria-label', () => {
+      render(
+        <NavigationMenu aria-label="Main navigation">
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuLink href="/home">Home</NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      const nav = screen.getByLabelText('Main navigation')
+      expect(nav).toBeInTheDocument()
+    })
   })
 })
