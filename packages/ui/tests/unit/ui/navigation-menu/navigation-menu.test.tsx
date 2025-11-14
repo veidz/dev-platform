@@ -455,5 +455,20 @@ describe('NavigationMenu', () => {
       const list = container.querySelector('ul')
       expect(list).toHaveClass('flex-1')
     })
+
+    it('should support vertical orientation', () => {
+      render(
+        <NavigationMenu orientation="vertical">
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuLink href="/test">Test</NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      const nav = screen.getByRole('navigation')
+      expect(nav).toBeInTheDocument()
+    })
   })
 })
