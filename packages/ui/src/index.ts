@@ -7,6 +7,15 @@ export {
 export { Avatar, AvatarFallback, AvatarImage } from './components/ui/avatar'
 export { Badge, badgeVariants } from './components/ui/badge'
 export type { BadgeProps } from './components/ui/badge'
+export {
+  Breadcrumb,
+  BreadcrumbEllipsis,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from './components/ui/breadcrumb'
 export { Button, buttonVariants } from './components/ui/button'
 export type { ButtonProps } from './components/ui/button'
 export {
