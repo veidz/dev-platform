@@ -126,4 +126,21 @@ describe('NavigationMenu', () => {
       expect(svg).toHaveAttribute('aria-hidden', 'true')
     })
   })
+
+  describe('Navigation Links', () => {
+    it('should render navigation link with href', () => {
+      render(
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuLink href="/test">Test Link</NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      const link = screen.getByText('Test Link')
+      expect(link).toHaveAttribute('href', '/test')
+    })
+  })
 })
