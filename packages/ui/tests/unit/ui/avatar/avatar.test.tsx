@@ -1,4 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react'
+import { createRef } from 'react'
 
 import {
   Avatar,
@@ -203,6 +204,21 @@ describe('Avatar', () => {
 
       const fallback = screen.getByText('BR')
       expect(fallback.parentElement).toHaveClass('border-2', 'border-blue-500')
+    })
+  })
+
+  describe('Ref Forwarding', () => {
+    it('should forward ref to Avatar root', () => {
+      const ref = createRef<HTMLSpanElement>()
+      render(
+        <Avatar ref={ref}>
+          <AvatarImage src="https://example.com/ref.jpg" alt="Ref" />
+          <AvatarFallback>RF</AvatarFallback>
+        </Avatar>,
+      )
+
+      expect(ref.current).toBeInstanceOf(HTMLSpanElement)
+      expect(ref.current).toHaveClass('rounded-full')
     })
   })
 })
