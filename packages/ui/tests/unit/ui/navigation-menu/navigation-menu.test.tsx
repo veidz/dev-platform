@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { createRef } from 'react'
 
 import {
   NavigationMenu,
@@ -363,6 +364,25 @@ describe('NavigationMenu', () => {
       )
 
       expect(container.querySelector('.custom-content')).toBeDefined()
+    })
+  })
+
+  describe('Ref Forwarding', () => {
+    it('should forward ref to NavigationMenu root', () => {
+      const ref = createRef<HTMLElement>()
+
+      render(
+        <NavigationMenu ref={ref}>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuLink href="/test">Test</NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      expect(ref.current).toBeInstanceOf(HTMLElement)
+      expect(ref.current?.tagName).toBe('NAV')
     })
   })
 })
