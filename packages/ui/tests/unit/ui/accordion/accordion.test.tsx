@@ -356,4 +356,20 @@ describe('Accordion', () => {
       expect(screen.queryByText('Answer 1')).not.toBeInTheDocument()
     })
   })
+
+  describe('Data States', () => {
+    it('should have data-state closed by default', () => {
+      const { container } = render(
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Question</AccordionTrigger>
+            <AccordionContent>Answer</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      )
+
+      const trigger = container.querySelector('[data-state="closed"]')
+      expect(trigger).toBeInTheDocument()
+    })
+  })
 })
