@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 
 import {
   Avatar,
@@ -49,6 +49,21 @@ describe('Avatar', () => {
 
       const fallback = screen.getByText('T')
       expect(fallback.parentElement).toHaveClass('custom-avatar')
+    })
+  })
+
+  describe('Fallback Behavior', () => {
+    it('should show fallback when image fails to load', async () => {
+      render(
+        <Avatar>
+          <AvatarImage src="https://invalid-url.com/image.png" alt="Broken" />
+          <AvatarFallback>FB</AvatarFallback>
+        </Avatar>,
+      )
+
+      await waitFor(() => {
+        expect(screen.getByText('FB')).toBeInTheDocument()
+      })
     })
   })
 })
