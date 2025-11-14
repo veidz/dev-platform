@@ -88,5 +88,16 @@ describe('Avatar', () => {
 
       expect(screen.getByText('NO')).toBeInTheDocument()
     })
+
+    it('should apply custom className to fallback', () => {
+      render(
+        <Avatar>
+          <AvatarFallback className="custom-fallback">CF</AvatarFallback>
+        </Avatar>,
+      )
+
+      const fallback = screen.getByText('CF')
+      expect(fallback).toHaveClass('custom-fallback')
+    })
   })
 })
