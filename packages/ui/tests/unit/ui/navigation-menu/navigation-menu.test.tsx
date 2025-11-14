@@ -261,4 +261,24 @@ describe('NavigationMenu', () => {
       expect(screen.queryByText('Should Not Appear')).not.toBeInTheDocument()
     })
   })
+
+  describe('Accessibility', () => {
+    it('should have proper ARIA attributes on trigger', () => {
+      render(
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>ARIA Trigger</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <div>Content</div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      const trigger = screen.getByText('ARIA Trigger')
+      expect(trigger).toHaveAttribute('aria-expanded')
+    })
+  })
 })
