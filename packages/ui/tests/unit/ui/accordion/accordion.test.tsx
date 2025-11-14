@@ -446,5 +446,20 @@ describe('Accordion', () => {
 
       expect(ref.current).toBeInstanceOf(HTMLDivElement)
     })
+
+    it('should forward ref to AccordionTrigger', () => {
+      const ref = { current: null }
+
+      render(
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1">
+            <AccordionTrigger ref={ref}>Question</AccordionTrigger>
+            <AccordionContent>Answer</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      )
+
+      expect(ref.current).toBeInstanceOf(HTMLButtonElement)
+    })
   })
 })
