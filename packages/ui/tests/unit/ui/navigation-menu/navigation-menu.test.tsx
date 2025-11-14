@@ -2,9 +2,11 @@ import { render, screen } from '@testing-library/react'
 
 import {
   NavigationMenu,
+  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
+  NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu/navigation-menu'
 
 describe('NavigationMenu', () => {
@@ -58,6 +60,26 @@ describe('NavigationMenu', () => {
 
       const nav = container.querySelector('.custom-nav')
       expect(nav).toBeInTheDocument()
+    })
+  })
+
+  describe('Trigger and Content', () => {
+    it('should render trigger with content', () => {
+      render(
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Products</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <div>Product 1</div>
+                <div>Product 2</div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      expect(screen.getByText('Products')).toBeInTheDocument()
     })
   })
 })
