@@ -65,5 +65,18 @@ describe('Avatar', () => {
         expect(screen.getByText('FB')).toBeInTheDocument()
       })
     })
+
+    it('should show fallback when src is empty', async () => {
+      render(
+        <Avatar>
+          <AvatarImage src="" alt="Empty" />
+          <AvatarFallback>EM</AvatarFallback>
+        </Avatar>,
+      )
+
+      await waitFor(() => {
+        expect(screen.getByText('EM')).toBeInTheDocument()
+      })
+    })
   })
 })
