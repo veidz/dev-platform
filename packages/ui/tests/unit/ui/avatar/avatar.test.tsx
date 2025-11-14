@@ -100,4 +100,19 @@ describe('Avatar', () => {
       expect(fallback).toHaveClass('custom-fallback')
     })
   })
+
+  describe('Image Loading', () => {
+    it('should render AvatarImage component', async () => {
+      render(
+        <Avatar>
+          <AvatarImage src="https://example.com/valid-image.jpg" alt="Valid" />
+          <AvatarFallback>VL</AvatarFallback>
+        </Avatar>,
+      )
+
+      await waitFor(() => {
+        expect(screen.getByText('VL')).toBeInTheDocument()
+      })
+    })
+  })
 })
