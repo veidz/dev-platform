@@ -273,4 +273,21 @@ describe('Accordion', () => {
       expect(trigger).toBeDisabled()
     })
   })
+
+  describe('Accessibility', () => {
+    it('should have correct ARIA attributes', () => {
+      render(
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Question</AccordionTrigger>
+            <AccordionContent>Answer</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      )
+
+      const trigger = screen.getByRole('button')
+      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+      expect(trigger).toHaveAttribute('aria-controls')
+    })
+  })
 })
