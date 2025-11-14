@@ -130,4 +130,18 @@ describe('Avatar', () => {
       expect(screen.getByText('IM')).toBeInTheDocument()
     })
   })
+
+  describe('Sizes', () => {
+    it('should render small avatar', () => {
+      render(
+        <Avatar className="h-8 w-8">
+          <AvatarImage src="https://example.com/small.jpg" alt="Small" />
+          <AvatarFallback>SM</AvatarFallback>
+        </Avatar>,
+      )
+
+      const fallback = screen.getByText('SM')
+      expect(fallback.parentElement).toHaveClass('h-8', 'w-8')
+    })
+  })
 })
