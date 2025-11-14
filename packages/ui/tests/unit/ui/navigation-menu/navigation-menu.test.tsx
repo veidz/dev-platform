@@ -311,4 +311,21 @@ describe('NavigationMenu', () => {
       expect(nav).toBeInTheDocument()
     })
   })
+
+  describe('Custom Styling', () => {
+    it('should apply custom className to List', () => {
+      const { container } = render(
+        <NavigationMenu>
+          <NavigationMenuList className="custom-list">
+            <NavigationMenuItem>
+              <NavigationMenuLink href="/test">Test</NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      const list = container.querySelector('.custom-list')
+      expect(list).toBeInTheDocument()
+    })
+  })
 })
