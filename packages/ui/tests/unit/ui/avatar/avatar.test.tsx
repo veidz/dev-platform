@@ -192,5 +192,17 @@ describe('Avatar', () => {
       const fallback = screen.getByText('GR')
       expect(fallback).toHaveClass('bg-linear-to-br')
     })
+
+    it('should support border styling', () => {
+      render(
+        <Avatar className="border-2 border-blue-500">
+          <AvatarImage src="https://example.com/border.jpg" alt="Border" />
+          <AvatarFallback>BR</AvatarFallback>
+        </Avatar>,
+      )
+
+      const fallback = screen.getByText('BR')
+      expect(fallback.parentElement).toHaveClass('border-2', 'border-blue-500')
+    })
   })
 })
