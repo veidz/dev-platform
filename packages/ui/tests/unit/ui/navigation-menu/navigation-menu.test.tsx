@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import {
   NavigationMenu,
@@ -80,6 +81,29 @@ describe('NavigationMenu', () => {
       )
 
       expect(screen.getByText('Products')).toBeInTheDocument()
+    })
+
+    it('should toggle content on trigger click', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Menu</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <div>Content Item</div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      const trigger = screen.getByText('Menu')
+      expect(screen.queryByText('Content Item')).not.toBeInTheDocument()
+
+      await user.click(trigger)
+      expect(screen.getByText('Content Item')).toBeInTheDocument()
     })
   })
 })
