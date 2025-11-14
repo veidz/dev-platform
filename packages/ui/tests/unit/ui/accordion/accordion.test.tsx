@@ -430,4 +430,21 @@ describe('Accordion', () => {
       expect(content).toBeInTheDocument()
     })
   })
+
+  describe('Ref Forwarding', () => {
+    it('should forward ref to AccordionItem', () => {
+      const ref = { current: null }
+
+      render(
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1" ref={ref}>
+            <AccordionTrigger>Question</AccordionTrigger>
+            <AccordionContent>Answer</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      )
+
+      expect(ref.current).toBeInstanceOf(HTMLDivElement)
+    })
+  })
 })
