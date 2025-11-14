@@ -400,5 +400,24 @@ describe('NavigationMenu', () => {
 
       expect(ref.current).toBeInstanceOf(HTMLUListElement)
     })
+
+    it('should forward ref to NavigationMenuTrigger', () => {
+      const ref = createRef<HTMLButtonElement>()
+
+      render(
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger ref={ref}>Trigger</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <div>Content</div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      expect(ref.current).toBeInstanceOf(HTMLButtonElement)
+    })
   })
 })
