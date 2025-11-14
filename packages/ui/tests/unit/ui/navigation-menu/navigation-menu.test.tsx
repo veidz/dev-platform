@@ -439,4 +439,21 @@ describe('NavigationMenu', () => {
       expect(ref.current).toBeDefined()
     })
   })
+
+  describe('Orientation', () => {
+    it('should support horizontal orientation (default)', () => {
+      const { container } = render(
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuLink href="/test">Test</NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      const list = container.querySelector('ul')
+      expect(list).toHaveClass('flex-1')
+    })
+  })
 })
