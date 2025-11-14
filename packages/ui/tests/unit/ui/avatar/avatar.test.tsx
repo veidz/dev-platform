@@ -167,4 +167,17 @@ describe('Avatar', () => {
       expect(avatar).toHaveClass('h-24', 'w-24')
     })
   })
+
+  describe('Custom Styling', () => {
+    it('should apply custom background color to fallback', () => {
+      render(
+        <Avatar>
+          <AvatarFallback className="bg-red-500 text-white">RD</AvatarFallback>
+        </Avatar>,
+      )
+
+      const fallback = screen.getByText('RD')
+      expect(fallback).toHaveClass('bg-red-500', 'text-white')
+    })
+  })
 })
