@@ -216,4 +216,26 @@ describe('NavigationMenu', () => {
       expect(screen.getByText('Keyboard Content')).toBeInTheDocument()
     })
   })
+
+  describe('Disabled State', () => {
+    it('should render disabled trigger', () => {
+      render(
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger disabled>
+                Disabled Trigger
+              </NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <div>Content</div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      const trigger = screen.getByText('Disabled Trigger')
+      expect(trigger).toBeDisabled()
+    })
+  })
 })
