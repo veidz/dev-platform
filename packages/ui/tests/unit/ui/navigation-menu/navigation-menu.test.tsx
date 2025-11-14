@@ -22,5 +22,27 @@ describe('NavigationMenu', () => {
 
       expect(screen.getByText('Home')).toBeInTheDocument()
     })
+
+    it('should render multiple menu items', () => {
+      render(
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuLink href="/home">Home</NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink href="/about">About</NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink href="/contact">Contact</NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      expect(screen.getByText('Home')).toBeInTheDocument()
+      expect(screen.getByText('About')).toBeInTheDocument()
+      expect(screen.getByText('Contact')).toBeInTheDocument()
+    })
   })
 })
