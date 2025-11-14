@@ -105,5 +105,25 @@ describe('NavigationMenu', () => {
       await user.click(trigger)
       expect(screen.getByText('Content Item')).toBeInTheDocument()
     })
+
+    it('should show chevron icon in trigger', () => {
+      render(
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Trigger</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <div>Content</div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      const trigger = screen.getByText('Trigger')
+      const svg = trigger.querySelector('svg')
+      expect(svg).toBeInTheDocument()
+      expect(svg).toHaveAttribute('aria-hidden', 'true')
+    })
   })
 })
