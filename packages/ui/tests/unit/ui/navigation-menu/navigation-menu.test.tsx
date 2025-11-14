@@ -419,5 +419,24 @@ describe('NavigationMenu', () => {
 
       expect(ref.current).toBeInstanceOf(HTMLButtonElement)
     })
+
+    it('should forward ref to NavigationMenuContent', () => {
+      const ref = createRef<HTMLDivElement>()
+
+      render(
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Trigger</NavigationMenuTrigger>
+              <NavigationMenuContent ref={ref}>
+                <div>Content</div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      expect(ref.current).toBeDefined()
+    })
   })
 })
