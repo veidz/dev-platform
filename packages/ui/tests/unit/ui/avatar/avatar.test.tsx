@@ -179,5 +179,18 @@ describe('Avatar', () => {
       const fallback = screen.getByText('RD')
       expect(fallback).toHaveClass('bg-red-500', 'text-white')
     })
+
+    it('should apply gradient background to fallback', () => {
+      render(
+        <Avatar>
+          <AvatarFallback className="bg-linear-to-br from-pink-500 to-purple-500">
+            GR
+          </AvatarFallback>
+        </Avatar>,
+      )
+
+      const fallback = screen.getByText('GR')
+      expect(fallback).toHaveClass('bg-linear-to-br')
+    })
   })
 })
