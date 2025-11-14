@@ -237,5 +237,28 @@ describe('NavigationMenu', () => {
       const trigger = screen.getByText('Disabled Trigger')
       expect(trigger).toBeDisabled()
     })
+
+    it('should not open content when trigger is disabled', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger disabled>Disabled</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <div>Should Not Appear</div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      const trigger = screen.getByText('Disabled')
+
+      await user.click(trigger)
+
+      expect(screen.queryByText('Should Not Appear')).not.toBeInTheDocument()
+    })
   })
 })
