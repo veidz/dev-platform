@@ -289,5 +289,26 @@ describe('Accordion', () => {
       expect(trigger).toHaveAttribute('aria-expanded', 'false')
       expect(trigger).toHaveAttribute('aria-controls')
     })
+
+    it('should update aria-expanded when opened', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Question</AccordionTrigger>
+            <AccordionContent>Answer</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      )
+
+      const trigger = screen.getByRole('button')
+
+      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+
+      await user.click(trigger)
+
+      expect(trigger).toHaveAttribute('aria-expanded', 'true')
+    })
   })
 })
