@@ -391,4 +391,22 @@ describe('Accordion', () => {
       expect(openTrigger).toBeInTheDocument()
     })
   })
+
+  describe('Custom Styling', () => {
+    it('should apply custom className to AccordionTrigger', () => {
+      render(
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1">
+            <AccordionTrigger className="custom-trigger">
+              Question
+            </AccordionTrigger>
+            <AccordionContent>Answer</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      )
+
+      const trigger = screen.getByRole('button')
+      expect(trigger).toHaveClass('custom-trigger')
+    })
+  })
 })
