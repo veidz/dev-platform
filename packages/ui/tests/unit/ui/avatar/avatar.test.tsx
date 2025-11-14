@@ -236,5 +236,17 @@ describe('Avatar', () => {
 
       expect(ref.current).toBeDefined()
     })
+
+    it('should forward ref to AvatarFallback', () => {
+      const ref = createRef<HTMLSpanElement>()
+      render(
+        <Avatar>
+          <AvatarFallback ref={ref}>FB</AvatarFallback>
+        </Avatar>,
+      )
+
+      expect(ref.current).toBeInstanceOf(HTMLSpanElement)
+      expect(ref.current?.textContent).toBe('FB')
+    })
   })
 })
