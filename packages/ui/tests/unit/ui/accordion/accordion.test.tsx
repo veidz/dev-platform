@@ -371,5 +371,24 @@ describe('Accordion', () => {
       const trigger = container.querySelector('[data-state="closed"]')
       expect(trigger).toBeInTheDocument()
     })
+
+    it('should update data-state to open when expanded', async () => {
+      const user = userEvent.setup()
+
+      const { container } = render(
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Question</AccordionTrigger>
+            <AccordionContent>Answer</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      )
+
+      const trigger = screen.getByRole('button')
+      await user.click(trigger)
+
+      const openTrigger = container.querySelector('[data-state="open"]')
+      expect(openTrigger).toBeInTheDocument()
+    })
   })
 })
