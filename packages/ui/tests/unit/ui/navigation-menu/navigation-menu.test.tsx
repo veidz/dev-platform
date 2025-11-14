@@ -280,5 +280,20 @@ describe('NavigationMenu', () => {
       const trigger = screen.getByText('ARIA Trigger')
       expect(trigger).toHaveAttribute('aria-expanded')
     })
+
+    it('should have navigation role', () => {
+      render(
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuLink href="/test">Link</NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      const nav = screen.getByRole('navigation')
+      expect(nav).toBeInTheDocument()
+    })
   })
 })
