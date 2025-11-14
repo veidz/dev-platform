@@ -258,5 +258,19 @@ describe('Accordion', () => {
 
       expect(screen.queryByText('Answer')).not.toBeInTheDocument()
     })
+
+    it('should have disabled attribute on disabled item', () => {
+      render(
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1" disabled>
+            <AccordionTrigger>Question</AccordionTrigger>
+            <AccordionContent>Answer</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      )
+
+      const trigger = screen.getByRole('button')
+      expect(trigger).toBeDisabled()
+    })
   })
 })
