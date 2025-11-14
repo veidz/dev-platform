@@ -191,5 +191,29 @@ describe('NavigationMenu', () => {
       await user.tab()
       expect(secondLink).toHaveFocus()
     })
+
+    it('should open trigger with Enter key', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Keyboard Menu</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <div>Keyboard Content</div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      const trigger = screen.getByText('Keyboard Menu')
+      trigger.focus()
+
+      await user.keyboard('{Enter}')
+
+      expect(screen.getByText('Keyboard Content')).toBeInTheDocument()
+    })
   })
 })
