@@ -347,5 +347,22 @@ describe('NavigationMenu', () => {
       const trigger = screen.getByText('Custom')
       expect(trigger).toHaveClass('custom-trigger')
     })
+
+    it('should apply custom className to Content', () => {
+      const { container } = render(
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Trigger</NavigationMenuTrigger>
+              <NavigationMenuContent className="custom-content">
+                <div>Content</div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      expect(container.querySelector('.custom-content')).toBeDefined()
+    })
   })
 })
