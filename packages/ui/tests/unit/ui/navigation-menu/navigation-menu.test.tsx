@@ -44,5 +44,20 @@ describe('NavigationMenu', () => {
       expect(screen.getByText('About')).toBeInTheDocument()
       expect(screen.getByText('Contact')).toBeInTheDocument()
     })
+
+    it('should apply custom className to NavigationMenu', () => {
+      const { container } = render(
+        <NavigationMenu className="custom-nav">
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuLink href="/home">Home</NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      const nav = container.querySelector('.custom-nav')
+      expect(nav).toBeInTheDocument()
+    })
   })
 })
