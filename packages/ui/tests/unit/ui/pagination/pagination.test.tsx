@@ -102,4 +102,20 @@ describe('Pagination', () => {
       expect(ref.current?.tagName).toBe('UL')
     })
   })
+
+  describe('PaginationItem', () => {
+    it('should render list item', () => {
+      render(
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationLink href="#">1</PaginationLink>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>,
+      )
+
+      expect(screen.getByRole('listitem')).toBeInTheDocument()
+    })
+  })
 })
