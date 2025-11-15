@@ -150,4 +150,22 @@ describe('Pagination', () => {
       expect(ref.current?.tagName).toBe('LI')
     })
   })
+
+  describe('PaginationLink', () => {
+    it('should render link with href', () => {
+      render(
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationLink href="/page/1">1</PaginationLink>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>,
+      )
+
+      const link = screen.getByRole('link', { name: '1' })
+      expect(link).toBeInTheDocument()
+      expect(link).toHaveAttribute('href', '/page/1')
+    })
+  })
 })
