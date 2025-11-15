@@ -160,5 +160,23 @@ describe('Breadcrumb', () => {
       const link = screen.getByRole('link')
       expect(link).toHaveClass('custom-link')
     })
+
+    it('should support asChild pattern', () => {
+      render(
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <button type="button">Custom Button</button>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>,
+      )
+
+      expect(
+        screen.getByRole('button', { name: 'Custom Button' }),
+      ).toBeInTheDocument()
+    })
   })
 })
