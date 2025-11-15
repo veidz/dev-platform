@@ -340,5 +340,20 @@ describe('Breadcrumb', () => {
       const nav = screen.getByRole('navigation')
       expect(nav).toHaveAttribute('aria-label', 'breadcrumb')
     })
+
+    it('should allow custom aria-label', () => {
+      render(
+        <Breadcrumb aria-label="custom navigation">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbPage>Home</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>,
+      )
+
+      const nav = screen.getByRole('navigation')
+      expect(nav).toHaveAttribute('aria-label', 'custom navigation')
+    })
   })
 })
