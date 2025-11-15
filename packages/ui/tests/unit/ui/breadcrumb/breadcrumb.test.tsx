@@ -179,4 +179,20 @@ describe('Breadcrumb', () => {
       ).toBeInTheDocument()
     })
   })
+
+  describe('BreadcrumbPage', () => {
+    it('should render current page', () => {
+      render(
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbPage>Current Page</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>,
+      )
+
+      expect(screen.getByText('Current Page')).toBeInTheDocument()
+    })
+  })
 })
