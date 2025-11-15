@@ -153,5 +153,23 @@ describe('Command', () => {
       expect(screen.getByText('Actions')).toBeInTheDocument()
       expect(screen.getByText('Action 1')).toBeInTheDocument()
     })
+
+    it('renders multiple groups', () => {
+      render(
+        <Command>
+          <CommandList>
+            <CommandGroup heading="Group 1">
+              <CommandItem>Item 1</CommandItem>
+            </CommandGroup>
+            <CommandGroup heading="Group 2">
+              <CommandItem>Item 2</CommandItem>
+            </CommandGroup>
+          </CommandList>
+        </Command>,
+      )
+
+      expect(screen.getByText('Group 1')).toBeInTheDocument()
+      expect(screen.getByText('Group 2')).toBeInTheDocument()
+    })
   })
 })
