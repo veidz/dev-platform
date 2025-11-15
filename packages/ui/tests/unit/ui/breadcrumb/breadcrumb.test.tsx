@@ -225,4 +225,26 @@ describe('Breadcrumb', () => {
       expect(page).toHaveClass('custom-page')
     })
   })
+
+  describe('BreadcrumbSeparator', () => {
+    it('should render default separator with ChevronRight icon', () => {
+      const { container } = render(
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Current</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>,
+      )
+
+      const separator = container.querySelector('li[role="presentation"]')
+      expect(separator).toBeInTheDocument()
+      expect(separator).toHaveAttribute('aria-hidden', 'true')
+    })
+  })
 })
