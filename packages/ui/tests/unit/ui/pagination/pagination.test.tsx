@@ -68,5 +68,20 @@ describe('Pagination', () => {
 
       expect(screen.getByRole('list')).toBeInTheDocument()
     })
+
+    it('should apply custom className to PaginationContent', () => {
+      render(
+        <Pagination>
+          <PaginationContent className="custom-content">
+            <PaginationItem>
+              <PaginationLink href="#">1</PaginationLink>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>,
+      )
+
+      const list = screen.getByRole('list')
+      expect(list).toHaveClass('custom-content')
+    })
   })
 })
