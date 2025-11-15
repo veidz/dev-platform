@@ -184,5 +184,20 @@ describe('Pagination', () => {
       const link = screen.getByRole('link', { name: '2' })
       expect(link).toHaveAttribute('aria-current', 'page')
     })
+
+    it('should not have aria-current when not active', () => {
+      render(
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationLink href="#">1</PaginationLink>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>,
+      )
+
+      const link = screen.getByRole('link', { name: '1' })
+      expect(link).not.toHaveAttribute('aria-current')
+    })
   })
 })
