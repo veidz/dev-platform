@@ -295,4 +295,26 @@ describe('Sheet', () => {
       expect(closeButton).toBeInTheDocument()
     })
   })
+
+  describe('Controlled State', () => {
+    it('should control open state with open prop', () => {
+      const { rerender } = render(
+        <Sheet open={false}>
+          <SheetTrigger>Open</SheetTrigger>
+          <SheetContent>Content</SheetContent>
+        </Sheet>,
+      )
+
+      expect(screen.queryByText('Content')).not.toBeInTheDocument()
+
+      rerender(
+        <Sheet open={true}>
+          <SheetTrigger>Open</SheetTrigger>
+          <SheetContent>Content</SheetContent>
+        </Sheet>,
+      )
+
+      expect(screen.getByText('Content')).toBeInTheDocument()
+    })
+  })
 })
