@@ -22,5 +22,20 @@ describe('Pagination', () => {
 
       expect(screen.getByRole('navigation')).toBeInTheDocument()
     })
+
+    it('should have aria-label="pagination"', () => {
+      render(
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationLink href="#">1</PaginationLink>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>,
+      )
+
+      const nav = screen.getByRole('navigation')
+      expect(nav).toHaveAttribute('aria-label', 'pagination')
+    })
   })
 })
