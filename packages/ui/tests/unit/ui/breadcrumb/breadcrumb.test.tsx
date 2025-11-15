@@ -95,4 +95,20 @@ describe('Breadcrumb', () => {
       expect(list).toHaveClass('custom-list')
     })
   })
+
+  describe('BreadcrumbItem', () => {
+    it('should render list item', () => {
+      render(
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbPage>Home</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>,
+      )
+
+      expect(screen.getByRole('listitem')).toBeInTheDocument()
+    })
+  })
 })
