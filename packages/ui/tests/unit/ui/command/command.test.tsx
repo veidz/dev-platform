@@ -1,6 +1,7 @@
 import {
   Command,
   CommandEmpty,
+  CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
@@ -134,6 +135,23 @@ describe('Command', () => {
       )
 
       expect(screen.getByText('Something')).toBeInTheDocument()
+    })
+  })
+
+  describe('CommandGroup', () => {
+    it('renders group with heading', () => {
+      render(
+        <Command>
+          <CommandList>
+            <CommandGroup heading="Actions">
+              <CommandItem>Action 1</CommandItem>
+            </CommandGroup>
+          </CommandList>
+        </Command>,
+      )
+
+      expect(screen.getByText('Actions')).toBeInTheDocument()
+      expect(screen.getByText('Action 1')).toBeInTheDocument()
     })
   })
 })
