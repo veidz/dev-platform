@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 
 import {
   Breadcrumb,
+  BreadcrumbEllipsis,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
@@ -284,6 +285,28 @@ describe('Breadcrumb', () => {
 
       const separator = container.querySelector('li[role="presentation"]')
       expect(separator).toHaveClass('custom-separator')
+    })
+  })
+
+  describe('BreadcrumbEllipsis', () => {
+    it('should render ellipsis icon', () => {
+      render(
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbEllipsis />
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>,
+      )
+
+      const srText = screen.getByText('More')
+      expect(srText).toBeInTheDocument()
+      expect(srText).toHaveClass('sr-only')
     })
   })
 })
