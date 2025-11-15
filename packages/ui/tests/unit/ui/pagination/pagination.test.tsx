@@ -37,5 +37,20 @@ describe('Pagination', () => {
       const nav = screen.getByRole('navigation')
       expect(nav).toHaveAttribute('aria-label', 'pagination')
     })
+
+    it('should apply custom className to Pagination', () => {
+      render(
+        <Pagination className="custom-pagination">
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationLink href="#">1</PaginationLink>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>,
+      )
+
+      const nav = screen.getByRole('navigation')
+      expect(nav).toHaveClass('custom-pagination')
+    })
   })
 })
