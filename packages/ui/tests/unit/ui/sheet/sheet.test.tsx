@@ -432,4 +432,23 @@ describe('Sheet', () => {
       expect(screen.getByRole('dialog')).toBeInTheDocument()
     })
   })
+
+  describe('Custom Variants', () => {
+    it('should apply custom styling with className', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Sheet>
+          <SheetTrigger>Open</SheetTrigger>
+          <SheetContent className="custom-sheet" data-testid="custom-sheet">
+            Content
+          </SheetContent>
+        </Sheet>,
+      )
+
+      await user.click(screen.getByRole('button', { name: 'Open' }))
+
+      expect(screen.getByTestId('custom-sheet')).toHaveClass('custom-sheet')
+    })
+  })
 })
