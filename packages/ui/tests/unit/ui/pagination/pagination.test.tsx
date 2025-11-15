@@ -327,5 +327,20 @@ describe('Pagination', () => {
       const link = screen.getByLabelText('Go to next page')
       expect(link).toBeInTheDocument()
     })
+
+    it('should apply custom className to PaginationNext', () => {
+      render(
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationNext href="#" className="custom-next" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>,
+      )
+
+      const link = screen.getByLabelText('Go to next page')
+      expect(link).toHaveClass('custom-next')
+    })
   })
 })
