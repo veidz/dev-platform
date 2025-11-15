@@ -110,5 +110,20 @@ describe('Breadcrumb', () => {
 
       expect(screen.getByRole('listitem')).toBeInTheDocument()
     })
+
+    it('should apply custom className to BreadcrumbItem', () => {
+      render(
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem className="custom-item">
+              <BreadcrumbPage>Home</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>,
+      )
+
+      const item = screen.getByRole('listitem')
+      expect(item).toHaveClass('custom-item')
+    })
   })
 })
