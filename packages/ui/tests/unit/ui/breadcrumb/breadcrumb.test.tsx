@@ -324,4 +324,21 @@ describe('Breadcrumb', () => {
       expect(ellipsis).toHaveClass('custom-ellipsis')
     })
   })
+
+  describe('Accessibility', () => {
+    it('should have aria-label="breadcrumb" on navigation', () => {
+      render(
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbPage>Home</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>,
+      )
+
+      const nav = screen.getByRole('navigation')
+      expect(nav).toHaveAttribute('aria-label', 'breadcrumb')
+    })
+  })
 })
