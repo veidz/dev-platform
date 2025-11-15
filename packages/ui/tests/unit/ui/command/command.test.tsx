@@ -93,4 +93,20 @@ describe('Command', () => {
       expect(screen.getByPlaceholderText('Disabled...')).toBeDisabled()
     })
   })
+
+  describe('CommandList and CommandEmpty', () => {
+    it('renders list with items', () => {
+      render(
+        <Command>
+          <CommandList>
+            <CommandItem>First</CommandItem>
+            <CommandItem>Second</CommandItem>
+          </CommandList>
+        </Command>,
+      )
+
+      expect(screen.getByText('First')).toBeInTheDocument()
+      expect(screen.getByText('Second')).toBeInTheDocument()
+    })
+  })
 })
