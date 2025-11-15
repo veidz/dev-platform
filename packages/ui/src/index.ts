@@ -128,6 +128,18 @@ export {
   SelectValue,
 } from './components/ui/select'
 export { Separator } from './components/ui/separator'
+export {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetOverlay,
+  SheetPortal,
+  SheetTitle,
+  SheetTrigger,
+} from './components/ui/sheet'
 export { Slider } from './components/ui/slider'
 export { Switch } from './components/ui/switch'
 export {
