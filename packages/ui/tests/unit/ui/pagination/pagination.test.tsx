@@ -167,5 +167,22 @@ describe('Pagination', () => {
       expect(link).toBeInTheDocument()
       expect(link).toHaveAttribute('href', '/page/1')
     })
+
+    it('should mark active page with aria-current="page"', () => {
+      render(
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationLink href="#" isActive>
+                2
+              </PaginationLink>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>,
+      )
+
+      const link = screen.getByRole('link', { name: '2' })
+      expect(link).toHaveAttribute('aria-current', 'page')
+    })
   })
 })
