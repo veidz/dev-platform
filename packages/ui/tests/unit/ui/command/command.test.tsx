@@ -187,4 +187,22 @@ describe('Command', () => {
       expect(group).toBeInTheDocument()
     })
   })
+
+  describe('CommandItem', () => {
+    it('renders clickable items', async () => {
+      const onSelect = jest.fn()
+      const user = userEvent.setup()
+
+      render(
+        <Command>
+          <CommandList>
+            <CommandItem onSelect={onSelect}>Click me</CommandItem>
+          </CommandList>
+        </Command>,
+      )
+
+      await user.click(screen.getByText('Click me'))
+      expect(onSelect).toHaveBeenCalled()
+    })
+  })
 })
