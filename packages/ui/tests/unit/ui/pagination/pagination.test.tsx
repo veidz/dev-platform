@@ -312,5 +312,20 @@ describe('Pagination', () => {
 
       expect(screen.getByText('Next')).toBeInTheDocument()
     })
+
+    it('should have aria-label for accessibility', () => {
+      render(
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>,
+      )
+
+      const link = screen.getByLabelText('Go to next page')
+      expect(link).toBeInTheDocument()
+    })
   })
 })
