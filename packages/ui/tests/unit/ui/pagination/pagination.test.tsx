@@ -361,5 +361,21 @@ describe('Pagination', () => {
       expect(srText).toBeInTheDocument()
       expect(srText).toHaveClass('sr-only')
     })
+
+    it('should be aria-hidden', () => {
+      const { container } = render(
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>,
+      )
+
+      const ellipsis = container.querySelector('span[aria-hidden]')
+      expect(ellipsis).toBeInTheDocument()
+      expect(ellipsis).toHaveAttribute('aria-hidden')
+    })
   })
 })
