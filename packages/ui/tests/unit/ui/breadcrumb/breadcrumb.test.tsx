@@ -126,4 +126,22 @@ describe('Breadcrumb', () => {
       expect(item).toHaveClass('custom-item')
     })
   })
+
+  describe('BreadcrumbLink', () => {
+    it('should render link with href', () => {
+      render(
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>,
+      )
+
+      const link = screen.getByRole('link', { name: 'Home' })
+      expect(link).toBeInTheDocument()
+      expect(link).toHaveAttribute('href', '/')
+    })
+  })
 })
