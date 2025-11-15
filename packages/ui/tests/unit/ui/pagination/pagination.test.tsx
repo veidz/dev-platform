@@ -377,5 +377,20 @@ describe('Pagination', () => {
       expect(ellipsis).toBeInTheDocument()
       expect(ellipsis).toHaveAttribute('aria-hidden')
     })
+
+    it('should apply custom className to PaginationEllipsis', () => {
+      const { container } = render(
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationEllipsis className="custom-ellipsis" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>,
+      )
+
+      const ellipsis = container.querySelector('span[aria-hidden]')
+      expect(ellipsis).toHaveClass('custom-ellipsis')
+    })
   })
 })
