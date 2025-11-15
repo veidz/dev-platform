@@ -35,5 +35,16 @@ describe('Command', () => {
       const command = container.firstChild as HTMLElement
       expect(command).toHaveClass('custom-class')
     })
+
+    it('renders search icon in input', () => {
+      const { container } = render(
+        <Command>
+          <CommandInput />
+        </Command>,
+      )
+
+      const icon = container.querySelector('svg')
+      expect(icon).toBeInTheDocument()
+    })
   })
 })
