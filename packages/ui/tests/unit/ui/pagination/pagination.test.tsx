@@ -6,6 +6,7 @@ import {
   PaginationContent,
   PaginationItem,
   PaginationLink,
+  PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination/pagination'
 
@@ -294,6 +295,22 @@ describe('Pagination', () => {
 
       const link = screen.getByLabelText('Go to previous page')
       expect(link).toHaveClass('custom-prev')
+    })
+  })
+
+  describe('PaginationNext', () => {
+    it('should render next button with text', () => {
+      render(
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>,
+      )
+
+      expect(screen.getByText('Next')).toBeInTheDocument()
     })
   })
 })
