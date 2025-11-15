@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet/sheet'
 
@@ -26,6 +27,21 @@ describe('Sheet', () => {
       )
 
       expect(screen.queryByText('Sheet Content')).not.toBeInTheDocument()
+    })
+
+    it('should render content when opened', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Sheet>
+          <SheetTrigger>Open</SheetTrigger>
+          <SheetContent>Sheet Content</SheetContent>
+        </Sheet>,
+      )
+
+      await user.click(screen.getByRole('button', { name: 'Open' }))
+
+      expect(screen.getByText('Sheet Content')).toBeInTheDocument()
     })
   })
 })
