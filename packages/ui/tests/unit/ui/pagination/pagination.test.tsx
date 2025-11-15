@@ -199,5 +199,22 @@ describe('Pagination', () => {
       const link = screen.getByRole('link', { name: '1' })
       expect(link).not.toHaveAttribute('aria-current')
     })
+
+    it('should apply custom className to PaginationLink', () => {
+      render(
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationLink href="#" className="custom-link">
+                1
+              </PaginationLink>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>,
+      )
+
+      const link = screen.getByRole('link')
+      expect(link).toHaveClass('custom-link')
+    })
   })
 })
