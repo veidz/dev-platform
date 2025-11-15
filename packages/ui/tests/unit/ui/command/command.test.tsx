@@ -1,5 +1,6 @@
 import {
   Command,
+  CommandEmpty,
   CommandInput,
   CommandItem,
   CommandList,
@@ -107,6 +108,19 @@ describe('Command', () => {
 
       expect(screen.getByText('First')).toBeInTheDocument()
       expect(screen.getByText('Second')).toBeInTheDocument()
+    })
+
+    it('shows empty state when no results', () => {
+      render(
+        <Command>
+          <CommandInput />
+          <CommandList>
+            <CommandEmpty>No results found</CommandEmpty>
+          </CommandList>
+        </Command>,
+      )
+
+      expect(screen.getByText('No results found')).toBeInTheDocument()
     })
   })
 })
