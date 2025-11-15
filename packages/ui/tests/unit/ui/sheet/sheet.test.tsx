@@ -185,5 +185,22 @@ describe('Sheet', () => {
 
       expect(screen.getByTestId('sheet-content')).toBeInTheDocument()
     })
+
+    it('should render with side="top"', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Sheet>
+          <SheetTrigger>Open</SheetTrigger>
+          <SheetContent side="top" data-testid="sheet-content">
+            Content
+          </SheetContent>
+        </Sheet>,
+      )
+
+      await user.click(screen.getByRole('button', { name: 'Open' }))
+
+      expect(screen.getByTestId('sheet-content')).toBeInTheDocument()
+    })
   })
 })
