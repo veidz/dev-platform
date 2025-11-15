@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -69,6 +70,25 @@ describe('Sheet', () => {
       await user.click(screen.getByRole('button', { name: 'Open' }))
 
       expect(screen.getByText('Sheet Title')).toBeInTheDocument()
+    })
+
+    it('should render header with description', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Sheet>
+          <SheetTrigger>Open</SheetTrigger>
+          <SheetContent>
+            <SheetHeader>
+              <SheetDescription>Sheet Description</SheetDescription>
+            </SheetHeader>
+          </SheetContent>
+        </Sheet>,
+      )
+
+      await user.click(screen.getByRole('button', { name: 'Open' }))
+
+      expect(screen.getByText('Sheet Description')).toBeInTheDocument()
     })
   })
 })
