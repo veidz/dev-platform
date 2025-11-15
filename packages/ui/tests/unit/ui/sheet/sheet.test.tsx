@@ -316,5 +316,21 @@ describe('Sheet', () => {
 
       expect(screen.getByText('Content')).toBeInTheDocument()
     })
+
+    it('should call onOpenChange when state changes', async () => {
+      const user = userEvent.setup()
+      const onOpenChange = jest.fn()
+
+      render(
+        <Sheet onOpenChange={onOpenChange}>
+          <SheetTrigger>Open</SheetTrigger>
+          <SheetContent>Content</SheetContent>
+        </Sheet>,
+      )
+
+      await user.click(screen.getByRole('button', { name: 'Open' }))
+
+      expect(onOpenChange).toHaveBeenCalledWith(true)
+    })
   })
 })
