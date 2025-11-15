@@ -216,5 +216,37 @@ describe('Pagination', () => {
       const link = screen.getByRole('link')
       expect(link).toHaveClass('custom-link')
     })
+
+    it('should apply different styles for active state', () => {
+      const { rerender } = render(
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationLink href="#" isActive={false}>
+                1
+              </PaginationLink>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>,
+      )
+
+      const link = screen.getByRole('link')
+      const inactiveClasses = link.className
+
+      rerender(
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationLink href="#" isActive={true}>
+                1
+              </PaginationLink>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>,
+      )
+
+      const activeClasses = link.className
+      expect(activeClasses).not.toBe(inactiveClasses)
+    })
   })
 })
