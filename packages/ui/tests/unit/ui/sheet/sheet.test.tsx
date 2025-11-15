@@ -151,4 +151,22 @@ describe('Sheet', () => {
       expect(footer).toHaveClass('custom-footer')
     })
   })
+
+  describe('SheetContent', () => {
+    it('should render with default side (right)', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Sheet>
+          <SheetTrigger>Open</SheetTrigger>
+          <SheetContent data-testid="sheet-content">Content</SheetContent>
+        </Sheet>,
+      )
+
+      await user.click(screen.getByRole('button', { name: 'Open' }))
+
+      const content = screen.getByTestId('sheet-content')
+      expect(content).toBeInTheDocument()
+    })
+  })
 })
