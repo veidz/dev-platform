@@ -393,5 +393,26 @@ describe('Sheet', () => {
 
       expect(dialog).toHaveAttribute('aria-labelledby', title.id)
     })
+
+    it('should associate description with dialog using aria-describedby', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Sheet>
+          <SheetTrigger>Open</SheetTrigger>
+          <SheetContent>
+            <SheetTitle>Title</SheetTitle>
+            <SheetDescription>Accessible Description</SheetDescription>
+          </SheetContent>
+        </Sheet>,
+      )
+
+      await user.click(screen.getByRole('button', { name: 'Open' }))
+
+      const dialog = screen.getByRole('dialog')
+      const description = screen.getByText('Accessible Description')
+
+      expect(dialog).toHaveAttribute('aria-describedby', description.id)
+    })
   })
 })
