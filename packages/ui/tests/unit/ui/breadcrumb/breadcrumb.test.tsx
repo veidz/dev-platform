@@ -355,5 +355,24 @@ describe('Breadcrumb', () => {
       const nav = screen.getByRole('navigation')
       expect(nav).toHaveAttribute('aria-label', 'custom navigation')
     })
+
+    it('should mark current page with aria-current="page"', () => {
+      render(
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Current</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>,
+      )
+
+      const currentPage = screen.getByText('Current')
+      expect(currentPage).toHaveAttribute('aria-current', 'page')
+    })
   })
 })
