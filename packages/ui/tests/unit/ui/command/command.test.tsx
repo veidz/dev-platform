@@ -122,5 +122,18 @@ describe('Command', () => {
 
       expect(screen.getByText('No results found')).toBeInTheDocument()
     })
+
+    it('hides empty when items exist', () => {
+      render(
+        <Command>
+          <CommandList>
+            <CommandEmpty>Nothing here</CommandEmpty>
+            <CommandItem>Something</CommandItem>
+          </CommandList>
+        </Command>,
+      )
+
+      expect(screen.getByText('Something')).toBeInTheDocument()
+    })
   })
 })
