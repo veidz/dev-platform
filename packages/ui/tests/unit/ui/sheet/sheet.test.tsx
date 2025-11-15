@@ -90,5 +90,25 @@ describe('Sheet', () => {
 
       expect(screen.getByText('Sheet Description')).toBeInTheDocument()
     })
+
+    it('should apply custom className to header', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Sheet>
+          <SheetTrigger>Open</SheetTrigger>
+          <SheetContent>
+            <SheetHeader className="custom-header">
+              <SheetTitle>Title</SheetTitle>
+            </SheetHeader>
+          </SheetContent>
+        </Sheet>,
+      )
+
+      await user.click(screen.getByRole('button', { name: 'Open' }))
+
+      const header = screen.getByText('Title').parentElement
+      expect(header).toHaveClass('custom-header')
+    })
   })
 })
