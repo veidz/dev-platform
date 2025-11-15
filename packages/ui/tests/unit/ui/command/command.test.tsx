@@ -5,6 +5,7 @@ import {
   CommandList,
 } from '@/components/ui/command'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { toHaveNoViolations } from 'jest-axe'
 
 expect.extend(toHaveNoViolations)
@@ -45,6 +46,22 @@ describe('Command', () => {
 
       const icon = container.querySelector('svg')
       expect(icon).toBeInTheDocument()
+    })
+  })
+
+  describe('CommandInput', () => {
+    it('accepts input value', async () => {
+      const user = userEvent.setup()
+      render(
+        <Command>
+          <CommandInput placeholder="Type here..." />
+        </Command>,
+      )
+
+      const input = screen.getByPlaceholderText('Type here...')
+      await user.type(input, 'test query')
+
+      expect(input).toHaveValue('test query')
     })
   })
 })
