@@ -393,4 +393,48 @@ describe('Pagination', () => {
       expect(ellipsis).toHaveClass('custom-ellipsis')
     })
   })
+
+  describe('Complete Pagination', () => {
+    it('should render complete pagination with all elements', () => {
+      render(
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">1</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" isActive>
+                2
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">3</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">10</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>,
+      )
+
+      expect(screen.getByRole('navigation')).toBeInTheDocument()
+      expect(screen.getByText('Previous')).toBeInTheDocument()
+      expect(screen.getByText('Next')).toBeInTheDocument()
+      expect(screen.getByRole('link', { name: '1' })).toBeInTheDocument()
+      expect(screen.getByRole('link', { name: '2' })).toHaveAttribute(
+        'aria-current',
+        'page',
+      )
+      expect(screen.getByText('More pages')).toBeInTheDocument()
+    })
+  })
 })
