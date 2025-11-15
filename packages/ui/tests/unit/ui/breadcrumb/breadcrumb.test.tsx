@@ -411,5 +411,22 @@ describe('Breadcrumb', () => {
       expect(ref.current).toBeInstanceOf(HTMLOListElement)
       expect(ref.current?.tagName).toBe('OL')
     })
+
+    it('should forward ref to BreadcrumbItem', () => {
+      const ref = createRef<HTMLLIElement>()
+
+      render(
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem ref={ref}>
+              <BreadcrumbPage>Home</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>,
+      )
+
+      expect(ref.current).toBeInstanceOf(HTMLLIElement)
+      expect(ref.current?.tagName).toBe('LI')
+    })
   })
 })
