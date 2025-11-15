@@ -209,5 +209,20 @@ describe('Breadcrumb', () => {
       const page = screen.getByText('Current')
       expect(page).toHaveAttribute('aria-current', 'page')
     })
+
+    it('should apply custom className to BreadcrumbPage', () => {
+      render(
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbPage className="custom-page">Current</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>,
+      )
+
+      const page = screen.getByText('Current')
+      expect(page).toHaveClass('custom-page')
+    })
   })
 })
