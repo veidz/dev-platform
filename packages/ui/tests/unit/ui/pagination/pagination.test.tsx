@@ -436,5 +436,33 @@ describe('Pagination', () => {
       )
       expect(screen.getByText('More pages')).toBeInTheDocument()
     })
+
+    it('should handle disabled state', () => {
+      render(
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                href="#"
+                aria-disabled="true"
+                className="pointer-events-none opacity-50"
+              />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" isActive>
+                1
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>,
+      )
+
+      const prevLink = screen.getByLabelText('Go to previous page')
+      expect(prevLink).toHaveAttribute('aria-disabled', 'true')
+      expect(prevLink).toHaveClass('pointer-events-none', 'opacity-50')
+    })
   })
 })
