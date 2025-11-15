@@ -64,4 +64,20 @@ describe('Breadcrumb', () => {
       expect(nav).toHaveClass('custom-breadcrumb')
     })
   })
+
+  describe('BreadcrumbList', () => {
+    it('should render as ordered list', () => {
+      render(
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbPage>Home</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>,
+      )
+
+      expect(screen.getByRole('list')).toBeInTheDocument()
+    })
+  })
 })
