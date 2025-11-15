@@ -130,5 +130,25 @@ describe('Sheet', () => {
 
       expect(screen.getByText('Footer Content')).toBeInTheDocument()
     })
+
+    it('should apply custom className to footer', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Sheet>
+          <SheetTrigger>Open</SheetTrigger>
+          <SheetContent>
+            <SheetFooter className="custom-footer" data-testid="footer">
+              Footer
+            </SheetFooter>
+          </SheetContent>
+        </Sheet>,
+      )
+
+      await user.click(screen.getByRole('button', { name: 'Open' }))
+
+      const footer = screen.getByTestId('footer')
+      expect(footer).toHaveClass('custom-footer')
+    })
   })
 })
