@@ -194,5 +194,20 @@ describe('Breadcrumb', () => {
 
       expect(screen.getByText('Current Page')).toBeInTheDocument()
     })
+
+    it('should have aria-current="page"', () => {
+      render(
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbPage>Current</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>,
+      )
+
+      const page = screen.getByText('Current')
+      expect(page).toHaveAttribute('aria-current', 'page')
+    })
   })
 })
