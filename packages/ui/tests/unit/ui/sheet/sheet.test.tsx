@@ -4,6 +4,7 @@ import { createRef } from 'react'
 
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -252,6 +253,30 @@ describe('Sheet', () => {
       await user.click(screen.getByRole('button', { name: 'Open' }))
 
       expect(ref.current).toBeInstanceOf(HTMLDivElement)
+    })
+  })
+
+  describe('SheetClose', () => {
+    it('should close sheet when close button is clicked', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Sheet>
+          <SheetTrigger>Open</SheetTrigger>
+          <SheetContent>
+            <SheetClose>Close Sheet</SheetClose>
+            Content
+          </SheetContent>
+        </Sheet>,
+      )
+
+      await user.click(screen.getByRole('button', { name: 'Open' }))
+      expect(screen.getByText('Content')).toBeInTheDocument()
+
+      await user.click(screen.getByRole('button', { name: 'Close Sheet' }))
+
+      await screen.findByRole('button', { name: 'Open' })
+      expect(screen.queryByText('Content')).not.toBeInTheDocument()
     })
   })
 })
