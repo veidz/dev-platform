@@ -354,4 +354,24 @@ describe('Sheet', () => {
       expect(screen.queryByText('Content')).not.toBeInTheDocument()
     })
   })
+
+  describe('Accessibility', () => {
+    it('should have dialog role on content', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Sheet>
+          <SheetTrigger>Open</SheetTrigger>
+          <SheetContent>
+            <SheetTitle>Title</SheetTitle>
+            Content
+          </SheetContent>
+        </Sheet>,
+      )
+
+      await user.click(screen.getByRole('button', { name: 'Open' }))
+
+      expect(screen.getByRole('dialog')).toBeInTheDocument()
+    })
+  })
 })
