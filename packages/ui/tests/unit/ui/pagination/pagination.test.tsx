@@ -280,5 +280,20 @@ describe('Pagination', () => {
       const link = screen.getByLabelText('Go to previous page')
       expect(link).toBeInTheDocument()
     })
+
+    it('should apply custom className to PaginationPrevious', () => {
+      render(
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" className="custom-prev" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>,
+      )
+
+      const link = screen.getByLabelText('Go to previous page')
+      expect(link).toHaveClass('custom-prev')
+    })
   })
 })
