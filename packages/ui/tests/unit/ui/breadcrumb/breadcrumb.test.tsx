@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import { createRef } from 'react'
 
 import {
   Breadcrumb,
@@ -373,6 +374,25 @@ describe('Breadcrumb', () => {
 
       const currentPage = screen.getByText('Current')
       expect(currentPage).toHaveAttribute('aria-current', 'page')
+    })
+  })
+
+  describe('Ref Forwarding', () => {
+    it('should forward ref to Breadcrumb', () => {
+      const ref = createRef<HTMLElement>()
+
+      render(
+        <Breadcrumb ref={ref}>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbPage>Home</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>,
+      )
+
+      expect(ref.current).toBeInstanceOf(HTMLElement)
+      expect(ref.current?.tagName).toBe('NAV')
     })
   })
 })
