@@ -24,5 +24,16 @@ describe('Command', () => {
       expect(screen.getByPlaceholderText('Search...')).toBeInTheDocument()
       expect(screen.getByText('Item 1')).toBeInTheDocument()
     })
+
+    it('renders with custom className', () => {
+      const { container } = render(
+        <Command className="custom-class">
+          <CommandInput />
+        </Command>,
+      )
+
+      const command = container.firstChild as HTMLElement
+      expect(command).toHaveClass('custom-class')
+    })
   })
 })
