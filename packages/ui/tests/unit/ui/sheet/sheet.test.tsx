@@ -1,0 +1,20 @@
+import { render, screen } from '@testing-library/react'
+
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet/sheet'
+
+describe('Sheet', () => {
+  describe('Rendering', () => {
+    it('should render trigger button', () => {
+      render(
+        <Sheet>
+          <SheetTrigger>Open Sheet</SheetTrigger>
+          <SheetContent>Content</SheetContent>
+        </Sheet>,
+      )
+
+      expect(
+        screen.getByRole('button', { name: 'Open Sheet' }),
+      ).toBeInTheDocument()
+    })
+  })
+})
