@@ -265,5 +265,20 @@ describe('Pagination', () => {
 
       expect(screen.getByText('Previous')).toBeInTheDocument()
     })
+
+    it('should have aria-label for accessibility', () => {
+      render(
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>,
+      )
+
+      const link = screen.getByLabelText('Go to previous page')
+      expect(link).toBeInTheDocument()
+    })
   })
 })
