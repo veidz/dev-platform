@@ -6,6 +6,7 @@ import {
   PaginationContent,
   PaginationItem,
   PaginationLink,
+  PaginationPrevious,
 } from '@/components/ui/pagination/pagination'
 
 describe('Pagination', () => {
@@ -247,6 +248,22 @@ describe('Pagination', () => {
 
       const activeClasses = link.className
       expect(activeClasses).not.toBe(inactiveClasses)
+    })
+  })
+
+  describe('PaginationPrevious', () => {
+    it('should render previous button with text', () => {
+      render(
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>,
+      )
+
+      expect(screen.getByText('Previous')).toBeInTheDocument()
     })
   })
 })
