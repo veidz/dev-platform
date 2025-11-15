@@ -104,6 +104,15 @@ export {
   NavigationMenuViewport,
   navigationMenuTriggerStyle,
 } from './components/ui/navigation-menu'
+export {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from './components/ui/pagination'
 export { Progress } from './components/ui/progress'
 export { RadioGroup, RadioGroupItem } from './components/ui/radio-group'
 export {
