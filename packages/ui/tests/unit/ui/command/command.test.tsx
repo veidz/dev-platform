@@ -63,5 +63,24 @@ describe('Command', () => {
 
       expect(input).toHaveValue('test query')
     })
+
+    it('supports controlled value', () => {
+      const { rerender } = render(
+        <Command>
+          <CommandInput value="initial" />
+        </Command>,
+      )
+
+      const input = screen.getByRole('combobox')
+      expect(input).toHaveValue('initial')
+
+      rerender(
+        <Command>
+          <CommandInput value="updated" />
+        </Command>,
+      )
+
+      expect(input).toHaveValue('updated')
+    })
   })
 })
