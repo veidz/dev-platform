@@ -4,6 +4,7 @@ import { createRef } from 'react'
 import {
   Pagination,
   PaginationContent,
+  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -341,6 +342,24 @@ describe('Pagination', () => {
 
       const link = screen.getByLabelText('Go to next page')
       expect(link).toHaveClass('custom-next')
+    })
+  })
+
+  describe('PaginationEllipsis', () => {
+    it('should render ellipsis with hidden text', () => {
+      render(
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>,
+      )
+
+      const srText = screen.getByText('More pages')
+      expect(srText).toBeInTheDocument()
+      expect(srText).toHaveClass('sr-only')
     })
   })
 })
