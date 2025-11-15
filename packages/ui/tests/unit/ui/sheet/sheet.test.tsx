@@ -16,5 +16,16 @@ describe('Sheet', () => {
         screen.getByRole('button', { name: 'Open Sheet' }),
       ).toBeInTheDocument()
     })
+
+    it('should not render content initially when closed', () => {
+      render(
+        <Sheet>
+          <SheetTrigger>Open</SheetTrigger>
+          <SheetContent>Sheet Content</SheetContent>
+        </Sheet>,
+      )
+
+      expect(screen.queryByText('Sheet Content')).not.toBeInTheDocument()
+    })
   })
 })
