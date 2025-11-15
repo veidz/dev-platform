@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { createRef } from 'react'
 
 import {
   Sheet,
@@ -235,6 +236,22 @@ describe('Sheet', () => {
       await user.click(screen.getByRole('button', { name: 'Open' }))
 
       expect(screen.getByTestId('sheet-content')).toHaveClass('custom-content')
+    })
+
+    it('should forward ref to content', async () => {
+      const user = userEvent.setup()
+      const ref = createRef<HTMLDivElement>()
+
+      render(
+        <Sheet>
+          <SheetTrigger>Open</SheetTrigger>
+          <SheetContent ref={ref}>Content</SheetContent>
+        </Sheet>,
+      )
+
+      await user.click(screen.getByRole('button', { name: 'Open' }))
+
+      expect(ref.current).toBeInstanceOf(HTMLDivElement)
     })
   })
 })
