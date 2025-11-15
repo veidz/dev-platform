@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import { createRef } from 'react'
 
 import {
   Pagination,
@@ -82,6 +83,23 @@ describe('Pagination', () => {
 
       const list = screen.getByRole('list')
       expect(list).toHaveClass('custom-content')
+    })
+
+    it('should forward ref to PaginationContent', () => {
+      const ref = createRef<HTMLUListElement>()
+
+      render(
+        <Pagination>
+          <PaginationContent ref={ref}>
+            <PaginationItem>
+              <PaginationLink href="#">1</PaginationLink>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>,
+      )
+
+      expect(ref.current).toBeInstanceOf(HTMLUListElement)
+      expect(ref.current?.tagName).toBe('UL')
     })
   })
 })
