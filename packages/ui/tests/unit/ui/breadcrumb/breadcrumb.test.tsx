@@ -266,5 +266,24 @@ describe('Breadcrumb', () => {
 
       expect(screen.getByText('/')).toBeInTheDocument()
     })
+
+    it('should apply custom className to BreadcrumbSeparator', () => {
+      const { container } = render(
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator className="custom-separator" />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Current</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>,
+      )
+
+      const separator = container.querySelector('li[role="presentation"]')
+      expect(separator).toHaveClass('custom-separator')
+    })
   })
 })
