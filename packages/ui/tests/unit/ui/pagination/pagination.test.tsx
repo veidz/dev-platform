@@ -53,4 +53,20 @@ describe('Pagination', () => {
       expect(nav).toHaveClass('custom-pagination')
     })
   })
+
+  describe('PaginationContent', () => {
+    it('should render as unordered list', () => {
+      render(
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationLink href="#">1</PaginationLink>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>,
+      )
+
+      expect(screen.getByRole('list')).toBeInTheDocument()
+    })
+  })
 })
