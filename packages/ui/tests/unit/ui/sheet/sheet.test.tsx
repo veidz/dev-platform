@@ -415,4 +415,21 @@ describe('Sheet', () => {
       expect(dialog).toHaveAttribute('aria-describedby', description.id)
     })
   })
+
+  describe('Overlay', () => {
+    it('should render overlay when sheet is open', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Sheet>
+          <SheetTrigger>Open</SheetTrigger>
+          <SheetContent>Content</SheetContent>
+        </Sheet>,
+      )
+
+      await user.click(screen.getByRole('button', { name: 'Open' }))
+
+      expect(screen.getByRole('dialog')).toBeInTheDocument()
+    })
+  })
 })
