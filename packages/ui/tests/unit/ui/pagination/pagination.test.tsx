@@ -132,5 +132,22 @@ describe('Pagination', () => {
       const item = screen.getByRole('listitem')
       expect(item).toHaveClass('custom-item')
     })
+
+    it('should forward ref to PaginationItem', () => {
+      const ref = createRef<HTMLLIElement>()
+
+      render(
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem ref={ref}>
+              <PaginationLink href="#">1</PaginationLink>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>,
+      )
+
+      expect(ref.current).toBeInstanceOf(HTMLLIElement)
+      expect(ref.current?.tagName).toBe('LI')
+    })
   })
 })
