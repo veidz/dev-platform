@@ -1,7 +1,13 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet/sheet'
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet/sheet'
 
 describe('Sheet', () => {
   describe('Rendering', () => {
@@ -42,6 +48,27 @@ describe('Sheet', () => {
       await user.click(screen.getByRole('button', { name: 'Open' }))
 
       expect(screen.getByText('Sheet Content')).toBeInTheDocument()
+    })
+  })
+
+  describe('SheetHeader', () => {
+    it('should render header with title', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Sheet>
+          <SheetTrigger>Open</SheetTrigger>
+          <SheetContent>
+            <SheetHeader>
+              <SheetTitle>Sheet Title</SheetTitle>
+            </SheetHeader>
+          </SheetContent>
+        </Sheet>,
+      )
+
+      await user.click(screen.getByRole('button', { name: 'Open' }))
+
+      expect(screen.getByText('Sheet Title')).toBeInTheDocument()
     })
   })
 })
