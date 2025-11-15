@@ -219,5 +219,22 @@ describe('Sheet', () => {
 
       expect(screen.getByTestId('sheet-content')).toBeInTheDocument()
     })
+
+    it('should apply custom className to content', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Sheet>
+          <SheetTrigger>Open</SheetTrigger>
+          <SheetContent className="custom-content" data-testid="sheet-content">
+            Content
+          </SheetContent>
+        </Sheet>,
+      )
+
+      await user.click(screen.getByRole('button', { name: 'Open' }))
+
+      expect(screen.getByTestId('sheet-content')).toHaveClass('custom-content')
+    })
   })
 })
