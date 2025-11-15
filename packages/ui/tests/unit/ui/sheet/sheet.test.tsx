@@ -333,4 +333,25 @@ describe('Sheet', () => {
       expect(onOpenChange).toHaveBeenCalledWith(true)
     })
   })
+
+  describe('Keyboard Interaction', () => {
+    it('should close sheet when Escape key is pressed', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Sheet>
+          <SheetTrigger>Open</SheetTrigger>
+          <SheetContent>Content</SheetContent>
+        </Sheet>,
+      )
+
+      await user.click(screen.getByRole('button', { name: 'Open' }))
+      expect(screen.getByText('Content')).toBeInTheDocument()
+
+      await user.keyboard('{Escape}')
+
+      await screen.findByRole('button', { name: 'Open' })
+      expect(screen.queryByText('Content')).not.toBeInTheDocument()
+    })
+  })
 })
