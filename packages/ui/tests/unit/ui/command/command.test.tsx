@@ -82,5 +82,15 @@ describe('Command', () => {
 
       expect(input).toHaveValue('updated')
     })
+
+    it('can be disabled', () => {
+      render(
+        <Command>
+          <CommandInput disabled placeholder="Disabled..." />
+        </Command>,
+      )
+
+      expect(screen.getByPlaceholderText('Disabled...')).toBeDisabled()
+    })
   })
 })
