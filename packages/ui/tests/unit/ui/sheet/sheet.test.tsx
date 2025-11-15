@@ -5,6 +5,7 @@ import {
   Sheet,
   SheetContent,
   SheetDescription,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -109,6 +110,25 @@ describe('Sheet', () => {
 
       const header = screen.getByText('Title').parentElement
       expect(header).toHaveClass('custom-header')
+    })
+  })
+
+  describe('SheetFooter', () => {
+    it('should render footer', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Sheet>
+          <SheetTrigger>Open</SheetTrigger>
+          <SheetContent>
+            <SheetFooter>Footer Content</SheetFooter>
+          </SheetContent>
+        </Sheet>,
+      )
+
+      await user.click(screen.getByRole('button', { name: 'Open' }))
+
+      expect(screen.getByText('Footer Content')).toBeInTheDocument()
     })
   })
 })
