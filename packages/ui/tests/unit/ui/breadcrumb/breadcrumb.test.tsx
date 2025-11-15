@@ -447,5 +447,22 @@ describe('Breadcrumb', () => {
       expect(ref.current).toBeInstanceOf(HTMLAnchorElement)
       expect(ref.current?.tagName).toBe('A')
     })
+
+    it('should forward ref to BreadcrumbPage', () => {
+      const ref = createRef<HTMLSpanElement>()
+
+      render(
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbPage ref={ref}>Home</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>,
+      )
+
+      expect(ref.current).toBeInstanceOf(HTMLSpanElement)
+      expect(ref.current?.tagName).toBe('SPAN')
+    })
   })
 })
