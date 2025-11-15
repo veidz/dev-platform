@@ -171,5 +171,20 @@ describe('Command', () => {
       expect(screen.getByText('Group 1')).toBeInTheDocument()
       expect(screen.getByText('Group 2')).toBeInTheDocument()
     })
+
+    it('applies custom className to group', () => {
+      const { container } = render(
+        <Command>
+          <CommandList>
+            <CommandGroup heading="Custom" className="custom-group">
+              <CommandItem>Item</CommandItem>
+            </CommandGroup>
+          </CommandList>
+        </Command>,
+      )
+
+      const group = container.querySelector('.custom-group')
+      expect(group).toBeInTheDocument()
+    })
   })
 })
