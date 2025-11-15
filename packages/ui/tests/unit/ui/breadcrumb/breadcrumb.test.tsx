@@ -308,5 +308,20 @@ describe('Breadcrumb', () => {
       expect(srText).toBeInTheDocument()
       expect(srText).toHaveClass('sr-only')
     })
+
+    it('should apply custom className to BreadcrumbEllipsis', () => {
+      const { container } = render(
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbEllipsis className="custom-ellipsis" />
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>,
+      )
+
+      const ellipsis = container.querySelector('span[role="presentation"]')
+      expect(ellipsis).toHaveClass('custom-ellipsis')
+    })
   })
 })
