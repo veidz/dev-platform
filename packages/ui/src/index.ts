@@ -50,6 +50,17 @@ export type {
   CodeEditorProps,
   CodeEditorTheme,
 } from './components/ui/code-editor'
+export {
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from './components/ui/command'
 export { DataTable } from './components/ui/data-table'
 export type { DataTableProps, DataTableState } from './components/ui/data-table'
 export {
