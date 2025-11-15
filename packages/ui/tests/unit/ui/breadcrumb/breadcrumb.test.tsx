@@ -246,5 +246,25 @@ describe('Breadcrumb', () => {
       expect(separator).toBeInTheDocument()
       expect(separator).toHaveAttribute('aria-hidden', 'true')
     })
+
+    it('should render custom separator', () => {
+      render(
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator>
+              <span>/</span>
+            </BreadcrumbSeparator>
+            <BreadcrumbItem>
+              <BreadcrumbPage>Current</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>,
+      )
+
+      expect(screen.getByText('/')).toBeInTheDocument()
+    })
   })
 })
