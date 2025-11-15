@@ -278,5 +278,21 @@ describe('Sheet', () => {
       await screen.findByRole('button', { name: 'Open' })
       expect(screen.queryByText('Content')).not.toBeInTheDocument()
     })
+
+    it('should render built-in close button with icon', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Sheet>
+          <SheetTrigger>Open</SheetTrigger>
+          <SheetContent>Content</SheetContent>
+        </Sheet>,
+      )
+
+      await user.click(screen.getByRole('button', { name: 'Open' }))
+
+      const closeButton = screen.getByRole('button', { name: 'Close' })
+      expect(closeButton).toBeInTheDocument()
+    })
   })
 })
