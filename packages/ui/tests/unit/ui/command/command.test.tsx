@@ -5,6 +5,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
+  CommandSeparator,
   CommandShortcut,
 } from '@/components/ui/command'
 import { render, screen } from '@testing-library/react'
@@ -253,6 +254,27 @@ describe('Command', () => {
       render(<CommandShortcut className="custom-shortcut">⌘K</CommandShortcut>)
 
       expect(screen.getByText('⌘K')).toHaveClass('custom-shortcut')
+    })
+  })
+
+  describe('CommandSeparator', () => {
+    it('renders separator', () => {
+      const { container } = render(
+        <Command>
+          <CommandList>
+            <CommandGroup heading="Group 1">
+              <CommandItem>Item 1</CommandItem>
+            </CommandGroup>
+            <CommandSeparator />
+            <CommandGroup heading="Group 2">
+              <CommandItem>Item 2</CommandItem>
+            </CommandGroup>
+          </CommandList>
+        </Command>,
+      )
+
+      const separator = container.querySelector('[role="separator"]')
+      expect(separator).toBeInTheDocument()
     })
   })
 })
