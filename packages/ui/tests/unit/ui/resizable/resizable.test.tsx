@@ -4,7 +4,7 @@ import {
   ResizablePanelGroup,
 } from '@/components/ui/resizable'
 import { render, screen } from '@testing-library/react'
-import { toHaveNoViolations } from 'jest-axe'
+import { axe, toHaveNoViolations } from 'jest-axe'
 
 expect.extend(toHaveNoViolations)
 
@@ -414,6 +414,21 @@ describe('Resizable', () => {
 
       const group = container.firstChild as HTMLElement
       expect(group).toHaveAttribute('data-panel-group-id', 'persist-test')
+    })
+  })
+
+  describe('Accessibility', () => {
+    it('has no accessibility violations - horizontal', async () => {
+      const { container } = render(
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel>Panel 1</ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel>Panel 2</ResizablePanel>
+        </ResizablePanelGroup>,
+      )
+
+      const results = await axe(container)
+      expect(results).toHaveNoViolations()
     })
   })
 })
