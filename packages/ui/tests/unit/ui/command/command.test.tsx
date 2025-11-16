@@ -217,5 +217,18 @@ describe('Command', () => {
       const item = screen.getByText('Disabled item')
       expect(item).toHaveAttribute('data-disabled', 'true')
     })
+
+    it('renders with custom value', () => {
+      render(
+        <Command>
+          <CommandList>
+            <CommandItem value="custom-value">Item</CommandItem>
+          </CommandList>
+        </Command>,
+      )
+
+      const item = screen.getByText('Item')
+      expect(item).toHaveAttribute('data-value', 'custom-value')
+    })
   })
 })
