@@ -288,5 +288,21 @@ describe('Resizable', () => {
       expect(screen.getByText('Editor')).toBeInTheDocument()
       expect(screen.getByText('Terminal')).toBeInTheDocument()
     })
+
+    it('renders three panels correctly', () => {
+      render(
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel defaultSize={33}>Panel 1</ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel defaultSize={33}>Panel 2</ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel defaultSize={34}>Panel 3</ResizablePanel>
+        </ResizablePanelGroup>,
+      )
+
+      expect(screen.getByText('Panel 1')).toBeInTheDocument()
+      expect(screen.getByText('Panel 2')).toBeInTheDocument()
+      expect(screen.getByText('Panel 3')).toBeInTheDocument()
+    })
   })
 })
