@@ -376,5 +376,27 @@ describe('Command', () => {
       await user.keyboard('{ArrowDown}')
       expect(screen.getByText('Second')).toBeInTheDocument()
     })
+
+    it('selects item with Enter key', async () => {
+      const onSelect = jest.fn()
+      const user = userEvent.setup()
+
+      render(
+        <Command>
+          <CommandInput />
+          <CommandList>
+            <CommandItem onSelect={onSelect}>Select me</CommandItem>
+          </CommandList>
+        </Command>,
+      )
+
+      const input = screen.getByRole('combobox')
+      input.focus()
+
+      await user.keyboard('{ArrowDown}')
+      await user.keyboard('{Enter}')
+
+      expect(onSelect).toHaveBeenCalled()
+    })
   })
 })
