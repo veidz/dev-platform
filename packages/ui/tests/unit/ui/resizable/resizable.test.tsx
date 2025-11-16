@@ -384,5 +384,21 @@ describe('Resizable', () => {
 
       expect(onCollapse).toBeDefined()
     })
+
+    it('calls onExpand callback', () => {
+      const onExpand = jest.fn()
+
+      render(
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel collapsible onExpand={onExpand}>
+            Panel
+          </ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel>Other</ResizablePanel>
+        </ResizablePanelGroup>,
+      )
+
+      expect(onExpand).toBeDefined()
+    })
   })
 })
