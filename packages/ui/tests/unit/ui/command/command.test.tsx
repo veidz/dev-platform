@@ -293,5 +293,16 @@ describe('Command', () => {
       expect(screen.getByPlaceholderText('Search...')).toBeVisible()
       expect(screen.getByText('Item')).toBeVisible()
     })
+
+    it('hides dialog when closed', () => {
+      const { container } = render(
+        <CommandDialog open={false}>
+          <CommandInput />
+        </CommandDialog>,
+      )
+
+      const overlay = container.querySelector('.fixed')
+      expect(overlay).toHaveClass('hidden')
+    })
   })
 })
