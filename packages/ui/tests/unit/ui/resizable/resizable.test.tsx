@@ -401,4 +401,19 @@ describe('Resizable', () => {
       expect(onExpand).toBeDefined()
     })
   })
+
+  describe('Persistence', () => {
+    it('supports autoSaveId for localStorage persistence', () => {
+      const { container } = render(
+        <ResizablePanelGroup direction="horizontal" autoSaveId="persist-test">
+          <ResizablePanel>Panel 1</ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel>Panel 2</ResizablePanel>
+        </ResizablePanelGroup>,
+      )
+
+      const group = container.firstChild as HTMLElement
+      expect(group).toHaveAttribute('data-panel-group-id', 'persist-test')
+    })
+  })
 })
