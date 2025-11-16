@@ -304,5 +304,22 @@ describe('Command', () => {
       const overlay = container.querySelector('.fixed')
       expect(overlay).toHaveClass('hidden')
     })
+
+    it('calls onOpenChange when clicking overlay', async () => {
+      const handleOpenChange = jest.fn()
+      const user = userEvent.setup()
+
+      const { container } = render(
+        <CommandDialog open onOpenChange={handleOpenChange}>
+          <CommandInput />
+        </CommandDialog>,
+      )
+
+      const overlay = container.querySelector('.bg-black\\/80')
+      if (overlay) {
+        await user.click(overlay)
+        expect(handleOpenChange).toHaveBeenCalledWith(false)
+      }
+    })
   })
 })
