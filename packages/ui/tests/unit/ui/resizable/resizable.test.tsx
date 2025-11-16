@@ -87,5 +87,16 @@ describe('Resizable', () => {
 
       expect(screen.getByText('Test Content')).toBeInTheDocument()
     })
+
+    it('applies defaultSize', () => {
+      const { container } = render(
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel defaultSize={50}>Panel</ResizablePanel>
+        </ResizablePanelGroup>,
+      )
+
+      const panel = container.querySelector('[data-panel]')
+      expect(panel).toHaveAttribute('data-panel-size')
+    })
   })
 })
