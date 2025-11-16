@@ -335,5 +335,20 @@ describe('Command', () => {
       await user.click(screen.getByPlaceholderText('Click me'))
       expect(handleOpenChange).not.toHaveBeenCalled()
     })
+
+    it('renders with command component inside', () => {
+      render(
+        <CommandDialog open>
+          <CommandList>
+            <CommandGroup heading="Test">
+              <CommandItem>Dialog Item</CommandItem>
+            </CommandGroup>
+          </CommandList>
+        </CommandDialog>,
+      )
+
+      expect(screen.getByText('Test')).toBeInTheDocument()
+      expect(screen.getByText('Dialog Item')).toBeInTheDocument()
+    })
   })
 })
