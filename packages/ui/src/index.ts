@@ -127,6 +127,11 @@ export {
 export { Progress } from './components/ui/progress'
 export { RadioGroup, RadioGroupItem } from './components/ui/radio-group'
 export {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from './components/ui/resizable'
+export {
   Select,
   SelectContent,
   SelectGroup,

@@ -8,6 +8,8 @@ const config: Config = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+    '^react-resizable-panels$':
+      '<rootDir>/tests/__mocks__/react-resizable-panels.tsx',
   },
   setupFilesAfterEnv: ['<rootDir>/tests/setup.ts'],
   collectCoverageFrom: [
@@ -37,6 +39,7 @@ const config: Config = {
       },
     ],
   },
+  transformIgnorePatterns: ['node_modules/(?!(react-resizable-panels|cmdk)/)'],
 }
 
 export default config
