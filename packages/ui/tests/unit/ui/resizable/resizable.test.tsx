@@ -10,7 +10,7 @@ expect.extend(toHaveNoViolations)
 
 describe('Resizable', () => {
   describe('ResizablePanelGroup', () => {
-    it('renders panel group', () => {
+    it('should render panel group', () => {
       const { container } = render(
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel>Panel 1</ResizablePanel>
@@ -20,7 +20,7 @@ describe('Resizable', () => {
       expect(container.firstChild).toBeInTheDocument()
     })
 
-    it('applies horizontal direction', () => {
+    it('should apply horizontal direction', () => {
       const { container } = render(
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel>Panel</ResizablePanel>
@@ -31,7 +31,7 @@ describe('Resizable', () => {
       expect(group).toHaveAttribute('data-panel-group-direction', 'horizontal')
     })
 
-    it('applies vertical direction', () => {
+    it('should apply vertical direction', () => {
       const { container } = render(
         <ResizablePanelGroup direction="vertical">
           <ResizablePanel>Panel</ResizablePanel>
@@ -42,7 +42,7 @@ describe('Resizable', () => {
       expect(group).toHaveAttribute('data-panel-group-direction', 'vertical')
     })
 
-    it('applies custom className', () => {
+    it('should apply custom className', () => {
       const { container } = render(
         <ResizablePanelGroup
           direction="horizontal"
@@ -55,7 +55,7 @@ describe('Resizable', () => {
       expect(container.firstChild).toHaveClass('custom-group-class')
     })
 
-    it('renders multiple panels', () => {
+    it('should render multiple panels', () => {
       render(
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel>Panel 1</ResizablePanel>
@@ -69,7 +69,7 @@ describe('Resizable', () => {
       expect(screen.getByText('Panel 3')).toBeInTheDocument()
     })
 
-    it('supports autoSaveId for persistence', () => {
+    it('should support autoSaveId for persistence', () => {
       const { container } = render(
         <ResizablePanelGroup direction="horizontal" autoSaveId="test-persist">
           <ResizablePanel>Panel</ResizablePanel>
@@ -82,7 +82,7 @@ describe('Resizable', () => {
   })
 
   describe('ResizablePanel', () => {
-    it('renders panel with content', () => {
+    it('should render panel with content', () => {
       render(
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel>Test Content</ResizablePanel>
@@ -92,7 +92,7 @@ describe('Resizable', () => {
       expect(screen.getByText('Test Content')).toBeInTheDocument()
     })
 
-    it('applies defaultSize', () => {
+    it('should apply defaultSize', () => {
       const { container } = render(
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={50}>Panel</ResizablePanel>
@@ -103,7 +103,7 @@ describe('Resizable', () => {
       expect(panel).toHaveAttribute('data-panel-size')
     })
 
-    it('respects minSize constraint', () => {
+    it('should respect minSize constraint', () => {
       const { container } = render(
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel minSize={20} defaultSize={25}>
@@ -116,7 +116,7 @@ describe('Resizable', () => {
       expect(panel).toHaveAttribute('data-panel')
     })
 
-    it('respects maxSize constraint', () => {
+    it('should respect maxSize constraint', () => {
       const { container } = render(
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel maxSize={80} defaultSize={50}>
@@ -129,7 +129,7 @@ describe('Resizable', () => {
       expect(panel).toHaveAttribute('data-panel')
     })
 
-    it('supports collapsible panels', () => {
+    it('should support collapsible panels', () => {
       const { container } = render(
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel collapsible collapsedSize={0}>
@@ -142,7 +142,7 @@ describe('Resizable', () => {
       expect(panel).toHaveAttribute('data-panel-collapsible', 'true')
     })
 
-    it('applies id prop', () => {
+    it('should apply id prop', () => {
       const { container } = render(
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel id="test-panel">Panel</ResizablePanel>
@@ -155,7 +155,7 @@ describe('Resizable', () => {
   })
 
   describe('ResizableHandle', () => {
-    it('renders resize handle', () => {
+    it('should render resize handle', () => {
       const { container } = render(
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel>Panel 1</ResizablePanel>
@@ -168,7 +168,7 @@ describe('Resizable', () => {
       expect(handle).toBeInTheDocument()
     })
 
-    it('renders handle without icon by default', () => {
+    it('should render handle without icon by default', () => {
       const { container } = render(
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel>Panel 1</ResizablePanel>
@@ -181,7 +181,7 @@ describe('Resizable', () => {
       expect(icon).not.toBeInTheDocument()
     })
 
-    it('renders handle with icon when withHandle is true', () => {
+    it('should render handle with icon when withHandle is true', () => {
       const { container } = render(
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel>Panel 1</ResizablePanel>
@@ -194,7 +194,7 @@ describe('Resizable', () => {
       expect(icon).toBeInTheDocument()
     })
 
-    it('applies custom className', () => {
+    it('should apply custom className', () => {
       const { container } = render(
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel>Panel 1</ResizablePanel>
@@ -207,7 +207,7 @@ describe('Resizable', () => {
       expect(handle).toBeInTheDocument()
     })
 
-    it('is keyboard accessible', () => {
+    it('should be keyboard accessible', () => {
       const { container } = render(
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel>Panel 1</ResizablePanel>
@@ -223,7 +223,7 @@ describe('Resizable', () => {
       expect(handle).toHaveAttribute('tabindex', '0')
     })
 
-    it('supports disabled state', () => {
+    it('should support disabled state', () => {
       const { container } = render(
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel>Panel 1</ResizablePanel>
@@ -243,7 +243,7 @@ describe('Resizable', () => {
   })
 
   describe('Layout Behavior', () => {
-    it('renders horizontal layout', () => {
+    it('should render horizontal layout', () => {
       const { container } = render(
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel>Left</ResizablePanel>
@@ -256,7 +256,7 @@ describe('Resizable', () => {
       expect(group).toHaveAttribute('data-panel-group-direction', 'horizontal')
     })
 
-    it('renders vertical layout', () => {
+    it('should render vertical layout', () => {
       const { container } = render(
         <ResizablePanelGroup direction="vertical">
           <ResizablePanel>Top</ResizablePanel>
@@ -269,7 +269,7 @@ describe('Resizable', () => {
       expect(group).toHaveAttribute('data-panel-group-direction', 'vertical')
     })
 
-    it('supports nested panel groups', () => {
+    it('should support nested panel groups', () => {
       render(
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel>Sidebar</ResizablePanel>
@@ -289,7 +289,7 @@ describe('Resizable', () => {
       expect(screen.getByText('Terminal')).toBeInTheDocument()
     })
 
-    it('renders three panels correctly', () => {
+    it('should render three panels correctly', () => {
       render(
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={33}>Panel 1</ResizablePanel>
@@ -307,7 +307,7 @@ describe('Resizable', () => {
   })
 
   describe('Size Constraints', () => {
-    it('enforces minSize', () => {
+    it('should enforce minSize', () => {
       const { container } = render(
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel minSize={30} defaultSize={50}>
@@ -322,7 +322,7 @@ describe('Resizable', () => {
       expect(panels).toHaveLength(2)
     })
 
-    it('enforces maxSize', () => {
+    it('should enforce maxSize', () => {
       const { container } = render(
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel maxSize={70} defaultSize={50}>
@@ -337,7 +337,7 @@ describe('Resizable', () => {
       expect(panels).toHaveLength(2)
     })
 
-    it('enforces both minSize and maxSize', () => {
+    it('should enforce both minSize and maxSize', () => {
       const { container } = render(
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel minSize={20} maxSize={60} defaultSize={40}>
@@ -354,7 +354,7 @@ describe('Resizable', () => {
   })
 
   describe('Collapsible Panels', () => {
-    it('supports collapsible prop', () => {
+    it('should support collapsible prop', () => {
       const { container } = render(
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel collapsible collapsedSize={0}>
@@ -369,7 +369,7 @@ describe('Resizable', () => {
       expect(panel).toBeInTheDocument()
     })
 
-    it('calls onCollapse callback', () => {
+    it('should call onCollapse callback', () => {
       const onCollapse = jest.fn()
 
       render(
@@ -385,7 +385,7 @@ describe('Resizable', () => {
       expect(onCollapse).toBeDefined()
     })
 
-    it('calls onExpand callback', () => {
+    it('should call onExpand callback', () => {
       const onExpand = jest.fn()
 
       render(
@@ -403,7 +403,7 @@ describe('Resizable', () => {
   })
 
   describe('Persistence', () => {
-    it('supports autoSaveId for localStorage persistence', () => {
+    it('should support autoSaveId for localStorage persistence', () => {
       const { container } = render(
         <ResizablePanelGroup direction="horizontal" autoSaveId="persist-test">
           <ResizablePanel>Panel 1</ResizablePanel>
@@ -418,7 +418,7 @@ describe('Resizable', () => {
   })
 
   describe('Accessibility', () => {
-    it('has no accessibility violations - horizontal', async () => {
+    it('should have no accessibility violations - horizontal', async () => {
       const { container } = render(
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel>Panel 1</ResizablePanel>
@@ -431,7 +431,7 @@ describe('Resizable', () => {
       expect(results).toHaveNoViolations()
     })
 
-    it('has no accessibility violations - vertical', async () => {
+    it('should have no accessibility violations - vertical', async () => {
       const { container } = render(
         <ResizablePanelGroup direction="vertical">
           <ResizablePanel>Panel 1</ResizablePanel>
@@ -444,7 +444,7 @@ describe('Resizable', () => {
       expect(results).toHaveNoViolations()
     })
 
-    it('has no accessibility violations - with handle', async () => {
+    it('should have no accessibility violations - with handle', async () => {
       const { container } = render(
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel>Panel 1</ResizablePanel>
@@ -457,7 +457,7 @@ describe('Resizable', () => {
       expect(results).toHaveNoViolations()
     })
 
-    it('handle has proper ARIA role', () => {
+    it('should have proper ARIA role', () => {
       const { container } = render(
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel>Panel 1</ResizablePanel>
@@ -470,7 +470,7 @@ describe('Resizable', () => {
       expect(handle).toBeInTheDocument()
     })
 
-    it('handle is keyboard focusable', () => {
+    it('should be keyboard focusable', () => {
       const { container } = render(
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel>Panel 1</ResizablePanel>

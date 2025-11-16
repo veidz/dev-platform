@@ -28,13 +28,13 @@ describe('Select', () => {
   )
 
   describe('SelectTrigger', () => {
-    it('renders with placeholder', () => {
+    it('should render with placeholder', () => {
       render(<SimpleSelect />)
       expect(screen.getByRole('combobox')).toBeInTheDocument()
       expect(screen.getByText('Select option')).toBeInTheDocument()
     })
 
-    it('renders with custom className', () => {
+    it('should render with custom className', () => {
       render(
         <Select>
           <SelectTrigger className="custom-class">
@@ -48,14 +48,14 @@ describe('Select', () => {
       expect(screen.getByRole('combobox')).toHaveClass('custom-class')
     })
 
-    it('renders with chevron icon', () => {
+    it('should render with chevron icon', () => {
       render(<SimpleSelect />)
       const trigger = screen.getByRole('combobox')
       const svg = trigger.querySelector('svg')
       expect(svg).toBeInTheDocument()
     })
 
-    it('applies disabled styles when disabled', () => {
+    it('should apply disabled styles when disabled', () => {
       render(
         <Select disabled>
           <SelectTrigger>
@@ -72,7 +72,7 @@ describe('Select', () => {
   })
 
   describe('SelectContent', () => {
-    it('renders SelectContent component', () => {
+    it('should render SelectContent component', () => {
       render(
         <Select defaultValue="test">
           <SelectTrigger>
@@ -87,7 +87,7 @@ describe('Select', () => {
       expect(screen.getByRole('combobox')).toBeInTheDocument()
     })
 
-    it('renders with custom className', () => {
+    it('should render with custom className', () => {
       render(
         <Select defaultValue="test">
           <SelectTrigger>
@@ -104,7 +104,7 @@ describe('Select', () => {
   })
 
   describe('SelectItem', () => {
-    it('renders with custom className', () => {
+    it('should render with custom className', () => {
       render(
         <Select defaultValue="test">
           <SelectTrigger>
@@ -121,7 +121,7 @@ describe('Select', () => {
       expect(screen.getByRole('combobox')).toBeInTheDocument()
     })
 
-    it('renders disabled item', () => {
+    it('should render disabled item', () => {
       render(
         <Select defaultValue="enabled">
           <SelectTrigger>
@@ -141,12 +141,12 @@ describe('Select', () => {
   })
 
   describe('SelectValue', () => {
-    it('renders placeholder when no value selected', () => {
+    it('should render placeholder when no value selected', () => {
       render(<SimpleSelect />)
       expect(screen.getByText('Select option')).toBeInTheDocument()
     })
 
-    it('renders selected value', async () => {
+    it('should render selected value', async () => {
       const user = userEvent.setup()
       render(<SimpleSelect />)
 
@@ -156,7 +156,7 @@ describe('Select', () => {
       expect(screen.getByRole('combobox')).toHaveTextContent('Option 1')
     })
 
-    it('renders with default value', () => {
+    it('should render with default value', () => {
       render(
         <Select defaultValue="option2">
           <SelectTrigger>
@@ -173,7 +173,7 @@ describe('Select', () => {
   })
 
   describe('SelectGroup and SelectLabel', () => {
-    it('renders group with label', () => {
+    it('should render group with label', () => {
       render(
         <Select defaultValue="apple">
           <SelectTrigger>
@@ -192,7 +192,7 @@ describe('Select', () => {
       expect(screen.getByRole('combobox')).toBeInTheDocument()
     })
 
-    it('renders label with custom className', () => {
+    it('should render label with custom className', () => {
       render(
         <Select defaultValue="test">
           <SelectTrigger>
@@ -212,7 +212,7 @@ describe('Select', () => {
   })
 
   describe('SelectSeparator', () => {
-    it('renders separator', () => {
+    it('should render separator', () => {
       render(
         <Select defaultValue="option1">
           <SelectTrigger>
@@ -229,7 +229,7 @@ describe('Select', () => {
       expect(screen.getByRole('combobox')).toBeInTheDocument()
     })
 
-    it('renders separator with custom className', () => {
+    it('should render separator with custom className', () => {
       render(
         <Select defaultValue="option1">
           <SelectTrigger>
@@ -248,7 +248,7 @@ describe('Select', () => {
   })
 
   describe('Scroll Buttons', () => {
-    it('renders scroll up button with custom className', () => {
+    it('should render scroll up button with custom className', () => {
       render(
         <Select defaultValue="test">
           <SelectTrigger>
@@ -265,7 +265,7 @@ describe('Select', () => {
       expect(screen.getByRole('combobox')).toBeInTheDocument()
     })
 
-    it('renders scroll down button with custom className', () => {
+    it('should render scroll down button with custom className', () => {
       render(
         <Select defaultValue="test">
           <SelectTrigger>
@@ -282,7 +282,7 @@ describe('Select', () => {
       expect(screen.getByRole('combobox')).toBeInTheDocument()
     })
 
-    it('renders scroll buttons', () => {
+    it('should render scroll buttons', () => {
       render(
         <Select defaultValue="test">
           <SelectTrigger>
@@ -301,7 +301,7 @@ describe('Select', () => {
   })
 
   describe('Controlled State', () => {
-    it('works in controlled mode', () => {
+    it('should work in controlled mode', () => {
       const handleChange = jest.fn()
 
       render(
@@ -319,7 +319,7 @@ describe('Select', () => {
       expect(screen.getByRole('combobox')).toHaveTextContent('Option 1')
     })
 
-    it('calls onValueChange when value changes', () => {
+    it('should call onValueChange when value changes', () => {
       const handleChange = jest.fn()
 
       render(
@@ -339,19 +339,19 @@ describe('Select', () => {
   })
 
   describe('Accessibility', () => {
-    it('has correct ARIA attributes on trigger', () => {
+    it('should have correct ARIA attributes on trigger', () => {
       render(<SimpleSelect />)
       const trigger = screen.getByRole('combobox')
       expect(trigger).toHaveAttribute('aria-expanded', 'false')
     })
 
-    it('has correct aria-controls attribute', () => {
+    it('should have correct aria-controls attribute', () => {
       render(<SimpleSelect />)
       const trigger = screen.getByRole('combobox')
       expect(trigger).toHaveAttribute('aria-controls')
     })
 
-    it('has correct aria-autocomplete attribute', () => {
+    it('should have correct aria-autocomplete attribute', () => {
       render(<SimpleSelect />)
       const trigger = screen.getByRole('combobox')
       expect(trigger).toHaveAttribute('aria-autocomplete', 'none')
@@ -359,7 +359,7 @@ describe('Select', () => {
   })
 
   describe('Integration', () => {
-    it('renders complete Select with all components', () => {
+    it('should render complete Select with all components', () => {
       render(
         <Select defaultValue="apple">
           <SelectTrigger>
@@ -386,7 +386,7 @@ describe('Select', () => {
       expect(screen.getByRole('combobox')).toHaveTextContent('Apple')
     })
 
-    it('renders with open prop', () => {
+    it('should render with open prop', () => {
       render(
         <Select open>
           <SelectTrigger>
@@ -401,7 +401,7 @@ describe('Select', () => {
       expect(screen.getByRole('listbox')).toBeInTheDocument()
     })
 
-    it('renders with onOpenChange callback', () => {
+    it('should render with onOpenChange callback', () => {
       const handleOpenChange = jest.fn()
 
       render(

@@ -17,7 +17,7 @@ expect.extend(toHaveNoViolations)
 
 describe('Command', () => {
   describe('Rendering', () => {
-    it('renders command component', () => {
+    it('should render command component', () => {
       render(
         <Command>
           <CommandInput placeholder="Search..." />
@@ -31,7 +31,7 @@ describe('Command', () => {
       expect(screen.getByText('Item 1')).toBeInTheDocument()
     })
 
-    it('renders with custom className', () => {
+    it('should render with custom className', () => {
       const { container } = render(
         <Command className="custom-class">
           <CommandInput />
@@ -42,7 +42,7 @@ describe('Command', () => {
       expect(command).toHaveClass('custom-class')
     })
 
-    it('renders search icon in input', () => {
+    it('should render search icon in input', () => {
       const { container } = render(
         <Command>
           <CommandInput />
@@ -55,7 +55,7 @@ describe('Command', () => {
   })
 
   describe('CommandInput', () => {
-    it('accepts input value', async () => {
+    it('should accept input value', async () => {
       const user = userEvent.setup()
       render(
         <Command>
@@ -69,7 +69,7 @@ describe('Command', () => {
       expect(input).toHaveValue('test query')
     })
 
-    it('supports controlled value', () => {
+    it('should support controlled value', () => {
       const { rerender } = render(
         <Command>
           <CommandInput value="initial" />
@@ -88,7 +88,7 @@ describe('Command', () => {
       expect(input).toHaveValue('updated')
     })
 
-    it('can be disabled', () => {
+    it('should be disabled', () => {
       render(
         <Command>
           <CommandInput disabled placeholder="Disabled..." />
@@ -100,7 +100,7 @@ describe('Command', () => {
   })
 
   describe('CommandList and CommandEmpty', () => {
-    it('renders list with items', () => {
+    it('should render list with items', () => {
       render(
         <Command>
           <CommandList>
@@ -114,7 +114,7 @@ describe('Command', () => {
       expect(screen.getByText('Second')).toBeInTheDocument()
     })
 
-    it('shows empty state when no results', () => {
+    it('should show empty state when no results', () => {
       render(
         <Command>
           <CommandInput />
@@ -127,7 +127,7 @@ describe('Command', () => {
       expect(screen.getByText('No results found')).toBeInTheDocument()
     })
 
-    it('hides empty when items exist', () => {
+    it('should hide empty when items exist', () => {
       render(
         <Command>
           <CommandList>
@@ -142,7 +142,7 @@ describe('Command', () => {
   })
 
   describe('CommandGroup', () => {
-    it('renders group with heading', () => {
+    it('should render group with heading', () => {
       render(
         <Command>
           <CommandList>
@@ -157,7 +157,7 @@ describe('Command', () => {
       expect(screen.getByText('Action 1')).toBeInTheDocument()
     })
 
-    it('renders multiple groups', () => {
+    it('should render multiple groups', () => {
       render(
         <Command>
           <CommandList>
@@ -175,7 +175,7 @@ describe('Command', () => {
       expect(screen.getByText('Group 2')).toBeInTheDocument()
     })
 
-    it('applies custom className to group', () => {
+    it('should apply custom className to group', () => {
       const { container } = render(
         <Command>
           <CommandList>
@@ -192,7 +192,7 @@ describe('Command', () => {
   })
 
   describe('CommandItem', () => {
-    it('renders clickable items', async () => {
+    it('should render clickable items', async () => {
       const onSelect = jest.fn()
       const user = userEvent.setup()
 
@@ -208,7 +208,7 @@ describe('Command', () => {
       expect(onSelect).toHaveBeenCalled()
     })
 
-    it('supports disabled state', () => {
+    it('should support disabled state', () => {
       render(
         <Command>
           <CommandList>
@@ -221,7 +221,7 @@ describe('Command', () => {
       expect(item).toHaveAttribute('data-disabled', 'true')
     })
 
-    it('renders with custom value', () => {
+    it('should render with custom value', () => {
       render(
         <Command>
           <CommandList>
@@ -236,7 +236,7 @@ describe('Command', () => {
   })
 
   describe('CommandShortcut', () => {
-    it('renders keyboard shortcut', () => {
+    it('should render keyboard shortcut', () => {
       render(
         <Command>
           <CommandList>
@@ -251,7 +251,7 @@ describe('Command', () => {
       expect(screen.getByText('⌘S')).toBeInTheDocument()
     })
 
-    it('applies custom className to shortcut', () => {
+    it('should apply custom className to shortcut', () => {
       render(<CommandShortcut className="custom-shortcut">⌘K</CommandShortcut>)
 
       expect(screen.getByText('⌘K')).toHaveClass('custom-shortcut')
@@ -259,7 +259,7 @@ describe('Command', () => {
   })
 
   describe('CommandSeparator', () => {
-    it('renders separator', () => {
+    it('should render separator', () => {
       const { container } = render(
         <Command>
           <CommandList>
@@ -280,7 +280,7 @@ describe('Command', () => {
   })
 
   describe('CommandDialog', () => {
-    it('shows dialog when open', () => {
+    it('should show dialog when open', () => {
       render(
         <CommandDialog open>
           <CommandInput placeholder="Search..." />
@@ -294,7 +294,7 @@ describe('Command', () => {
       expect(screen.getByText('Item')).toBeVisible()
     })
 
-    it('hides dialog when closed', () => {
+    it('should hide dialog when closed', () => {
       const { container } = render(
         <CommandDialog open={false}>
           <CommandInput />
@@ -305,7 +305,7 @@ describe('Command', () => {
       expect(overlay).toHaveClass('hidden')
     })
 
-    it('calls onOpenChange when clicking overlay', async () => {
+    it('should call onOpenChange when clicking overlay', async () => {
       const handleOpenChange = jest.fn()
       const user = userEvent.setup()
 
@@ -322,7 +322,7 @@ describe('Command', () => {
       }
     })
 
-    it('does not close when clicking inside dialog', async () => {
+    it('should not close when clicking inside dialog', async () => {
       const handleOpenChange = jest.fn()
       const user = userEvent.setup()
 
@@ -336,7 +336,7 @@ describe('Command', () => {
       expect(handleOpenChange).not.toHaveBeenCalled()
     })
 
-    it('renders with command component inside', () => {
+    it('should render with command component inside', () => {
       render(
         <CommandDialog open>
           <CommandList>
@@ -353,7 +353,7 @@ describe('Command', () => {
   })
 
   describe('Keyboard Navigation', () => {
-    it('navigates items with arrow keys', async () => {
+    it('should navigate items with arrow keys', async () => {
       const user = userEvent.setup()
 
       render(
@@ -377,7 +377,7 @@ describe('Command', () => {
       expect(screen.getByText('Second')).toBeInTheDocument()
     })
 
-    it('selects item with Enter key', async () => {
+    it('should select item with Enter key', async () => {
       const onSelect = jest.fn()
       const user = userEvent.setup()
 
@@ -401,7 +401,7 @@ describe('Command', () => {
   })
 
   describe('Filtering', () => {
-    it('filters items based on search', async () => {
+    it('should filter items based on search', async () => {
       const user = userEvent.setup()
 
       render(
@@ -421,7 +421,7 @@ describe('Command', () => {
       expect(screen.getByText('Banana')).toBeInTheDocument()
     })
 
-    it('shows empty state when no matches', async () => {
+    it('should show empty state when no matches', async () => {
       const user = userEvent.setup()
 
       render(
@@ -442,7 +442,7 @@ describe('Command', () => {
   })
 
   describe('Accessibility', () => {
-    it('has no accessibility violations - basic', async () => {
+    it('should have no accessibility violations - basic', async () => {
       const { container } = render(
         <Command>
           <CommandInput placeholder="Search" />
@@ -456,7 +456,7 @@ describe('Command', () => {
       expect(results).toHaveNoViolations()
     })
 
-    it('has no accessibility violations - with groups', async () => {
+    it('should have no accessibility violations - with groups', async () => {
       const { container } = render(
         <Command>
           <CommandInput placeholder="Search" />
@@ -475,7 +475,7 @@ describe('Command', () => {
       expect(results).toHaveNoViolations()
     })
 
-    it('has no accessibility violations - dialog', async () => {
+    it('should have no accessibility violations - dialog', async () => {
       const { container } = render(
         <CommandDialog open>
           <CommandInput placeholder="Search" />
@@ -489,7 +489,7 @@ describe('Command', () => {
       expect(results).toHaveNoViolations()
     })
 
-    it('input has proper role', () => {
+    it('should have input proper role', () => {
       render(
         <Command>
           <CommandInput />
@@ -499,7 +499,7 @@ describe('Command', () => {
       expect(screen.getByRole('combobox')).toBeInTheDocument()
     })
 
-    it('items are focusable via keyboard', async () => {
+    it('should have items focusable via keyboard', async () => {
       const user = userEvent.setup()
 
       render(
@@ -520,7 +520,7 @@ describe('Command', () => {
   })
 
   describe('Custom Styling', () => {
-    it('applies custom className to all components', () => {
+    it('should apply custom className to all components', () => {
       const { container } = render(
         <Command className="cmd-custom">
           <CommandInput className="input-custom" />

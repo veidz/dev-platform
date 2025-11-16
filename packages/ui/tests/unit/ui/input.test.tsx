@@ -6,13 +6,13 @@ import { createRef } from 'react'
 
 describe('Input', () => {
   describe('rendering', () => {
-    it('renders as input element', () => {
+    it('should render as input element', () => {
       render(<Input placeholder="Test input" />)
       const input = screen.getByPlaceholderText('Test input')
       expect(input.tagName).toBe('INPUT')
     })
 
-    it('applies default classes', () => {
+    it('should apply default classes', () => {
       render(<Input />)
       const input = screen.getByRole('textbox')
       expect(input.className).toContain('flex')
@@ -22,37 +22,37 @@ describe('Input', () => {
   })
 
   describe('types', () => {
-    it('renders text type by default', () => {
+    it('should render text type by default', () => {
       render(<Input />)
       const input = screen.getByRole('textbox')
       expect(input.getAttribute('type')).toBeNull()
     })
 
-    it('renders email type', () => {
+    it('should render email type', () => {
       render(<Input type="email" placeholder="email" />)
       const input = screen.getByPlaceholderText('email')
       expect(input.getAttribute('type')).toBe('email')
     })
 
-    it('renders password type', () => {
+    it('should render password type', () => {
       render(<Input type="password" placeholder="password" />)
       const input = screen.getByPlaceholderText('password')
       expect(input.getAttribute('type')).toBe('password')
     })
 
-    it('renders number type', () => {
+    it('should render number type', () => {
       render(<Input type="number" placeholder="number" />)
       const input = screen.getByPlaceholderText('number')
       expect(input.getAttribute('type')).toBe('number')
     })
 
-    it('renders tel type', () => {
+    it('should render tel type', () => {
       render(<Input type="tel" placeholder="phone" />)
       const input = screen.getByPlaceholderText('phone')
       expect(input.getAttribute('type')).toBe('tel')
     })
 
-    it('renders search type', () => {
+    it('should render search type', () => {
       render(<Input type="search" placeholder="search" />)
       const input = screen.getByPlaceholderText('search')
       expect(input.getAttribute('type')).toBe('search')
@@ -60,7 +60,7 @@ describe('Input', () => {
   })
 
   describe('interactions', () => {
-    it('handles value changes', async () => {
+    it('should handle value changes', async () => {
       const user = userEvent.setup()
       render(<Input placeholder="Type here" />)
       const input = screen.getByPlaceholderText('Type here') as HTMLInputElement
@@ -69,7 +69,7 @@ describe('Input', () => {
       expect(input.value).toBe('Hello World')
     })
 
-    it('handles onChange callback', async () => {
+    it('should handle onChange callback', async () => {
       const handleChange = jest.fn()
       const user = userEvent.setup()
       render(<Input onChange={handleChange} placeholder="test" />)
@@ -79,7 +79,7 @@ describe('Input', () => {
       expect(handleChange).toHaveBeenCalled()
     })
 
-    it('handles onFocus callback', async () => {
+    it('should handle onFocus callback', async () => {
       const handleFocus = jest.fn()
       const user = userEvent.setup()
       render(<Input onFocus={handleFocus} placeholder="test" />)
@@ -89,7 +89,7 @@ describe('Input', () => {
       expect(handleFocus).toHaveBeenCalledTimes(1)
     })
 
-    it('handles onBlur callback', async () => {
+    it('should handle onBlur callback', async () => {
       const handleBlur = jest.fn()
       const user = userEvent.setup()
       render(<Input onBlur={handleBlur} placeholder="test" />)
@@ -111,20 +111,20 @@ describe('Input', () => {
   })
 
   describe('states', () => {
-    it('applies disabled state', () => {
+    it('should apply disabled state', () => {
       render(<Input disabled placeholder="disabled" />)
       const input = screen.getByPlaceholderText('disabled')
       expect(input.hasAttribute('disabled')).toBe(true)
       expect(input.className).toContain('disabled:opacity-50')
     })
 
-    it('applies readonly state', () => {
+    it('should apply readonly state', () => {
       render(<Input readOnly placeholder="readonly" />)
       const input = screen.getByPlaceholderText('readonly')
       expect(input.hasAttribute('readonly')).toBe(true)
     })
 
-    it('applies required state', () => {
+    it('should apply required state', () => {
       render(<Input required placeholder="required" />)
       const input = screen.getByPlaceholderText('required')
       expect(input.hasAttribute('required')).toBe(true)
@@ -132,61 +132,61 @@ describe('Input', () => {
   })
 
   describe('custom props', () => {
-    it('accepts custom className', () => {
+    it('should accept custom className', () => {
       render(<Input className="custom-class" placeholder="test" />)
       const input = screen.getByPlaceholderText('test')
       expect(input.className).toContain('custom-class')
     })
 
-    it('accepts value prop', () => {
+    it('should accept value prop', () => {
       render(<Input value="preset value" onChange={() => {}} />)
       const input = screen.getByRole('textbox') as HTMLInputElement
       expect(input.value).toBe('preset value')
     })
 
-    it('accepts defaultValue prop', () => {
+    it('should accept defaultValue prop', () => {
       render(<Input defaultValue="default" />)
       const input = screen.getByRole('textbox') as HTMLInputElement
       expect(input.value).toBe('default')
     })
 
-    it('accepts maxLength prop', () => {
+    it('should accept maxLength prop', () => {
       render(<Input maxLength={10} placeholder="max10" />)
       const input = screen.getByPlaceholderText('max10')
       expect(input.getAttribute('maxLength')).toBe('10')
     })
 
-    it('accepts pattern prop', () => {
+    it('should accept pattern prop', () => {
       render(<Input pattern="[0-9]*" placeholder="numbers" />)
       const input = screen.getByPlaceholderText('numbers')
       expect(input.getAttribute('pattern')).toBe('[0-9]*')
     })
 
-    it('accepts name prop', () => {
+    it('should accept name prop', () => {
       render(<Input name="username" placeholder="test" />)
       const input = screen.getByPlaceholderText('test')
       expect(input.getAttribute('name')).toBe('username')
     })
 
-    it('accepts id prop', () => {
+    it('should accept id prop', () => {
       render(<Input id="email-input" placeholder="test" />)
       const input = screen.getByPlaceholderText('test')
       expect(input.getAttribute('id')).toBe('email-input')
     })
 
-    it('accepts aria-label', () => {
+    it('should accept aria-label', () => {
       render(<Input aria-label="Search input" />)
       const input = screen.getByRole('textbox', { name: /search input/i })
       expect(input).toBeDefined()
     })
 
-    it('accepts aria-describedby', () => {
+    it('should accept aria-describedby', () => {
       render(<Input aria-describedby="helper-text" placeholder="test" />)
       const input = screen.getByPlaceholderText('test')
       expect(input.getAttribute('aria-describedby')).toBe('helper-text')
     })
 
-    it('forwards ref correctly', () => {
+    it('should forward ref correctly', () => {
       const ref = createRef<HTMLInputElement>()
       render(<Input ref={ref} />)
       expect(ref.current).toBeDefined()
@@ -195,14 +195,14 @@ describe('Input', () => {
   })
 
   describe('focus management', () => {
-    it('can be focused programmatically', () => {
+    it('should be focused programmatically', () => {
       const ref = createRef<HTMLInputElement>()
       render(<Input ref={ref} />)
       ref.current?.focus()
       expect(document.activeElement).toBe(ref.current)
     })
 
-    it('applies focus-visible ring styles', () => {
+    it('should apply focus-visible ring styles', () => {
       render(<Input placeholder="test" />)
       const input = screen.getByPlaceholderText('test')
       expect(input.className).toContain('focus-visible:ring-1')

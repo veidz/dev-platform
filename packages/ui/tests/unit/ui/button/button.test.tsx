@@ -6,20 +6,20 @@ import { createRef } from 'react'
 
 describe('Button', () => {
   describe('rendering', () => {
-    it('renders children correctly', () => {
+    it('should render children correctly', () => {
       render(<Button>Click me</Button>)
       const element = screen.getByText('Click me')
       expect(element).toBeDefined()
       expect(element.textContent).toBe('Click me')
     })
 
-    it('renders as button element by default', () => {
+    it('should render as button element by default', () => {
       render(<Button>Test</Button>)
       const button = screen.getByRole('button', { name: /test/i })
       expect(button.tagName).toBe('BUTTON')
     })
 
-    it('applies default variant classes', () => {
+    it('should apply default variant classes', () => {
       render(<Button>Default</Button>)
       const button = screen.getByRole('button')
       expect(button.className).toContain('bg-primary')
@@ -27,38 +27,38 @@ describe('Button', () => {
   })
 
   describe('variants', () => {
-    it('renders default variant', () => {
+    it('should render default variant', () => {
       render(<Button variant="default">Default</Button>)
       const button = screen.getByRole('button')
       expect(button.className).toContain('bg-primary')
       expect(button.className).toContain('text-primary-foreground')
     })
 
-    it('renders destructive variant', () => {
+    it('should render destructive variant', () => {
       render(<Button variant="destructive">Delete</Button>)
       const button = screen.getByRole('button')
       expect(button.className).toContain('bg-destructive')
     })
 
-    it('renders outline variant', () => {
+    it('should render outline variant', () => {
       render(<Button variant="outline">Outline</Button>)
       const button = screen.getByRole('button')
       expect(button.className).toContain('border-2')
     })
 
-    it('renders secondary variant', () => {
+    it('should render secondary variant', () => {
       render(<Button variant="secondary">Secondary</Button>)
       const button = screen.getByRole('button')
       expect(button.className).toContain('bg-secondary')
     })
 
-    it('renders ghost variant', () => {
+    it('should render ghost variant', () => {
       render(<Button variant="ghost">Ghost</Button>)
       const button = screen.getByRole('button')
       expect(button.className).toContain('hover:bg-accent/20')
     })
 
-    it('renders link variant', () => {
+    it('should render link variant', () => {
       render(<Button variant="link">Link</Button>)
       const button = screen.getByRole('button')
       expect(button.className).toContain('underline-offset-4')
@@ -66,28 +66,28 @@ describe('Button', () => {
   })
 
   describe('sizes', () => {
-    it('renders default size', () => {
+    it('should render default size', () => {
       render(<Button size="default">Default Size</Button>)
       const button = screen.getByRole('button')
       expect(button.className).toContain('h-9')
       expect(button.className).toContain('px-4')
     })
 
-    it('renders small size', () => {
+    it('should render small size', () => {
       render(<Button size="sm">Small</Button>)
       const button = screen.getByRole('button')
       expect(button.className).toContain('h-8')
       expect(button.className).toContain('px-3')
     })
 
-    it('renders large size', () => {
+    it('should render large size', () => {
       render(<Button size="lg">Large</Button>)
       const button = screen.getByRole('button')
       expect(button.className).toContain('h-10')
       expect(button.className).toContain('px-8')
     })
 
-    it('renders icon size', () => {
+    it('should render icon size', () => {
       render(<Button size="icon">🔍</Button>)
       const button = screen.getByRole('button')
       expect(button.className).toContain('h-9')
@@ -96,7 +96,7 @@ describe('Button', () => {
   })
 
   describe('interactions', () => {
-    it('handles click events', async () => {
+    it('should handle click events', async () => {
       const handleClick = jest.fn()
       const user = userEvent.setup()
 
@@ -107,7 +107,7 @@ describe('Button', () => {
       expect(handleClick).toHaveBeenCalledTimes(1)
     })
 
-    it('does not trigger click when disabled', async () => {
+    it('should not trigger click when disabled', async () => {
       const handleClick = jest.fn()
       const user = userEvent.setup()
 
@@ -122,7 +122,7 @@ describe('Button', () => {
       expect(handleClick).not.toHaveBeenCalled()
     })
 
-    it('applies disabled styles', () => {
+    it('should apply disabled styles', () => {
       render(<Button disabled>Disabled</Button>)
       const button = screen.getByRole('button')
       expect(button.hasAttribute('disabled')).toBe(true)
@@ -131,25 +131,25 @@ describe('Button', () => {
   })
 
   describe('custom props', () => {
-    it('accepts custom className', () => {
+    it('should accept custom className', () => {
       render(<Button className="custom-class">Custom</Button>)
       const button = screen.getByRole('button')
       expect(button.className).toContain('custom-class')
     })
 
-    it('accepts type prop', () => {
+    it('should accept type prop', () => {
       render(<Button type="submit">Submit</Button>)
       const button = screen.getByRole('button')
       expect(button.getAttribute('type')).toBe('submit')
     })
 
-    it('accepts aria-label', () => {
+    it('should accept aria-label', () => {
       render(<Button aria-label="Close dialog">X</Button>)
       const button = screen.getByRole('button', { name: /close dialog/i })
       expect(button).toBeDefined()
     })
 
-    it('forwards ref correctly', () => {
+    it('should forward ref correctly', () => {
       const ref = createRef<HTMLButtonElement>()
       render(<Button ref={ref}>Ref Button</Button>)
       expect(ref.current).toBeDefined()
@@ -158,24 +158,24 @@ describe('Button', () => {
   })
 
   describe('buttonVariants helper', () => {
-    it('generates correct default classes', () => {
+    it('should generate correct default classes', () => {
       const classes = buttonVariants()
       expect(classes).toContain('bg-primary')
       expect(classes).toContain('h-9')
     })
 
-    it('generates correct variant classes', () => {
+    it('should generate correct variant classes', () => {
       const classes = buttonVariants({ variant: 'destructive' })
       expect(classes).toContain('bg-destructive')
     })
 
-    it('generates correct size classes', () => {
+    it('should generate correct size classes', () => {
       const classes = buttonVariants({ size: 'lg' })
       expect(classes).toContain('h-10')
       expect(classes).toContain('px-8')
     })
 
-    it('accepts custom className', () => {
+    it('should accept custom className', () => {
       const classes = buttonVariants({ className: 'custom' })
       expect(classes).toContain('custom')
     })

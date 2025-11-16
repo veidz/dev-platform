@@ -4,86 +4,86 @@ import { userEvent } from '@testing-library/user-event'
 
 describe('Textarea', () => {
   describe('Rendering', () => {
-    it('renders textarea element', () => {
+    it('should render textarea element', () => {
       render(<Textarea />)
       expect(screen.getByRole('textbox')).toBeInTheDocument()
     })
 
-    it('renders with placeholder', () => {
+    it('should render with placeholder', () => {
       render(<Textarea placeholder="Enter text" />)
       expect(screen.getByPlaceholderText('Enter text')).toBeInTheDocument()
     })
 
-    it('renders with default value', () => {
+    it('should render with default value', () => {
       render(<Textarea defaultValue="Default text" />)
       expect(screen.getByRole('textbox')).toHaveValue('Default text')
     })
 
-    it('renders with controlled value', () => {
+    it('should render with controlled value', () => {
       render(<Textarea value="Controlled text" onChange={() => {}} />)
       expect(screen.getByRole('textbox')).toHaveValue('Controlled text')
     })
 
-    it('renders with custom className', () => {
+    it('should render with custom className', () => {
       render(<Textarea className="custom-class" />)
       expect(screen.getByRole('textbox')).toHaveClass('custom-class')
     })
 
-    it('renders with id', () => {
+    it('should render with id', () => {
       render(<Textarea id="message" />)
       expect(screen.getByRole('textbox')).toHaveAttribute('id', 'message')
     })
 
-    it('renders with name attribute', () => {
+    it('should render with name attribute', () => {
       render(<Textarea name="description" />)
       expect(screen.getByRole('textbox')).toHaveAttribute('name', 'description')
     })
 
-    it('renders with rows attribute', () => {
+    it('should render with rows attribute', () => {
       render(<Textarea rows={10} />)
       expect(screen.getByRole('textbox')).toHaveAttribute('rows', '10')
     })
 
-    it('renders with cols attribute', () => {
+    it('should render with cols attribute', () => {
       render(<Textarea cols={50} />)
       expect(screen.getByRole('textbox')).toHaveAttribute('cols', '50')
     })
   })
 
   describe('States', () => {
-    it('applies disabled state', () => {
+    it('should apply disabled state', () => {
       render(<Textarea disabled />)
       expect(screen.getByRole('textbox')).toBeDisabled()
     })
 
-    it('applies disabled styles', () => {
+    it('should apply disabled styles', () => {
       render(<Textarea disabled />)
       expect(screen.getByRole('textbox')).toHaveClass('disabled:opacity-50')
     })
 
-    it('applies readonly state', () => {
+    it('should apply readonly state', () => {
       render(<Textarea readOnly />)
       expect(screen.getByRole('textbox')).toHaveAttribute('readonly')
     })
 
-    it('applies required state', () => {
+    it('should apply required state', () => {
       render(<Textarea required />)
       expect(screen.getByRole('textbox')).toBeRequired()
     })
 
-    it('applies error styles when error prop is true', () => {
+    it('should apply error styles when error prop is true', () => {
       render(<Textarea error />)
       expect(screen.getByRole('textbox')).toHaveClass('border-destructive')
     })
 
-    it('does not apply error styles when error prop is false', () => {
+    it('should not apply error styles when error prop is false', () => {
       render(<Textarea error={false} />)
       expect(screen.getByRole('textbox')).not.toHaveClass('border-destructive')
     })
   })
 
   describe('User Interactions', () => {
-    it('handles text input', async () => {
+    it('should handle text input', async () => {
       const user = userEvent.setup()
       render(<Textarea />)
 
@@ -93,7 +93,7 @@ describe('Textarea', () => {
       expect(textarea).toHaveValue('Hello World')
     })
 
-    it('handles onChange event', async () => {
+    it('should handle onChange event', async () => {
       const user = userEvent.setup()
       const handleChange = jest.fn()
       render(<Textarea onChange={handleChange} />)
@@ -104,7 +104,7 @@ describe('Textarea', () => {
       expect(handleChange).toHaveBeenCalled()
     })
 
-    it('handles onFocus event', async () => {
+    it('should handle onFocus event', async () => {
       const user = userEvent.setup()
       const handleFocus = jest.fn()
       render(<Textarea onFocus={handleFocus} />)
@@ -115,7 +115,7 @@ describe('Textarea', () => {
       expect(handleFocus).toHaveBeenCalled()
     })
 
-    it('handles onBlur event', async () => {
+    it('should handle onBlur event', async () => {
       const user = userEvent.setup()
       const handleBlur = jest.fn()
       render(<Textarea onBlur={handleBlur} />)
@@ -127,7 +127,7 @@ describe('Textarea', () => {
       expect(handleBlur).toHaveBeenCalled()
     })
 
-    it('handles multiline input', async () => {
+    it('should handle multiline input', async () => {
       const user = userEvent.setup()
       render(<Textarea />)
 
@@ -137,7 +137,7 @@ describe('Textarea', () => {
       expect(textarea).toHaveValue('Line 1\nLine 2\nLine 3')
     })
 
-    it('respects maxLength attribute', async () => {
+    it('should respect maxLength attribute', async () => {
       const user = userEvent.setup()
       render(<Textarea maxLength={10} />)
 
@@ -147,7 +147,7 @@ describe('Textarea', () => {
       expect(textarea).toHaveValue('This is a ')
     })
 
-    it('does not allow input when disabled', async () => {
+    it('should not allow input when disabled', async () => {
       const user = userEvent.setup()
       render(<Textarea disabled />)
 
@@ -157,7 +157,7 @@ describe('Textarea', () => {
       expect(textarea).toHaveValue('')
     })
 
-    it('does not allow input when readonly', async () => {
+    it('should not allow input when readonly', async () => {
       const user = userEvent.setup()
       render(<Textarea readOnly value="Read only" />)
 
@@ -169,17 +169,17 @@ describe('Textarea', () => {
   })
 
   describe('Accessibility', () => {
-    it('has correct role', () => {
+    it('should have correct role', () => {
       render(<Textarea />)
       expect(screen.getByRole('textbox')).toBeInTheDocument()
     })
 
-    it('can be labeled with aria-label', () => {
+    it('should be labeled with aria-label', () => {
       render(<Textarea aria-label="Message input" />)
       expect(screen.getByLabelText('Message input')).toBeInTheDocument()
     })
 
-    it('can be labeled with aria-labelledby', () => {
+    it('should be labeled with aria-labelledby', () => {
       render(
         <>
           <label id="message-label">Message</label>
@@ -192,7 +192,7 @@ describe('Textarea', () => {
       )
     })
 
-    it('can have aria-describedby', () => {
+    it('should have aria-describedby', () => {
       render(
         <>
           <Textarea aria-describedby="helper-text" />
@@ -205,14 +205,14 @@ describe('Textarea', () => {
       )
     })
 
-    it('can be marked as invalid with aria-invalid', () => {
+    it('should be marked as invalid with aria-invalid', () => {
       render(<Textarea aria-invalid />)
       expect(screen.getByRole('textbox')).toHaveAttribute('aria-invalid')
     })
   })
 
   describe('Form Integration', () => {
-    it('submits with form data', () => {
+    it('should submit with form data', () => {
       const handleSubmit = jest.fn((e) => {
         e.preventDefault()
         const formData = new FormData(e.currentTarget)
@@ -234,7 +234,7 @@ describe('Textarea', () => {
       expect(result).toBe('Test message')
     })
 
-    it('works with label element', () => {
+    it('should work with label element', () => {
       render(
         <>
           <label htmlFor="bio">Biography</label>
@@ -247,7 +247,7 @@ describe('Textarea', () => {
   })
 
   describe('Styling', () => {
-    it('applies base styles', () => {
+    it('should apply base styles', () => {
       render(<Textarea />)
       const textarea = screen.getByRole('textbox')
       expect(textarea).toHaveClass('flex')
@@ -256,14 +256,14 @@ describe('Textarea', () => {
       expect(textarea).toHaveClass('rounded-md')
     })
 
-    it('applies focus styles', () => {
+    it('should apply focus styles', () => {
       render(<Textarea />)
       expect(screen.getByRole('textbox')).toHaveClass(
         'focus-visible:outline-none',
       )
     })
 
-    it('merges custom className with base styles', () => {
+    it('should merge custom className with base styles', () => {
       render(<Textarea className="custom-height" />)
       const textarea = screen.getByRole('textbox')
       expect(textarea).toHaveClass('custom-height')
@@ -272,13 +272,13 @@ describe('Textarea', () => {
   })
 
   describe('Ref Forwarding', () => {
-    it('forwards ref to textarea element', () => {
+    it('should forward ref to textarea element', () => {
       const ref = { current: null as HTMLTextAreaElement | null }
       render(<Textarea ref={ref} />)
       expect(ref.current).toBeInstanceOf(HTMLTextAreaElement)
     })
 
-    it('can focus textarea via ref', () => {
+    it('should focus textarea via ref', () => {
       const ref = { current: null as HTMLTextAreaElement | null }
       render(<Textarea ref={ref} />)
 
