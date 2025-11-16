@@ -76,4 +76,16 @@ describe('Resizable', () => {
       expect(group).toHaveAttribute('data-panel-group-id', 'test-persist')
     })
   })
+
+  describe('ResizablePanel', () => {
+    it('renders panel with content', () => {
+      render(
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel>Test Content</ResizablePanel>
+        </ResizablePanelGroup>,
+      )
+
+      expect(screen.getByText('Test Content')).toBeInTheDocument()
+    })
+  })
 })
