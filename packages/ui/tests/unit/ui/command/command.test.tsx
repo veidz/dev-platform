@@ -399,4 +399,26 @@ describe('Command', () => {
       expect(onSelect).toHaveBeenCalled()
     })
   })
+
+  describe('Filtering', () => {
+    it('filters items based on search', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Command>
+          <CommandInput placeholder="Search..." />
+          <CommandList>
+            <CommandItem>Apple</CommandItem>
+            <CommandItem>Banana</CommandItem>
+            <CommandItem>Cherry</CommandItem>
+          </CommandList>
+        </Command>,
+      )
+
+      const input = screen.getByPlaceholderText('Search...')
+      await user.type(input, 'ban')
+
+      expect(screen.getByText('Banana')).toBeInTheDocument()
+    })
+  })
 })
