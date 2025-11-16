@@ -167,5 +167,18 @@ describe('Resizable', () => {
       const handle = container.querySelector('[data-panel-resize-handle-id]')
       expect(handle).toBeInTheDocument()
     })
+
+    it('renders handle without icon by default', () => {
+      const { container } = render(
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel>Panel 1</ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel>Panel 2</ResizablePanel>
+        </ResizablePanelGroup>,
+      )
+
+      const icon = container.querySelector('svg')
+      expect(icon).not.toBeInTheDocument()
+    })
   })
 })
