@@ -5,6 +5,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
+  CommandShortcut,
 } from '@/components/ui/command'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -229,6 +230,23 @@ describe('Command', () => {
 
       const item = screen.getByText('Item')
       expect(item).toHaveAttribute('data-value', 'custom-value')
+    })
+  })
+
+  describe('CommandShortcut', () => {
+    it('renders keyboard shortcut', () => {
+      render(
+        <Command>
+          <CommandList>
+            <CommandItem>
+              Save
+              <CommandShortcut>⌘S</CommandShortcut>
+            </CommandItem>
+          </CommandList>
+        </Command>,
+      )
+
+      expect(screen.getByText('⌘S')).toBeInTheDocument()
     })
   })
 })
