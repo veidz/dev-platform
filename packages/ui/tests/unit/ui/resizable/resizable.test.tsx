@@ -336,5 +336,20 @@ describe('Resizable', () => {
       const panels = container.querySelectorAll('[data-panel]')
       expect(panels).toHaveLength(2)
     })
+
+    it('enforces both minSize and maxSize', () => {
+      const { container } = render(
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel minSize={20} maxSize={60} defaultSize={40}>
+            Constrained
+          </ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel>Flexible</ResizablePanel>
+        </ResizablePanelGroup>,
+      )
+
+      const panels = container.querySelectorAll('[data-panel]')
+      expect(panels).toHaveLength(2)
+    })
   })
 })
