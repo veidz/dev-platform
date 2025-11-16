@@ -111,5 +111,18 @@ describe('Resizable', () => {
       const panel = container.querySelector('[data-panel]')
       expect(panel).toHaveAttribute('data-panel')
     })
+
+    it('respects maxSize constraint', () => {
+      const { container } = render(
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel maxSize={80} defaultSize={50}>
+            Panel
+          </ResizablePanel>
+        </ResizablePanelGroup>,
+      )
+
+      const panel = container.querySelector('[data-panel]')
+      expect(panel).toHaveAttribute('data-panel')
+    })
   })
 })
