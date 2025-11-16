@@ -321,5 +321,19 @@ describe('Command', () => {
         expect(handleOpenChange).toHaveBeenCalledWith(false)
       }
     })
+
+    it('does not close when clicking inside dialog', async () => {
+      const handleOpenChange = jest.fn()
+      const user = userEvent.setup()
+
+      render(
+        <CommandDialog open onOpenChange={handleOpenChange}>
+          <CommandInput placeholder="Click me" />
+        </CommandDialog>,
+      )
+
+      await user.click(screen.getByPlaceholderText('Click me'))
+      expect(handleOpenChange).not.toHaveBeenCalled()
+    })
   })
 })
