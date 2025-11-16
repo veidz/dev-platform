@@ -455,5 +455,24 @@ describe('Command', () => {
       const results = await axe(container)
       expect(results).toHaveNoViolations()
     })
+
+    it('has no accessibility violations - with groups', async () => {
+      const { container } = render(
+        <Command>
+          <CommandInput placeholder="Search" />
+          <CommandList>
+            <CommandGroup heading="Group 1">
+              <CommandItem>Item 1</CommandItem>
+            </CommandGroup>
+            <CommandGroup heading="Group 2">
+              <CommandItem>Item 2</CommandItem>
+            </CommandGroup>
+          </CommandList>
+        </Command>,
+      )
+
+      const results = await axe(container)
+      expect(results).toHaveNoViolations()
+    })
   })
 })
