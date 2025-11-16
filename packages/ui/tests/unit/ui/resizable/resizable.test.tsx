@@ -1,4 +1,8 @@
-import { ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from '@/components/ui/resizable'
 import { render, screen } from '@testing-library/react'
 import { toHaveNoViolations } from 'jest-axe'
 
@@ -147,6 +151,21 @@ describe('Resizable', () => {
 
       const panel = container.querySelector('[data-panel-id="test-panel"]')
       expect(panel).toBeInTheDocument()
+    })
+  })
+
+  describe('ResizableHandle', () => {
+    it('renders resize handle', () => {
+      const { container } = render(
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel>Panel 1</ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel>Panel 2</ResizablePanel>
+        </ResizablePanelGroup>,
+      )
+
+      const handle = container.querySelector('[data-panel-resize-handle-id]')
+      expect(handle).toBeInTheDocument()
     })
   })
 })
