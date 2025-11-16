@@ -1,5 +1,6 @@
 import {
   Command,
+  CommandDialog,
   CommandEmpty,
   CommandGroup,
   CommandInput,
@@ -275,6 +276,22 @@ describe('Command', () => {
 
       const separator = container.querySelector('[role="separator"]')
       expect(separator).toBeInTheDocument()
+    })
+  })
+
+  describe('CommandDialog', () => {
+    it('shows dialog when open', () => {
+      render(
+        <CommandDialog open>
+          <CommandInput placeholder="Search..." />
+          <CommandList>
+            <CommandItem>Item</CommandItem>
+          </CommandList>
+        </CommandDialog>,
+      )
+
+      expect(screen.getByPlaceholderText('Search...')).toBeVisible()
+      expect(screen.getByText('Item')).toBeVisible()
     })
   })
 })
