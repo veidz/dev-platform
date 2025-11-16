@@ -156,6 +156,8 @@ export {
   SheetTitle,
   SheetTrigger,
 } from './components/ui/sheet'
+export { Skeleton } from './components/ui/skeleton'
+export type { SkeletonProps } from './components/ui/skeleton'
 export { Slider } from './components/ui/slider'
 export { Switch } from './components/ui/switch'
 export {
