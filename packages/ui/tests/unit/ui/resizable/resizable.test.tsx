@@ -37,5 +37,18 @@ describe('Resizable', () => {
       const group = container.firstChild as HTMLElement
       expect(group).toHaveAttribute('data-panel-group-direction', 'vertical')
     })
+
+    it('applies custom className', () => {
+      const { container } = render(
+        <ResizablePanelGroup
+          direction="horizontal"
+          className="custom-group-class"
+        >
+          <ResizablePanel>Panel</ResizablePanel>
+        </ResizablePanelGroup>,
+      )
+
+      expect(container.firstChild).toHaveClass('custom-group-class')
+    })
   })
 })
