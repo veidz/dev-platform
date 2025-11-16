@@ -241,4 +241,19 @@ describe('Resizable', () => {
       )
     })
   })
+
+  describe('Layout Behavior', () => {
+    it('renders horizontal layout', () => {
+      const { container } = render(
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel>Left</ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel>Right</ResizablePanel>
+        </ResizablePanelGroup>,
+      )
+
+      const group = container.firstChild as HTMLElement
+      expect(group).toHaveAttribute('data-panel-group-direction', 'horizontal')
+    })
+  })
 })
