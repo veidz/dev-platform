@@ -351,4 +351,30 @@ describe('Command', () => {
       expect(screen.getByText('Dialog Item')).toBeInTheDocument()
     })
   })
+
+  describe('Keyboard Navigation', () => {
+    it('navigates items with arrow keys', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Command>
+          <CommandInput />
+          <CommandList>
+            <CommandItem>First</CommandItem>
+            <CommandItem>Second</CommandItem>
+            <CommandItem>Third</CommandItem>
+          </CommandList>
+        </Command>,
+      )
+
+      const input = screen.getByRole('combobox')
+      input.focus()
+
+      await user.keyboard('{ArrowDown}')
+      expect(screen.getByText('First')).toBeInTheDocument()
+
+      await user.keyboard('{ArrowDown}')
+      expect(screen.getByText('Second')).toBeInTheDocument()
+    })
+  })
 })
