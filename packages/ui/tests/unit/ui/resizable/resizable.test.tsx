@@ -193,5 +193,18 @@ describe('Resizable', () => {
       const icon = container.querySelector('svg')
       expect(icon).toBeInTheDocument()
     })
+
+    it('applies custom className', () => {
+      const { container } = render(
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel>Panel 1</ResizablePanel>
+          <ResizableHandle className="custom-handle-class" />
+          <ResizablePanel>Panel 2</ResizablePanel>
+        </ResizablePanelGroup>,
+      )
+
+      const handle = container.querySelector('.custom-handle-class')
+      expect(handle).toBeInTheDocument()
+    })
   })
 })
