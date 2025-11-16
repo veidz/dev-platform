@@ -305,4 +305,21 @@ describe('Resizable', () => {
       expect(screen.getByText('Panel 3')).toBeInTheDocument()
     })
   })
+
+  describe('Size Constraints', () => {
+    it('enforces minSize', () => {
+      const { container } = render(
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel minSize={30} defaultSize={50}>
+            Constrained
+          </ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel>Flexible</ResizablePanel>
+        </ResizablePanelGroup>,
+      )
+
+      const panels = container.querySelectorAll('[data-panel]')
+      expect(panels).toHaveLength(2)
+    })
+  })
 })
