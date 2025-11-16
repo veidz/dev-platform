@@ -206,5 +206,21 @@ describe('Resizable', () => {
       const handle = container.querySelector('.custom-handle-class')
       expect(handle).toBeInTheDocument()
     })
+
+    it('is keyboard accessible', () => {
+      const { container } = render(
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel>Panel 1</ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel>Panel 2</ResizablePanel>
+        </ResizablePanelGroup>,
+      )
+
+      const handle = container.querySelector(
+        '[data-panel-resize-handle-id]',
+      ) as HTMLElement
+      expect(handle).toHaveAttribute('role', 'separator')
+      expect(handle).toHaveAttribute('tabindex', '0')
+    })
   })
 })
