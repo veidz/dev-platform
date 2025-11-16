@@ -430,5 +430,18 @@ describe('Resizable', () => {
       const results = await axe(container)
       expect(results).toHaveNoViolations()
     })
+
+    it('has no accessibility violations - vertical', async () => {
+      const { container } = render(
+        <ResizablePanelGroup direction="vertical">
+          <ResizablePanel>Panel 1</ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel>Panel 2</ResizablePanel>
+        </ResizablePanelGroup>,
+      )
+
+      const results = await axe(container)
+      expect(results).toHaveNoViolations()
+    })
   })
 })
