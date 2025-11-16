@@ -352,4 +352,21 @@ describe('Resizable', () => {
       expect(panels).toHaveLength(2)
     })
   })
+
+  describe('Collapsible Panels', () => {
+    it('supports collapsible prop', () => {
+      const { container } = render(
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel collapsible collapsedSize={0}>
+            Collapsible Panel
+          </ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel>Main Panel</ResizablePanel>
+        </ResizablePanelGroup>,
+      )
+
+      const panel = container.querySelector('[data-panel-collapsible="true"]')
+      expect(panel).toBeInTheDocument()
+    })
+  })
 })
