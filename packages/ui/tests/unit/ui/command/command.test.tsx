@@ -204,5 +204,18 @@ describe('Command', () => {
       await user.click(screen.getByText('Click me'))
       expect(onSelect).toHaveBeenCalled()
     })
+
+    it('supports disabled state', () => {
+      render(
+        <Command>
+          <CommandList>
+            <CommandItem disabled>Disabled item</CommandItem>
+          </CommandList>
+        </Command>,
+      )
+
+      const item = screen.getByText('Disabled item')
+      expect(item).toHaveAttribute('data-disabled', 'true')
+    })
   })
 })
