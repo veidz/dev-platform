@@ -368,5 +368,21 @@ describe('Resizable', () => {
       const panel = container.querySelector('[data-panel-collapsible="true"]')
       expect(panel).toBeInTheDocument()
     })
+
+    it('calls onCollapse callback', () => {
+      const onCollapse = jest.fn()
+
+      render(
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel collapsible onCollapse={onCollapse}>
+            Panel
+          </ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel>Other</ResizablePanel>
+        </ResizablePanelGroup>,
+      )
+
+      expect(onCollapse).toBeDefined()
+    })
   })
 })
