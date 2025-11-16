@@ -420,5 +420,24 @@ describe('Command', () => {
 
       expect(screen.getByText('Banana')).toBeInTheDocument()
     })
+
+    it('shows empty state when no matches', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Command>
+          <CommandInput placeholder="Search..." />
+          <CommandList>
+            <CommandEmpty>No results</CommandEmpty>
+            <CommandItem>Apple</CommandItem>
+          </CommandList>
+        </Command>,
+      )
+
+      const input = screen.getByPlaceholderText('Search...')
+      await user.type(input, 'xyz123')
+
+      expect(screen.getByText('No results')).toBeInTheDocument()
+    })
   })
 })
