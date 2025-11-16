@@ -248,5 +248,11 @@ describe('Command', () => {
 
       expect(screen.getByText('⌘S')).toBeInTheDocument()
     })
+
+    it('applies custom className to shortcut', () => {
+      render(<CommandShortcut className="custom-shortcut">⌘K</CommandShortcut>)
+
+      expect(screen.getByText('⌘K')).toHaveClass('custom-shortcut')
+    })
   })
 })
