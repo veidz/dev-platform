@@ -456,5 +456,18 @@ describe('Resizable', () => {
       const results = await axe(container)
       expect(results).toHaveNoViolations()
     })
+
+    it('handle has proper ARIA role', () => {
+      const { container } = render(
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel>Panel 1</ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel>Panel 2</ResizablePanel>
+        </ResizablePanelGroup>,
+      )
+
+      const handle = container.querySelector('[role="separator"]')
+      expect(handle).toBeInTheDocument()
+    })
   })
 })
