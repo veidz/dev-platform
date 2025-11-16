@@ -488,5 +488,15 @@ describe('Command', () => {
       const results = await axe(container)
       expect(results).toHaveNoViolations()
     })
+
+    it('input has proper role', () => {
+      render(
+        <Command>
+          <CommandInput />
+        </Command>,
+      )
+
+      expect(screen.getByRole('combobox')).toBeInTheDocument()
+    })
   })
 })
