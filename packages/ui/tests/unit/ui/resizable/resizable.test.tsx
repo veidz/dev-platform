@@ -64,5 +64,16 @@ describe('Resizable', () => {
       expect(screen.getByText('Panel 2')).toBeInTheDocument()
       expect(screen.getByText('Panel 3')).toBeInTheDocument()
     })
+
+    it('supports autoSaveId for persistence', () => {
+      const { container } = render(
+        <ResizablePanelGroup direction="horizontal" autoSaveId="test-persist">
+          <ResizablePanel>Panel</ResizablePanel>
+        </ResizablePanelGroup>,
+      )
+
+      const group = container.firstChild as HTMLElement
+      expect(group).toHaveAttribute('data-panel-group-id', 'test-persist')
+    })
   })
 })
