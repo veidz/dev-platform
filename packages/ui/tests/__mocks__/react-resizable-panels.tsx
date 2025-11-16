@@ -35,19 +35,35 @@ export const Panel = forwardRef<
     children: React.ReactNode
     className?: string
   }
->(({ defaultSize, collapsible, id, children, className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={className}
-    data-panel=""
-    data-panel-id={id}
-    data-panel-size={defaultSize}
-    data-panel-collapsible={collapsible?.toString()}
-    {...props}
-  >
-    {children}
-  </div>
-))
+>((allProps, ref) => {
+  const { defaultSize, collapsible, id, children, className, ...restProps } =
+    allProps
+
+  const nonDomProps = [
+    'onCollapse',
+    'onExpand',
+    'minSize',
+    'maxSize',
+    'collapsedSize',
+  ]
+  const domProps = Object.fromEntries(
+    Object.entries(restProps).filter(([key]) => !nonDomProps.includes(key)),
+  )
+
+  return (
+    <div
+      ref={ref}
+      className={className}
+      data-panel=""
+      data-panel-id={id}
+      data-panel-size={defaultSize}
+      data-panel-collapsible={collapsible?.toString()}
+      {...domProps}
+    >
+      {children}
+    </div>
+  )
+})
 Panel.displayName = 'Panel'
 
 export const PanelResizeHandle = forwardRef<

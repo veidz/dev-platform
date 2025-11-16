@@ -29,7 +29,8 @@ beforeAll(() => {
       message.includes('aria-describedby') ||
       message.includes('act(...)') ||
       message.includes('was not wrapped in act') ||
-      message.includes('Invalid prop `value`')
+      message.includes('Invalid prop `value`') ||
+      message.includes('Unknown event handler property')
     ) {
       return
     }
