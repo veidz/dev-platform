@@ -474,5 +474,19 @@ describe('Command', () => {
       const results = await axe(container)
       expect(results).toHaveNoViolations()
     })
+
+    it('has no accessibility violations - dialog', async () => {
+      const { container } = render(
+        <CommandDialog open>
+          <CommandInput placeholder="Search" />
+          <CommandList>
+            <CommandItem>Item</CommandItem>
+          </CommandList>
+        </CommandDialog>,
+      )
+
+      const results = await axe(container)
+      expect(results).toHaveNoViolations()
+    })
   })
 })
