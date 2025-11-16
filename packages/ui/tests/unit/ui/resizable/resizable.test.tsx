@@ -268,5 +268,25 @@ describe('Resizable', () => {
       const group = container.firstChild as HTMLElement
       expect(group).toHaveAttribute('data-panel-group-direction', 'vertical')
     })
+
+    it('supports nested panel groups', () => {
+      render(
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel>Sidebar</ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel>
+            <ResizablePanelGroup direction="vertical">
+              <ResizablePanel>Editor</ResizablePanel>
+              <ResizableHandle />
+              <ResizablePanel>Terminal</ResizablePanel>
+            </ResizablePanelGroup>
+          </ResizablePanel>
+        </ResizablePanelGroup>,
+      )
+
+      expect(screen.getByText('Sidebar')).toBeInTheDocument()
+      expect(screen.getByText('Editor')).toBeInTheDocument()
+      expect(screen.getByText('Terminal')).toBeInTheDocument()
+    })
   })
 })
