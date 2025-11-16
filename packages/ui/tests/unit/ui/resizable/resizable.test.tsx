@@ -98,5 +98,18 @@ describe('Resizable', () => {
       const panel = container.querySelector('[data-panel]')
       expect(panel).toHaveAttribute('data-panel-size')
     })
+
+    it('respects minSize constraint', () => {
+      const { container } = render(
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel minSize={20} defaultSize={25}>
+            Panel
+          </ResizablePanel>
+        </ResizablePanelGroup>,
+      )
+
+      const panel = container.querySelector('[data-panel]')
+      expect(panel).toHaveAttribute('data-panel')
+    })
   })
 })
