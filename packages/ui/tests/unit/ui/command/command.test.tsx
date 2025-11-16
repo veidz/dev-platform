@@ -518,4 +518,25 @@ describe('Command', () => {
       expect(screen.getByText('Item')).toBeInTheDocument()
     })
   })
+
+  describe('Custom Styling', () => {
+    it('applies custom className to all components', () => {
+      const { container } = render(
+        <Command className="cmd-custom">
+          <CommandInput className="input-custom" />
+          <CommandList className="list-custom">
+            <CommandGroup className="group-custom" heading="Test">
+              <CommandItem className="item-custom">Item</CommandItem>
+            </CommandGroup>
+          </CommandList>
+        </Command>,
+      )
+
+      expect(container.querySelector('.cmd-custom')).toBeInTheDocument()
+      expect(container.querySelector('.input-custom')).toBeInTheDocument()
+      expect(container.querySelector('.list-custom')).toBeInTheDocument()
+      expect(container.querySelector('.group-custom')).toBeInTheDocument()
+      expect(container.querySelector('.item-custom')).toBeInTheDocument()
+    })
+  })
 })
