@@ -137,5 +137,16 @@ describe('Resizable', () => {
       const panel = container.querySelector('[data-panel]')
       expect(panel).toHaveAttribute('data-panel-collapsible', 'true')
     })
+
+    it('applies id prop', () => {
+      const { container } = render(
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel id="test-panel">Panel</ResizablePanel>
+        </ResizablePanelGroup>,
+      )
+
+      const panel = container.querySelector('[data-panel-id="test-panel"]')
+      expect(panel).toBeInTheDocument()
+    })
   })
 })
