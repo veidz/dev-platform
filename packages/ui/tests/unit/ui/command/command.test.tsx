@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/command'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { toHaveNoViolations } from 'jest-axe'
+import { axe, toHaveNoViolations } from 'jest-axe'
 
 expect.extend(toHaveNoViolations)
 
@@ -438,6 +438,22 @@ describe('Command', () => {
       await user.type(input, 'xyz123')
 
       expect(screen.getByText('No results')).toBeInTheDocument()
+    })
+  })
+
+  describe('Accessibility', () => {
+    it('has no accessibility violations - basic', async () => {
+      const { container } = render(
+        <Command>
+          <CommandInput placeholder="Search" />
+          <CommandList>
+            <CommandItem>Item</CommandItem>
+          </CommandList>
+        </Command>,
+      )
+
+      const results = await axe(container)
+      expect(results).toHaveNoViolations()
     })
   })
 })
