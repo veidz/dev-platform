@@ -180,5 +180,18 @@ describe('Resizable', () => {
       const icon = container.querySelector('svg')
       expect(icon).not.toBeInTheDocument()
     })
+
+    it('renders handle with icon when withHandle is true', () => {
+      const { container } = render(
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel>Panel 1</ResizablePanel>
+          <ResizableHandle withHandle />
+          <ResizablePanel>Panel 2</ResizablePanel>
+        </ResizablePanelGroup>,
+      )
+
+      const icon = container.querySelector('svg')
+      expect(icon).toBeInTheDocument()
+    })
   })
 })
