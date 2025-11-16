@@ -498,5 +498,24 @@ describe('Command', () => {
 
       expect(screen.getByRole('combobox')).toBeInTheDocument()
     })
+
+    it('items are focusable via keyboard', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Command>
+          <CommandInput />
+          <CommandList>
+            <CommandItem>Item</CommandItem>
+          </CommandList>
+        </Command>,
+      )
+
+      const input = screen.getByRole('combobox')
+      input.focus()
+
+      await user.keyboard('{ArrowDown}')
+      expect(screen.getByText('Item')).toBeInTheDocument()
+    })
   })
 })
