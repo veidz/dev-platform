@@ -255,5 +255,18 @@ describe('Resizable', () => {
       const group = container.firstChild as HTMLElement
       expect(group).toHaveAttribute('data-panel-group-direction', 'horizontal')
     })
+
+    it('renders vertical layout', () => {
+      const { container } = render(
+        <ResizablePanelGroup direction="vertical">
+          <ResizablePanel>Top</ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel>Bottom</ResizablePanel>
+        </ResizablePanelGroup>,
+      )
+
+      const group = container.firstChild as HTMLElement
+      expect(group).toHaveAttribute('data-panel-group-direction', 'vertical')
+    })
   })
 })
