@@ -222,5 +222,23 @@ describe('Resizable', () => {
       expect(handle).toHaveAttribute('role', 'separator')
       expect(handle).toHaveAttribute('tabindex', '0')
     })
+
+    it('supports disabled state', () => {
+      const { container } = render(
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel>Panel 1</ResizablePanel>
+          <ResizableHandle disabled />
+          <ResizablePanel>Panel 2</ResizablePanel>
+        </ResizablePanelGroup>,
+      )
+
+      const handle = container.querySelector(
+        '[data-panel-resize-handle-id]',
+      ) as HTMLElement
+      expect(handle).toHaveAttribute(
+        'data-panel-resize-handle-enabled',
+        'false',
+      )
+    })
   })
 })
