@@ -1,5 +1,5 @@
 import { ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { toHaveNoViolations } from 'jest-axe'
 
 expect.extend(toHaveNoViolations)
@@ -49,6 +49,20 @@ describe('Resizable', () => {
       )
 
       expect(container.firstChild).toHaveClass('custom-group-class')
+    })
+
+    it('renders multiple panels', () => {
+      render(
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel>Panel 1</ResizablePanel>
+          <ResizablePanel>Panel 2</ResizablePanel>
+          <ResizablePanel>Panel 3</ResizablePanel>
+        </ResizablePanelGroup>,
+      )
+
+      expect(screen.getByText('Panel 1')).toBeInTheDocument()
+      expect(screen.getByText('Panel 2')).toBeInTheDocument()
+      expect(screen.getByText('Panel 3')).toBeInTheDocument()
     })
   })
 })
