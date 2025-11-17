@@ -16,5 +16,20 @@ describe('Skeleton', () => {
 
       expect(skeleton).toHaveClass('custom-class')
     })
+
+    it('should render multiple skeletons', () => {
+      const { container } = render(
+        <div data-testid="wrapper">
+          <Skeleton />
+          <Skeleton />
+          <Skeleton />
+        </div>,
+      )
+      const skeletons = container.querySelectorAll(
+        '[data-testid="wrapper"] > div',
+      )
+
+      expect(skeletons).toHaveLength(3)
+    })
   })
 })
