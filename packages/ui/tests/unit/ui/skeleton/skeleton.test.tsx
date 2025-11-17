@@ -144,5 +144,12 @@ describe('Skeleton', () => {
 
       expect(skeleton).toHaveAttribute('aria-busy', 'true')
     })
+
+    it('should support role attribute', () => {
+      const { container } = render(<Skeleton role="status" />)
+      const skeleton = container.querySelector('div')
+
+      expect(skeleton).toHaveAttribute('role', 'status')
+    })
   })
 })
