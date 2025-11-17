@@ -9,5 +9,12 @@ describe('Skeleton', () => {
 
       expect(skeleton).toBeInTheDocument()
     })
+
+    it('should render with custom className', () => {
+      const { container } = render(<Skeleton className="custom-class" />)
+      const skeleton = container.querySelector('div')
+
+      expect(skeleton).toHaveClass('custom-class')
+    })
   })
 })
