@@ -70,5 +70,12 @@ describe('Skeleton', () => {
 
       expect(skeleton).toHaveClass('h-32')
     })
+
+    it('should support custom dimensions', () => {
+      const { container } = render(<Skeleton className="h-24 w-24" />)
+      const skeleton = container.querySelector('div')
+
+      expect(skeleton).toHaveClass('h-24', 'w-24')
+    })
   })
 })
