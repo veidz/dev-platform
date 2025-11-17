@@ -129,4 +129,13 @@ describe('Skeleton', () => {
       })
     })
   })
+
+  describe('HTML Attributes', () => {
+    it('should support data attributes', () => {
+      const { container } = render(<Skeleton data-testid="skeleton-test" />)
+      const skeleton = container.querySelector('div')
+
+      expect(skeleton).toHaveAttribute('data-testid', 'skeleton-test')
+    })
+  })
 })
