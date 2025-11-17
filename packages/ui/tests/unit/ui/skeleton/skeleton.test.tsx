@@ -32,4 +32,13 @@ describe('Skeleton', () => {
       expect(skeletons).toHaveLength(3)
     })
   })
+
+  describe('Animation', () => {
+    it('should have animate-pulse class', () => {
+      const { container } = render(<Skeleton />)
+      const skeleton = container.querySelector('div')
+
+      expect(skeleton).toHaveClass('animate-pulse')
+    })
+  })
 })
