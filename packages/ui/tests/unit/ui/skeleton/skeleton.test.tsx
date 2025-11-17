@@ -47,5 +47,12 @@ describe('Skeleton', () => {
 
       expect(skeleton).toHaveClass('rounded-md')
     })
+
+    it('should have bg-muted class', () => {
+      const { container } = render(<Skeleton />)
+      const skeleton = container.querySelector('div')
+
+      expect(skeleton).toHaveClass('bg-muted')
+    })
   })
 })
