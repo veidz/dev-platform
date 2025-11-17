@@ -137,5 +137,12 @@ describe('Skeleton', () => {
 
       expect(skeleton).toHaveAttribute('data-testid', 'skeleton-test')
     })
+
+    it('should support aria-busy attribute', () => {
+      const { container } = render(<Skeleton aria-busy="true" />)
+      const skeleton = container.querySelector('div')
+
+      expect(skeleton).toHaveAttribute('aria-busy', 'true')
+    })
   })
 })
