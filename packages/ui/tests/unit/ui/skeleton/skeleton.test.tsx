@@ -78,4 +78,22 @@ describe('Skeleton', () => {
       expect(skeleton).toHaveClass('h-24', 'w-24')
     })
   })
+
+  describe('Composition', () => {
+    it('should render card skeleton composition', () => {
+      const { container } = render(
+        <div data-testid="wrapper">
+          <Skeleton className="h-12 w-12 rounded-full" />
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-3 w-3/4" />
+        </div>,
+      )
+      const skeletons = container.querySelectorAll(
+        '[data-testid="wrapper"] > div',
+      )
+
+      expect(skeletons).toHaveLength(3)
+      expect(skeletons[0]).toHaveClass('rounded-full')
+    })
+  })
 })
