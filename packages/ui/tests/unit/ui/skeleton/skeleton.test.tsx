@@ -110,5 +110,23 @@ describe('Skeleton', () => {
 
       expect(skeletons).toHaveLength(5)
     })
+
+    it('should render table skeleton composition', () => {
+      const { container } = render(
+        <div data-testid="wrapper">
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-10 w-full" />
+        </div>,
+      )
+      const skeletons = container.querySelectorAll(
+        '[data-testid="wrapper"] > div',
+      )
+
+      expect(skeletons).toHaveLength(3)
+      skeletons.forEach((skeleton) => {
+        expect(skeleton).toHaveClass('h-10', 'w-full')
+      })
+    })
   })
 })
