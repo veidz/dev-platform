@@ -40,5 +40,12 @@ describe('Skeleton', () => {
 
       expect(skeleton).toHaveClass('animate-pulse')
     })
+
+    it('should have rounded-md class', () => {
+      const { container } = render(<Skeleton />)
+      const skeleton = container.querySelector('div')
+
+      expect(skeleton).toHaveClass('rounded-md')
+    })
   })
 })
