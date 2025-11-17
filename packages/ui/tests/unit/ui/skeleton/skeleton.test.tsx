@@ -95,5 +95,20 @@ describe('Skeleton', () => {
       expect(skeletons).toHaveLength(3)
       expect(skeletons[0]).toHaveClass('rounded-full')
     })
+
+    it('should render list skeleton composition', () => {
+      const { container } = render(
+        <div data-testid="wrapper">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Skeleton key={i} className="h-10 w-full" />
+          ))}
+        </div>,
+      )
+      const skeletons = container.querySelectorAll(
+        '[data-testid="wrapper"] > div',
+      )
+
+      expect(skeletons).toHaveLength(5)
+    })
   })
 })
