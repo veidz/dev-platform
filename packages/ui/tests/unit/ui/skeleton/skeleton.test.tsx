@@ -168,5 +168,18 @@ describe('Skeleton', () => {
 
       expect(results).toHaveNoViolations()
     })
+
+    it('should have no accessibility violations in composition', async () => {
+      const { container } = render(
+        <div>
+          <Skeleton className="h-12 w-12 rounded-full" />
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-3 w-3/4" />
+        </div>,
+      )
+      const results = await axe(container)
+
+      expect(results).toHaveNoViolations()
+    })
   })
 })
