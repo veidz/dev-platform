@@ -18,6 +18,8 @@ export {
 } from './components/ui/breadcrumb'
 export { Button, buttonVariants } from './components/ui/button'
 export type { ButtonProps } from './components/ui/button'
+export { Calendar } from './components/ui/calendar'
+export type { CalendarProps } from './components/ui/calendar'
 export {
   Card,
   CardContent,
