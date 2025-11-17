@@ -63,5 +63,12 @@ describe('Skeleton', () => {
 
       expect(skeleton).toHaveClass('w-64')
     })
+
+    it('should support custom height', () => {
+      const { container } = render(<Skeleton className="h-32" />)
+      const skeleton = container.querySelector('div')
+
+      expect(skeleton).toHaveClass('h-32')
+    })
   })
 })
