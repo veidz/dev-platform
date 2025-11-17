@@ -161,5 +161,12 @@ describe('Skeleton', () => {
 
       expect(results).toHaveNoViolations()
     })
+
+    it('should have no accessibility violations with role status', async () => {
+      const { container } = render(<Skeleton role="status" />)
+      const results = await axe(container)
+
+      expect(results).toHaveNoViolations()
+    })
   })
 })
