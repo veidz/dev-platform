@@ -1,5 +1,6 @@
 import { Skeleton } from '@/components/ui/skeleton/skeleton'
 import { render } from '@testing-library/react'
+import { axe } from 'jest-axe'
 
 describe('Skeleton', () => {
   describe('Rendering', () => {
@@ -150,6 +151,15 @@ describe('Skeleton', () => {
       const skeleton = container.querySelector('div')
 
       expect(skeleton).toHaveAttribute('role', 'status')
+    })
+  })
+
+  describe('Accessibility', () => {
+    it('should have no accessibility violations', async () => {
+      const { container } = render(<Skeleton />)
+      const results = await axe(container)
+
+      expect(results).toHaveNoViolations()
     })
   })
 })
