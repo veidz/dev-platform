@@ -55,4 +55,13 @@ describe('Skeleton', () => {
       expect(skeleton).toHaveClass('bg-muted')
     })
   })
+
+  describe('Sizing', () => {
+    it('should support custom width', () => {
+      const { container } = render(<Skeleton className="w-64" />)
+      const skeleton = container.querySelector('div')
+
+      expect(skeleton).toHaveClass('w-64')
+    })
+  })
 })
