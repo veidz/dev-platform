@@ -1,5 +1,5 @@
 import { Calendar } from '@/components/ui/calendar/calendar'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 
 describe('Calendar', () => {
   describe('Rendering', () => {
@@ -16,6 +16,15 @@ describe('Calendar', () => {
       )
 
       expect(container.firstChild).toHaveClass('custom-class')
+    })
+
+    it('should render current month by default', () => {
+      render(<Calendar mode="single" />)
+      const currentMonth = new Date().toLocaleString('en-US', { month: 'long' })
+
+      expect(
+        screen.getByText(new RegExp(currentMonth, 'i')),
+      ).toBeInTheDocument()
     })
   })
 })
