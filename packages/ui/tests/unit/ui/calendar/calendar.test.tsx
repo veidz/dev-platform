@@ -1,6 +1,7 @@
 import { Calendar } from '@/components/ui/calendar/calendar'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { addDays } from 'date-fns'
 
 describe('Calendar', () => {
   describe('Rendering', () => {
@@ -124,6 +125,30 @@ describe('Calendar', () => {
       }
 
       expect(onSelect).toHaveBeenCalledTimes(2)
+    })
+  })
+
+  describe('Navigation', () => {
+    it('should navigate to next month', async () => {
+      const user = userEvent.setup()
+      const { container } = render(<Calendar mode="single" />)
+
+      const currentMonth = new Date().toLocaleString('en-US', { month: 'long' })
+      const nextDate = addDays(new Date(), 35)
+      const nextMonth = nextDate.toLocaleString('en-US', { month: 'long' })
+
+      expect(
+        screen.getByText(new RegExp(currentMonth, 'i')),
+      ).toBeInTheDocument()
+
+      const nextButton = container.querySelector(
+        'button[type="button"]:last-of-type',
+      )
+      if (nextButton) {
+        await user.click(nextButton)
+      }
+
+      expect(screen.getByText(new RegExp(nextMonth, 'i'))).toBeInTheDocument()
     })
   })
 })
