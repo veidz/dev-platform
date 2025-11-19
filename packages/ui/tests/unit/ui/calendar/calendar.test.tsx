@@ -38,5 +38,12 @@ describe('Calendar', () => {
       expect(screen.getByText('Fr')).toBeInTheDocument()
       expect(screen.getByText('Sa')).toBeInTheDocument()
     })
+
+    it('should render navigation buttons', () => {
+      const { container } = render(<Calendar mode="single" />)
+      const buttons = container.querySelectorAll('button[type="button"]')
+
+      expect(buttons.length).toBeGreaterThan(0)
+    })
   })
 })
