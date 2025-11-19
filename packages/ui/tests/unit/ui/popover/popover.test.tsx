@@ -178,5 +178,22 @@ describe('Popover', () => {
         expect(screen.getByText('Content')).toBeInTheDocument()
       })
     })
+
+    it('should support different align options', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Popover>
+          <PopoverTrigger>Open</PopoverTrigger>
+          <PopoverContent align="start">Content</PopoverContent>
+        </Popover>,
+      )
+
+      await user.click(screen.getByText('Open'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Content')).toBeInTheDocument()
+      })
+    })
   })
 })
