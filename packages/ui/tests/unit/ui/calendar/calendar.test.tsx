@@ -220,5 +220,29 @@ describe('Calendar', () => {
 
       expect(disabledButtons.length).toBeGreaterThan(0)
     })
+
+    it('should not allow selection of disabled dates', async () => {
+      const user = userEvent.setup()
+      const onSelect = jest.fn()
+      const today = new Date()
+
+      const { container } = render(
+        <Calendar
+          mode="single"
+          onSelect={onSelect}
+          disabled={{ before: today }}
+        />,
+      )
+
+      const allButtons = container.querySelectorAll('button')
+      const disabledButton = Array.from(allButtons).find((button) =>
+        button.hasAttribute('disabled'),
+      )
+
+      if (disabledButton) {
+        await user.click(disabledButton)
+        expect(onSelect).not.toHaveBeenCalled()
+      }
+    })
   })
 })
