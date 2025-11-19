@@ -271,5 +271,25 @@ describe('Popover', () => {
       const results = await axe(container)
       expect(results).toHaveNoViolations()
     })
+
+    it('should have no accessibility violations when open', async () => {
+      const user = userEvent.setup()
+
+      const { container } = render(
+        <Popover>
+          <PopoverTrigger>Open</PopoverTrigger>
+          <PopoverContent>Content</PopoverContent>
+        </Popover>,
+      )
+
+      await user.click(screen.getByText('Open'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Content')).toBeInTheDocument()
+      })
+
+      const results = await axe(container)
+      expect(results).toHaveNoViolations()
+    })
   })
 })
