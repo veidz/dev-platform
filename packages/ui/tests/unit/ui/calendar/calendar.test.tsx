@@ -150,5 +150,32 @@ describe('Calendar', () => {
 
       expect(screen.getByText(new RegExp(nextMonth, 'i'))).toBeInTheDocument()
     })
+
+    it('should navigate to previous month', async () => {
+      const user = userEvent.setup()
+      const { container } = render(<Calendar mode="single" />)
+
+      const nextButton = container.querySelector(
+        'button[type="button"]:last-of-type',
+      )
+      if (nextButton) {
+        await user.click(nextButton)
+      }
+
+      const futureMonth = addDays(new Date(), 35).toLocaleString('en-US', {
+        month: 'long',
+      })
+      expect(screen.getByText(new RegExp(futureMonth, 'i'))).toBeInTheDocument()
+
+      const prevButton = container.querySelector('button[type="button"]')
+      if (prevButton) {
+        await user.click(prevButton)
+      }
+
+      const currentMonth = new Date().toLocaleString('en-US', { month: 'long' })
+      expect(
+        screen.getByText(new RegExp(currentMonth, 'i')),
+      ).toBeInTheDocument()
+    })
   })
 })
