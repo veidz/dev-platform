@@ -193,5 +193,19 @@ describe('Calendar', () => {
 
       expect(disabledButtons.length).toBeGreaterThan(0)
     })
+
+    it('should disable future dates', () => {
+      const today = new Date()
+      const { container } = render(
+        <Calendar mode="single" disabled={{ after: today }} />,
+      )
+
+      const allButtons = container.querySelectorAll('button')
+      const disabledButtons = Array.from(allButtons).filter((button) =>
+        button.hasAttribute('disabled'),
+      )
+
+      expect(disabledButtons.length).toBeGreaterThan(0)
+    })
   })
 })
