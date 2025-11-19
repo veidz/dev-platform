@@ -289,5 +289,13 @@ describe('Calendar', () => {
 
       expect(results).toHaveNoViolations()
     })
+
+    it('should have proper role attributes', () => {
+      const { container } = render(<Calendar mode="single" />)
+      const calendar = container.firstChild
+
+      expect(calendar).toBeInTheDocument()
+      expect(calendar).toHaveClass('p-3')
+    })
   })
 })
