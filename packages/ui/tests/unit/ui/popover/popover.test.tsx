@@ -3,7 +3,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover/popover'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 describe('Popover', () => {
   describe('Rendering', () => {
@@ -26,6 +27,24 @@ describe('Popover', () => {
       )
 
       expect(screen.queryByText('Content')).not.toBeInTheDocument()
+    })
+
+    it('should render with custom className on content', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Popover>
+          <PopoverTrigger>Open</PopoverTrigger>
+          <PopoverContent className="custom-class">Content</PopoverContent>
+        </Popover>,
+      )
+
+      await user.click(screen.getByText('Open'))
+
+      await waitFor(() => {
+        const content = screen.getByText('Content')
+        expect(content).toHaveClass('custom-class')
+      })
     })
   })
 })
