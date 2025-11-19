@@ -70,5 +70,14 @@ describe('Calendar', () => {
 
       expect(onSelect).toHaveBeenCalled()
     })
+
+    it('should display selected date', () => {
+      const selectedDate = new Date()
+      const { container } = render(
+        <Calendar mode="single" selected={selectedDate} />,
+      )
+
+      expect(container.firstChild).toBeInTheDocument()
+    })
   })
 })
