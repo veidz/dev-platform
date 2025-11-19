@@ -245,4 +245,14 @@ describe('Calendar', () => {
       }
     })
   })
+
+  describe('Multiple Months', () => {
+    it('should render multiple months', () => {
+      const { container } = render(
+        <Calendar mode="single" numberOfMonths={2} />,
+      )
+
+      expect(container.firstChild).toBeInTheDocument()
+    })
+  })
 })
