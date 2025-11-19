@@ -238,4 +238,23 @@ describe('Popover', () => {
       })
     })
   })
+
+  describe('Modal behavior', () => {
+    it('should support modal prop', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Popover modal>
+          <PopoverTrigger>Open</PopoverTrigger>
+          <PopoverContent>Content</PopoverContent>
+        </Popover>,
+      )
+
+      await user.click(screen.getByText('Open'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Content')).toBeInTheDocument()
+      })
+    })
+  })
 })
