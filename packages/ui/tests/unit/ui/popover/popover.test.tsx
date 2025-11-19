@@ -47,4 +47,23 @@ describe('Popover', () => {
       })
     })
   })
+
+  describe('Interaction', () => {
+    it('should open popover when trigger clicked', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Popover>
+          <PopoverTrigger>Open</PopoverTrigger>
+          <PopoverContent>Content</PopoverContent>
+        </Popover>,
+      )
+
+      await user.click(screen.getByText('Open'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Content')).toBeInTheDocument()
+      })
+    })
+  })
 })
