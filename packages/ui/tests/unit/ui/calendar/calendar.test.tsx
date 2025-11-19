@@ -79,5 +79,28 @@ describe('Calendar', () => {
 
       expect(container.firstChild).toBeInTheDocument()
     })
+
+    it('should support range selection', async () => {
+      const user = userEvent.setup()
+      const onSelect = jest.fn()
+
+      const { container } = render(
+        <Calendar mode="range" onSelect={onSelect} />,
+      )
+
+      const allButtons = container.querySelectorAll('button')
+      const validButtons = Array.from(allButtons).filter(
+        (btn) =>
+          !btn.getAttribute('aria-label')?.includes('Previous') &&
+          !btn.getAttribute('aria-label')?.includes('Next'),
+      )
+
+      if (validButtons.length > 1) {
+        await user.click(validButtons[10])
+        await user.click(validButtons[15])
+      }
+
+      expect(onSelect).toHaveBeenCalled()
+    })
   })
 })
