@@ -126,6 +126,13 @@ export {
   PaginationNext,
   PaginationPrevious,
 } from './components/ui/pagination'
+export {
+  Popover,
+  PopoverAnchor,
+  PopoverContent,
+  PopoverTrigger,
+} from './components/ui/popover'
+export type { PopoverContentProps } from './components/ui/popover'
 export { Progress } from './components/ui/progress'
 export { RadioGroup, RadioGroupItem } from './components/ui/radio-group'
 export {
