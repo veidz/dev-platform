@@ -280,5 +280,14 @@ describe('Calendar', () => {
 
       expect(results).toHaveNoViolations()
     })
+
+    it('should have no accessibility violations with selected date', async () => {
+      const { container } = render(
+        <Calendar mode="single" selected={new Date()} />,
+      )
+      const results = await axe(container)
+
+      expect(results).toHaveNoViolations()
+    })
   })
 })
