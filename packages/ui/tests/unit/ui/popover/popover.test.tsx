@@ -291,5 +291,25 @@ describe('Popover', () => {
       const results = await axe(container)
       expect(results).toHaveNoViolations()
     })
+
+    it('should have proper ARIA attributes', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Popover>
+          <PopoverTrigger>Open</PopoverTrigger>
+          <PopoverContent>Content</PopoverContent>
+        </Popover>,
+      )
+
+      const trigger = screen.getByText('Open')
+      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+
+      await user.click(trigger)
+
+      await waitFor(() => {
+        expect(trigger).toHaveAttribute('aria-expanded', 'true')
+      })
+    })
   })
 })
