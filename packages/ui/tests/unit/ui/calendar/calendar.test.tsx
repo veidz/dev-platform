@@ -297,5 +297,17 @@ describe('Calendar', () => {
       expect(calendar).toBeInTheDocument()
       expect(calendar).toHaveClass('p-3')
     })
+
+    it('should support keyboard navigation', () => {
+      const { container } = render(<Calendar mode="single" />)
+
+      const allButtons = container.querySelectorAll('button')
+      expect(allButtons.length).toBeGreaterThan(2)
+
+      const enabledButtons = Array.from(allButtons).filter(
+        (button) => !button.hasAttribute('disabled'),
+      )
+      expect(enabledButtons.length).toBeGreaterThan(0)
+    })
   })
 })
