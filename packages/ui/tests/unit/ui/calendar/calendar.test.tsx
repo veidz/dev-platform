@@ -262,5 +262,13 @@ describe('Calendar', () => {
 
       expect(container.firstChild).toBeInTheDocument()
     })
+
+    it('should render with showOutsideDays false', () => {
+      const { container } = render(
+        <Calendar mode="single" showOutsideDays={false} />,
+      )
+
+      expect(container.firstChild).toBeInTheDocument()
+    })
   })
 })
