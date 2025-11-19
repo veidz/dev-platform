@@ -207,5 +207,18 @@ describe('Calendar', () => {
 
       expect(disabledButtons.length).toBeGreaterThan(0)
     })
+
+    it('should disable weekends', () => {
+      const { container } = render(
+        <Calendar mode="single" disabled={{ dayOfWeek: [0, 6] }} />,
+      )
+
+      const allButtons = container.querySelectorAll('button')
+      const disabledButtons = Array.from(allButtons).filter((button) =>
+        button.hasAttribute('disabled'),
+      )
+
+      expect(disabledButtons.length).toBeGreaterThan(0)
+    })
   })
 })
