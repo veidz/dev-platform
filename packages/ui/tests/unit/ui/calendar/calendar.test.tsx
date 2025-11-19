@@ -178,4 +178,20 @@ describe('Calendar', () => {
       ).toBeInTheDocument()
     })
   })
+
+  describe('Disabled Dates', () => {
+    it('should disable past dates', () => {
+      const today = new Date()
+      const { container } = render(
+        <Calendar mode="single" disabled={{ before: today }} />,
+      )
+
+      const allButtons = container.querySelectorAll('button')
+      const disabledButtons = Array.from(allButtons).filter((button) =>
+        button.hasAttribute('disabled'),
+      )
+
+      expect(disabledButtons.length).toBeGreaterThan(0)
+    })
+  })
 })
