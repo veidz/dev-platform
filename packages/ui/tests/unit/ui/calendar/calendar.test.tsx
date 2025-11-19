@@ -102,5 +102,28 @@ describe('Calendar', () => {
 
       expect(onSelect).toHaveBeenCalled()
     })
+
+    it('should support multiple selection', async () => {
+      const user = userEvent.setup()
+      const onSelect = jest.fn()
+
+      const { container } = render(
+        <Calendar mode="multiple" onSelect={onSelect} />,
+      )
+
+      const allButtons = container.querySelectorAll('button')
+      const validButtons = Array.from(allButtons).filter(
+        (btn) =>
+          !btn.getAttribute('aria-label')?.includes('Previous') &&
+          !btn.getAttribute('aria-label')?.includes('Next'),
+      )
+
+      if (validButtons.length > 1) {
+        await user.click(validButtons[10])
+        await user.click(validButtons[15])
+      }
+
+      expect(onSelect).toHaveBeenCalledTimes(2)
+    })
   })
 })
