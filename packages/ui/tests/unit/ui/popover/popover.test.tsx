@@ -6,6 +6,7 @@ import {
 } from '@/components/ui/popover/popover'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { axe } from 'jest-axe'
 
 describe('Popover', () => {
   describe('Rendering', () => {
@@ -255,6 +256,20 @@ describe('Popover', () => {
       await waitFor(() => {
         expect(screen.getByText('Content')).toBeInTheDocument()
       })
+    })
+  })
+
+  describe('Accessibility', () => {
+    it('should have no accessibility violations', async () => {
+      const { container } = render(
+        <Popover>
+          <PopoverTrigger>Open</PopoverTrigger>
+          <PopoverContent>Content</PopoverContent>
+        </Popover>,
+      )
+
+      const results = await axe(container)
+      expect(results).toHaveNoViolations()
     })
   })
 })
