@@ -1,5 +1,6 @@
 import {
   Popover,
+  PopoverAnchor,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover/popover'
@@ -205,6 +206,30 @@ describe('Popover', () => {
           <PopoverContent sideOffset={20}>Content</PopoverContent>
         </Popover>,
       )
+
+      await user.click(screen.getByText('Open'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Content')).toBeInTheDocument()
+      })
+    })
+  })
+
+  describe('Anchor', () => {
+    it('should render with anchor element', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Popover>
+          <PopoverAnchor>
+            <div>Anchor</div>
+          </PopoverAnchor>
+          <PopoverTrigger>Open</PopoverTrigger>
+          <PopoverContent>Content</PopoverContent>
+        </Popover>,
+      )
+
+      expect(screen.getByText('Anchor')).toBeInTheDocument()
 
       await user.click(screen.getByText('Open'))
 
