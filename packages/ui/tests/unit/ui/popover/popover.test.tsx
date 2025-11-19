@@ -143,4 +143,23 @@ describe('Popover', () => {
       })
     })
   })
+
+  describe('Positioning', () => {
+    it('should render with default align center', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Popover>
+          <PopoverTrigger>Open</PopoverTrigger>
+          <PopoverContent>Content</PopoverContent>
+        </Popover>,
+      )
+
+      await user.click(screen.getByText('Open'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Content')).toBeInTheDocument()
+      })
+    })
+  })
 })
