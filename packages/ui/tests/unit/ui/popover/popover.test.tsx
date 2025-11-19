@@ -119,5 +119,28 @@ describe('Popover', () => {
         expect(screen.getByText('Content')).toBeInTheDocument()
       })
     })
+
+    it('should close when escape key pressed', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Popover>
+          <PopoverTrigger>Open</PopoverTrigger>
+          <PopoverContent>Content</PopoverContent>
+        </Popover>,
+      )
+
+      await user.click(screen.getByText('Open'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Content')).toBeInTheDocument()
+      })
+
+      await user.keyboard('{Escape}')
+
+      await waitFor(() => {
+        expect(screen.queryByText('Content')).not.toBeInTheDocument()
+      })
+    })
   })
 })
