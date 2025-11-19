@@ -91,5 +91,33 @@ describe('Popover', () => {
         expect(screen.queryByText('Content')).not.toBeInTheDocument()
       })
     })
+
+    it('should support controlled state', async () => {
+      const user = userEvent.setup()
+      const onOpenChange = jest.fn()
+
+      const { rerender } = render(
+        <Popover open={false} onOpenChange={onOpenChange}>
+          <PopoverTrigger>Open</PopoverTrigger>
+          <PopoverContent>Content</PopoverContent>
+        </Popover>,
+      )
+
+      expect(screen.queryByText('Content')).not.toBeInTheDocument()
+
+      await user.click(screen.getByText('Open'))
+      expect(onOpenChange).toHaveBeenCalledWith(true)
+
+      rerender(
+        <Popover open={true} onOpenChange={onOpenChange}>
+          <PopoverTrigger>Open</PopoverTrigger>
+          <PopoverContent>Content</PopoverContent>
+        </Popover>,
+      )
+
+      await waitFor(() => {
+        expect(screen.getByText('Content')).toBeInTheDocument()
+      })
+    })
   })
 })
