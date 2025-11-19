@@ -26,5 +26,17 @@ describe('Calendar', () => {
         screen.getByText(new RegExp(currentMonth, 'i')),
       ).toBeInTheDocument()
     })
+
+    it('should render weekday headers', () => {
+      render(<Calendar mode="single" />)
+
+      expect(screen.getByText('Su')).toBeInTheDocument()
+      expect(screen.getByText('Mo')).toBeInTheDocument()
+      expect(screen.getByText('Tu')).toBeInTheDocument()
+      expect(screen.getByText('We')).toBeInTheDocument()
+      expect(screen.getByText('Th')).toBeInTheDocument()
+      expect(screen.getByText('Fr')).toBeInTheDocument()
+      expect(screen.getByText('Sa')).toBeInTheDocument()
+    })
   })
 })
