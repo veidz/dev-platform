@@ -9,5 +9,13 @@ describe('Calendar', () => {
 
       expect(calendar).toBeInTheDocument()
     })
+
+    it('should render with custom className', () => {
+      const { container } = render(
+        <Calendar mode="single" className="custom-class" />,
+      )
+
+      expect(container.firstChild).toHaveClass('custom-class')
+    })
   })
 })
