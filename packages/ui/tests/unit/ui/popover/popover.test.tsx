@@ -311,5 +311,28 @@ describe('Popover', () => {
         expect(trigger).toHaveAttribute('aria-expanded', 'true')
       })
     })
+
+    it('should trap focus when open', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Popover>
+          <PopoverTrigger>Open</PopoverTrigger>
+          <PopoverContent>
+            <button>Inside button</button>
+          </PopoverContent>
+        </Popover>,
+      )
+
+      await user.click(screen.getByText('Open'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Inside button')).toBeInTheDocument()
+      })
+
+      await user.tab()
+
+      expect(screen.getByText('Inside button')).toHaveFocus()
+    })
   })
 })
