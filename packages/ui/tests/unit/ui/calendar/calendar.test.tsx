@@ -2,6 +2,7 @@ import { Calendar } from '@/components/ui/calendar/calendar'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { addDays } from 'date-fns'
+import { axe } from 'jest-axe'
 
 describe('Calendar', () => {
   describe('Rendering', () => {
@@ -269,6 +270,15 @@ describe('Calendar', () => {
       )
 
       expect(container.firstChild).toBeInTheDocument()
+    })
+  })
+
+  describe('Accessibility', () => {
+    it('should have no accessibility violations', async () => {
+      const { container } = render(<Calendar mode="single" />)
+      const results = await axe(container)
+
+      expect(results).toHaveNoViolations()
     })
   })
 })
