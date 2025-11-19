@@ -1,5 +1,6 @@
 import { Calendar } from '@/components/ui/calendar/calendar'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 describe('Calendar', () => {
   describe('Rendering', () => {
@@ -44,6 +45,30 @@ describe('Calendar', () => {
       const buttons = container.querySelectorAll('button[type="button"]')
 
       expect(buttons.length).toBeGreaterThan(0)
+    })
+  })
+
+  describe('Selection', () => {
+    it('should select single date', async () => {
+      const user = userEvent.setup()
+      const onSelect = jest.fn()
+
+      const { container } = render(
+        <Calendar mode="single" onSelect={onSelect} />,
+      )
+
+      const allButtons = container.querySelectorAll('button')
+      const validButtons = Array.from(allButtons).filter(
+        (btn) =>
+          !btn.getAttribute('aria-label')?.includes('Previous') &&
+          !btn.getAttribute('aria-label')?.includes('Next'),
+      )
+
+      if (validButtons.length > 0) {
+        await user.click(validButtons[15])
+      }
+
+      expect(onSelect).toHaveBeenCalled()
     })
   })
 })
