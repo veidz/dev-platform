@@ -65,5 +65,31 @@ describe('Popover', () => {
         expect(screen.getByText('Content')).toBeInTheDocument()
       })
     })
+
+    it('should close popover when clicking outside', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <div>
+          <Popover>
+            <PopoverTrigger>Open</PopoverTrigger>
+            <PopoverContent>Content</PopoverContent>
+          </Popover>
+          <button>Outside</button>
+        </div>,
+      )
+
+      await user.click(screen.getByText('Open'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Content')).toBeInTheDocument()
+      })
+
+      await user.click(screen.getByText('Outside'))
+
+      await waitFor(() => {
+        expect(screen.queryByText('Content')).not.toBeInTheDocument()
+      })
+    })
   })
 })
