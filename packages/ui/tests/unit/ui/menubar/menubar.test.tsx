@@ -526,5 +526,27 @@ describe('Menubar', () => {
       const results = await axe(container)
       expect(results).toHaveNoViolations()
     })
+
+    it('should have proper ARIA attributes', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>File</MenubarTrigger>
+            <MenubarContent>
+              <MenubarItem>New</MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>,
+      )
+
+      await user.click(screen.getByText('File'))
+
+      await waitFor(() => {
+        const menu = screen.getByRole('menu')
+        expect(menu).toBeInTheDocument()
+      })
+    })
   })
 })
