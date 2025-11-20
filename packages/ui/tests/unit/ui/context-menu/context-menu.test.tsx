@@ -20,5 +20,18 @@ describe('ContextMenu', () => {
 
       expect(screen.getByText('Right click me')).toBeInTheDocument()
     })
+
+    it('should not render content initially', () => {
+      render(
+        <ContextMenu>
+          <ContextMenuTrigger>Right click me</ContextMenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuItem>Item 1</ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenu>,
+      )
+
+      expect(screen.queryByText('Item 1')).not.toBeInTheDocument()
+    })
   })
 })
