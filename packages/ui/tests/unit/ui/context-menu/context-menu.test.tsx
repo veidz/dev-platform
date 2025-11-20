@@ -425,4 +425,35 @@ describe('ContextMenu', () => {
       })
     })
   })
+
+  describe('Keyboard Navigation', () => {
+    it('should navigate items with arrow keys', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <ContextMenu>
+          <ContextMenuTrigger>Right click me</ContextMenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuItem>Item 1</ContextMenuItem>
+            <ContextMenuItem>Item 2</ContextMenuItem>
+            <ContextMenuItem>Item 3</ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenu>,
+      )
+
+      await user.pointer({
+        keys: '[MouseRight>]',
+        target: screen.getByText('Right click me'),
+      })
+
+      await waitFor(() => {
+        expect(screen.getByText('Item 1')).toBeInTheDocument()
+      })
+
+      await user.keyboard('{ArrowDown}')
+      await user.keyboard('{ArrowDown}')
+
+      expect(screen.getByText('Item 2')).toBeInTheDocument()
+    })
+  })
 })
