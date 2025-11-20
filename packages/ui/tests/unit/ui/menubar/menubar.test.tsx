@@ -159,5 +159,33 @@ describe('Menubar', () => {
         expect(screen.queryByText('New')).not.toBeInTheDocument()
       })
     })
+
+    it('should handle disabled items', async () => {
+      const user = userEvent.setup()
+      const onSelect = jest.fn()
+
+      render(
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>File</MenubarTrigger>
+            <MenubarContent>
+              <MenubarItem disabled onSelect={onSelect}>
+                Disabled
+              </MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>,
+      )
+
+      await user.click(screen.getByText('File'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Disabled')).toBeInTheDocument()
+      })
+
+      await user.click(screen.getByText('Disabled'))
+
+      expect(onSelect).not.toHaveBeenCalled()
+    })
   })
 })
