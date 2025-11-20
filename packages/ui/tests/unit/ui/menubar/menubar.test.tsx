@@ -501,5 +501,30 @@ describe('Menubar', () => {
       const results = await axe(container)
       expect(results).toHaveNoViolations()
     })
+
+    it('should have no accessibility violations when open', async () => {
+      const user = userEvent.setup()
+
+      const { container } = render(
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>File</MenubarTrigger>
+            <MenubarContent>
+              <MenubarItem>New</MenubarItem>
+              <MenubarItem>Save</MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>,
+      )
+
+      await user.click(screen.getByText('File'))
+
+      await waitFor(() => {
+        expect(screen.getByText('New')).toBeInTheDocument()
+      })
+
+      const results = await axe(container)
+      expect(results).toHaveNoViolations()
+    })
   })
 })
