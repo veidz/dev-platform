@@ -83,5 +83,36 @@ describe('ContextMenu', () => {
         expect(screen.getByText('Item 2')).toBeInTheDocument()
       })
     })
+
+    it('should close menu when clicking menu item', async () => {
+      const user = userEvent.setup()
+      const onSelect = jest.fn()
+
+      render(
+        <ContextMenu>
+          <ContextMenuTrigger>Right click me</ContextMenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuItem onSelect={onSelect}>Item 1</ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenu>,
+      )
+
+      await user.pointer({
+        keys: '[MouseRight>]',
+        target: screen.getByText('Right click me'),
+      })
+
+      await waitFor(() => {
+        expect(screen.getByText('Item 1')).toBeInTheDocument()
+      })
+
+      await user.click(screen.getByText('Item 1'))
+
+      expect(onSelect).toHaveBeenCalled()
+
+      await waitFor(() => {
+        expect(screen.queryByText('Item 1')).not.toBeInTheDocument()
+      })
+    })
   })
 })
