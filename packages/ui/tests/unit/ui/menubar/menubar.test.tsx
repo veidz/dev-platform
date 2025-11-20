@@ -8,6 +8,7 @@ import {
   MenubarRadioGroup,
   MenubarRadioItem,
   MenubarSeparator,
+  MenubarShortcut,
   MenubarSub,
   MenubarSubContent,
   MenubarSubTrigger,
@@ -392,6 +393,30 @@ describe('Menubar', () => {
       await waitFor(() => {
         const separators = document.querySelectorAll('[role="separator"]')
         expect(separators.length).toBeGreaterThan(0)
+      })
+    })
+
+    it('should render shortcuts', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>File</MenubarTrigger>
+            <MenubarContent>
+              <MenubarItem>
+                Save
+                <MenubarShortcut>⌘S</MenubarShortcut>
+              </MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>,
+      )
+
+      await user.click(screen.getByText('File'))
+
+      await waitFor(() => {
+        expect(screen.getByText('⌘S')).toBeInTheDocument()
       })
     })
   })
