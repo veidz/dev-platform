@@ -63,6 +63,34 @@ export {
   CommandSeparator,
   CommandShortcut,
 } from './components/ui/command'
+export {
+  ContextMenu,
+  ContextMenuCheckboxItem,
+  ContextMenuContent,
+  ContextMenuGroup,
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuPortal,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
+  ContextMenuTrigger,
+} from './components/ui/context-menu'
+export type {
+  ContextMenuCheckboxItemProps,
+  ContextMenuContentProps,
+  ContextMenuItemProps,
+  ContextMenuLabelProps,
+  ContextMenuRadioItemProps,
+  ContextMenuSeparatorProps,
+  ContextMenuShortcutProps,
+  ContextMenuSubContentProps,
+  ContextMenuSubTriggerProps,
+} from './components/ui/context-menu'
 export { DataTable } from './components/ui/data-table'
 export type { DataTableProps, DataTableState } from './components/ui/data-table'
 export {
