@@ -268,5 +268,42 @@ describe('ContextMenu', () => {
         expect(screen.getByText('Option 2')).toBeInTheDocument()
       })
     })
+
+    it('should handle radio item selection', async () => {
+      const user = userEvent.setup()
+      const onValueChange = jest.fn()
+
+      render(
+        <ContextMenu>
+          <ContextMenuTrigger>Right click me</ContextMenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuRadioGroup
+              value="option1"
+              onValueChange={onValueChange}
+            >
+              <ContextMenuRadioItem value="option1">
+                Option 1
+              </ContextMenuRadioItem>
+              <ContextMenuRadioItem value="option2">
+                Option 2
+              </ContextMenuRadioItem>
+            </ContextMenuRadioGroup>
+          </ContextMenuContent>
+        </ContextMenu>,
+      )
+
+      await user.pointer({
+        keys: '[MouseRight>]',
+        target: screen.getByText('Right click me'),
+      })
+
+      await waitFor(() => {
+        expect(screen.getByText('Option 2')).toBeInTheDocument()
+      })
+
+      await user.click(screen.getByText('Option 2'))
+
+      expect(onValueChange).toHaveBeenCalledWith('option2')
+    })
   })
 })
