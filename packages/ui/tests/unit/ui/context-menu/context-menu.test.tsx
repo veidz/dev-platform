@@ -4,7 +4,8 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from '@/components/ui/context-menu/context-menu'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 describe('ContextMenu', () => {
   describe('Rendering', () => {
@@ -32,6 +33,29 @@ describe('ContextMenu', () => {
       )
 
       expect(screen.queryByText('Item 1')).not.toBeInTheDocument()
+    })
+
+    it('should render with custom className on content', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <ContextMenu>
+          <ContextMenuTrigger>Right click me</ContextMenuTrigger>
+          <ContextMenuContent className="custom-class">
+            <ContextMenuItem>Item 1</ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenu>,
+      )
+
+      await user.pointer({
+        keys: '[MouseRight>]',
+        target: screen.getByText('Right click me'),
+      })
+
+      await waitFor(() => {
+        const content = screen.getByText('Item 1').closest('[role="menu"]')
+        expect(content).toHaveClass('custom-class')
+      })
     })
   })
 })
