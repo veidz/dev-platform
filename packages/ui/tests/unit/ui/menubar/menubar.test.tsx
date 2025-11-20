@@ -1,5 +1,6 @@
 import {
   Menubar,
+  MenubarCheckboxItem,
   MenubarContent,
   MenubarItem,
   MenubarMenu,
@@ -186,6 +187,33 @@ describe('Menubar', () => {
       await user.click(screen.getByText('Disabled'))
 
       expect(onSelect).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('Checkbox Items', () => {
+    it('should render checkbox items', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>View</MenubarTrigger>
+            <MenubarContent>
+              <MenubarCheckboxItem checked={true}>Checked</MenubarCheckboxItem>
+              <MenubarCheckboxItem checked={false}>
+                Unchecked
+              </MenubarCheckboxItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>,
+      )
+
+      await user.click(screen.getByText('View'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Checked')).toBeInTheDocument()
+        expect(screen.getByText('Unchecked')).toBeInTheDocument()
+      })
     })
   })
 })
