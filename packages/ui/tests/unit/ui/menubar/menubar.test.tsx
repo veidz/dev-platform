@@ -6,6 +6,9 @@ import {
   MenubarMenu,
   MenubarRadioGroup,
   MenubarRadioItem,
+  MenubarSub,
+  MenubarSubContent,
+  MenubarSubTrigger,
   MenubarTrigger,
 } from '@/components/ui/menubar/menubar'
 import { render, screen, waitFor } from '@testing-library/react'
@@ -303,6 +306,43 @@ describe('Menubar', () => {
       await user.click(screen.getByText('Option 2'))
 
       expect(onValueChange).toHaveBeenCalledWith('option2')
+    })
+  })
+
+  describe('Submenu', () => {
+    it('should render nested submenu', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>File</MenubarTrigger>
+            <MenubarContent>
+              <MenubarItem>Regular</MenubarItem>
+              <MenubarSub>
+                <MenubarSubTrigger>More</MenubarSubTrigger>
+                <MenubarSubContent>
+                  <MenubarItem>Submenu 1</MenubarItem>
+                  <MenubarItem>Submenu 2</MenubarItem>
+                </MenubarSubContent>
+              </MenubarSub>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>,
+      )
+
+      await user.click(screen.getByText('File'))
+
+      await waitFor(() => {
+        expect(screen.getByText('More')).toBeInTheDocument()
+      })
+
+      await user.hover(screen.getByText('More'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Submenu 1')).toBeInTheDocument()
+        expect(screen.getByText('Submenu 2')).toBeInTheDocument()
+      })
     })
   })
 })
