@@ -7,6 +7,7 @@ import {
   MenubarMenu,
   MenubarRadioGroup,
   MenubarRadioItem,
+  MenubarSeparator,
   MenubarSub,
   MenubarSubContent,
   MenubarSubTrigger,
@@ -367,6 +368,30 @@ describe('Menubar', () => {
 
       await waitFor(() => {
         expect(screen.getByText('Actions')).toBeInTheDocument()
+      })
+    })
+
+    it('should render separators', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>File</MenubarTrigger>
+            <MenubarContent>
+              <MenubarItem>New</MenubarItem>
+              <MenubarSeparator />
+              <MenubarItem>Save</MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>,
+      )
+
+      await user.click(screen.getByText('File'))
+
+      await waitFor(() => {
+        const separators = document.querySelectorAll('[role="separator"]')
+        expect(separators.length).toBeGreaterThan(0)
       })
     })
   })
