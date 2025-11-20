@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/context-menu/context-menu'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { axe } from 'jest-axe'
 
 describe('ContextMenu', () => {
   describe('Rendering', () => {
@@ -454,6 +455,22 @@ describe('ContextMenu', () => {
       await user.keyboard('{ArrowDown}')
 
       expect(screen.getByText('Item 2')).toBeInTheDocument()
+    })
+  })
+
+  describe('Accessibility', () => {
+    it('should have no accessibility violations', async () => {
+      const { container } = render(
+        <ContextMenu>
+          <ContextMenuTrigger>Right click me</ContextMenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuItem>Item 1</ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenu>,
+      )
+
+      const results = await axe(container)
+      expect(results).toHaveNoViolations()
     })
   })
 })
