@@ -132,5 +132,32 @@ describe('Menubar', () => {
         expect(screen.queryByText('New')).not.toBeInTheDocument()
       })
     })
+
+    it('should close menu when pressing escape', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>File</MenubarTrigger>
+            <MenubarContent>
+              <MenubarItem>New</MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>,
+      )
+
+      await user.click(screen.getByText('File'))
+
+      await waitFor(() => {
+        expect(screen.getByText('New')).toBeInTheDocument()
+      })
+
+      await user.keyboard('{Escape}')
+
+      await waitFor(() => {
+        expect(screen.queryByText('New')).not.toBeInTheDocument()
+      })
+    })
   })
 })
