@@ -454,5 +454,33 @@ describe('Menubar', () => {
         expect(screen.getByText('Undo')).toBeInTheDocument()
       })
     })
+
+    it('should navigate menu items with arrow keys', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>File</MenubarTrigger>
+            <MenubarContent>
+              <MenubarItem>Item 1</MenubarItem>
+              <MenubarItem>Item 2</MenubarItem>
+              <MenubarItem>Item 3</MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>,
+      )
+
+      await user.click(screen.getByText('File'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Item 1')).toBeInTheDocument()
+      })
+
+      await user.keyboard('{ArrowDown}')
+      await user.keyboard('{ArrowDown}')
+
+      expect(screen.getByText('Item 2')).toBeInTheDocument()
+    })
   })
 })
