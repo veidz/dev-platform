@@ -6,6 +6,7 @@ import {
   ContextMenuLabel,
   ContextMenuRadioGroup,
   ContextMenuRadioItem,
+  ContextMenuSeparator,
   ContextMenuSub,
   ContextMenuSubContent,
   ContextMenuSubTrigger,
@@ -370,6 +371,31 @@ describe('ContextMenu', () => {
 
       await waitFor(() => {
         expect(screen.getByText('Actions')).toBeInTheDocument()
+      })
+    })
+
+    it('should render separators', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <ContextMenu>
+          <ContextMenuTrigger>Right click me</ContextMenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuItem>Item 1</ContextMenuItem>
+            <ContextMenuSeparator />
+            <ContextMenuItem>Item 2</ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenu>,
+      )
+
+      await user.pointer({
+        keys: '[MouseRight>]',
+        target: screen.getByText('Right click me'),
+      })
+
+      await waitFor(() => {
+        const separators = document.querySelectorAll('[role="separator"]')
+        expect(separators.length).toBeGreaterThan(0)
       })
     })
   })
