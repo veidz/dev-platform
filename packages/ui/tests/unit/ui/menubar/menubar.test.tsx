@@ -45,5 +45,20 @@ describe('Menubar', () => {
       expect(screen.getByText('File')).toBeInTheDocument()
       expect(screen.getByText('Edit')).toBeInTheDocument()
     })
+
+    it('should not render menu content initially', () => {
+      render(
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>File</MenubarTrigger>
+            <MenubarContent>
+              <MenubarItem>New</MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>,
+      )
+
+      expect(screen.queryByText('New')).not.toBeInTheDocument()
+    })
   })
 })
