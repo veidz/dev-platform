@@ -135,6 +135,35 @@ export {
 export { Input } from './components/ui/input'
 export { Label } from './components/ui/label'
 export {
+  Menubar,
+  MenubarCheckboxItem,
+  MenubarContent,
+  MenubarGroup,
+  MenubarItem,
+  MenubarLabel,
+  MenubarMenu,
+  MenubarPortal,
+  MenubarRadioGroup,
+  MenubarRadioItem,
+  MenubarSeparator,
+  MenubarShortcut,
+  MenubarSub,
+  MenubarSubContent,
+  MenubarSubTrigger,
+  MenubarTrigger,
+} from './components/ui/menubar'
+export type {
+  MenubarCheckboxItemProps,
+  MenubarContentProps,
+  MenubarItemProps,
+  MenubarLabelProps,
+  MenubarRadioItemProps,
+  MenubarSeparatorProps,
+  MenubarShortcutProps,
+  MenubarSubContentProps,
+  MenubarSubTriggerProps,
+} from './components/ui/menubar'
+export {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuIndicator,
