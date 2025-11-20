@@ -114,5 +114,33 @@ describe('ContextMenu', () => {
         expect(screen.queryByText('Item 1')).not.toBeInTheDocument()
       })
     })
+
+    it('should close menu when pressing escape', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <ContextMenu>
+          <ContextMenuTrigger>Right click me</ContextMenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuItem>Item 1</ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenu>,
+      )
+
+      await user.pointer({
+        keys: '[MouseRight>]',
+        target: screen.getByText('Right click me'),
+      })
+
+      await waitFor(() => {
+        expect(screen.getByText('Item 1')).toBeInTheDocument()
+      })
+
+      await user.keyboard('{Escape}')
+
+      await waitFor(() => {
+        expect(screen.queryByText('Item 1')).not.toBeInTheDocument()
+      })
+    })
   })
 })
