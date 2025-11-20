@@ -5,7 +5,8 @@ import {
   MenubarMenu,
   MenubarTrigger,
 } from '@/components/ui/menubar/menubar'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 describe('Menubar', () => {
   describe('Rendering', () => {
@@ -75,6 +76,31 @@ describe('Menubar', () => {
 
       const menubar = container.firstChild
       expect(menubar).toHaveClass('custom-class')
+    })
+  })
+
+  describe('Interaction', () => {
+    it('should open menu on trigger click', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>File</MenubarTrigger>
+            <MenubarContent>
+              <MenubarItem>New</MenubarItem>
+              <MenubarItem>Save</MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>,
+      )
+
+      await user.click(screen.getByText('File'))
+
+      await waitFor(() => {
+        expect(screen.getByText('New')).toBeInTheDocument()
+        expect(screen.getByText('Save')).toBeInTheDocument()
+      })
     })
   })
 })
