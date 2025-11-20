@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/menubar/menubar'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { axe } from 'jest-axe'
 
 describe('Menubar', () => {
   describe('Rendering', () => {
@@ -481,6 +482,24 @@ describe('Menubar', () => {
       await user.keyboard('{ArrowDown}')
 
       expect(screen.getByText('Item 2')).toBeInTheDocument()
+    })
+  })
+
+  describe('Accessibility', () => {
+    it('should have no accessibility violations', async () => {
+      const { container } = render(
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>File</MenubarTrigger>
+            <MenubarContent>
+              <MenubarItem>New</MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>,
+      )
+
+      const results = await axe(container)
+      expect(results).toHaveNoViolations()
     })
   })
 })
