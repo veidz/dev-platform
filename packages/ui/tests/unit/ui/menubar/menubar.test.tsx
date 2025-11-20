@@ -23,5 +23,27 @@ describe('Menubar', () => {
 
       expect(screen.getByText('File')).toBeInTheDocument()
     })
+
+    it('should render multiple menus', () => {
+      render(
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>File</MenubarTrigger>
+            <MenubarContent>
+              <MenubarItem>New</MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+          <MenubarMenu>
+            <MenubarTrigger>Edit</MenubarTrigger>
+            <MenubarContent>
+              <MenubarItem>Undo</MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>,
+      )
+
+      expect(screen.getByText('File')).toBeInTheDocument()
+      expect(screen.getByText('Edit')).toBeInTheDocument()
+    })
   })
 })
