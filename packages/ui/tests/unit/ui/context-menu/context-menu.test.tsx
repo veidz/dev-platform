@@ -202,5 +202,37 @@ describe('ContextMenu', () => {
         expect(screen.getByText('Unchecked Item')).toBeInTheDocument()
       })
     })
+
+    it('should toggle checkbox items', async () => {
+      const user = userEvent.setup()
+      const onCheckedChange = jest.fn()
+
+      render(
+        <ContextMenu>
+          <ContextMenuTrigger>Right click me</ContextMenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuCheckboxItem
+              checked={false}
+              onCheckedChange={onCheckedChange}
+            >
+              Toggle Me
+            </ContextMenuCheckboxItem>
+          </ContextMenuContent>
+        </ContextMenu>,
+      )
+
+      await user.pointer({
+        keys: '[MouseRight>]',
+        target: screen.getByText('Right click me'),
+      })
+
+      await waitFor(() => {
+        expect(screen.getByText('Toggle Me')).toBeInTheDocument()
+      })
+
+      await user.click(screen.getByText('Toggle Me'))
+
+      expect(onCheckedChange).toHaveBeenCalledWith(true)
+    })
   })
 })
