@@ -5,6 +5,9 @@ import {
   ContextMenuItem,
   ContextMenuRadioGroup,
   ContextMenuRadioItem,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from '@/components/ui/context-menu/context-menu'
 import { render, screen, waitFor } from '@testing-library/react'
@@ -304,6 +307,44 @@ describe('ContextMenu', () => {
       await user.click(screen.getByText('Option 2'))
 
       expect(onValueChange).toHaveBeenCalledWith('option2')
+    })
+  })
+
+  describe('Submenu', () => {
+    it('should render nested submenu', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <ContextMenu>
+          <ContextMenuTrigger>Right click me</ContextMenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuItem>Regular Item</ContextMenuItem>
+            <ContextMenuSub>
+              <ContextMenuSubTrigger>More Options</ContextMenuSubTrigger>
+              <ContextMenuSubContent>
+                <ContextMenuItem>Submenu Item 1</ContextMenuItem>
+                <ContextMenuItem>Submenu Item 2</ContextMenuItem>
+              </ContextMenuSubContent>
+            </ContextMenuSub>
+          </ContextMenuContent>
+        </ContextMenu>,
+      )
+
+      await user.pointer({
+        keys: '[MouseRight>]',
+        target: screen.getByText('Right click me'),
+      })
+
+      await waitFor(() => {
+        expect(screen.getByText('More Options')).toBeInTheDocument()
+      })
+
+      await user.hover(screen.getByText('More Options'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Submenu Item 1')).toBeInTheDocument()
+        expect(screen.getByText('Submenu Item 2')).toBeInTheDocument()
+      })
     })
   })
 })
