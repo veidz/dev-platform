@@ -3,6 +3,7 @@ import {
   MenubarCheckboxItem,
   MenubarContent,
   MenubarItem,
+  MenubarLabel,
   MenubarMenu,
   MenubarRadioGroup,
   MenubarRadioItem,
@@ -342,6 +343,30 @@ describe('Menubar', () => {
       await waitFor(() => {
         expect(screen.getByText('Submenu 1')).toBeInTheDocument()
         expect(screen.getByText('Submenu 2')).toBeInTheDocument()
+      })
+    })
+  })
+
+  describe('Additional Elements', () => {
+    it('should render labels', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>File</MenubarTrigger>
+            <MenubarContent>
+              <MenubarLabel>Actions</MenubarLabel>
+              <MenubarItem>New</MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>,
+      )
+
+      await user.click(screen.getByText('File'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Actions')).toBeInTheDocument()
       })
     })
   })
