@@ -215,5 +215,36 @@ describe('Menubar', () => {
         expect(screen.getByText('Unchecked')).toBeInTheDocument()
       })
     })
+
+    it('should toggle checkbox items', async () => {
+      const user = userEvent.setup()
+      const onCheckedChange = jest.fn()
+
+      render(
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>View</MenubarTrigger>
+            <MenubarContent>
+              <MenubarCheckboxItem
+                checked={false}
+                onCheckedChange={onCheckedChange}
+              >
+                Toggle Me
+              </MenubarCheckboxItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>,
+      )
+
+      await user.click(screen.getByText('View'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Toggle Me')).toBeInTheDocument()
+      })
+
+      await user.click(screen.getByText('Toggle Me'))
+
+      expect(onCheckedChange).toHaveBeenCalledWith(true)
+    })
   })
 })
