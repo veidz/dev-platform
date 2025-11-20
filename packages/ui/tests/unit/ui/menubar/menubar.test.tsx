@@ -275,5 +275,34 @@ describe('Menubar', () => {
         expect(screen.getByText('Option 2')).toBeInTheDocument()
       })
     })
+
+    it('should handle radio item selection', async () => {
+      const user = userEvent.setup()
+      const onValueChange = jest.fn()
+
+      render(
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>View</MenubarTrigger>
+            <MenubarContent>
+              <MenubarRadioGroup value="option1" onValueChange={onValueChange}>
+                <MenubarRadioItem value="option1">Option 1</MenubarRadioItem>
+                <MenubarRadioItem value="option2">Option 2</MenubarRadioItem>
+              </MenubarRadioGroup>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>,
+      )
+
+      await user.click(screen.getByText('View'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Option 2')).toBeInTheDocument()
+      })
+
+      await user.click(screen.getByText('Option 2'))
+
+      expect(onValueChange).toHaveBeenCalledWith('option2')
+    })
   })
 })
