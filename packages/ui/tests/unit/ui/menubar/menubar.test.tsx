@@ -102,5 +102,35 @@ describe('Menubar', () => {
         expect(screen.getByText('Save')).toBeInTheDocument()
       })
     })
+
+    it('should close menu when clicking menu item', async () => {
+      const user = userEvent.setup()
+      const onSelect = jest.fn()
+
+      render(
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>File</MenubarTrigger>
+            <MenubarContent>
+              <MenubarItem onSelect={onSelect}>New</MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>,
+      )
+
+      await user.click(screen.getByText('File'))
+
+      await waitFor(() => {
+        expect(screen.getByText('New')).toBeInTheDocument()
+      })
+
+      await user.click(screen.getByText('New'))
+
+      expect(onSelect).toHaveBeenCalled()
+
+      await waitFor(() => {
+        expect(screen.queryByText('New')).not.toBeInTheDocument()
+      })
+    })
   })
 })
