@@ -60,5 +60,21 @@ describe('Menubar', () => {
 
       expect(screen.queryByText('New')).not.toBeInTheDocument()
     })
+
+    it('should render with custom className', () => {
+      const { container } = render(
+        <Menubar className="custom-class">
+          <MenubarMenu>
+            <MenubarTrigger>File</MenubarTrigger>
+            <MenubarContent>
+              <MenubarItem>New</MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>,
+      )
+
+      const menubar = container.firstChild
+      expect(menubar).toHaveClass('custom-class')
+    })
   })
 })
