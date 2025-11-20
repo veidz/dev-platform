@@ -498,5 +498,28 @@ describe('ContextMenu', () => {
       const results = await axe(container)
       expect(results).toHaveNoViolations()
     })
+
+    it('should have proper ARIA attributes', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <ContextMenu>
+          <ContextMenuTrigger>Right click me</ContextMenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuItem>Item 1</ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenu>,
+      )
+
+      await user.pointer({
+        keys: '[MouseRight>]',
+        target: screen.getByText('Right click me'),
+      })
+
+      await waitFor(() => {
+        const menu = screen.getByRole('menu')
+        expect(menu).toBeInTheDocument()
+      })
+    })
   })
 })
