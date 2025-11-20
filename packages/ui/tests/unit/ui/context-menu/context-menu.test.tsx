@@ -3,6 +3,8 @@ import {
   ContextMenuCheckboxItem,
   ContextMenuContent,
   ContextMenuItem,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
   ContextMenuTrigger,
 } from '@/components/ui/context-menu/context-menu'
 import { render, screen, waitFor } from '@testing-library/react'
@@ -233,6 +235,38 @@ describe('ContextMenu', () => {
       await user.click(screen.getByText('Toggle Me'))
 
       expect(onCheckedChange).toHaveBeenCalledWith(true)
+    })
+  })
+
+  describe('Radio Items', () => {
+    it('should render radio group', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <ContextMenu>
+          <ContextMenuTrigger>Right click me</ContextMenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuRadioGroup value="option1">
+              <ContextMenuRadioItem value="option1">
+                Option 1
+              </ContextMenuRadioItem>
+              <ContextMenuRadioItem value="option2">
+                Option 2
+              </ContextMenuRadioItem>
+            </ContextMenuRadioGroup>
+          </ContextMenuContent>
+        </ContextMenu>,
+      )
+
+      await user.pointer({
+        keys: '[MouseRight>]',
+        target: screen.getByText('Right click me'),
+      })
+
+      await waitFor(() => {
+        expect(screen.getByText('Option 1')).toBeInTheDocument()
+        expect(screen.getByText('Option 2')).toBeInTheDocument()
+      })
     })
   })
 })
