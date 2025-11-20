@@ -472,5 +472,31 @@ describe('ContextMenu', () => {
       const results = await axe(container)
       expect(results).toHaveNoViolations()
     })
+
+    it('should have no accessibility violations when open', async () => {
+      const user = userEvent.setup()
+
+      const { container } = render(
+        <ContextMenu>
+          <ContextMenuTrigger>Right click me</ContextMenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuItem>Item 1</ContextMenuItem>
+            <ContextMenuItem>Item 2</ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenu>,
+      )
+
+      await user.pointer({
+        keys: '[MouseRight>]',
+        target: screen.getByText('Right click me'),
+      })
+
+      await waitFor(() => {
+        expect(screen.getByText('Item 1')).toBeInTheDocument()
+      })
+
+      const results = await axe(container)
+      expect(results).toHaveNoViolations()
+    })
   })
 })
