@@ -4,6 +4,8 @@ import {
   MenubarContent,
   MenubarItem,
   MenubarMenu,
+  MenubarRadioGroup,
+  MenubarRadioItem,
   MenubarTrigger,
 } from '@/components/ui/menubar/menubar'
 import { render, screen, waitFor } from '@testing-library/react'
@@ -245,6 +247,33 @@ describe('Menubar', () => {
       await user.click(screen.getByText('Toggle Me'))
 
       expect(onCheckedChange).toHaveBeenCalledWith(true)
+    })
+  })
+
+  describe('Radio Items', () => {
+    it('should render radio group', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>View</MenubarTrigger>
+            <MenubarContent>
+              <MenubarRadioGroup value="option1">
+                <MenubarRadioItem value="option1">Option 1</MenubarRadioItem>
+                <MenubarRadioItem value="option2">Option 2</MenubarRadioItem>
+              </MenubarRadioGroup>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>,
+      )
+
+      await user.click(screen.getByText('View'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Option 1')).toBeInTheDocument()
+        expect(screen.getByText('Option 2')).toBeInTheDocument()
+      })
     })
   })
 })
