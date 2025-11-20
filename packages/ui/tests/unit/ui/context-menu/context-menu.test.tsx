@@ -3,6 +3,7 @@ import {
   ContextMenuCheckboxItem,
   ContextMenuContent,
   ContextMenuItem,
+  ContextMenuLabel,
   ContextMenuRadioGroup,
   ContextMenuRadioItem,
   ContextMenuSub,
@@ -344,6 +345,31 @@ describe('ContextMenu', () => {
       await waitFor(() => {
         expect(screen.getByText('Submenu Item 1')).toBeInTheDocument()
         expect(screen.getByText('Submenu Item 2')).toBeInTheDocument()
+      })
+    })
+  })
+
+  describe('Additional Elements', () => {
+    it('should render labels', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <ContextMenu>
+          <ContextMenuTrigger>Right click me</ContextMenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuLabel>Actions</ContextMenuLabel>
+            <ContextMenuItem>Item 1</ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenu>,
+      )
+
+      await user.pointer({
+        keys: '[MouseRight>]',
+        target: screen.getByText('Right click me'),
+      })
+
+      await waitFor(() => {
+        expect(screen.getByText('Actions')).toBeInTheDocument()
       })
     })
   })
