@@ -142,5 +142,34 @@ describe('ContextMenu', () => {
         expect(screen.queryByText('Item 1')).not.toBeInTheDocument()
       })
     })
+
+    it('should handle disabled items', async () => {
+      const user = userEvent.setup()
+      const onSelect = jest.fn()
+
+      render(
+        <ContextMenu>
+          <ContextMenuTrigger>Right click me</ContextMenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuItem disabled onSelect={onSelect}>
+              Disabled Item
+            </ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenu>,
+      )
+
+      await user.pointer({
+        keys: '[MouseRight>]',
+        target: screen.getByText('Right click me'),
+      })
+
+      await waitFor(() => {
+        expect(screen.getByText('Disabled Item')).toBeInTheDocument()
+      })
+
+      await user.click(screen.getByText('Disabled Item'))
+
+      expect(onSelect).not.toHaveBeenCalled()
+    })
   })
 })
