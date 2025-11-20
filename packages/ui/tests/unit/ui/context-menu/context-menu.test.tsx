@@ -1,5 +1,6 @@
 import {
   ContextMenu,
+  ContextMenuCheckboxItem,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
@@ -170,6 +171,36 @@ describe('ContextMenu', () => {
       await user.click(screen.getByText('Disabled Item'))
 
       expect(onSelect).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('Checkbox Items', () => {
+    it('should render checkbox items', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <ContextMenu>
+          <ContextMenuTrigger>Right click me</ContextMenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuCheckboxItem checked={true}>
+              Checked Item
+            </ContextMenuCheckboxItem>
+            <ContextMenuCheckboxItem checked={false}>
+              Unchecked Item
+            </ContextMenuCheckboxItem>
+          </ContextMenuContent>
+        </ContextMenu>,
+      )
+
+      await user.pointer({
+        keys: '[MouseRight>]',
+        target: screen.getByText('Right click me'),
+      })
+
+      await waitFor(() => {
+        expect(screen.getByText('Checked Item')).toBeInTheDocument()
+        expect(screen.getByText('Unchecked Item')).toBeInTheDocument()
+      })
     })
   })
 })
