@@ -26,5 +26,22 @@ describe('Drawer', () => {
 
       expect(screen.getByText('Open')).toBeInTheDocument()
     })
+
+    it('should not render drawer content initially', () => {
+      render(
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button>Open</Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Drawer Title</DrawerTitle>
+            </DrawerHeader>
+          </DrawerContent>
+        </Drawer>,
+      )
+
+      expect(screen.queryByText('Drawer Title')).not.toBeInTheDocument()
+    })
   })
 })
