@@ -9,6 +9,33 @@ global.ResizeObserver = class ResizeObserver {
   disconnect(): void {}
 }
 
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: jest.fn().mockImplementation((query: string) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(),
+    removeListener: jest.fn(),
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+  })),
+})
+
+const originalGetComputedStyle = window.getComputedStyle
+window.getComputedStyle = (element: Element): CSSStyleDeclaration => {
+  const styles = originalGetComputedStyle(element)
+  return new Proxy(styles, {
+    get: (target, prop) => {
+      if (prop === 'transform') {
+        return 'none'
+      }
+      return target[prop as keyof CSSStyleDeclaration]
+    },
+  }) as CSSStyleDeclaration
+}
+
 Element.prototype.scrollIntoView = jest.fn()
 
 Element.prototype.hasPointerCapture = jest.fn()
