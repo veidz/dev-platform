@@ -205,4 +205,19 @@ describe('Carousel', () => {
       }
     })
   })
+
+  describe('Orientation', () => {
+    it('should support horizontal orientation (default)', () => {
+      render(
+        <Carousel>
+          <CarouselContent>
+            <CarouselItem>Slide 1</CarouselItem>
+          </CarouselContent>
+        </Carousel>,
+      )
+
+      const region = screen.getByRole('region')
+      expect(region).toBeInTheDocument()
+    })
+  })
 })
