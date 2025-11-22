@@ -30,5 +30,11 @@ describe('Type Guards', () => {
     it('should return false for null', () => {
       expect(isApiError(null)).toBe(false)
     })
+
+    it('should return false for non-object', () => {
+      expect(isApiError('string')).toBe(false)
+      expect(isApiError(123)).toBe(false)
+      expect(isApiError(true)).toBe(false)
+    })
   })
 })
