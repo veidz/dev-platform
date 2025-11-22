@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/drawer/drawer'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { axe } from 'jest-axe'
 import React from 'react'
 
 describe('Drawer', () => {
@@ -367,6 +368,26 @@ describe('Drawer', () => {
         expect(screen.getByText('Inner Drawer')).toBeInTheDocument()
         expect(screen.getByText('Outer Drawer')).toBeInTheDocument()
       })
+    })
+  })
+
+  describe('Accessibility', () => {
+    it('should have no accessibility violations when closed', async () => {
+      const { container } = render(
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button>Open</Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Title</DrawerTitle>
+            </DrawerHeader>
+          </DrawerContent>
+        </Drawer>,
+      )
+
+      const results = await axe(container)
+      expect(results).toHaveNoViolations()
     })
   })
 })
