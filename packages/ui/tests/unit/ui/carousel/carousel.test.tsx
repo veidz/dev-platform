@@ -308,4 +308,23 @@ describe('Carousel', () => {
       }
     })
   })
+
+  describe('Multiple Items', () => {
+    it('should render multiple items per view', () => {
+      render(
+        <Carousel opts={{ align: 'start' }}>
+          <CarouselContent>
+            {[1, 2, 3, 4, 5].map((num) => (
+              <CarouselItem key={num} className="basis-1/2">
+                Slide {num}
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>,
+      )
+
+      expect(screen.getByText('Slide 1')).toBeInTheDocument()
+      expect(screen.getByText('Slide 2')).toBeInTheDocument()
+    })
+  })
 })
