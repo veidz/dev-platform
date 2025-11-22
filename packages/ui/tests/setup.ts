@@ -9,6 +9,16 @@ global.ResizeObserver = class ResizeObserver {
   disconnect(): void {}
 }
 
+global.IntersectionObserver = class IntersectionObserver {
+  constructor() {}
+  disconnect(): void {}
+  observe(): void {}
+  takeRecords(): IntersectionObserverEntry[] {
+    return []
+  }
+  unobserve(): void {}
+} as unknown as typeof IntersectionObserver
+
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
   value: jest.fn().mockImplementation((query: string) => ({
