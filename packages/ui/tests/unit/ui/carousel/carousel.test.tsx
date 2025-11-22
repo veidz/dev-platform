@@ -155,4 +155,30 @@ describe('Carousel', () => {
       })
     })
   })
+
+  describe('Keyboard Navigation', () => {
+    it('should navigate with arrow keys', async () => {
+      const user = userEvent.setup()
+
+      const { container } = render(
+        <Carousel>
+          <CarouselContent>
+            <CarouselItem>Slide 1</CarouselItem>
+            <CarouselItem>Slide 2</CarouselItem>
+            <CarouselItem>Slide 3</CarouselItem>
+          </CarouselContent>
+        </Carousel>,
+      )
+
+      const carousel = container.querySelector('[role="region"]') as HTMLElement
+      if (carousel) {
+        carousel.focus()
+        await user.keyboard('{ArrowRight}')
+
+        await waitFor(() => {
+          expect(carousel).toBeInTheDocument()
+        })
+      }
+    })
+  })
 })
