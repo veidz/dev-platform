@@ -1,8 +1,10 @@
 import { Button } from '@/components/ui/button/button'
 import {
   Drawer,
+  DrawerClose,
   DrawerContent,
   DrawerDescription,
+  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -94,6 +96,41 @@ describe('Drawer', () => {
       await waitFor(() => {
         expect(screen.getByText('Drawer Title')).toBeInTheDocument()
         expect(screen.getByText('Drawer Description')).toBeInTheDocument()
+      })
+    })
+
+    it('should close drawer when clicking close button', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button>Open</Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Title</DrawerTitle>
+            </DrawerHeader>
+            <DrawerFooter>
+              <DrawerClose asChild>
+                <Button>Close</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>,
+      )
+
+      await user.click(screen.getByText('Open'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Title')).toBeInTheDocument()
+      })
+
+      await user.click(screen.getByText('Close'))
+
+      await waitFor(() => {
+        const dialog = screen.getByRole('dialog')
+        expect(dialog).toHaveAttribute('data-state', 'closed')
       })
     })
   })
