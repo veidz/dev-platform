@@ -442,4 +442,31 @@ describe('Drawer', () => {
       })
     })
   })
+
+  describe('Handle Visibility', () => {
+    it('should render handle by default', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button>Open</Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Title</DrawerTitle>
+            </DrawerHeader>
+          </DrawerContent>
+        </Drawer>,
+      )
+
+      await user.click(screen.getByText('Open'))
+
+      await waitFor(() => {
+        const content = screen.getByRole('dialog')
+        const handle = content.querySelector('div.h-2.w-\\[100px\\]')
+        expect(handle).toBeInTheDocument()
+      })
+    })
+  })
 })
