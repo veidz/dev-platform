@@ -54,5 +54,9 @@ describe('Type Guards', () => {
 
       expect(isApiError(error)).toBe(false)
     })
+
+    it('should return false for undefined', () => {
+      expect(isApiError(undefined)).toBe(false)
+    })
   })
 })
