@@ -325,4 +325,48 @@ describe('Drawer', () => {
       })
     })
   })
+
+  describe('Nested Drawers', () => {
+    it('should support nested drawers', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button>Open Outer</Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Outer Drawer</DrawerTitle>
+            </DrawerHeader>
+            <div>
+              <Drawer>
+                <DrawerTrigger asChild>
+                  <Button>Open Inner</Button>
+                </DrawerTrigger>
+                <DrawerContent>
+                  <DrawerHeader>
+                    <DrawerTitle>Inner Drawer</DrawerTitle>
+                  </DrawerHeader>
+                </DrawerContent>
+              </Drawer>
+            </div>
+          </DrawerContent>
+        </Drawer>,
+      )
+
+      await user.click(screen.getByText('Open Outer'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Outer Drawer')).toBeInTheDocument()
+      })
+
+      await user.click(screen.getByText('Open Inner'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Inner Drawer')).toBeInTheDocument()
+        expect(screen.getByText('Outer Drawer')).toBeInTheDocument()
+      })
+    })
+  })
 })
