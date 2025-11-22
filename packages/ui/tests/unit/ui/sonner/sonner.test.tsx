@@ -108,4 +108,25 @@ describe('Sonner', () => {
       })
     })
   })
+
+  describe('Toast Types', () => {
+    it('should display success toast', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <div>
+          <Toaster />
+          <Button onClick={() => toast.success('Success message')}>
+            Show Success
+          </Button>
+        </div>,
+      )
+
+      await user.click(screen.getByText('Show Success'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Success message')).toBeInTheDocument()
+      })
+    })
+  })
 })
