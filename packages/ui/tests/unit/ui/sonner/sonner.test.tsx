@@ -218,5 +218,38 @@ describe('Sonner', () => {
 
       expect(actionCallback).toHaveBeenCalled()
     })
+
+    it('should render toast with cancel button', async () => {
+      const user = userEvent.setup()
+      const cancelCallback = jest.fn()
+
+      render(
+        <div>
+          <Toaster />
+          <Button
+            onClick={() =>
+              toast('Message', {
+                cancel: {
+                  label: 'Cancel',
+                  onClick: cancelCallback,
+                },
+              })
+            }
+          >
+            Show Toast
+          </Button>
+        </div>,
+      )
+
+      await user.click(screen.getByText('Show Toast'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Cancel')).toBeInTheDocument()
+      })
+
+      await user.click(screen.getByText('Cancel'))
+
+      expect(cancelCallback).toHaveBeenCalled()
+    })
   })
 })
