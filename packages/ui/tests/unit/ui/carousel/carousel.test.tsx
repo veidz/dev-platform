@@ -287,5 +287,25 @@ describe('Carousel', () => {
         expect(api).toBeDefined()
       }
     })
+
+    it('should provide scroll snap information', () => {
+      let api: CarouselApi | undefined
+
+      render(
+        <Carousel setApi={(carouselApi: CarouselApi) => (api = carouselApi)}>
+          <CarouselContent>
+            <CarouselItem>Slide 1</CarouselItem>
+            <CarouselItem>Slide 2</CarouselItem>
+            <CarouselItem>Slide 3</CarouselItem>
+          </CarouselContent>
+        </Carousel>,
+      )
+
+      expect(api).toBeDefined()
+      if (api) {
+        expect(api.scrollSnapList).toBeDefined()
+        expect(typeof api.scrollSnapList).toBe('function')
+      }
+    })
   })
 })
