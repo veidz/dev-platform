@@ -116,5 +116,21 @@ describe('Carousel', () => {
         expect(prevButton).toBeInTheDocument()
       })
     })
+
+    it('should disable previous button on first slide', () => {
+      render(
+        <Carousel>
+          <CarouselContent>
+            <CarouselItem>Slide 1</CarouselItem>
+            <CarouselItem>Slide 2</CarouselItem>
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>,
+      )
+
+      const prevButton = screen.getByRole('button', { name: /previous/i })
+      expect(prevButton).toBeDisabled()
+    })
   })
 })
