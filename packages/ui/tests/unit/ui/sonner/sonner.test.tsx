@@ -63,4 +63,23 @@ describe('Sonner', () => {
       })
     })
   })
+
+  describe('Toast Display', () => {
+    it('should display a toast message', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <div>
+          <Toaster />
+          <Button onClick={() => toast('Test message')}>Show Toast</Button>
+        </div>,
+      )
+
+      await user.click(screen.getByText('Show Toast'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Test message')).toBeInTheDocument()
+      })
+    })
+  })
 })
