@@ -6,7 +6,8 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer/drawer'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 describe('Drawer', () => {
   describe('Rendering', () => {
@@ -42,6 +43,30 @@ describe('Drawer', () => {
       )
 
       expect(screen.queryByText('Drawer Title')).not.toBeInTheDocument()
+    })
+
+    it('should render with custom className on content', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button>Open</Button>
+          </DrawerTrigger>
+          <DrawerContent className="custom-drawer">
+            <DrawerHeader>
+              <DrawerTitle>Title</DrawerTitle>
+            </DrawerHeader>
+          </DrawerContent>
+        </Drawer>,
+      )
+
+      await user.click(screen.getByText('Open'))
+
+      await waitFor(() => {
+        const content = screen.getByRole('dialog')
+        expect(content).toHaveClass('custom-drawer')
+      })
     })
   })
 })
