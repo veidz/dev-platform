@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/carousel/carousel'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { axe } from 'jest-axe'
 
 describe('Carousel', () => {
   describe('Rendering', () => {
@@ -325,6 +326,24 @@ describe('Carousel', () => {
 
       expect(screen.getByText('Slide 1')).toBeInTheDocument()
       expect(screen.getByText('Slide 2')).toBeInTheDocument()
+    })
+  })
+
+  describe('Accessibility', () => {
+    it('should have no accessibility violations', async () => {
+      const { container } = render(
+        <Carousel>
+          <CarouselContent>
+            <CarouselItem>Slide 1</CarouselItem>
+            <CarouselItem>Slide 2</CarouselItem>
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>,
+      )
+
+      const results = await axe(container)
+      expect(results).toHaveNoViolations()
     })
   })
 })
