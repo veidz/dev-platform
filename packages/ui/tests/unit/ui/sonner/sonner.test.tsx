@@ -322,5 +322,29 @@ describe('Sonner', () => {
         })
       }
     })
+
+    it('should respect dismissible prop', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <div>
+          <Toaster />
+          <Button
+            onClick={() => toast('Non-dismissible', { dismissible: false })}
+          >
+            Show Toast
+          </Button>
+        </div>,
+      )
+
+      await user.click(screen.getByText('Show Toast'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Non-dismissible')).toBeInTheDocument()
+      })
+
+      const closeButton = document.querySelector('[data-close-button]')
+      expect(closeButton).not.toBeInTheDocument()
+    })
   })
 })
