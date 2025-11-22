@@ -387,4 +387,26 @@ describe('Carousel', () => {
       expect(screen.getByText('Next slide')).toBeInTheDocument()
     })
   })
+
+  describe('Custom Content', () => {
+    it('should render complex content in carousel items', () => {
+      render(
+        <Carousel>
+          <CarouselContent>
+            <CarouselItem>
+              <Card>
+                <CardContent>
+                  <h3>Title</h3>
+                  <p>Description</p>
+                </CardContent>
+              </Card>
+            </CarouselItem>
+          </CarouselContent>
+        </Carousel>,
+      )
+
+      expect(screen.getByText('Title')).toBeInTheDocument()
+      expect(screen.getByText('Description')).toBeInTheDocument()
+    })
+  })
 })
