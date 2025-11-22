@@ -81,5 +81,31 @@ describe('Sonner', () => {
         expect(screen.getByText('Test message')).toBeInTheDocument()
       })
     })
+
+    it('should display toast with description', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <div>
+          <Toaster />
+          <Button
+            onClick={() =>
+              toast('Title', {
+                description: 'Description text',
+              })
+            }
+          >
+            Show Toast
+          </Button>
+        </div>,
+      )
+
+      await user.click(screen.getByText('Show Toast'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Title')).toBeInTheDocument()
+        expect(screen.getByText('Description text')).toBeInTheDocument()
+      })
+    })
   })
 })
