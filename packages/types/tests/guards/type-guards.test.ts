@@ -45,5 +45,14 @@ describe('Type Guards', () => {
 
       expect(isApiError(error)).toBe(false)
     })
+
+    it('should return false for object with non-string message', () => {
+      const error = {
+        code: 'ERROR_CODE',
+        message: 123,
+      }
+
+      expect(isApiError(error)).toBe(false)
+    })
   })
 })
