@@ -161,5 +161,9 @@ describe('Type Guards', () => {
 
       expect(isValidationError(error)).toBe(false)
     })
+
+    it('should return false for invalid error object', () => {
+      expect(isValidationError({ message: 'error' })).toBe(false)
+    })
   })
 })
