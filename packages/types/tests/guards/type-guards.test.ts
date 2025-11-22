@@ -88,5 +88,14 @@ describe('Type Guards', () => {
 
       expect(isAuthError(error)).toBe(true)
     })
+
+    it('should return true for TOKEN_INVALID error', () => {
+      const error = {
+        code: ErrorCode.TOKEN_INVALID,
+        message: 'Token invalid',
+      }
+
+      expect(isAuthError(error)).toBe(true)
+    })
   })
 })
