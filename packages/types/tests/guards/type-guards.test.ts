@@ -1,5 +1,9 @@
 import { ErrorCode } from '../../src/constants/errors'
-import { isApiError, isAuthError } from '../../src/guards/type-guards'
+import {
+  isApiError,
+  isAuthError,
+  isValidationError,
+} from '../../src/guards/type-guards'
 
 describe('Type Guards', () => {
   describe('isApiError', () => {
@@ -127,6 +131,17 @@ describe('Type Guards', () => {
     it('should return false for non-object', () => {
       expect(isAuthError('string')).toBe(false)
       expect(isAuthError(123)).toBe(false)
+    })
+  })
+
+  describe('isValidationError', () => {
+    it('should return true for VALIDATION_ERROR', () => {
+      const error = {
+        code: ErrorCode.VALIDATION_ERROR,
+        message: 'Validation failed',
+      }
+
+      expect(isValidationError(error)).toBe(true)
     })
   })
 })
