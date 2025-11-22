@@ -79,5 +79,14 @@ describe('Type Guards', () => {
 
       expect(isAuthError(error)).toBe(true)
     })
+
+    it('should return true for TOKEN_EXPIRED error', () => {
+      const error = {
+        code: ErrorCode.TOKEN_EXPIRED,
+        message: 'Token expired',
+      }
+
+      expect(isAuthError(error)).toBe(true)
+    })
   })
 })
