@@ -383,5 +383,25 @@ describe('Sonner', () => {
       const results = await axe(container)
       expect(results).toHaveNoViolations()
     })
+
+    it('should have no violations with toast displayed', async () => {
+      const user = userEvent.setup()
+
+      const { container } = render(
+        <div>
+          <Toaster />
+          <Button onClick={() => toast('Accessible toast')}>Show Toast</Button>
+        </div>,
+      )
+
+      await user.click(screen.getByText('Show Toast'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Accessible toast')).toBeInTheDocument()
+      })
+
+      const results = await axe(container)
+      expect(results).toHaveNoViolations()
+    })
   })
 })
