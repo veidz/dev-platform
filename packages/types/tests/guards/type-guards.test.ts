@@ -115,5 +115,9 @@ describe('Type Guards', () => {
 
       expect(isAuthError(error)).toBe(false)
     })
+
+    it('should return false for invalid error object', () => {
+      expect(isAuthError({ message: 'error' })).toBe(false)
+    })
   })
 })
