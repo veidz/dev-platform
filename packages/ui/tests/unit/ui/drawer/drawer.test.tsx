@@ -416,5 +416,30 @@ describe('Drawer', () => {
       const results = await axe(container)
       expect(results).toHaveNoViolations()
     })
+
+    it('should have proper ARIA attributes', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button>Open</Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Title</DrawerTitle>
+              <DrawerDescription>Description</DrawerDescription>
+            </DrawerHeader>
+          </DrawerContent>
+        </Drawer>,
+      )
+
+      await user.click(screen.getByText('Open'))
+
+      await waitFor(() => {
+        const dialog = screen.getByRole('dialog')
+        expect(dialog).toBeInTheDocument()
+      })
+    })
   })
 })
