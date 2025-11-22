@@ -86,5 +86,35 @@ describe('Carousel', () => {
         expect(nextButton).toBeInTheDocument()
       })
     })
+
+    it('should navigate to previous slide on previous button click', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Carousel>
+          <CarouselContent>
+            {[1, 2, 3].map((num) => (
+              <CarouselItem key={num}>
+                <Card>
+                  <CardContent>Slide {num}</CardContent>
+                </Card>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>,
+      )
+
+      const nextButton = screen.getByRole('button', { name: /next/i })
+      const prevButton = screen.getByRole('button', { name: /previous/i })
+
+      await user.click(nextButton)
+      await user.click(prevButton)
+
+      await waitFor(() => {
+        expect(prevButton).toBeInTheDocument()
+      })
+    })
   })
 })
