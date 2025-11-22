@@ -1,3 +1,6 @@
+import { describe, expect, it, jest } from '@jest/globals'
+import { render, screen } from '@testing-library/react'
+
 import {
   Toast,
   ToastAction,
@@ -7,8 +10,6 @@ import {
   ToastTitle,
   ToastViewport,
 } from '@/components/ui/toast/toast'
-import { describe, expect, it, jest } from '@jest/globals'
-import { render, screen } from '@testing-library/react'
 
 describe('Toast Components', () => {
   describe('ToastProvider component', () => {

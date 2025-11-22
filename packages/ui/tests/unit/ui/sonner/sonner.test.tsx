@@ -1,9 +1,10 @@
-import { Button } from '@/components/ui/button/button'
-import { Toaster } from '@/components/ui/sonner/sonner'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 import { toast } from 'sonner'
+
+import { Button } from '@/components/ui/button/button'
+import { Toaster } from '@/components/ui/sonner/sonner'
 
 describe('Sonner', () => {
   describe('Rendering', () => {

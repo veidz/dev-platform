@@ -1,9 +1,11 @@
-import { cn } from '@/lib/utils'
-import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
-import { Command as CommandPrimitive } from 'cmdk'
 import type React from 'react'
 import type { ComponentPropsWithoutRef, ComponentRef } from 'react'
 import { forwardRef } from 'react'
+
+import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
+import { Command as CommandPrimitive } from 'cmdk'
+
+import { cn } from '@/lib/utils'
 
 export const Command = forwardRef<
   ComponentRef<typeof CommandPrimitive>,

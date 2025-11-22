@@ -1,3 +1,7 @@
+import { render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { axe } from 'jest-axe'
+
 import {
   ContextMenu,
   ContextMenuCheckboxItem,
@@ -13,9 +17,6 @@ import {
   ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from '@/components/ui/context-menu/context-menu'
-import { render, screen, waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import { axe } from 'jest-axe'
 
 describe('ContextMenu', () => {
   describe('Rendering', () => {

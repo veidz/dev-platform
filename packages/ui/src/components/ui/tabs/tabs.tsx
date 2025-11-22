@@ -1,11 +1,12 @@
+import type { ComponentPropsWithoutRef, ComponentRef } from 'react'
+import { forwardRef } from 'react'
+
 import {
   Content as TabsContentPrimitive,
   List as TabsListPrimitive,
   Root as TabsRootPrimitive,
   Trigger as TabsTriggerPrimitive,
 } from '@radix-ui/react-tabs'
-import type { ComponentPropsWithoutRef, ComponentRef } from 'react'
-import { forwardRef } from 'react'
 
 import { cn } from '@/lib/utils'
 

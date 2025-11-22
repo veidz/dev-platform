@@ -1,11 +1,12 @@
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 
 describe('Accordion', () => {
   describe('Rendering', () => {

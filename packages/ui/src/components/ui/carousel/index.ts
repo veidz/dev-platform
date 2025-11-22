@@ -1,9 +1,9 @@
 export {
   Carousel,
+  type CarouselApi,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
   useCarousel,
-  type CarouselApi,
 } from './carousel'

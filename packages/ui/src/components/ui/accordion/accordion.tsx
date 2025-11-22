@@ -1,3 +1,6 @@
+import type { ComponentPropsWithoutRef, ComponentRef } from 'react'
+import { forwardRef } from 'react'
+
 import {
   Content as AccordionContentPrimitive,
   Header as AccordionHeaderPrimitive,
@@ -6,8 +9,6 @@ import {
   Trigger as AccordionTriggerPrimitive,
 } from '@radix-ui/react-accordion'
 import { ChevronDownIcon } from '@radix-ui/react-icons'
-import type { ComponentPropsWithoutRef, ComponentRef } from 'react'
-import { forwardRef } from 'react'
 
 import { cn } from '@/lib/utils'
 

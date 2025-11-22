@@ -1,3 +1,7 @@
+import { render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { axe } from 'jest-axe'
+
 import { Card, CardContent } from '@/components/ui/card/card'
 import {
   Carousel,
@@ -7,9 +11,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel/carousel'
-import { render, screen, waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import { axe } from 'jest-axe'
 
 describe('Carousel', () => {
   describe('Rendering', () => {

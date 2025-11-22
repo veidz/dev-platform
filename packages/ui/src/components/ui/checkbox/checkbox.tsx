@@ -1,10 +1,11 @@
+import type { ComponentPropsWithoutRef, ComponentRef } from 'react'
+import { forwardRef } from 'react'
+
 import {
   Indicator as CheckboxIndicator,
   Root as CheckboxRoot,
 } from '@radix-ui/react-checkbox'
 import { Check } from 'lucide-react'
-import type { ComponentPropsWithoutRef, ComponentRef } from 'react'
-import { forwardRef } from 'react'
 
 import { cn } from '@/lib/utils'
 

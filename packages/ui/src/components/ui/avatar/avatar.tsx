@@ -1,10 +1,11 @@
+import type { ComponentPropsWithoutRef, ComponentRef } from 'react'
+import { forwardRef } from 'react'
+
 import {
   Fallback as AvatarFallbackPrimitive,
   Image as AvatarImagePrimitive,
   Root as AvatarRootPrimitive,
 } from '@radix-ui/react-avatar'
-import type { ComponentPropsWithoutRef, ComponentRef } from 'react'
-import { forwardRef } from 'react'
 
 import { cn } from '@/lib/utils'
 

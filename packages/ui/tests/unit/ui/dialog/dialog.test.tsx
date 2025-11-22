@@ -1,3 +1,7 @@
+import { describe, expect, it } from '@jest/globals'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -8,9 +12,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { describe, expect, it } from '@jest/globals'
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 
 describe('Dialog', () => {
   describe('Dialog component', () => {

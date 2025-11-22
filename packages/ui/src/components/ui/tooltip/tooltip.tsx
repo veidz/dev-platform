@@ -1,3 +1,6 @@
+import type { ComponentPropsWithoutRef, ComponentRef } from 'react'
+import { forwardRef } from 'react'
+
 import {
   Content as TooltipContentPrimitive,
   Portal as TooltipPortalPrimitive,
@@ -5,8 +8,6 @@ import {
   Root as TooltipRootPrimitive,
   Trigger as TooltipTriggerPrimitive,
 } from '@radix-ui/react-tooltip'
-import type { ComponentPropsWithoutRef, ComponentRef } from 'react'
-import { forwardRef } from 'react'
 
 import { cn } from '@/lib/utils'
 

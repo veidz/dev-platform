@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+
 import type { ToastActionElement, ToastProps } from './toast'
 
 export interface ToasterToast

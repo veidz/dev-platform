@@ -1,20 +1,3 @@
-import {
-  CheckboxItem as DropdownMenuCheckboxItemPrimitive,
-  Content as DropdownMenuContentPrimitive,
-  Group as DropdownMenuGroupPrimitive,
-  ItemIndicator as DropdownMenuItemIndicatorPrimitive,
-  Item as DropdownMenuItemPrimitive,
-  Label as DropdownMenuLabelPrimitive,
-  Portal as DropdownMenuPortalPrimitive,
-  RadioGroup as DropdownMenuRadioGroupPrimitive,
-  RadioItem as DropdownMenuRadioItemPrimitive,
-  Root as DropdownMenuRootPrimitive,
-  Separator as DropdownMenuSeparatorPrimitive,
-  SubContent as DropdownMenuSubContentPrimitive,
-  Sub as DropdownMenuSubPrimitive,
-  SubTrigger as DropdownMenuSubTriggerPrimitive,
-  Trigger as DropdownMenuTriggerPrimitive,
-} from '@radix-ui/react-dropdown-menu'
 import type {
   ComponentPropsWithoutRef,
   ComponentRef,
@@ -22,6 +5,24 @@ import type {
   JSX,
 } from 'react'
 import { forwardRef } from 'react'
+
+import {
+  CheckboxItem as DropdownMenuCheckboxItemPrimitive,
+  Content as DropdownMenuContentPrimitive,
+  Group as DropdownMenuGroupPrimitive,
+  Item as DropdownMenuItemPrimitive,
+  ItemIndicator as DropdownMenuItemIndicatorPrimitive,
+  Label as DropdownMenuLabelPrimitive,
+  Portal as DropdownMenuPortalPrimitive,
+  RadioGroup as DropdownMenuRadioGroupPrimitive,
+  RadioItem as DropdownMenuRadioItemPrimitive,
+  Root as DropdownMenuRootPrimitive,
+  Separator as DropdownMenuSeparatorPrimitive,
+  Sub as DropdownMenuSubPrimitive,
+  SubContent as DropdownMenuSubContentPrimitive,
+  SubTrigger as DropdownMenuSubTriggerPrimitive,
+  Trigger as DropdownMenuTriggerPrimitive,
+} from '@radix-ui/react-dropdown-menu'
 
 import { cn } from '@/lib/utils'
 

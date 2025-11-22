@@ -1,9 +1,16 @@
+import type {
+  ComponentPropsWithoutRef,
+  ComponentRef,
+  ReactElement,
+} from 'react'
+import { forwardRef } from 'react'
+
 import {
   Content as SelectContentPrimitive,
   Group as SelectGroupPrimitive,
   Icon as SelectIconPrimitive,
-  ItemIndicator as SelectItemIndicatorPrimitive,
   Item as SelectItemPrimitive,
+  ItemIndicator as SelectItemIndicatorPrimitive,
   ItemText as SelectItemTextPrimitive,
   Label as SelectLabelPrimitive,
   Portal as SelectPortalPrimitive,
@@ -16,12 +23,6 @@ import {
   Viewport as SelectViewportPrimitive,
 } from '@radix-ui/react-select'
 import { Check, ChevronDown, ChevronUp } from 'lucide-react'
-import type {
-  ComponentPropsWithoutRef,
-  ComponentRef,
-  ReactElement,
-} from 'react'
-import { forwardRef } from 'react'
 
 import { cn } from '@/lib/utils'
 

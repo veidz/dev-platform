@@ -1,4 +1,3 @@
-import { Slot } from '@radix-ui/react-slot'
 import type {
   ComponentPropsWithoutRef,
   ComponentRef,
@@ -14,6 +13,8 @@ import {
   FormProvider,
   useFormContext,
 } from 'react-hook-form'
+
+import { Slot } from '@radix-ui/react-slot'
 
 import { cn } from '@/lib/utils'
 

@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-
 import {
   ChevronRight,
   File,
@@ -8,6 +7,7 @@ import {
   Home,
   Settings,
 } from 'lucide-react'
+
 import { Button } from '../button'
 import { Card, CardContent, CardHeader } from '../card'
 import {
@@ -16,6 +16,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '../dropdown-menu'
+
 import {
   Breadcrumb,
   BreadcrumbEllipsis,

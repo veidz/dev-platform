@@ -1,11 +1,12 @@
-import { ChevronRightIcon } from '@radix-ui/react-icons'
-import { Slot } from '@radix-ui/react-slot'
 import React, {
   type ComponentProps,
   type ComponentPropsWithoutRef,
-  type ReactNode,
   forwardRef,
+  type ReactNode,
 } from 'react'
+
+import { ChevronRightIcon } from '@radix-ui/react-icons'
+import { Slot } from '@radix-ui/react-slot'
 
 import { cn } from '@/lib/utils'
 

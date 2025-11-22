@@ -21,8 +21,28 @@ export default [
       '@typescript-eslint/explicit-function-return-type': 'warn',
       'no-console': 'warn',
       'unused-imports/no-unused-imports': 'error',
-      'simple-import-sort/imports': 'off',
-      'simple-import-sort/exports': 'off',
+      'simple-import-sort/imports': [
+        'error',
+        {
+          groups: [
+            // Node.js built-in modules (side effects and default imports)
+            ['^node:', '^\\u0000node:'],
+            // React and related packages
+            ['^react', '^@react', '^\\u0000react'],
+            // External packages (side effects, then default imports)
+            ['^\\u0000', '^@?\\w'],
+            // Path aliases (@)
+            ['^@/'],
+            // Parent imports (../)
+            ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
+            // Relative imports from same folder (./)
+            ['^\\./'],
+            // Style imports
+            ['^.+\\.s?css$'],
+          ],
+        },
+      ],
+      'simple-import-sort/exports': 'error',
       'import/no-default-export': 'off',
     },
   },

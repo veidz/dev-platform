@@ -1,4 +1,10 @@
-import { cn } from '@/lib/utils'
+import {
+  type ComponentPropsWithoutRef,
+  type ComponentRef,
+  forwardRef,
+  type HTMLAttributes,
+} from 'react'
+
 import {
   CheckboxItem,
   Content,
@@ -17,12 +23,8 @@ import {
   Trigger,
 } from '@radix-ui/react-context-menu'
 import { Check, ChevronRight, Circle } from 'lucide-react'
-import {
-  forwardRef,
-  type ComponentPropsWithoutRef,
-  type ComponentRef,
-  type HTMLAttributes,
-} from 'react'
+
+import { cn } from '@/lib/utils'
 
 const ContextMenu = Root
 

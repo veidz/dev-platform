@@ -1,7 +1,8 @@
-import { ToastAction } from '@/components/ui/toast/toast'
-import { reducer, toast, useToast } from '@/components/ui/toast/use-toast'
 import { describe, expect, it, jest } from '@jest/globals'
 import { act, renderHook } from '@testing-library/react'
+
+import { ToastAction } from '@/components/ui/toast/toast'
+import { reducer, toast, useToast } from '@/components/ui/toast/use-toast'
 
 describe('useToast hook', () => {
   beforeEach(() => {

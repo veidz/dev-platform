@@ -1,3 +1,9 @@
+import React from 'react'
+
+import { render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { axe } from 'jest-axe'
+
 import { Button } from '@/components/ui/button/button'
 import {
   Drawer,
@@ -9,10 +15,6 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer/drawer'
-import { render, screen, waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import { axe } from 'jest-axe'
-import React from 'react'
 
 describe('Drawer', () => {
   describe('Rendering', () => {

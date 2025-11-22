@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Info, Plus, Settings, Trash2 } from 'lucide-react'
 
 import { Button } from '../button'
+
 import {
   Tooltip,
   TooltipContent,

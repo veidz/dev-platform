@@ -1,16 +1,17 @@
 import { forwardRef } from 'react'
+
 import {
   Area,
+  AreaChart as RechartsAreaChart,
   Bar,
+  BarChart as RechartsBarChart,
   CartesianGrid,
   Cell,
+  ComposedChart as RechartsComposedChart,
   Legend,
   Line,
-  Pie,
-  AreaChart as RechartsAreaChart,
-  BarChart as RechartsBarChart,
-  ComposedChart as RechartsComposedChart,
   LineChart as RechartsLineChart,
+  Pie,
   PieChart as RechartsPieChart,
   ResponsiveContainer,
   Tooltip,

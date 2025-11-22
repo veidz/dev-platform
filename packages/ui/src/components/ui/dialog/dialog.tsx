@@ -1,3 +1,11 @@
+import type {
+  ComponentPropsWithoutRef,
+  ComponentRef,
+  HTMLAttributes,
+  JSX,
+} from 'react'
+import { forwardRef } from 'react'
+
 import {
   Close as DialogClosePrimitive,
   Content as DialogContentPrimitive,
@@ -8,13 +16,6 @@ import {
   Title as DialogTitlePrimitive,
   Trigger as DialogTriggerPrimitive,
 } from '@radix-ui/react-dialog'
-import type {
-  ComponentPropsWithoutRef,
-  ComponentRef,
-  HTMLAttributes,
-  JSX,
-} from 'react'
-import { forwardRef } from 'react'
 
 import { cn } from '@/lib/utils'
 

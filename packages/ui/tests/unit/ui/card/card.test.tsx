@@ -1,3 +1,6 @@
+import { describe, expect, it } from '@jest/globals'
+import { render } from '@testing-library/react'
+
 import {
   Card,
   CardContent,
@@ -6,8 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { describe, expect, it } from '@jest/globals'
-import { render } from '@testing-library/react'
 
 describe('Card', () => {
   describe('Card component', () => {

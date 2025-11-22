@@ -11,6 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from '../table'
+
 import {
   Pagination,
   PaginationContent,

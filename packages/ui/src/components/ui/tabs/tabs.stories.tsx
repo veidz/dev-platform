@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import { File, Home, Settings, User } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '../card'
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './tabs'
 
 const meta = {

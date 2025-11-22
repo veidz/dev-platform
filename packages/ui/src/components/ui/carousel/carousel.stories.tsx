@@ -1,7 +1,10 @@
+import * as React from 'react'
+
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import Autoplay from 'embla-carousel-autoplay'
-import * as React from 'react'
+
 import { Card, CardContent } from '../card/card'
+
 import {
   Carousel,
   CarouselApi,

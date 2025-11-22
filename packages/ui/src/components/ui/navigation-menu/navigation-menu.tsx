@@ -1,3 +1,6 @@
+import type { ComponentPropsWithoutRef, ComponentRef } from 'react'
+import { forwardRef } from 'react'
+
 import { ChevronDownIcon } from '@radix-ui/react-icons'
 import {
   Content as NavigationMenuContentPrimitive,
@@ -9,8 +12,6 @@ import {
   Trigger as NavigationMenuTriggerPrimitive,
   Viewport as NavigationMenuViewportPrimitive,
 } from '@radix-ui/react-navigation-menu'
-import type { ComponentPropsWithoutRef, ComponentRef } from 'react'
-import { forwardRef } from 'react'
 
 import { cn } from '@/lib/utils'
 

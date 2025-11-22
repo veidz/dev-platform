@@ -1,8 +1,10 @@
-import { Button, buttonVariants } from '@/components/ui/button'
+import { createRef } from 'react'
+
 import { describe, expect, it } from '@jest/globals'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createRef } from 'react'
+
+import { Button, buttonVariants } from '@/components/ui/button'
 
 describe('Button', () => {
   describe('rendering', () => {

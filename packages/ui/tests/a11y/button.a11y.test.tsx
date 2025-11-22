@@ -1,7 +1,8 @@
-import { Button } from '@/components/ui/button'
 import { describe, expect, it } from '@jest/globals'
 import { render } from '@testing-library/react'
 import { axe, toHaveNoViolations } from 'jest-axe'
+
+import { Button } from '@/components/ui/button'
 
 expect.extend(toHaveNoViolations)
 

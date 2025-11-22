@@ -1,9 +1,12 @@
-import type { Meta } from '@storybook/react-vite'
 import type React from 'react'
 import { useState } from 'react'
+
+import type { Meta } from '@storybook/react-vite'
+
 import { Button } from '../button'
 import { Input } from '../input'
 import { Label } from '../label'
+
 import {
   Popover,
   PopoverAnchor,

@@ -1,9 +1,10 @@
+import React, { type ComponentProps, forwardRef } from 'react'
+
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   DotsHorizontalIcon,
 } from '@radix-ui/react-icons'
-import React, { type ComponentProps, forwardRef } from 'react'
 
 import { type ButtonProps, buttonVariants } from '@/components/ui/button/button'
 import { cn } from '@/lib/utils'

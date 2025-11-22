@@ -1,5 +1,6 @@
-import { Progress } from '@/components/ui/progress'
 import { render, screen } from '@testing-library/react'
+
+import { Progress } from '@/components/ui/progress'
 
 describe('Progress', () => {
   describe('Rendering', () => {

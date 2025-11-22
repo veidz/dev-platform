@@ -1,5 +1,6 @@
-import { Badge } from '@/components/ui/badge'
 import { render, screen } from '@testing-library/react'
+
+import { Badge } from '@/components/ui/badge'
 
 describe('Badge', () => {
   describe('Rendering', () => {

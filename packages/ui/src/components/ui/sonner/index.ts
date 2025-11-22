@@ -1,2 +1,2 @@
-export { Toaster } from './sonner'
 export type { ToasterProps } from './sonner'
+export { Toaster } from './sonner'

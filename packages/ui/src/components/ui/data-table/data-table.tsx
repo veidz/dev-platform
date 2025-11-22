@@ -1,3 +1,6 @@
+import type { JSX } from 'react'
+import { useEffect, useState } from 'react'
+
 import {
   flexRender,
   getCoreRowModel,
@@ -7,8 +10,6 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import { ChevronDown, ChevronsUpDown, ChevronUp } from 'lucide-react'
-import type { JSX } from 'react'
-import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import {

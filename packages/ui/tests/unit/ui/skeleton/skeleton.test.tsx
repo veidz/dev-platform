@@ -1,6 +1,7 @@
-import { Skeleton } from '@/components/ui/skeleton/skeleton'
 import { render } from '@testing-library/react'
 import { axe } from 'jest-axe'
+
+import { Skeleton } from '@/components/ui/skeleton/skeleton'
 
 describe('Skeleton', () => {
   describe('Rendering', () => {

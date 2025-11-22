@@ -1,3 +1,6 @@
+import { render, screen } from '@testing-library/react'
+import { userEvent } from '@testing-library/user-event'
+
 import {
   Select,
   SelectContent,
@@ -10,8 +13,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select/select'
-import { render, screen } from '@testing-library/react'
-import { userEvent } from '@testing-library/user-event'
 
 describe('Select', () => {
   const SimpleSelect = () => (

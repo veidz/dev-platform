@@ -1,8 +1,10 @@
-import type { Meta } from '@storybook/react-vite'
-import { addDays } from 'date-fns'
 import type React from 'react'
 import { useState } from 'react'
 import type { DateRange } from 'react-day-picker'
+
+import type { Meta } from '@storybook/react-vite'
+import { addDays } from 'date-fns'
+
 import { Calendar } from './calendar'
 
 const meta: Meta<typeof Calendar> = {

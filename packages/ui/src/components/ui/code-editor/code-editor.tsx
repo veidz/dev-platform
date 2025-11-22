@@ -1,5 +1,6 @@
-import Editor from '@monaco-editor/react'
 import { forwardRef, useMemo } from 'react'
+
+import Editor from '@monaco-editor/react'
 
 import { cn } from '@/lib/utils'
 

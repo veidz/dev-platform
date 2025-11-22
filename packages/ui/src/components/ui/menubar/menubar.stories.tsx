@@ -1,3 +1,6 @@
+import type React from 'react'
+import { useState } from 'react'
+
 import type { Meta } from '@storybook/react-vite'
 import {
   Copy,
@@ -14,8 +17,7 @@ import {
   Undo,
   User,
 } from 'lucide-react'
-import type React from 'react'
-import { useState } from 'react'
+
 import {
   Menubar,
   MenubarCheckboxItem,

@@ -1,6 +1,7 @@
-import { Root as SeparatorRoot } from '@radix-ui/react-separator'
 import type { ComponentPropsWithoutRef, ComponentRef } from 'react'
 import { forwardRef } from 'react'
+
+import { Root as SeparatorRoot } from '@radix-ui/react-separator'
 
 import { cn } from '@/lib/utils'
 

@@ -1,9 +1,10 @@
+import type { ComponentPropsWithoutRef, ComponentRef } from 'react'
+import { forwardRef } from 'react'
+
 import {
   Indicator as ProgressIndicatorPrimitive,
   Root as ProgressRootPrimitive,
 } from '@radix-ui/react-progress'
-import type { ComponentPropsWithoutRef, ComponentRef } from 'react'
-import { forwardRef } from 'react'
 
 import { cn } from '@/lib/utils'
 

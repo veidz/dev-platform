@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import {
   BarChartIcon,
   CalendarIcon,
@@ -11,7 +13,7 @@ import {
   RocketIcon,
 } from '@radix-ui/react-icons'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { useState } from 'react'
+
 import {
   Command,
   CommandDialog,

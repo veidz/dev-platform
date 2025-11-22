@@ -1,3 +1,10 @@
+import type {
+  ComponentPropsWithoutRef,
+  ComponentRef,
+  ReactElement,
+} from 'react'
+import { forwardRef } from 'react'
+
 import {
   Action as ToastActionPrimitive,
   Close as ToastClosePrimitive,
@@ -8,12 +15,6 @@ import {
   Viewport as ToastViewportPrimitive,
 } from '@radix-ui/react-toast'
 import { cva, type VariantProps } from 'class-variance-authority'
-import type {
-  ComponentPropsWithoutRef,
-  ComponentRef,
-  ReactElement,
-} from 'react'
-import { forwardRef } from 'react'
 
 import { cn } from '@/lib/utils'
 
@@ -146,11 +147,11 @@ type ToastActionElement = ReactElement<typeof ToastAction>
 export {
   Toast,
   ToastAction,
+  type ToastActionElement,
   ToastClose,
   ToastDescription,
+  type ToastProps,
   ToastProvider,
   ToastTitle,
   ToastViewport,
-  type ToastActionElement,
-  type ToastProps,
 }

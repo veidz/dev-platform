@@ -1,6 +1,8 @@
-import type { Meta } from '@storybook/react-vite'
 import type React from 'react'
 import { useState } from 'react'
+
+import type { Meta } from '@storybook/react-vite'
+
 import {
   ResizableHandle,
   ResizablePanel,

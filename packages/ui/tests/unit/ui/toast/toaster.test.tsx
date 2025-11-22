@@ -1,8 +1,9 @@
+import { describe, expect, it } from '@jest/globals'
+import { act, render, renderHook, screen } from '@testing-library/react'
+
 import { ToastAction } from '@/components/ui/toast/toast'
 import { Toaster } from '@/components/ui/toast/toaster'
 import { useToast } from '@/components/ui/toast/use-toast'
-import { describe, expect, it } from '@jest/globals'
-import { act, render, renderHook, screen } from '@testing-library/react'
 
 describe('Toaster component', () => {
   it('should render Toaster with toasts', () => {

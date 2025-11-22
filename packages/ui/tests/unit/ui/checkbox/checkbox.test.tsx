@@ -1,8 +1,10 @@
-import { Checkbox } from '@/components/ui/checkbox'
+import { useState } from 'react'
+
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
-import { useState } from 'react'
+
+import { Checkbox } from '@/components/ui/checkbox'
 
 describe('Checkbox', () => {
   describe('Rendering', () => {

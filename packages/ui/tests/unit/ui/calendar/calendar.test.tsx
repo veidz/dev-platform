@@ -1,8 +1,9 @@
-import { Calendar } from '@/components/ui/calendar/calendar'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { addDays } from 'date-fns'
 import { axe } from 'jest-axe'
+
+import { Calendar } from '@/components/ui/calendar/calendar'
 
 describe('Calendar', () => {
   describe('Rendering', () => {

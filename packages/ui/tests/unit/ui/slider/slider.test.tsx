@@ -1,7 +1,9 @@
-import { Slider } from '@/components/ui/slider'
+import { createRef } from 'react'
+
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createRef } from 'react'
+
+import { Slider } from '@/components/ui/slider'
 
 describe('Slider', () => {
   describe('Rendering', () => {

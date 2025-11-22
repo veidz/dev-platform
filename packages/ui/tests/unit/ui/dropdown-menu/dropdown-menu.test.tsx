@@ -1,3 +1,7 @@
+import { describe, expect, it } from '@jest/globals'
+import { render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -15,9 +19,6 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu/dropdown-menu'
-import { describe, expect, it } from '@jest/globals'
-import { render, screen, waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 
 describe('DropdownMenu', () => {
   describe('DropdownMenu component', () => {
