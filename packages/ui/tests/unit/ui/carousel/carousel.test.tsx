@@ -233,4 +233,22 @@ describe('Carousel', () => {
       expect(region).toBeInTheDocument()
     })
   })
+
+  describe('Loop Option', () => {
+    it('should enable loop when specified', () => {
+      render(
+        <Carousel opts={{ loop: true }}>
+          <CarouselContent>
+            <CarouselItem>Slide 1</CarouselItem>
+            <CarouselItem>Slide 2</CarouselItem>
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>,
+      )
+
+      const nextButton = screen.getByRole('button', { name: /next/i })
+      expect(nextButton).not.toBeDisabled()
+    })
+  })
 })
