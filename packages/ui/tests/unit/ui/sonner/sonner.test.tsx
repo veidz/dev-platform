@@ -347,4 +347,32 @@ describe('Sonner', () => {
       expect(closeButton).not.toBeInTheDocument()
     })
   })
+
+  describe('Toast Duration', () => {
+    it('should auto-dismiss after duration', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <div>
+          <Toaster />
+          <Button onClick={() => toast('Auto dismiss', { duration: 500 })}>
+            Show Toast
+          </Button>
+        </div>,
+      )
+
+      await user.click(screen.getByText('Show Toast'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Auto dismiss')).toBeInTheDocument()
+      })
+
+      await waitFor(
+        () => {
+          expect(screen.queryByText('Auto dismiss')).not.toBeInTheDocument()
+        },
+        { timeout: 1000 },
+      )
+    })
+  })
 })
