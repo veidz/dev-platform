@@ -106,5 +106,14 @@ describe('Type Guards', () => {
 
       expect(isAuthError(error)).toBe(true)
     })
+
+    it('should return false for non-auth error', () => {
+      const error = {
+        code: ErrorCode.NOT_FOUND,
+        message: 'Not found',
+      }
+
+      expect(isAuthError(error)).toBe(false)
+    })
   })
 })
