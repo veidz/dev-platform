@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button/button'
 import {
   Drawer,
   DrawerContent,
+  DrawerDescription,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -66,6 +67,33 @@ describe('Drawer', () => {
       await waitFor(() => {
         const content = screen.getByRole('dialog')
         expect(content).toHaveClass('custom-drawer')
+      })
+    })
+  })
+
+  describe('Interaction', () => {
+    it('should open drawer on trigger click', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button>Open Drawer</Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Drawer Title</DrawerTitle>
+              <DrawerDescription>Drawer Description</DrawerDescription>
+            </DrawerHeader>
+          </DrawerContent>
+        </Drawer>,
+      )
+
+      await user.click(screen.getByText('Open Drawer'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Drawer Title')).toBeInTheDocument()
+        expect(screen.getByText('Drawer Description')).toBeInTheDocument()
       })
     })
   })
