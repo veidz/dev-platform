@@ -298,5 +298,31 @@ describe('Drawer', () => {
         expect(screen.getByText('Cancel')).toBeInTheDocument()
       })
     })
+
+    it('should render custom content', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button>Open</Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Title</DrawerTitle>
+            </DrawerHeader>
+            <div data-testid="custom-content">Custom drawer content</div>
+          </DrawerContent>
+        </Drawer>,
+      )
+
+      await user.click(screen.getByText('Open'))
+
+      await waitFor(() => {
+        expect(screen.getByTestId('custom-content')).toHaveTextContent(
+          'Custom drawer content',
+        )
+      })
+    })
   })
 })
