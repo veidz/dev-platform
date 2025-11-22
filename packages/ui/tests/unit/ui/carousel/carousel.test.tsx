@@ -371,5 +371,20 @@ describe('Carousel', () => {
       const slide = screen.getByRole('group')
       expect(slide).toHaveAttribute('aria-roledescription', 'slide')
     })
+
+    it('should have screen reader text for navigation buttons', () => {
+      render(
+        <Carousel>
+          <CarouselContent>
+            <CarouselItem>Slide 1</CarouselItem>
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>,
+      )
+
+      expect(screen.getByText('Previous slide')).toBeInTheDocument()
+      expect(screen.getByText('Next slide')).toBeInTheDocument()
+    })
   })
 })
