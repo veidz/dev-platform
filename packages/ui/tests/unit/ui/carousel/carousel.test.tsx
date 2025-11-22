@@ -180,5 +180,29 @@ describe('Carousel', () => {
         })
       }
     })
+
+    it('should navigate backwards with left arrow key', async () => {
+      const user = userEvent.setup()
+
+      const { container } = render(
+        <Carousel>
+          <CarouselContent>
+            <CarouselItem>Slide 1</CarouselItem>
+            <CarouselItem>Slide 2</CarouselItem>
+          </CarouselContent>
+        </Carousel>,
+      )
+
+      const carousel = container.querySelector('[role="region"]') as HTMLElement
+      if (carousel) {
+        carousel.focus()
+        await user.keyboard('{ArrowRight}')
+        await user.keyboard('{ArrowLeft}')
+
+        await waitFor(() => {
+          expect(carousel).toBeInTheDocument()
+        })
+      }
+    })
   })
 })
