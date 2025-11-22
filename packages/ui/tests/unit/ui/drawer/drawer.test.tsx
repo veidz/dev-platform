@@ -389,5 +389,32 @@ describe('Drawer', () => {
       const results = await axe(container)
       expect(results).toHaveNoViolations()
     })
+
+    it('should have no accessibility violations when open', async () => {
+      const user = userEvent.setup()
+
+      const { container } = render(
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button>Open</Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Drawer Title</DrawerTitle>
+              <DrawerDescription>Drawer Description</DrawerDescription>
+            </DrawerHeader>
+          </DrawerContent>
+        </Drawer>,
+      )
+
+      await user.click(screen.getByText('Open'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Drawer Title')).toBeInTheDocument()
+      })
+
+      const results = await axe(container)
+      expect(results).toHaveNoViolations()
+    })
   })
 })
