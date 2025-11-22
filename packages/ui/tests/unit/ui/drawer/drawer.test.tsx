@@ -133,5 +133,35 @@ describe('Drawer', () => {
         expect(dialog).toHaveAttribute('data-state', 'closed')
       })
     })
+
+    it('should close drawer when pressing escape', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button>Open</Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Title</DrawerTitle>
+            </DrawerHeader>
+          </DrawerContent>
+        </Drawer>,
+      )
+
+      await user.click(screen.getByText('Open'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Title')).toBeInTheDocument()
+      })
+
+      await user.keyboard('{Escape}')
+
+      await waitFor(() => {
+        const dialog = screen.getByRole('dialog')
+        expect(dialog).toHaveAttribute('data-state', 'closed')
+      })
+    })
   })
 })
