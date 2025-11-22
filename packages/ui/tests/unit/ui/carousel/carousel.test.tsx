@@ -345,5 +345,18 @@ describe('Carousel', () => {
       const results = await axe(container)
       expect(results).toHaveNoViolations()
     })
+
+    it('should have proper ARIA attributes', () => {
+      render(
+        <Carousel>
+          <CarouselContent>
+            <CarouselItem>Slide 1</CarouselItem>
+          </CarouselContent>
+        </Carousel>,
+      )
+
+      const region = screen.getByRole('region')
+      expect(region).toHaveAttribute('aria-roledescription', 'carousel')
+    })
   })
 })
