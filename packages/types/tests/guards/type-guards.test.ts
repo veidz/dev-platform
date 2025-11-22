@@ -1,4 +1,5 @@
-import { isApiError } from '../../src/guards/type-guards'
+import { ErrorCode } from '../../src/constants/errors'
+import { isApiError, isAuthError } from '../../src/guards/type-guards'
 
 describe('Type Guards', () => {
   describe('isApiError', () => {
@@ -57,6 +58,17 @@ describe('Type Guards', () => {
 
     it('should return false for undefined', () => {
       expect(isApiError(undefined)).toBe(false)
+    })
+  })
+
+  describe('isAuthError', () => {
+    it('should return true for INVALID_CREDENTIALS error', () => {
+      const error = {
+        code: ErrorCode.INVALID_CREDENTIALS,
+        message: 'Invalid credentials',
+      }
+
+      expect(isAuthError(error)).toBe(true)
     })
   })
 })
