@@ -152,5 +152,14 @@ describe('Type Guards', () => {
 
       expect(isValidationError(error)).toBe(true)
     })
+
+    it('should return false for other errors', () => {
+      const error = {
+        code: ErrorCode.NOT_FOUND,
+        message: 'Not found',
+      }
+
+      expect(isValidationError(error)).toBe(false)
+    })
   })
 })
