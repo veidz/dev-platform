@@ -184,4 +184,39 @@ describe('Sonner', () => {
       })
     })
   })
+
+  describe('Toast Actions', () => {
+    it('should render toast with action button', async () => {
+      const user = userEvent.setup()
+      const actionCallback = jest.fn()
+
+      render(
+        <div>
+          <Toaster />
+          <Button
+            onClick={() =>
+              toast('Message', {
+                action: {
+                  label: 'Undo',
+                  onClick: actionCallback,
+                },
+              })
+            }
+          >
+            Show Toast
+          </Button>
+        </div>,
+      )
+
+      await user.click(screen.getByText('Show Toast'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Undo')).toBeInTheDocument()
+      })
+
+      await user.click(screen.getByText('Undo'))
+
+      expect(actionCallback).toHaveBeenCalled()
+    })
+  })
 })
