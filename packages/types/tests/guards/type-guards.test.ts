@@ -70,5 +70,14 @@ describe('Type Guards', () => {
 
       expect(isAuthError(error)).toBe(true)
     })
+
+    it('should return true for UNAUTHORIZED error', () => {
+      const error = {
+        code: ErrorCode.UNAUTHORIZED,
+        message: 'Unauthorized',
+      }
+
+      expect(isAuthError(error)).toBe(true)
+    })
   })
 })
