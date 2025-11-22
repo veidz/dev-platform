@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { JSX, useState } from 'react'
 
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import type { ColumnDef } from '@tanstack/react-table'
@@ -278,7 +278,7 @@ export const Sortable: Story = {
 }
 
 export const WithRowSelection = {
-  render: () => {
+  render: (): JSX.Element => {
     const [selectedUsers, setSelectedUsers] = useState<User[]>([])
 
     const selectableColumns: ColumnDef<User>[] = [
@@ -335,7 +335,7 @@ export const WithRowSelection = {
 }
 
 export const WithFiltering = {
-  render: () => {
+  render: (): JSX.Element => {
     const [globalFilter, setGlobalFilter] = useState('')
 
     const filterableColumns: ColumnDef<User>[] = [
@@ -356,7 +356,7 @@ export const WithFiltering = {
       {
         accessorKey: 'status',
         header: 'Status',
-        cell: ({ row }) => {
+        cell: ({ row }): JSX.Element => {
           const status = row.getValue('status') as string
           return (
             <span
@@ -405,13 +405,13 @@ export const WithFiltering = {
 }
 
 export const WithActions = {
-  render: () => {
+  render: (): JSX.Element => {
     const actionsColumns: ColumnDef<User>[] = [
       ...userColumns,
       {
         id: 'actions',
         header: 'Actions',
-        cell: ({ row }) => {
+        cell: ({ row }): JSX.Element => {
           const user = row.original
           return (
             <div className="flex space-x-2">
