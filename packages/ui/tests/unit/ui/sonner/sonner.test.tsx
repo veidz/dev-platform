@@ -166,5 +166,22 @@ describe('Sonner', () => {
         expect(screen.getByText('Warning message')).toBeInTheDocument()
       })
     })
+
+    it('should display info toast', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <div>
+          <Toaster />
+          <Button onClick={() => toast.info('Info message')}>Show Info</Button>
+        </div>,
+      )
+
+      await user.click(screen.getByText('Show Info'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Info message')).toBeInTheDocument()
+      })
+    })
   })
 })
