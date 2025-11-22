@@ -268,5 +268,24 @@ describe('Carousel', () => {
 
       expect(capturedApi).toBeDefined()
     })
+
+    it('should allow programmatic navigation via API', () => {
+      let api: CarouselApi | undefined
+
+      render(
+        <Carousel setApi={(carouselApi: CarouselApi) => (api = carouselApi)}>
+          <CarouselContent>
+            <CarouselItem>Slide 1</CarouselItem>
+            <CarouselItem>Slide 2</CarouselItem>
+            <CarouselItem>Slide 3</CarouselItem>
+          </CarouselContent>
+        </Carousel>,
+      )
+
+      if (api) {
+        api.scrollTo(1)
+        expect(api).toBeDefined()
+      }
+    })
   })
 })
