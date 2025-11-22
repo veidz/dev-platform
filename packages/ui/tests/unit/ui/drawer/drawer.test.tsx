@@ -268,5 +268,35 @@ describe('Drawer', () => {
         expect(screen.getByText('Header Description')).toBeInTheDocument()
       })
     })
+
+    it('should render footer with buttons', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button>Open</Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Title</DrawerTitle>
+            </DrawerHeader>
+            <DrawerFooter>
+              <Button>Submit</Button>
+              <DrawerClose asChild>
+                <Button variant="outline">Cancel</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>,
+      )
+
+      await user.click(screen.getByText('Open'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Submit')).toBeInTheDocument()
+        expect(screen.getByText('Cancel')).toBeInTheDocument()
+      })
+    })
   })
 })
