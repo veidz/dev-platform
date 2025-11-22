@@ -242,4 +242,31 @@ describe('Drawer', () => {
       )
     })
   })
+
+  describe('Content Sections', () => {
+    it('should render header with title and description', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button>Open</Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Header Title</DrawerTitle>
+              <DrawerDescription>Header Description</DrawerDescription>
+            </DrawerHeader>
+          </DrawerContent>
+        </Drawer>,
+      )
+
+      await user.click(screen.getByText('Open'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Header Title')).toBeInTheDocument()
+        expect(screen.getByText('Header Description')).toBeInTheDocument()
+      })
+    })
+  })
 })
