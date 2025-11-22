@@ -123,5 +123,10 @@ describe('Type Guards', () => {
     it('should return false for null', () => {
       expect(isAuthError(null)).toBe(false)
     })
+
+    it('should return false for non-object', () => {
+      expect(isAuthError('string')).toBe(false)
+      expect(isAuthError(123)).toBe(false)
+    })
   })
 })
