@@ -42,5 +42,18 @@ describe('Carousel', () => {
       ).toBeInTheDocument()
       expect(screen.getByRole('button', { name: /next/i })).toBeInTheDocument()
     })
+
+    it('should render with custom className', () => {
+      const { container } = render(
+        <Carousel className="custom-carousel">
+          <CarouselContent>
+            <CarouselItem>Slide 1</CarouselItem>
+          </CarouselContent>
+        </Carousel>,
+      )
+
+      const carousel = container.querySelector('.custom-carousel')
+      expect(carousel).toBeInTheDocument()
+    })
   })
 })
