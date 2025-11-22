@@ -132,5 +132,27 @@ describe('Carousel', () => {
       const prevButton = screen.getByRole('button', { name: /previous/i })
       expect(prevButton).toBeDisabled()
     })
+
+    it('should disable next button on last slide', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Carousel>
+          <CarouselContent>
+            <CarouselItem>Slide 1</CarouselItem>
+            <CarouselItem>Slide 2</CarouselItem>
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>,
+      )
+
+      const nextButton = screen.getByRole('button', { name: /next/i })
+      await user.click(nextButton)
+
+      await waitFor(() => {
+        expect(nextButton).toBeDisabled()
+      })
+    })
   })
 })
