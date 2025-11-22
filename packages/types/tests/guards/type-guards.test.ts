@@ -97,5 +97,14 @@ describe('Type Guards', () => {
 
       expect(isAuthError(error)).toBe(true)
     })
+
+    it('should return true for EMAIL_NOT_VERIFIED error', () => {
+      const error = {
+        code: ErrorCode.EMAIL_NOT_VERIFIED,
+        message: 'Email not verified',
+      }
+
+      expect(isAuthError(error)).toBe(true)
+    })
   })
 })
