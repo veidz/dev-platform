@@ -252,4 +252,45 @@ describe('Sonner', () => {
       expect(cancelCallback).toHaveBeenCalled()
     })
   })
+
+  describe('Toast Promise', () => {
+    it('should handle promise states', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <div>
+          <Toaster />
+          <Button
+            onClick={() => {
+              const promise = (): Promise<string> =>
+                new Promise((resolve) =>
+                  setTimeout(() => resolve('Success'), 100),
+                )
+
+              toast.promise(promise, {
+                loading: 'Loading...',
+                success: 'Success message',
+                error: 'Error message',
+              })
+            }}
+          >
+            Show Promise
+          </Button>
+        </div>,
+      )
+
+      await user.click(screen.getByText('Show Promise'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Loading...')).toBeInTheDocument()
+      })
+
+      await waitFor(
+        () => {
+          expect(screen.getByText('Success message')).toBeInTheDocument()
+        },
+        { timeout: 2000 },
+      )
+    })
+  })
 })
