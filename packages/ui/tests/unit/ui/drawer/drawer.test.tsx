@@ -204,5 +204,42 @@ describe('Drawer', () => {
         expect(onOpenChange).toHaveBeenCalledWith(true)
       })
     })
+
+    it('should handle non-dismissible drawer', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Drawer dismissible={false}>
+          <DrawerTrigger asChild>
+            <Button>Open</Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Non-Dismissible</DrawerTitle>
+            </DrawerHeader>
+            <DrawerFooter>
+              <DrawerClose asChild>
+                <Button>Close</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>,
+      )
+
+      await user.click(screen.getByText('Open'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Non-Dismissible')).toBeInTheDocument()
+      })
+
+      await user.keyboard('{Escape}')
+
+      await waitFor(
+        () => {
+          expect(screen.getByText('Non-Dismissible')).toBeInTheDocument()
+        },
+        { timeout: 500 },
+      )
+    })
   })
 })
