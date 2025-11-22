@@ -1,6 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card/card'
 import {
   Carousel,
+  CarouselApi,
   CarouselContent,
   CarouselItem,
   CarouselNext,
@@ -249,6 +250,23 @@ describe('Carousel', () => {
 
       const nextButton = screen.getByRole('button', { name: /next/i })
       expect(nextButton).not.toBeDisabled()
+    })
+  })
+
+  describe('API Access', () => {
+    it('should expose carousel API through setApi', () => {
+      let capturedApi: CarouselApi | undefined
+
+      render(
+        <Carousel setApi={(api: CarouselApi) => (capturedApi = api)}>
+          <CarouselContent>
+            <CarouselItem>Slide 1</CarouselItem>
+            <CarouselItem>Slide 2</CarouselItem>
+          </CarouselContent>
+        </Carousel>,
+      )
+
+      expect(capturedApi).toBeDefined()
     })
   })
 })
