@@ -358,5 +358,18 @@ describe('Carousel', () => {
       const region = screen.getByRole('region')
       expect(region).toHaveAttribute('aria-roledescription', 'carousel')
     })
+
+    it('should have proper ARIA attributes on slides', () => {
+      render(
+        <Carousel>
+          <CarouselContent>
+            <CarouselItem>Slide 1</CarouselItem>
+          </CarouselContent>
+        </Carousel>,
+      )
+
+      const slide = screen.getByRole('group')
+      expect(slide).toHaveAttribute('aria-roledescription', 'slide')
+    })
   })
 })
