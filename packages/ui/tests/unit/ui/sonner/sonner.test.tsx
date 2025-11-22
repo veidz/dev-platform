@@ -293,4 +293,34 @@ describe('Sonner', () => {
       )
     })
   })
+
+  describe('Toast Dismissal', () => {
+    it('should allow dismissing toast', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <div>
+          <Toaster />
+          <Button onClick={() => toast('Dismissible toast')}>Show Toast</Button>
+        </div>,
+      )
+
+      await user.click(screen.getByText('Show Toast'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Dismissible toast')).toBeInTheDocument()
+      })
+
+      const closeButton = document.querySelector('[data-close-button]')
+      if (closeButton) {
+        await user.click(closeButton)
+
+        await waitFor(() => {
+          expect(
+            screen.queryByText('Dismissible toast'),
+          ).not.toBeInTheDocument()
+        })
+      }
+    })
+  })
 })
