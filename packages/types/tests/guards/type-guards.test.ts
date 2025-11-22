@@ -143,5 +143,14 @@ describe('Type Guards', () => {
 
       expect(isValidationError(error)).toBe(true)
     })
+
+    it('should return true for INVALID_INPUT', () => {
+      const error = {
+        code: ErrorCode.INVALID_INPUT,
+        message: 'Invalid input',
+      }
+
+      expect(isValidationError(error)).toBe(true)
+    })
   })
 })
