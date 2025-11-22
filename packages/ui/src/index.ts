@@ -1,3 +1,4 @@
+export { toast as sonnerToast } from 'sonner'
 export {
   Accordion,
   AccordionContent,
@@ -248,6 +249,8 @@ export {
 export { Skeleton } from './components/ui/skeleton'
 export type { SkeletonProps } from './components/ui/skeleton'
 export { Slider } from './components/ui/slider'
+export { Toaster as Sonner } from './components/ui/sonner'
+export type { ToasterProps as SonnerProps } from './components/ui/sonner'
 export { Switch } from './components/ui/switch'
 export {
   Table,
