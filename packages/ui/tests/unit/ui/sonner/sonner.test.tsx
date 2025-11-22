@@ -28,5 +28,39 @@ describe('Sonner', () => {
         expect(toaster).toHaveClass('custom-toaster')
       })
     })
+
+    it('should render in different positions', async () => {
+      const user = userEvent.setup()
+
+      const { rerender } = render(
+        <div>
+          <Toaster position="top-left" />
+          <Button onClick={() => toast('Test')}>Show Toast</Button>
+        </div>,
+      )
+
+      await user.click(screen.getByText('Show Toast'))
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('[data-sonner-toaster]'),
+        ).toBeInTheDocument()
+      })
+
+      rerender(
+        <div>
+          <Toaster position="bottom-right" />
+          <Button onClick={() => toast('Test 2')}>Show Toast</Button>
+        </div>,
+      )
+
+      await user.click(screen.getByText('Show Toast'))
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('[data-sonner-toaster]'),
+        ).toBeInTheDocument()
+      })
+    })
   })
 })
