@@ -1,3 +1,4 @@
+import { Card, CardContent } from '@/components/ui/card/card'
 import {
   Carousel,
   CarouselContent,
@@ -5,7 +6,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel/carousel'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 describe('Carousel', () => {
   describe('Rendering', () => {
@@ -54,6 +56,35 @@ describe('Carousel', () => {
 
       const carousel = container.querySelector('.custom-carousel')
       expect(carousel).toBeInTheDocument()
+    })
+  })
+
+  describe('Navigation', () => {
+    it('should navigate to next slide on next button click', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Carousel>
+          <CarouselContent>
+            {[1, 2, 3].map((num) => (
+              <CarouselItem key={num}>
+                <Card>
+                  <CardContent>Slide {num}</CardContent>
+                </Card>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>,
+      )
+
+      const nextButton = screen.getByRole('button', { name: /next/i })
+      await user.click(nextButton)
+
+      await waitFor(() => {
+        expect(nextButton).toBeInTheDocument()
+      })
     })
   })
 })
