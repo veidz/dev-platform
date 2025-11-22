@@ -219,5 +219,18 @@ describe('Carousel', () => {
       const region = screen.getByRole('region')
       expect(region).toBeInTheDocument()
     })
+
+    it('should support vertical orientation', () => {
+      render(
+        <Carousel orientation="vertical">
+          <CarouselContent>
+            <CarouselItem>Slide 1</CarouselItem>
+          </CarouselContent>
+        </Carousel>,
+      )
+
+      const region = screen.getByRole('region')
+      expect(region).toBeInTheDocument()
+    })
   })
 })
