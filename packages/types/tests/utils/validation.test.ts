@@ -53,5 +53,18 @@ describe('Validation Utils', () => {
 
       expect(formatted).toBe('email: Email inválido')
     })
+
+    it('should format multiple errors', () => {
+      const errors = [
+        { field: 'email', message: 'Email inválido' },
+        { field: 'password', message: 'Senha é obrigatória' },
+      ]
+
+      const formatted = formatZodError(errors)
+
+      expect(formatted).toBe(
+        'email: Email inválido, password: Senha é obrigatória',
+      )
+    })
   })
 })
