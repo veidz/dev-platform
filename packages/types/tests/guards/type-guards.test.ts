@@ -257,5 +257,9 @@ describe('Type Guards', () => {
       expect(isNonNull(false)).toBe(true)
       expect(isNonNull(0)).toBe(true)
     })
+
+    it('should return false for null', () => {
+      expect(isNonNull(null)).toBe(false)
+    })
   })
 })
