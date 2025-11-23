@@ -29,5 +29,19 @@ describe('Validation Utils', () => {
       expect(result.errors).toBeDefined()
       expect(result.errors!.length).toBeGreaterThan(0)
     })
+
+    it('should format error fields correctly', () => {
+      const data = {
+        email: 'invalid',
+        password: '',
+      }
+
+      const result = validate(loginSchema, data)
+
+      expect(result.success).toBe(false)
+      expect(result.errors).toBeDefined()
+      expect(result.errors!.some((err) => err.field === 'email')).toBe(true)
+      expect(result.errors!.some((err) => err.field === 'password')).toBe(true)
+    })
   })
 })
