@@ -15,5 +15,19 @@ describe('Validation Utils', () => {
       expect(result.data).toEqual(data)
       expect(result.errors).toBeUndefined()
     })
+
+    it('should return errors for invalid data', () => {
+      const data = {
+        email: 'invalid-email',
+        password: '',
+      }
+
+      const result = validate(loginSchema, data)
+
+      expect(result.success).toBe(false)
+      expect(result.data).toBeUndefined()
+      expect(result.errors).toBeDefined()
+      expect(result.errors!.length).toBeGreaterThan(0)
+    })
   })
 })
