@@ -1,4 +1,4 @@
-import { loginSchema } from '@/schemas/auth.schemas'
+import { loginSchema, registerSchema } from '@/schemas/auth.schemas'
 
 describe('Auth Schemas', () => {
   describe('loginSchema', () => {
@@ -43,6 +43,19 @@ describe('Auth Schemas', () => {
       if (result.success) {
         expect(result.data.email).toBe('user@example.com')
       }
+    })
+  })
+
+  describe('registerSchema', () => {
+    it('should validate correct registration data', () => {
+      const data = {
+        email: 'user@example.com',
+        password: 'Password1',
+        name: 'John Doe',
+      }
+
+      const result = registerSchema.safeParse(data)
+      expect(result.success).toBe(true)
     })
   })
 })
