@@ -1,5 +1,5 @@
 import { loginSchema } from '@/schemas/auth.schemas'
-import { validate } from '@/utils/validation'
+import { formatZodError, validate } from '@/utils/validation'
 
 describe('Validation Utils', () => {
   describe('validate', () => {
@@ -42,6 +42,16 @@ describe('Validation Utils', () => {
       expect(result.errors).toBeDefined()
       expect(result.errors!.some((err) => err.field === 'email')).toBe(true)
       expect(result.errors!.some((err) => err.field === 'password')).toBe(true)
+    })
+  })
+
+  describe('formatZodError', () => {
+    it('should format single error', () => {
+      const errors = [{ field: 'email', message: 'Email inválido' }]
+
+      const formatted = formatZodError(errors)
+
+      expect(formatted).toBe('email: Email inválido')
     })
   })
 })
