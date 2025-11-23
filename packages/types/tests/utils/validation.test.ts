@@ -2,6 +2,7 @@ import { loginSchema } from '@/schemas/auth.schemas'
 import {
   formatZodError,
   validate,
+  validateOrThrow,
   ValidationException,
 } from '@/utils/validation'
 
@@ -82,6 +83,19 @@ describe('Validation Utils', () => {
       expect(exception.errors).toEqual(errors)
       expect(exception.message).toBe('email: Email inválido')
       expect(exception.code).toBe('VALIDATION_ERROR')
+    })
+  })
+
+  describe('validateOrThrow', () => {
+    it('should return data for valid input', () => {
+      const data = {
+        email: 'user@example.com',
+        password: 'password123',
+      }
+
+      const result = validateOrThrow(loginSchema, data)
+
+      expect(result).toEqual(data)
     })
   })
 })
