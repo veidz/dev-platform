@@ -2,6 +2,7 @@ import { ErrorCode } from '../../src/constants/errors'
 import {
   isApiError,
   isAuthError,
+  isOfType,
   isValidationError,
 } from '../../src/guards/type-guards'
 
@@ -177,6 +178,15 @@ describe('Type Guards', () => {
 
     it('should return false for object without code', () => {
       expect(isValidationError({ message: 'test' })).toBe(false)
+    })
+  })
+
+  describe('isOfType', () => {
+    it('should return type guard function', () => {
+      const isString = isOfType<string>((val) => typeof val === 'string')
+
+      expect(isString('test')).toBe(true)
+      expect(isString(123)).toBe(false)
     })
   })
 })
