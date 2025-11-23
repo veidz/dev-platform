@@ -217,5 +217,11 @@ describe('Type Guards', () => {
       expect(hasProperty(obj, 'name')).toBe(true)
       expect(hasProperty(obj, 'age')).toBe(true)
     })
+
+    it('should return false when property does not exist', () => {
+      const obj = { name: 'John' }
+
+      expect(hasProperty(obj, 'age')).toBe(false)
+    })
   })
 })
