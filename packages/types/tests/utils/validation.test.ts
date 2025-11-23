@@ -108,5 +108,22 @@ describe('Validation Utils', () => {
         ValidationException,
       )
     })
+
+    it('should throw with correct error details', () => {
+      const data = {
+        email: 'invalid',
+        password: '',
+      }
+
+      try {
+        validateOrThrow(loginSchema, data)
+        fail('Should have thrown')
+      } catch (error) {
+        expect(error).toBeInstanceOf(ValidationException)
+        const err = error as ValidationException
+        expect(err.errors.length).toBeGreaterThan(0)
+        expect(err.code).toBe('VALIDATION_ERROR')
+      }
+    })
   })
 })
