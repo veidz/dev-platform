@@ -188,5 +188,24 @@ describe('Type Guards', () => {
       expect(isString('test')).toBe(true)
       expect(isString(123)).toBe(false)
     })
+
+    it('should work with complex predicates', () => {
+      interface User {
+        name: string
+        age: number
+      }
+
+      const isUser = isOfType<User>(
+        (val) =>
+          typeof val === 'object' &&
+          val !== null &&
+          'name' in val &&
+          'age' in val,
+      )
+
+      expect(isUser({ name: 'John', age: 30 })).toBe(true)
+      expect(isUser({ name: 'John' })).toBe(false)
+      expect(isUser(null)).toBe(false)
+    })
   })
 })
