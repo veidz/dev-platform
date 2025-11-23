@@ -169,5 +169,10 @@ describe('Type Guards', () => {
     it('should return false for null', () => {
       expect(isValidationError(null)).toBe(false)
     })
+
+    it('should return false for non-object', () => {
+      expect(isValidationError('string')).toBe(false)
+      expect(isValidationError(123)).toBe(false)
+    })
   })
 })
