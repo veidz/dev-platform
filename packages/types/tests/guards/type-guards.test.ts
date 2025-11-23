@@ -3,6 +3,7 @@ import {
   hasProperty,
   isApiError,
   isAuthError,
+  isNonNull,
   isOfType,
   isValidationError,
 } from '../../src/guards/type-guards'
@@ -244,6 +245,17 @@ describe('Type Guards', () => {
       if (hasProperty(obj, 'nested')) {
         expect(obj.nested).toEqual({ value: 42 })
       }
+    })
+  })
+
+  describe('isNonNull', () => {
+    it('should return true for non-null values', () => {
+      expect(isNonNull('string')).toBe(true)
+      expect(isNonNull(123)).toBe(true)
+      expect(isNonNull({})).toBe(true)
+      expect(isNonNull([])).toBe(true)
+      expect(isNonNull(false)).toBe(true)
+      expect(isNonNull(0)).toBe(true)
     })
   })
 })
