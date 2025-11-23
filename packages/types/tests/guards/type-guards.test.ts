@@ -223,5 +223,9 @@ describe('Type Guards', () => {
 
       expect(hasProperty(obj, 'age')).toBe(false)
     })
+
+    it('should return false for null', () => {
+      expect(hasProperty(null, 'prop')).toBe(false)
+    })
   })
 })
