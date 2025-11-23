@@ -102,5 +102,11 @@ describe('Response Utils', () => {
 
       expect(isErrorResponse(response)).toBe(true)
     })
+
+    it('should return false for success response', () => {
+      const response = success({ id: '123' })
+
+      expect(isErrorResponse(response)).toBe(false)
+    })
   })
 })
