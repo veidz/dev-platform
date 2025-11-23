@@ -79,5 +79,16 @@ describe('Auth Schemas', () => {
       const result = registerSchema.safeParse(data)
       expect(result.success).toBe(false)
     })
+
+    it('should reject weak password (no number)', () => {
+      const data = {
+        email: 'user@example.com',
+        password: 'Password',
+        name: 'John Doe',
+      }
+
+      const result = registerSchema.safeParse(data)
+      expect(result.success).toBe(false)
+    })
   })
 })
