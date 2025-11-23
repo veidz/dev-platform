@@ -2,6 +2,7 @@ import { ErrorCode } from '@/constants/errors'
 import {
   createErrorResponse,
   error,
+  isErrorResponse,
   isSuccessResponse,
   success,
 } from '@/utils/response'
@@ -92,6 +93,14 @@ describe('Response Utils', () => {
       const response = error(ErrorCode.NOT_FOUND, 'Not found')
 
       expect(isSuccessResponse(response)).toBe(false)
+    })
+  })
+
+  describe('isErrorResponse', () => {
+    it('should return true for error response', () => {
+      const response = error(ErrorCode.NOT_FOUND, 'Not found')
+
+      expect(isErrorResponse(response)).toBe(true)
     })
   })
 })
