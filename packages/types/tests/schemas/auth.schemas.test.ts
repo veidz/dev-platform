@@ -11,5 +11,15 @@ describe('Auth Schemas', () => {
       const result = loginSchema.safeParse(data)
       expect(result.success).toBe(true)
     })
+
+    it('should reject invalid email', () => {
+      const data = {
+        email: 'invalid-email',
+        password: 'password123',
+      }
+
+      const result = loginSchema.safeParse(data)
+      expect(result.success).toBe(false)
+    })
   })
 })
