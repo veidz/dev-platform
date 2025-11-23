@@ -37,5 +37,18 @@ describe('Response Utils', () => {
       expect(response.error!.message).toBe(message)
       expect(response.timestamp).toBeInstanceOf(Date)
     })
+
+    it('should include details when provided', () => {
+      const details = { field: 'email', reason: 'invalid format' }
+
+      const response = error(
+        ErrorCode.VALIDATION_ERROR,
+        'Validation failed',
+        details,
+      )
+
+      expect(response.success).toBe(false)
+      expect(response.error!.details).toEqual(details)
+    })
   })
 })
