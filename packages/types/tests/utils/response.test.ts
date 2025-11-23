@@ -1,5 +1,5 @@
 import { ErrorCode } from '@/constants/errors'
-import { error, success } from '@/utils/response'
+import { createErrorResponse, error, success } from '@/utils/response'
 
 describe('Response Utils', () => {
   describe('success', () => {
@@ -49,6 +49,18 @@ describe('Response Utils', () => {
 
       expect(response.success).toBe(false)
       expect(response.error!.details).toEqual(details)
+    })
+  })
+
+  describe('createErrorResponse', () => {
+    it('should create error response object', () => {
+      const code = ErrorCode.UNAUTHORIZED
+      const message = 'Not authorized'
+
+      const errorResponse = createErrorResponse(code, message)
+
+      expect(errorResponse.code).toBe(code)
+      expect(errorResponse.message).toBe(message)
     })
   })
 })
