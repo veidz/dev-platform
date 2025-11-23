@@ -199,5 +199,15 @@ describe('Auth Schemas', () => {
       const result = changePasswordSchema.safeParse(data)
       expect(result.success).toBe(false)
     })
+
+    it('should reject weak new password', () => {
+      const data = {
+        currentPassword: 'OldPassword1',
+        newPassword: 'weak',
+      }
+
+      const result = changePasswordSchema.safeParse(data)
+      expect(result.success).toBe(false)
+    })
   })
 })
