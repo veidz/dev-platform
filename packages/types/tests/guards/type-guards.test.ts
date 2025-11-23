@@ -236,5 +236,14 @@ describe('Type Guards', () => {
       expect(hasProperty('string', 'length')).toBe(false)
       expect(hasProperty(123, 'prop')).toBe(false)
     })
+
+    it('should work with objects having the property', () => {
+      const obj = { nested: { value: 42 } }
+
+      expect(hasProperty(obj, 'nested')).toBe(true)
+      if (hasProperty(obj, 'nested')) {
+        expect(obj.nested).toEqual({ value: 42 })
+      }
+    })
   })
 })
