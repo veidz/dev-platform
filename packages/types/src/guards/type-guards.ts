@@ -42,10 +42,10 @@ const isOfType =
   }
 
 const hasProperty = <K extends PropertyKey>(
-  obj: unknown,
+  object: unknown,
   key: K,
-): obj is Record<K, unknown> => {
-  return typeof obj === 'object' && obj !== null && key in obj
+): object is Record<K, unknown> => {
+  return typeof object === 'object' && object !== null && key in object
 }
 
 const isNonNull = <T>(value: T | null | undefined): value is T => {

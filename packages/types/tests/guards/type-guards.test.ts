@@ -185,7 +185,7 @@ describe('Type Guards', () => {
 
   describe('isOfType', () => {
     it('should return type guard function', () => {
-      const isString = isOfType<string>((val) => typeof val === 'string')
+      const isString = isOfType<string>((value) => typeof value === 'string')
 
       expect(isString('test')).toBe(true)
       expect(isString(123)).toBe(false)
@@ -198,11 +198,11 @@ describe('Type Guards', () => {
       }
 
       const isUser = isOfType<User>(
-        (val) =>
-          typeof val === 'object' &&
-          val !== null &&
-          'name' in val &&
-          'age' in val,
+        (value) =>
+          typeof value === 'object' &&
+          value !== null &&
+          'name' in value &&
+          'age' in value,
       )
 
       expect(isUser({ name: 'John', age: 30 })).toBe(true)
@@ -213,16 +213,16 @@ describe('Type Guards', () => {
 
   describe('hasProperty', () => {
     it('should return true when property exists', () => {
-      const obj = { name: 'John', age: 30 }
+      const object = { name: 'John', age: 30 }
 
-      expect(hasProperty(obj, 'name')).toBe(true)
-      expect(hasProperty(obj, 'age')).toBe(true)
+      expect(hasProperty(object, 'name')).toBe(true)
+      expect(hasProperty(object, 'age')).toBe(true)
     })
 
     it('should return false when property does not exist', () => {
-      const obj = { name: 'John' }
+      const object = { name: 'John' }
 
-      expect(hasProperty(obj, 'age')).toBe(false)
+      expect(hasProperty(object, 'age')).toBe(false)
     })
 
     it('should return false for null', () => {
@@ -239,11 +239,11 @@ describe('Type Guards', () => {
     })
 
     it('should work with objects having the property', () => {
-      const obj = { nested: { value: 42 } }
+      const object = { nested: { value: 42 } }
 
-      expect(hasProperty(obj, 'nested')).toBe(true)
-      if (hasProperty(obj, 'nested')) {
-        expect(obj.nested).toEqual({ value: 42 })
+      expect(hasProperty(object, 'nested')).toBe(true)
+      if (hasProperty(object, 'nested')) {
+        expect(object.nested).toEqual({ value: 42 })
       }
     })
   })

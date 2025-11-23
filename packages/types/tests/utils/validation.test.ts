@@ -45,8 +45,10 @@ describe('Validation Utils', () => {
 
       expect(result.success).toBe(false)
       expect(result.errors).toBeDefined()
-      expect(result.errors!.some((err) => err.field === 'email')).toBe(true)
-      expect(result.errors!.some((err) => err.field === 'password')).toBe(true)
+      expect(result.errors!.some((error) => error.field === 'email')).toBe(true)
+      expect(result.errors!.some((error) => error.field === 'password')).toBe(
+        true,
+      )
     })
   })
 
@@ -120,9 +122,9 @@ describe('Validation Utils', () => {
         fail('Should have thrown')
       } catch (error) {
         expect(error).toBeInstanceOf(ValidationException)
-        const err = error as ValidationException
-        expect(err.errors.length).toBeGreaterThan(0)
-        expect(err.code).toBe('VALIDATION_ERROR')
+        const validationError = error as ValidationException
+        expect(validationError.errors.length).toBeGreaterThan(0)
+        expect(validationError.code).toBe('VALIDATION_ERROR')
       }
     })
   })

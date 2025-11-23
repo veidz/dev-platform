@@ -36,7 +36,7 @@ const validate = <T>(
 }
 
 const formatZodError = (errors: ValidationError[]): string => {
-  return errors.map((err) => `${err.field}: ${err.message}`).join(', ')
+  return errors.map((error) => `${error.field}: ${error.message}`).join(', ')
 }
 
 class ValidationException extends Error {
