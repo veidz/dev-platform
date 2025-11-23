@@ -136,5 +136,12 @@ describe('Auth Schemas', () => {
       const result = forgotPasswordSchema.safeParse(data)
       expect(result.success).toBe(true)
     })
+
+    it('should reject invalid email', () => {
+      const data = { email: 'invalid' }
+
+      const result = forgotPasswordSchema.safeParse(data)
+      expect(result.success).toBe(false)
+    })
   })
 })
