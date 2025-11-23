@@ -156,5 +156,15 @@ describe('Auth Schemas', () => {
       const result = resetPasswordSchema.safeParse(data)
       expect(result.success).toBe(true)
     })
+
+    it('should reject empty token', () => {
+      const data = {
+        token: '',
+        password: 'NewPassword1',
+      }
+
+      const result = resetPasswordSchema.safeParse(data)
+      expect(result.success).toBe(false)
+    })
   })
 })
