@@ -189,5 +189,15 @@ describe('Auth Schemas', () => {
       const result = changePasswordSchema.safeParse(data)
       expect(result.success).toBe(true)
     })
+
+    it('should reject empty current password', () => {
+      const data = {
+        currentPassword: '',
+        newPassword: 'NewPassword1',
+      }
+
+      const result = changePasswordSchema.safeParse(data)
+      expect(result.success).toBe(false)
+    })
   })
 })
