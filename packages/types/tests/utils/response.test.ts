@@ -62,5 +62,17 @@ describe('Response Utils', () => {
       expect(errorResponse.code).toBe(code)
       expect(errorResponse.message).toBe(message)
     })
+
+    it('should include details when provided', () => {
+      const details = { userId: '123' }
+
+      const errorResponse = createErrorResponse(
+        ErrorCode.FORBIDDEN,
+        'Access denied',
+        details,
+      )
+
+      expect(errorResponse.details).toEqual(details)
+    })
   })
 })
