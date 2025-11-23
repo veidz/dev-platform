@@ -231,5 +231,10 @@ describe('Type Guards', () => {
     it('should return false for undefined', () => {
       expect(hasProperty(undefined, 'prop')).toBe(false)
     })
+
+    it('should return false for non-object', () => {
+      expect(hasProperty('string', 'length')).toBe(false)
+      expect(hasProperty(123, 'prop')).toBe(false)
+    })
   })
 })
