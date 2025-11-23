@@ -31,5 +31,18 @@ describe('Auth Schemas', () => {
       const result = loginSchema.safeParse(data)
       expect(result.success).toBe(false)
     })
+
+    it('should convert email to lowercase', () => {
+      const data = {
+        email: 'USER@EXAMPLE.COM',
+        password: 'password123',
+      }
+
+      const result = loginSchema.safeParse(data)
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data.email).toBe('user@example.com')
+      }
+    })
   })
 })
