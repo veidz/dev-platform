@@ -87,5 +87,11 @@ describe('Response Utils', () => {
 
       expect(isSuccessResponse(response)).toBe(true)
     })
+
+    it('should return false for error response', () => {
+      const response = error(ErrorCode.NOT_FOUND, 'Not found')
+
+      expect(isSuccessResponse(response)).toBe(false)
+    })
   })
 })
