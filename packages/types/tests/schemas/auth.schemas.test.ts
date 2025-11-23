@@ -1,4 +1,5 @@
 import {
+  changePasswordSchema,
   forgotPasswordSchema,
   loginSchema,
   registerSchema,
@@ -175,6 +176,18 @@ describe('Auth Schemas', () => {
 
       const result = resetPasswordSchema.safeParse(data)
       expect(result.success).toBe(false)
+    })
+  })
+
+  describe('changePasswordSchema', () => {
+    it('should validate correct data', () => {
+      const data = {
+        currentPassword: 'OldPassword1',
+        newPassword: 'NewPassword1',
+      }
+
+      const result = changePasswordSchema.safeParse(data)
+      expect(result.success).toBe(true)
     })
   })
 })
