@@ -112,5 +112,16 @@ describe('Auth Schemas', () => {
       const result = registerSchema.safeParse(data)
       expect(result.success).toBe(false)
     })
+
+    it('should reject long name', () => {
+      const data = {
+        email: 'user@example.com',
+        password: 'Password1',
+        name: 'A'.repeat(101),
+      }
+
+      const result = registerSchema.safeParse(data)
+      expect(result.success).toBe(false)
+    })
   })
 })
