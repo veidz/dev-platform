@@ -97,5 +97,16 @@ describe('Validation Utils', () => {
 
       expect(result).toEqual(data)
     })
+
+    it('should throw ValidationException for invalid input', () => {
+      const data = {
+        email: 'invalid',
+        password: '',
+      }
+
+      expect(() => validateOrThrow(loginSchema, data)).toThrow(
+        ValidationException,
+      )
+    })
   })
 })
