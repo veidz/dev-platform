@@ -1,5 +1,10 @@
 import { ErrorCode } from '@/constants/errors'
-import { createErrorResponse, error, success } from '@/utils/response'
+import {
+  createErrorResponse,
+  error,
+  isSuccessResponse,
+  success,
+} from '@/utils/response'
 
 describe('Response Utils', () => {
   describe('success', () => {
@@ -73,6 +78,14 @@ describe('Response Utils', () => {
       )
 
       expect(errorResponse.details).toEqual(details)
+    })
+  })
+
+  describe('isSuccessResponse', () => {
+    it('should return true for success response', () => {
+      const response = success({ id: '123' })
+
+      expect(isSuccessResponse(response)).toBe(true)
     })
   })
 })
