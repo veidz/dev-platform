@@ -11,5 +11,15 @@ describe('Response Utils', () => {
       expect(response.data).toEqual(data)
       expect(response.timestamp).toBeInstanceOf(Date)
     })
+
+    it('should include message when provided', () => {
+      const data = { id: '123' }
+      const message = 'Success message'
+
+      const response = success(data, message)
+
+      expect(response.success).toBe(true)
+      expect(response).toHaveProperty('message', message)
+    })
   })
 })
