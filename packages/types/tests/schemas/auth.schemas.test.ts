@@ -1,4 +1,8 @@
-import { loginSchema, registerSchema } from '@/schemas/auth.schemas'
+import {
+  forgotPasswordSchema,
+  loginSchema,
+  registerSchema,
+} from '@/schemas/auth.schemas'
 
 describe('Auth Schemas', () => {
   describe('loginSchema', () => {
@@ -122,6 +126,15 @@ describe('Auth Schemas', () => {
 
       const result = registerSchema.safeParse(data)
       expect(result.success).toBe(false)
+    })
+  })
+
+  describe('forgotPasswordSchema', () => {
+    it('should validate correct email', () => {
+      const data = { email: 'user@example.com' }
+
+      const result = forgotPasswordSchema.safeParse(data)
+      expect(result.success).toBe(true)
     })
   })
 })
