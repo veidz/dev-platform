@@ -1,4 +1,4 @@
-import { ErrorCode } from '../../src/constants/errors'
+import { ErrorCode } from '@/constants/errors'
 import {
   hasProperty,
   isApiError,
@@ -6,7 +6,7 @@ import {
   isNonNull,
   isOfType,
   isValidationError,
-} from '../../src/guards/type-guards'
+} from '@/guards/type-guards'
 
 describe('Type Guards', () => {
   describe('isApiError', () => {
