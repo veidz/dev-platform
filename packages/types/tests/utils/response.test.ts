@@ -1,4 +1,5 @@
-import { success } from '@/utils/response'
+import { ErrorCode } from '@/constants/errors'
+import { error, success } from '@/utils/response'
 
 describe('Response Utils', () => {
   describe('success', () => {
@@ -20,6 +21,21 @@ describe('Response Utils', () => {
 
       expect(response.success).toBe(true)
       expect(response).toHaveProperty('message', message)
+    })
+  })
+
+  describe('error', () => {
+    it('should create error response with code and message', () => {
+      const code = ErrorCode.NOT_FOUND
+      const message = 'Resource not found'
+
+      const response = error(code, message)
+
+      expect(response.success).toBe(false)
+      expect(response.error).toBeDefined()
+      expect(response.error!.code).toBe(code)
+      expect(response.error!.message).toBe(message)
+      expect(response.timestamp).toBeInstanceOf(Date)
     })
   })
 })
