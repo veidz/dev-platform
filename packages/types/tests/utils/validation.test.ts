@@ -1,5 +1,9 @@
 import { loginSchema } from '@/schemas/auth.schemas'
-import { formatZodError, validate } from '@/utils/validation'
+import {
+  formatZodError,
+  validate,
+  ValidationException,
+} from '@/utils/validation'
 
 describe('Validation Utils', () => {
   describe('validate', () => {
@@ -65,6 +69,19 @@ describe('Validation Utils', () => {
       expect(formatted).toBe(
         'email: Email inválido, password: Senha é obrigatória',
       )
+    })
+  })
+
+  describe('ValidationException', () => {
+    it('should create exception with errors', () => {
+      const errors = [{ field: 'email', message: 'Email inválido' }]
+
+      const exception = new ValidationException(errors)
+
+      expect(exception.name).toBe('ValidationException')
+      expect(exception.errors).toEqual(errors)
+      expect(exception.message).toBe('email: Email inválido')
+      expect(exception.code).toBe('VALIDATION_ERROR')
     })
   })
 })
