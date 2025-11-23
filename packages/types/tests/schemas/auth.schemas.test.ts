@@ -2,6 +2,7 @@ import {
   forgotPasswordSchema,
   loginSchema,
   registerSchema,
+  resetPasswordSchema,
 } from '@/schemas/auth.schemas'
 
 describe('Auth Schemas', () => {
@@ -142,6 +143,18 @@ describe('Auth Schemas', () => {
 
       const result = forgotPasswordSchema.safeParse(data)
       expect(result.success).toBe(false)
+    })
+  })
+
+  describe('resetPasswordSchema', () => {
+    it('should validate correct data', () => {
+      const data = {
+        token: 'valid-token-123',
+        password: 'NewPassword1',
+      }
+
+      const result = resetPasswordSchema.safeParse(data)
+      expect(result.success).toBe(true)
     })
   })
 })
