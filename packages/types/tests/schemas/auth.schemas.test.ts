@@ -166,5 +166,15 @@ describe('Auth Schemas', () => {
       const result = resetPasswordSchema.safeParse(data)
       expect(result.success).toBe(false)
     })
+
+    it('should reject weak password', () => {
+      const data = {
+        token: 'valid-token-123',
+        password: 'weak',
+      }
+
+      const result = resetPasswordSchema.safeParse(data)
+      expect(result.success).toBe(false)
+    })
   })
 })
