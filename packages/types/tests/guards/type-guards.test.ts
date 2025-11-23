@@ -1,5 +1,6 @@
 import { ErrorCode } from '../../src/constants/errors'
 import {
+  hasProperty,
   isApiError,
   isAuthError,
   isOfType,
@@ -206,6 +207,15 @@ describe('Type Guards', () => {
       expect(isUser({ name: 'John', age: 30 })).toBe(true)
       expect(isUser({ name: 'John' })).toBe(false)
       expect(isUser(null)).toBe(false)
+    })
+  })
+
+  describe('hasProperty', () => {
+    it('should return true when property exists', () => {
+      const obj = { name: 'John', age: 30 }
+
+      expect(hasProperty(obj, 'name')).toBe(true)
+      expect(hasProperty(obj, 'age')).toBe(true)
     })
   })
 })
