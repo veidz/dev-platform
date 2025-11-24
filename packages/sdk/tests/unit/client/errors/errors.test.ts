@@ -346,5 +346,18 @@ describe('errors', () => {
 
       expect(result).toBeInstanceOf(ServerError)
     })
+
+    it('should parse HTTPError with 418 status', async () => {
+      const response = new Response(
+        JSON.stringify({ message: 'Unknown error' }),
+        { status: 418 },
+      )
+      const httpError = createHTTPError(response)
+      const result = await parseErrorResponse(httpError)
+
+      expect(result).toBeInstanceOf(SDKError)
+      expect(result.message).toBe('Unknown error')
+      expect(result.statusCode).toBe(418)
+    })
   })
 })
