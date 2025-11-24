@@ -7,6 +7,7 @@ import {
   NetworkError,
   NotFoundError,
   RateLimitError,
+  RequestTimeoutError,
   SDKError,
   ServerError,
   ValidationError,
@@ -186,6 +187,17 @@ describe('errors', () => {
       const error = new NetworkError('Connection lost')
 
       expect(error.message).toBe('Connection lost')
+    })
+  })
+
+  describe('RequestTimeoutError', () => {
+    it('should create RequestTimeoutError with default message', () => {
+      const error = new RequestTimeoutError()
+
+      expect(error).toBeInstanceOf(SDKError)
+      expect(error.message).toBe('Request timeout')
+      expect(error.statusCode).toBe(408)
+      expect(error.name).toBe('RequestTimeoutError')
     })
   })
 })
