@@ -4,6 +4,7 @@ import { HTTPError, NormalizedOptions } from 'ky'
 import {
   AuthenticationError,
   AuthorizationError,
+  NotFoundError,
   SDKError,
 } from '@/client/errors'
 
@@ -81,6 +82,17 @@ describe('errors', () => {
       const error = new AuthorizationError('No permission')
 
       expect(error.message).toBe('No permission')
+    })
+  })
+
+  describe('NotFoundError', () => {
+    it('should create NotFoundError with default message', () => {
+      const error = new NotFoundError()
+
+      expect(error).toBeInstanceOf(SDKError)
+      expect(error.message).toBe('Resource not found')
+      expect(error.statusCode).toBe(404)
+      expect(error.name).toBe('NotFoundError')
     })
   })
 })
