@@ -229,5 +229,16 @@ describe('errors', () => {
       expect(result).toBeInstanceOf(AuthenticationError)
       expect(result.message).toBe('Invalid credentials')
     })
+
+    it('should parse HTTPError with 403 status', async () => {
+      const response = new Response(JSON.stringify({ error: 'Forbidden' }), {
+        status: 403,
+      })
+      const httpError = createHTTPError(response)
+      const result = await parseErrorResponse(httpError)
+
+      expect(result).toBeInstanceOf(AuthorizationError)
+      expect(result.message).toBe('Forbidden')
+    })
   })
 })
