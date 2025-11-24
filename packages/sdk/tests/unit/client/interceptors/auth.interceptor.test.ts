@@ -31,5 +31,17 @@ describe('interceptors', () => {
         'Bearer access-token-123',
       )
     })
+
+    it('should not add Authorization header when no access token', async () => {
+      const mockRequest = new Request('http://test.com')
+      jest.spyOn(tokenStorage, 'getAccessToken').mockResolvedValue(null)
+
+      const interceptor = createAuthInterceptor(options)
+      await interceptor(mockRequest, mockDeep<NormalizedOptions>(), {
+        retryCount: 0,
+      })
+
+      expect(mockRequest.headers.get('Authorization')).toBeNull()
+    })
   })
 })
