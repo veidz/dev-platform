@@ -381,5 +381,14 @@ describe('errors', () => {
       expect(result.message).toBe('Network failure')
       expect(result.originalError).toBe(genericError)
     })
+
+    it('should parse unknown error type', async () => {
+      const unknownError = { some: 'object' }
+      const result = await parseErrorResponse(unknownError)
+
+      expect(result).toBeInstanceOf(SDKError)
+      expect(result.message).toBe('An unknown error occurred')
+      expect(result.originalError).toBe(unknownError)
+    })
   })
 })
