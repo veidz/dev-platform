@@ -267,5 +267,21 @@ describe('errors', () => {
       expect(result.message).toBe('Validation failed')
       expect((result as ValidationError).errors).toEqual({ email: ['Invalid'] })
     })
+
+    it('should parse HTTPError with 429 status and Retry-After header', async () => {
+      const response = new Response(
+        JSON.stringify({ message: 'Too many requests' }),
+        {
+          status: 429,
+          headers: { 'Retry-After': '120' },
+        },
+      )
+      const httpError = createHTTPError(response)
+      const result = await parseErrorResponse(httpError)
+
+      expect(result).toBeInstanceOf(RateLimitError)
+      expect(result.message).toBe('Too many requests')
+      expect((result as RateLimitError).retryAfter).toBe(120)
+    })
   })
 })
