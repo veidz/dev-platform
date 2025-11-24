@@ -335,5 +335,16 @@ describe('errors', () => {
 
       expect(result).toBeInstanceOf(ServerError)
     })
+
+    it('should parse HTTPError with 504 status', async () => {
+      const response = new Response(
+        JSON.stringify({ message: 'Gateway timeout' }),
+        { status: 504 },
+      )
+      const httpError = createHTTPError(response)
+      const result = await parseErrorResponse(httpError)
+
+      expect(result).toBeInstanceOf(ServerError)
+    })
   })
 })
