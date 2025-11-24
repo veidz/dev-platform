@@ -6,6 +6,7 @@ import {
   AuthorizationError,
   NotFoundError,
   SDKError,
+  ValidationError,
 } from '@/client/errors'
 
 const createHTTPError = (response: Response) => {
@@ -99,6 +100,17 @@ describe('errors', () => {
       const error = new NotFoundError('User not found')
 
       expect(error.message).toBe('User not found')
+    })
+  })
+
+  describe('ValidationError', () => {
+    it('should create ValidationError with default message', () => {
+      const error = new ValidationError()
+
+      expect(error).toBeInstanceOf(SDKError)
+      expect(error.message).toBe('Validation failed')
+      expect(error.statusCode).toBe(422)
+      expect(error.name).toBe('ValidationError')
     })
   })
 })
