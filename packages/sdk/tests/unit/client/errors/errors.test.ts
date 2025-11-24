@@ -181,5 +181,11 @@ describe('errors', () => {
       expect(error.statusCode).toBeUndefined()
       expect(error.name).toBe('NetworkError')
     })
+
+    it('should create NetworkError with custom message', () => {
+      const error = new NetworkError('Connection lost')
+
+      expect(error.message).toBe('Connection lost')
+    })
   })
 })
