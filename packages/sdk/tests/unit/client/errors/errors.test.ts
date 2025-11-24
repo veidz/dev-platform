@@ -324,5 +324,16 @@ describe('errors', () => {
 
       expect(result).toBeInstanceOf(ServerError)
     })
+
+    it('should parse HTTPError with 503 status', async () => {
+      const response = new Response(
+        JSON.stringify({ message: 'Service unavailable' }),
+        { status: 503 },
+      )
+      const httpError = createHTTPError(response)
+      const result = await parseErrorResponse(httpError)
+
+      expect(result).toBeInstanceOf(ServerError)
+    })
   })
 })
