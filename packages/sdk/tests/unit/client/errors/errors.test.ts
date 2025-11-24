@@ -22,5 +22,12 @@ describe('errors', () => {
       expect(error.statusCode).toBe(400)
       expect(error.name).toBe('SDKError')
     })
+
+    it('should create SDKError without status code', () => {
+      const error = new SDKError('Test error')
+
+      expect(error.statusCode).toBeUndefined()
+      expect(error.originalError).toBeUndefined()
+    })
   })
 })
