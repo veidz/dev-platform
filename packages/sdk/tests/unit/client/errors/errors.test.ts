@@ -283,5 +283,19 @@ describe('errors', () => {
       expect(result.message).toBe('Too many requests')
       expect((result as RateLimitError).retryAfter).toBe(120)
     })
+
+    it('should parse HTTPError with 429 status without Retry-After header', async () => {
+      const response = new Response(
+        JSON.stringify({ message: 'Rate limited' }),
+        {
+          status: 429,
+        },
+      )
+      const httpError = createHTTPError(response)
+      const result = await parseErrorResponse(httpError)
+
+      expect(result).toBeInstanceOf(RateLimitError)
+      expect((result as RateLimitError).retryAfter).toBeUndefined()
+    })
   })
 })
