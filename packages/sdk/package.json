@@ -6,12 +6,19 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsup",
+    "dev": "tsup --watch",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "eslint src",
     "test": "echo 'no tests yet'"
   },
   "devDependencies": {
+    "@types/node": "^24.10.1",
+    "tsup": "^8.3.5",
     "typescript": "5.9.3"
+  },
+  "dependencies": {
+    "@dev-platform/types": "workspace:*",
+    "ky": "^1.14.0"
   }
 }
