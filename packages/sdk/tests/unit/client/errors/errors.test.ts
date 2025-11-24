@@ -372,5 +372,14 @@ describe('errors', () => {
       expect(result.message).toBe('Bad Request')
       expect(result.statusCode).toBe(400)
     })
+
+    it('should parse generic Error', async () => {
+      const genericError = new Error('Network failure')
+      const result = await parseErrorResponse(genericError)
+
+      expect(result).toBeInstanceOf(NetworkError)
+      expect(result.message).toBe('Network failure')
+      expect(result.originalError).toBe(genericError)
+    })
   })
 })
