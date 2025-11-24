@@ -29,5 +29,12 @@ describe('errors', () => {
       expect(error.statusCode).toBeUndefined()
       expect(error.originalError).toBeUndefined()
     })
+
+    it('should store original error', () => {
+      const originalError = new Error('Original')
+      const error = new SDKError('Wrapped', 500, originalError)
+
+      expect(error.originalError).toBe(originalError)
+    })
   })
 })
