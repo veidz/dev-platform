@@ -124,5 +124,21 @@ describe('interceptors', () => {
       expect(tokenStorage.setAccessToken).toHaveBeenCalledWith('new-access')
       expect(tokenStorage.setRefreshToken).toHaveBeenCalledWith('new-refresh')
     })
+
+    it('should clear tokens and call onAuthError on refresh failure', async () => {
+      const refreshError = new Error('Refresh failed')
+      const onTokenRefresh =
+        jest.fn<() => Promise<{ accessToken: string; refreshToken: string }>>()
+      onTokenRefresh.mockRejectedValue(refreshError)
+      const onAuthError = jest.fn<(error: HTTPError) => Promise<void>>()
+      options.onTokenRefresh = onTokenRefresh
+      options.onAuthError = onAuthError
+
+      const interceptor = createTokenRefreshInterceptor(options)
+
+      await expect(interceptor(mockHttpError)).rejects.toThrow(refreshError)
+      expect(tokenStorage.clearTokens).toHaveBeenCalled()
+      expect(onAuthError).toHaveBeenCalledWith(mockHttpError)
+    })
   })
 })
