@@ -4,6 +4,7 @@ import { HTTPError, NormalizedOptions } from 'ky'
 import {
   AuthenticationError,
   AuthorizationError,
+  NetworkError,
   NotFoundError,
   RateLimitError,
   SDKError,
@@ -168,6 +169,17 @@ describe('errors', () => {
       const error = new ServerError('Database error')
 
       expect(error.message).toBe('Database error')
+    })
+  })
+
+  describe('NetworkError', () => {
+    it('should create NetworkError with default message', () => {
+      const error = new NetworkError()
+
+      expect(error).toBeInstanceOf(SDKError)
+      expect(error.message).toBe('Network error')
+      expect(error.statusCode).toBeUndefined()
+      expect(error.name).toBe('NetworkError')
     })
   })
 })
