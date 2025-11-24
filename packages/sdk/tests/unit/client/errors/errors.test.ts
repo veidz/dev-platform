@@ -47,5 +47,12 @@ describe('errors', () => {
       expect(error.statusCode).toBe(401)
       expect(error.name).toBe('AuthenticationError')
     })
+
+    it('should create AuthenticationError with custom message', () => {
+      const error = new AuthenticationError('Invalid token')
+
+      expect(error.message).toBe('Invalid token')
+      expect(error.statusCode).toBe(401)
+    })
   })
 })
