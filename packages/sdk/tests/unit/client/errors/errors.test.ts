@@ -199,5 +199,11 @@ describe('errors', () => {
       expect(error.statusCode).toBe(408)
       expect(error.name).toBe('RequestTimeoutError')
     })
+
+    it('should create RequestTimeoutError with custom message', () => {
+      const error = new RequestTimeoutError('Request took too long')
+
+      expect(error.message).toBe('Request took too long')
+    })
   })
 })
