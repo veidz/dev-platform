@@ -91,5 +91,15 @@ describe('interceptors', () => {
 
       await expect(interceptor(error403)).rejects.toThrow(error403)
     })
+
+    it('should throw error if onTokenRefresh is not provided', async () => {
+      const onAuthError = jest.fn<(error: HTTPError) => Promise<void>>()
+      options.onAuthError = onAuthError
+
+      const interceptor = createTokenRefreshInterceptor(options)
+
+      await expect(interceptor(mockHttpError)).rejects.toThrow(mockHttpError)
+      expect(onAuthError).toHaveBeenCalledWith(mockHttpError)
+    })
   })
 })
