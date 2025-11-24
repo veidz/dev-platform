@@ -169,5 +169,23 @@ describe('interceptors', () => {
 
       expect(onTokenRefresh).toHaveBeenCalledTimes(1)
     })
+
+    it('should allow refresh after previous refresh completed', async () => {
+      const onTokenRefresh =
+        jest.fn<() => Promise<{ accessToken: string; refreshToken: string }>>()
+      onTokenRefresh.mockResolvedValue({
+        accessToken: 'new-access',
+        refreshToken: 'new-refresh',
+      })
+      options.onTokenRefresh = onTokenRefresh
+
+      const interceptor = createTokenRefreshInterceptor(options)
+
+      await interceptor(mockHttpError)
+      expect(onTokenRefresh).toHaveBeenCalledTimes(1)
+
+      await interceptor(mockHttpError)
+      expect(onTokenRefresh).toHaveBeenCalledTimes(2)
+    })
   })
 })
