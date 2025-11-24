@@ -1,8 +1,11 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals'
 import { mockDeep } from 'jest-mock-extended'
-import { type NormalizedOptions } from 'ky'
+import { HTTPError, type NormalizedOptions } from 'ky'
 
-import { createAuthInterceptor } from '@/client/interceptors/auth.interceptor'
+import {
+  createAuthInterceptor,
+  createTokenRefreshInterceptor,
+} from '@/client/interceptors/auth.interceptor'
 import type { AuthInterceptorOptions } from '@/client/interceptors/auth.interceptor.types'
 import type { TokenStorage } from '@/storage/token-storage'
 
@@ -56,6 +59,37 @@ describe('interceptors', () => {
       })
 
       expect(mockRequest.headers.get('Authorization')).toBe('Bearer new-token')
+    })
+  })
+
+  describe('createTokenRefreshInterceptor', () => {
+    let tokenStorage: TokenStorage
+    let options: AuthInterceptorOptions
+    let mockHttpError: HTTPError
+
+    beforeEach(() => {
+      tokenStorage = mockDeep<TokenStorage>()
+      options = { tokenStorage }
+
+      const response = new Response(null, { status: 401 })
+      mockHttpError = new HTTPError(
+        response,
+        new Request('http://test.com'),
+        mockDeep<NormalizedOptions>(),
+      )
+    })
+
+    it('should throw error immediately if status is not 401', async () => {
+      const response = new Response(null, { status: 403 })
+      const error403 = new HTTPError(
+        response,
+        new Request('http://test.com'),
+        mockDeep<NormalizedOptions>(),
+      )
+
+      const interceptor = createTokenRefreshInterceptor(options)
+
+      await expect(interceptor(error403)).rejects.toThrow(error403)
     })
   })
 })
