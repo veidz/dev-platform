@@ -163,5 +163,11 @@ describe('errors', () => {
       expect(error.statusCode).toBe(500)
       expect(error.name).toBe('ServerError')
     })
+
+    it('should create ServerError with custom message', () => {
+      const error = new ServerError('Database error')
+
+      expect(error.message).toBe('Database error')
+    })
   })
 })
