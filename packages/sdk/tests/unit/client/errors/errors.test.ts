@@ -94,5 +94,11 @@ describe('errors', () => {
       expect(error.statusCode).toBe(404)
       expect(error.name).toBe('NotFoundError')
     })
+
+    it('should create NotFoundError with custom message', () => {
+      const error = new NotFoundError('User not found')
+
+      expect(error.message).toBe('User not found')
+    })
   })
 })
