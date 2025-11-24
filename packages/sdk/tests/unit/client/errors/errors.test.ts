@@ -359,5 +359,18 @@ describe('errors', () => {
       expect(result.message).toBe('Unknown error')
       expect(result.statusCode).toBe(418)
     })
+
+    it('should parse HTTPError with non-JSON response', async () => {
+      const response = new Response('Plain text error', {
+        status: 400,
+        statusText: 'Bad Request',
+      })
+      const httpError = createHTTPError(response)
+      const result = await parseErrorResponse(httpError)
+
+      expect(result).toBeInstanceOf(SDKError)
+      expect(result.message).toBe('Bad Request')
+      expect(result.statusCode).toBe(400)
+    })
   })
 })
