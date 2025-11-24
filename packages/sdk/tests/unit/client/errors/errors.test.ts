@@ -138,5 +138,12 @@ describe('errors', () => {
       expect(error.statusCode).toBe(429)
       expect(error.name).toBe('RateLimitError')
     })
+
+    it('should create RateLimitError with retryAfter', () => {
+      const error = new RateLimitError('Too many requests', 60)
+
+      expect(error.message).toBe('Too many requests')
+      expect(error.retryAfter).toBe(60)
+    })
   })
 })
