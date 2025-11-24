@@ -54,5 +54,12 @@ describe('errors', () => {
       expect(error.message).toBe('Invalid token')
       expect(error.statusCode).toBe(401)
     })
+
+    it('should store original error', () => {
+      const originalError = new Error('Original')
+      const error = new AuthenticationError('Custom', originalError)
+
+      expect(error.originalError).toBe(originalError)
+    })
   })
 })
