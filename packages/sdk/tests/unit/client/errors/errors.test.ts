@@ -7,6 +7,7 @@ import {
   NotFoundError,
   RateLimitError,
   SDKError,
+  ServerError,
   ValidationError,
 } from '@/client/errors'
 
@@ -150,6 +151,17 @@ describe('errors', () => {
       const error = new RateLimitError()
 
       expect(error.retryAfter).toBeUndefined()
+    })
+  })
+
+  describe('ServerError', () => {
+    it('should create ServerError with default message', () => {
+      const error = new ServerError()
+
+      expect(error).toBeInstanceOf(SDKError)
+      expect(error.message).toBe('Internal server error')
+      expect(error.statusCode).toBe(500)
+      expect(error.name).toBe('ServerError')
     })
   })
 })
