@@ -107,5 +107,22 @@ describe('interceptors', () => {
 
       await expect(interceptor(mockHttpError)).rejects.toThrow(mockHttpError)
     })
+
+    it('should refresh tokens successfully', async () => {
+      const onTokenRefresh =
+        jest.fn<() => Promise<{ accessToken: string; refreshToken: string }>>()
+      onTokenRefresh.mockResolvedValue({
+        accessToken: 'new-access',
+        refreshToken: 'new-refresh',
+      })
+      options.onTokenRefresh = onTokenRefresh
+
+      const interceptor = createTokenRefreshInterceptor(options)
+      await interceptor(mockHttpError)
+
+      expect(onTokenRefresh).toHaveBeenCalledTimes(1)
+      expect(tokenStorage.setAccessToken).toHaveBeenCalledWith('new-access')
+      expect(tokenStorage.setRefreshToken).toHaveBeenCalledWith('new-refresh')
+    })
   })
 })
