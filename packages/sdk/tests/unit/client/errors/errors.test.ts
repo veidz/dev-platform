@@ -240,5 +240,16 @@ describe('errors', () => {
       expect(result).toBeInstanceOf(AuthorizationError)
       expect(result.message).toBe('Forbidden')
     })
+
+    it('should parse HTTPError with 404 status', async () => {
+      const response = new Response(JSON.stringify({ message: 'Not found' }), {
+        status: 404,
+      })
+      const httpError = createHTTPError(response)
+      const result = await parseErrorResponse(httpError)
+
+      expect(result).toBeInstanceOf(NotFoundError)
+      expect(result.message).toBe('Not found')
+    })
   })
 })
