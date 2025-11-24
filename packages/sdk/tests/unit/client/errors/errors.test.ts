@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals'
 import { HTTPError, NormalizedOptions } from 'ky'
 
-import { SDKError } from '@/client/errors'
+import { AuthenticationError, SDKError } from '@/client/errors'
 
 const createHTTPError = (response: Response) => {
   return new HTTPError(
@@ -35,6 +35,17 @@ describe('errors', () => {
       const error = new SDKError('Wrapped', 500, originalError)
 
       expect(error.originalError).toBe(originalError)
+    })
+  })
+
+  describe('AuthenticationError', () => {
+    it('should create AuthenticationError with default message', () => {
+      const error = new AuthenticationError()
+
+      expect(error).toBeInstanceOf(SDKError)
+      expect(error.message).toBe('Authentication failed')
+      expect(error.statusCode).toBe(401)
+      expect(error.name).toBe('AuthenticationError')
     })
   })
 })
