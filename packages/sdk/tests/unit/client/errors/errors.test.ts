@@ -311,5 +311,18 @@ describe('errors', () => {
       expect(result).toBeInstanceOf(ServerError)
       expect(result.message).toBe('Server error')
     })
+
+    it('should parse HTTPError with 502 status', async () => {
+      const response = new Response(
+        JSON.stringify({ message: 'Bad gateway' }),
+        {
+          status: 502,
+        },
+      )
+      const httpError = createHTTPError(response)
+      const result = await parseErrorResponse(httpError)
+
+      expect(result).toBeInstanceOf(ServerError)
+    })
   })
 })
