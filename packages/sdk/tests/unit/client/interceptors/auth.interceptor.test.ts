@@ -43,5 +43,19 @@ describe('interceptors', () => {
 
       expect(mockRequest.headers.get('Authorization')).toBeNull()
     })
+
+    it('should replace existing Authorization header', async () => {
+      const mockRequest = new Request('http://test.com', {
+        headers: { Authorization: 'Bearer old-token' },
+      })
+      jest.spyOn(tokenStorage, 'getAccessToken').mockResolvedValue('new-token')
+
+      const interceptor = createAuthInterceptor(options)
+      await interceptor(mockRequest, mockDeep<NormalizedOptions>(), {
+        retryCount: 0,
+      })
+
+      expect(mockRequest.headers.get('Authorization')).toBe('Bearer new-token')
+    })
   })
 })
