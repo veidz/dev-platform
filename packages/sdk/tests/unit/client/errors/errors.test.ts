@@ -112,5 +112,13 @@ describe('errors', () => {
       expect(error.statusCode).toBe(422)
       expect(error.name).toBe('ValidationError')
     })
+
+    it('should create ValidationError with errors object', () => {
+      const errors = { email: ['Invalid email'], password: ['Too short'] }
+      const error = new ValidationError('Invalid data', errors)
+
+      expect(error.message).toBe('Invalid data')
+      expect(error.errors).toEqual(errors)
+    })
   })
 })
