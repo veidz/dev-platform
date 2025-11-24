@@ -145,5 +145,11 @@ describe('errors', () => {
       expect(error.message).toBe('Too many requests')
       expect(error.retryAfter).toBe(60)
     })
+
+    it('should create RateLimitError without retryAfter', () => {
+      const error = new RateLimitError()
+
+      expect(error.retryAfter).toBeUndefined()
+    })
   })
 })
