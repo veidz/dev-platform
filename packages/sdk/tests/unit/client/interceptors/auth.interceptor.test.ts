@@ -101,5 +101,11 @@ describe('interceptors', () => {
       await expect(interceptor(mockHttpError)).rejects.toThrow(mockHttpError)
       expect(onAuthError).toHaveBeenCalledWith(mockHttpError)
     })
+
+    it('should throw error if onTokenRefresh is not provided and no onAuthError', async () => {
+      const interceptor = createTokenRefreshInterceptor(options)
+
+      await expect(interceptor(mockHttpError)).rejects.toThrow(mockHttpError)
+    })
   })
 })
