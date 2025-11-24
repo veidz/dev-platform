@@ -251,5 +251,21 @@ describe('errors', () => {
       expect(result).toBeInstanceOf(NotFoundError)
       expect(result.message).toBe('Not found')
     })
+
+    it('should parse HTTPError with 422 status and validation errors', async () => {
+      const response = new Response(
+        JSON.stringify({
+          message: 'Validation failed',
+          errors: { email: ['Invalid'] },
+        }),
+        { status: 422 },
+      )
+      const httpError = createHTTPError(response)
+      const result = await parseErrorResponse(httpError)
+
+      expect(result).toBeInstanceOf(ValidationError)
+      expect(result.message).toBe('Validation failed')
+      expect((result as ValidationError).errors).toEqual({ email: ['Invalid'] })
+    })
   })
 })
