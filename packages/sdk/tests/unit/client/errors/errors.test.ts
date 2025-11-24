@@ -76,5 +76,11 @@ describe('errors', () => {
       expect(error.statusCode).toBe(403)
       expect(error.name).toBe('AuthorizationError')
     })
+
+    it('should create AuthorizationError with custom message', () => {
+      const error = new AuthorizationError('No permission')
+
+      expect(error.message).toBe('No permission')
+    })
   })
 })
