@@ -297,5 +297,19 @@ describe('errors', () => {
       expect(result).toBeInstanceOf(RateLimitError)
       expect((result as RateLimitError).retryAfter).toBeUndefined()
     })
+
+    it('should parse HTTPError with 500 status', async () => {
+      const response = new Response(
+        JSON.stringify({ message: 'Server error' }),
+        {
+          status: 500,
+        },
+      )
+      const httpError = createHTTPError(response)
+      const result = await parseErrorResponse(httpError)
+
+      expect(result).toBeInstanceOf(ServerError)
+      expect(result.message).toBe('Server error')
+    })
   })
 })
