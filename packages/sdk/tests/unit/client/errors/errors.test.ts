@@ -1,11 +1,12 @@
 import { describe, expect, it } from '@jest/globals'
-import { HTTPError, NormalizedOptions } from 'ky'
+import { HTTPError, NormalizedOptions, TimeoutError } from 'ky'
 
 import {
   AuthenticationError,
   AuthorizationError,
   NetworkError,
   NotFoundError,
+  parseErrorResponse,
   RateLimitError,
   RequestTimeoutError,
   SDKError,
@@ -204,6 +205,17 @@ describe('errors', () => {
       const error = new RequestTimeoutError('Request took too long')
 
       expect(error.message).toBe('Request took too long')
+    })
+  })
+
+  describe('parseErrorResponse', () => {
+    it('should parse TimeoutError', async () => {
+      const timeoutError = new TimeoutError(new Request('http://test.com'))
+      const result = await parseErrorResponse(timeoutError)
+
+      expect(result).toBeInstanceOf(RequestTimeoutError)
+      expect(result.message).toBe('Request timed out')
+      expect(result.originalError).toBe(timeoutError)
     })
   })
 })
