@@ -5,6 +5,7 @@ import {
   AuthenticationError,
   AuthorizationError,
   NotFoundError,
+  RateLimitError,
   SDKError,
   ValidationError,
 } from '@/client/errors'
@@ -125,6 +126,17 @@ describe('errors', () => {
       const error = new ValidationError('Invalid')
 
       expect(error.errors).toBeUndefined()
+    })
+  })
+
+  describe('RateLimitError', () => {
+    it('should create RateLimitError with default message', () => {
+      const error = new RateLimitError()
+
+      expect(error).toBeInstanceOf(SDKError)
+      expect(error.message).toBe('Rate limit exceeded')
+      expect(error.statusCode).toBe(429)
+      expect(error.name).toBe('RateLimitError')
     })
   })
 })
