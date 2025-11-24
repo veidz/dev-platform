@@ -390,5 +390,16 @@ describe('errors', () => {
       expect(result.message).toBe('An unknown error occurred')
       expect(result.originalError).toBe(unknownError)
     })
+
+    it('should fallback to HTTPError message when no error data', async () => {
+      const response = new Response(null, {
+        status: 400,
+        statusText: 'Bad Request',
+      })
+      const httpError = createHTTPError(response)
+      const result = await parseErrorResponse(httpError)
+
+      expect(result.message).toBe('Bad Request')
+    })
   })
 })
