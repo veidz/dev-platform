@@ -401,5 +401,14 @@ describe('errors', () => {
 
       expect(result.message).toBe('Bad Request')
     })
+
+    it('should fallback to "Unknown error" when no message available', async () => {
+      const response = new Response(JSON.stringify({}), { status: 400 })
+      const httpError = createHTTPError(response)
+      Object.defineProperty(httpError, 'message', { value: '' })
+      const result = await parseErrorResponse(httpError)
+
+      expect(result.message).toBe('Unknown error')
+    })
   })
 })
