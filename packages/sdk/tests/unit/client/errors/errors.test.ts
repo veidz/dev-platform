@@ -1,7 +1,11 @@
 import { describe, expect, it } from '@jest/globals'
 import { HTTPError, NormalizedOptions } from 'ky'
 
-import { AuthenticationError, SDKError } from '@/client/errors'
+import {
+  AuthenticationError,
+  AuthorizationError,
+  SDKError,
+} from '@/client/errors'
 
 const createHTTPError = (response: Response) => {
   return new HTTPError(
@@ -60,6 +64,17 @@ describe('errors', () => {
       const error = new AuthenticationError('Custom', originalError)
 
       expect(error.originalError).toBe(originalError)
+    })
+  })
+
+  describe('AuthorizationError', () => {
+    it('should create AuthorizationError with default message', () => {
+      const error = new AuthorizationError()
+
+      expect(error).toBeInstanceOf(SDKError)
+      expect(error.message).toBe('Access forbidden')
+      expect(error.statusCode).toBe(403)
+      expect(error.name).toBe('AuthorizationError')
     })
   })
 })
