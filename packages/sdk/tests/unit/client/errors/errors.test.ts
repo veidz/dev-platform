@@ -217,5 +217,17 @@ describe('errors', () => {
       expect(result.message).toBe('Request timed out')
       expect(result.originalError).toBe(timeoutError)
     })
+
+    it('should parse HTTPError with 401 status', async () => {
+      const response = new Response(
+        JSON.stringify({ message: 'Invalid credentials' }),
+        { status: 401 },
+      )
+      const httpError = createHTTPError(response)
+      const result = await parseErrorResponse(httpError)
+
+      expect(result).toBeInstanceOf(AuthenticationError)
+      expect(result.message).toBe('Invalid credentials')
+    })
   })
 })
