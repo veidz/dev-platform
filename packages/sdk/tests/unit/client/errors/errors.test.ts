@@ -120,5 +120,11 @@ describe('errors', () => {
       expect(error.message).toBe('Invalid data')
       expect(error.errors).toEqual(errors)
     })
+
+    it('should create ValidationError without errors object', () => {
+      const error = new ValidationError('Invalid')
+
+      expect(error.errors).toBeUndefined()
+    })
   })
 })
