@@ -380,5 +380,22 @@ describe('query-builder', () => {
         quantity: '3',
       })
     })
+
+    it('should handle Date objects correctly', () => {
+      const date1 = new Date('2024-01-01T12:00:00.000Z')
+      const date2 = new Date('2024-12-31T23:59:59.999Z')
+
+      const filters = {
+        startDate: date1,
+        endDate: date2,
+      }
+
+      const result = buildFilterParams(filters)
+
+      expect(result).toEqual({
+        startDate: date1.toISOString(),
+        endDate: date2.toISOString(),
+      })
+    })
   })
 })
