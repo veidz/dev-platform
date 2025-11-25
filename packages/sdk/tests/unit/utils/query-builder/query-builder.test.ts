@@ -328,5 +328,17 @@ describe('query-builder', () => {
         enabled: 'false',
       })
     })
+
+    it('should convert number zero to string', () => {
+      const filters = {
+        count: 0,
+      }
+
+      const result = buildFilterParams(filters)
+
+      expect(result).toEqual({
+        count: '0',
+      })
+    })
   })
 })
