@@ -3,6 +3,7 @@ import { describe, expect, it } from '@jest/globals'
 import {
   buildPaginationParams,
   buildQueryParams,
+  buildSortParams,
 } from '@/utils/query-builder/query-builder'
 
 describe('query-builder', () => {
@@ -183,6 +184,22 @@ describe('query-builder', () => {
         page: '1',
       })
       expect(result).not.toHaveProperty('limit')
+    })
+  })
+
+  describe('buildSortParams', () => {
+    it('should build sort params with sortBy and sortOrder', () => {
+      const params = {
+        sortBy: 'name',
+        sortOrder: 'asc' as const,
+      }
+
+      const result = buildSortParams(params)
+
+      expect(result).toEqual({
+        sortBy: 'name',
+        sortOrder: 'asc',
+      })
     })
   })
 })
