@@ -249,5 +249,19 @@ describe('query-builder', () => {
         sortOrder: 'asc',
       })
     })
+
+    it('should handle desc sort order', () => {
+      const params = {
+        sortBy: 'id',
+        sortOrder: 'desc' as const,
+      }
+
+      const result = buildSortParams(params)
+
+      expect(result).toEqual({
+        sortBy: 'id',
+        sortOrder: 'desc',
+      })
+    })
   })
 })
