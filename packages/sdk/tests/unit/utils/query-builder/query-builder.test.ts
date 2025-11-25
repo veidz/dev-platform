@@ -148,5 +148,13 @@ describe('query-builder', () => {
       })
       expect(result).not.toHaveProperty('page')
     })
+
+    it('should handle empty pagination params', () => {
+      const params = {}
+
+      const result = buildPaginationParams(params)
+
+      expect(result).toEqual({})
+    })
   })
 })
