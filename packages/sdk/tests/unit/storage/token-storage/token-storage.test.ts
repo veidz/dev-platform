@@ -186,5 +186,21 @@ describe('token-storage', () => {
       expect(mockLocalStorage['dev-platform:access-token']).toBe('access-123')
       expect(mockLocalStorage['dev-platform:refresh-token']).toBe('refresh-456')
     })
+
+    it('should return null when localStorage is not available', async () => {
+      Object.defineProperty(globalThis, 'window', {
+        value: { localStorage: null },
+        writable: true,
+        configurable: true,
+      })
+
+      storage = new LocalStorageTokenStorage()
+
+      const accessToken = await storage.getAccessToken()
+      const refreshToken = await storage.getRefreshToken()
+
+      expect(accessToken).toBeNull()
+      expect(refreshToken).toBeNull()
+    })
   })
 })
