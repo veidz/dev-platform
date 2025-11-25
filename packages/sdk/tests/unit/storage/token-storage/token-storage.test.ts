@@ -102,5 +102,12 @@ describe('token-storage', () => {
       expect(token).toBe('access-123')
       expect(mockLocalStorage['dev-platform:access-token']).toBe('access-123')
     })
+
+    it('should store and retrieve refresh token', async () => {
+      await storage.setRefreshToken('refresh-456')
+      const token = await storage.getRefreshToken()
+      expect(token).toBe('refresh-456')
+      expect(mockLocalStorage['dev-platform:refresh-token']).toBe('refresh-456')
+    })
   })
 })
