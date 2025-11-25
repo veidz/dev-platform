@@ -37,5 +37,21 @@ describe('query-builder', () => {
       })
       expect(result).not.toHaveProperty('age')
     })
+
+    it('should skip null values', () => {
+      const params = {
+        name: 'test',
+        age: null as unknown as undefined,
+        active: true,
+      }
+
+      const result = buildQueryParams(params)
+
+      expect(result).toEqual({
+        name: 'test',
+        active: 'true',
+      })
+      expect(result).not.toHaveProperty('age')
+    })
   })
 })
