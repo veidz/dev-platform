@@ -170,5 +170,19 @@ describe('query-builder', () => {
         limit: '10',
       })
     })
+
+    it('should skip undefined values', () => {
+      const params = {
+        page: 1,
+        limit: undefined,
+      }
+
+      const result = buildPaginationParams(params)
+
+      expect(result).toEqual({
+        page: '1',
+      })
+      expect(result).not.toHaveProperty('limit')
+    })
   })
 })
