@@ -123,5 +123,20 @@ describe('token-storage', () => {
       const token = await storage.getRefreshToken()
       expect(token).toBe('new-refresh')
     })
+
+    it('should clear both tokens', async () => {
+      await storage.setAccessToken('access-123')
+      await storage.setRefreshToken('refresh-456')
+
+      await storage.clearTokens()
+
+      const accessToken = await storage.getAccessToken()
+      const refreshToken = await storage.getRefreshToken()
+
+      expect(accessToken).toBeNull()
+      expect(refreshToken).toBeNull()
+      expect(mockLocalStorage['dev-platform:access-token']).toBeUndefined()
+      expect(mockLocalStorage['dev-platform:refresh-token']).toBeUndefined()
+    })
   })
 })
