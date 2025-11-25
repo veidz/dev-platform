@@ -201,5 +201,18 @@ describe('query-builder', () => {
         sortOrder: 'asc',
       })
     })
+
+    it('should build sort params with only sortBy', () => {
+      const params = {
+        sortBy: 'createdAt',
+      }
+
+      const result = buildSortParams(params)
+
+      expect(result).toEqual({
+        sortBy: 'createdAt',
+      })
+      expect(result).not.toHaveProperty('sortOrder')
+    })
   })
 })
