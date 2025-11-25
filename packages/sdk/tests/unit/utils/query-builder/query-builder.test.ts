@@ -284,5 +284,21 @@ describe('query-builder', () => {
         date: '2024-01-01T00:00:00.000Z',
       })
     })
+
+    it('should skip undefined values', () => {
+      const filters = {
+        status: 'active',
+        count: undefined,
+        enabled: true,
+      }
+
+      const result = buildFilterParams(filters)
+
+      expect(result).toEqual({
+        status: 'active',
+        enabled: 'true',
+      })
+      expect(result).not.toHaveProperty('count')
+    })
   })
 })
