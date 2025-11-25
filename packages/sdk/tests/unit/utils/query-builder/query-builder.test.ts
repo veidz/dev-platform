@@ -122,5 +122,18 @@ describe('query-builder', () => {
         limit: '10',
       })
     })
+
+    it('should build pagination params with only page', () => {
+      const params = {
+        page: 2,
+      }
+
+      const result = buildPaginationParams(params)
+
+      expect(result).toEqual({
+        page: '2',
+      })
+      expect(result).not.toHaveProperty('limit')
+    })
   })
 })
