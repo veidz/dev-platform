@@ -14,5 +14,10 @@ describe('token-storage', () => {
       const token = await storage.getAccessToken()
       expect(token).toBeNull()
     })
+
+    it('should return null for refresh token initially', async () => {
+      const token = await storage.getRefreshToken()
+      expect(token).toBeNull()
+    })
   })
 })
