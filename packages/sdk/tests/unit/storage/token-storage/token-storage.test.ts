@@ -109,5 +109,12 @@ describe('token-storage', () => {
       expect(token).toBe('refresh-456')
       expect(mockLocalStorage['dev-platform:refresh-token']).toBe('refresh-456')
     })
+
+    it('should update access token', async () => {
+      await storage.setAccessToken('old-access')
+      await storage.setAccessToken('new-access')
+      const token = await storage.getAccessToken()
+      expect(token).toBe('new-access')
+    })
   })
 })
