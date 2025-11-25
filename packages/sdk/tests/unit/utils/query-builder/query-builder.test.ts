@@ -364,5 +364,21 @@ describe('query-builder', () => {
         author: 'john',
       })
     })
+
+    it('should handle multiple number filters', () => {
+      const filters = {
+        minPrice: 100,
+        maxPrice: 500,
+        quantity: 3,
+      }
+
+      const result = buildFilterParams(filters)
+
+      expect(result).toEqual({
+        minPrice: '100',
+        maxPrice: '500',
+        quantity: '3',
+      })
+    })
   })
 })
