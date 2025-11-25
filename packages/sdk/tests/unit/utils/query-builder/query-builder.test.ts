@@ -340,5 +340,13 @@ describe('query-builder', () => {
         count: '0',
       })
     })
+
+    it('should handle empty filters', () => {
+      const filters = {}
+
+      const result = buildFilterParams(filters)
+
+      expect(result).toEqual({})
+    })
   })
 })
