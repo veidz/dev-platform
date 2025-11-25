@@ -227,5 +227,13 @@ describe('query-builder', () => {
       })
       expect(result).not.toHaveProperty('sortBy')
     })
+
+    it('should handle empty sort params', () => {
+      const params = {}
+
+      const result = buildSortParams(params)
+
+      expect(result).toEqual({})
+    })
   })
 })
