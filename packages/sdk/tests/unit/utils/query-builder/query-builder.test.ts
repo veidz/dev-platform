@@ -53,5 +53,17 @@ describe('query-builder', () => {
       })
       expect(result).not.toHaveProperty('age')
     })
+
+    it('should convert boolean false to string', () => {
+      const params = {
+        active: false,
+      }
+
+      const result = buildQueryParams(params)
+
+      expect(result).toEqual({
+        active: 'false',
+      })
+    })
   })
 })
