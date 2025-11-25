@@ -31,5 +31,12 @@ describe('token-storage', () => {
       const token = await storage.getRefreshToken()
       expect(token).toBe('refresh-456')
     })
+
+    it('should update access token', async () => {
+      await storage.setAccessToken('old-access')
+      await storage.setAccessToken('new-access')
+      const token = await storage.getAccessToken()
+      expect(token).toBe('new-access')
+    })
   })
 })
