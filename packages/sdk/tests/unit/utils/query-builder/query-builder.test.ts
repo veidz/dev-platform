@@ -1,6 +1,7 @@
 import { describe, expect, it } from '@jest/globals'
 
 import {
+  buildFilterParams,
   buildPaginationParams,
   buildQueryParams,
   buildSortParams,
@@ -261,6 +262,26 @@ describe('query-builder', () => {
       expect(result).toEqual({
         sortBy: 'id',
         sortOrder: 'desc',
+      })
+    })
+  })
+
+  describe('buildFilterParams', () => {
+    it('should build filter params from mixed types', () => {
+      const filters = {
+        status: 'active',
+        count: 10,
+        enabled: true,
+        date: new Date('2024-01-01T00:00:00.000Z'),
+      }
+
+      const result = buildFilterParams(filters)
+
+      expect(result).toEqual({
+        status: 'active',
+        count: '10',
+        enabled: 'true',
+        date: '2024-01-01T00:00:00.000Z',
       })
     })
   })
