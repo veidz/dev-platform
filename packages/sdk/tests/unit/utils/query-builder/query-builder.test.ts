@@ -77,5 +77,13 @@ describe('query-builder', () => {
         count: '0',
       })
     })
+
+    it('should handle empty params', () => {
+      const params = {}
+
+      const result = buildQueryParams(params)
+
+      expect(result).toEqual({})
+    })
   })
 })
