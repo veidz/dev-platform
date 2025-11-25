@@ -300,5 +300,21 @@ describe('query-builder', () => {
       })
       expect(result).not.toHaveProperty('count')
     })
+
+    it('should skip null values', () => {
+      const filters = {
+        status: 'active',
+        count: null as unknown as undefined,
+        enabled: true,
+      }
+
+      const result = buildFilterParams(filters)
+
+      expect(result).toEqual({
+        status: 'active',
+        enabled: 'true',
+      })
+      expect(result).not.toHaveProperty('count')
+    })
   })
 })
