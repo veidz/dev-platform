@@ -1,6 +1,9 @@
 import { beforeEach, describe, expect, it } from '@jest/globals'
 
-import { MemoryTokenStorage } from '@/storage/token-storage'
+import {
+  LocalStorageTokenStorage,
+  MemoryTokenStorage,
+} from '@/storage/token-storage'
 
 describe('token-storage', () => {
   describe('MemoryTokenStorage', () => {
@@ -57,6 +60,35 @@ describe('token-storage', () => {
 
       expect(accessToken).toBeNull()
       expect(refreshToken).toBeNull()
+    })
+  })
+
+  describe('LocalStorageTokenStorage', () => {
+    let storage: LocalStorageTokenStorage
+    let mockLocalStorage: Record<string, string>
+
+    beforeEach(() => {
+      mockLocalStorage = {}
+
+      Object.defineProperty(globalThis, 'window', {
+        value: {
+          localStorage: {
+            getItem: (key: string) => mockLocalStorage[key] ?? null,
+            setItem: (key: string, value: string) =>
+              (mockLocalStorage[key] = value),
+            removeItem: (key: string) => delete mockLocalStorage[key],
+          },
+        },
+        writable: true,
+        configurable: true,
+      })
+
+      storage = new LocalStorageTokenStorage()
+    })
+
+    it('should return null for access token initially', async () => {
+      const token = await storage.getAccessToken()
+      expect(token).toBeNull()
     })
   })
 })
