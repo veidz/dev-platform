@@ -1,6 +1,9 @@
 import { describe, expect, it } from '@jest/globals'
 
-import { buildQueryParams } from '@/utils/query-builder/query-builder'
+import {
+  buildPaginationParams,
+  buildQueryParams,
+} from '@/utils/query-builder/query-builder'
 
 describe('query-builder', () => {
   describe('buildQueryParams', () => {
@@ -101,6 +104,22 @@ describe('query-builder', () => {
         limit: '50',
         sortBy: 'name',
         sortOrder: 'asc',
+      })
+    })
+  })
+
+  describe('buildPaginationParams', () => {
+    it('should build pagination params with page and limit', () => {
+      const params = {
+        page: 1,
+        limit: 10,
+      }
+
+      const result = buildPaginationParams(params)
+
+      expect(result).toEqual({
+        page: '1',
+        limit: '10',
       })
     })
   })
