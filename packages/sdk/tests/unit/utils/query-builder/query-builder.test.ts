@@ -65,5 +65,17 @@ describe('query-builder', () => {
         active: 'false',
       })
     })
+
+    it('should convert number zero to string', () => {
+      const params = {
+        count: 0,
+      }
+
+      const result = buildQueryParams(params)
+
+      expect(result).toEqual({
+        count: '0',
+      })
+    })
   })
 })
