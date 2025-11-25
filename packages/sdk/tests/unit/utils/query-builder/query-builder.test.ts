@@ -235,5 +235,19 @@ describe('query-builder', () => {
 
       expect(result).toEqual({})
     })
+
+    it('should handle asc sort order', () => {
+      const params = {
+        sortBy: 'id',
+        sortOrder: 'asc' as const,
+      }
+
+      const result = buildSortParams(params)
+
+      expect(result).toEqual({
+        sortBy: 'id',
+        sortOrder: 'asc',
+      })
+    })
   })
 })
