@@ -135,5 +135,18 @@ describe('query-builder', () => {
       })
       expect(result).not.toHaveProperty('limit')
     })
+
+    it('should build pagination params with only limit', () => {
+      const params = {
+        limit: 50,
+      }
+
+      const result = buildPaginationParams(params)
+
+      expect(result).toEqual({
+        limit: '50',
+      })
+      expect(result).not.toHaveProperty('page')
+    })
   })
 })
