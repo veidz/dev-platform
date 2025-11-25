@@ -154,5 +154,20 @@ describe('token-storage', () => {
       expect(accessToken).toBeNull()
       expect(refreshToken).toBeNull()
     })
+
+    it('should not store tokens when window is undefined', async () => {
+      Object.defineProperty(globalThis, 'window', {
+        value: undefined,
+        writable: true,
+        configurable: true,
+      })
+
+      storage = new LocalStorageTokenStorage()
+
+      await storage.setAccessToken('access-123')
+      await storage.setRefreshToken('refresh-456')
+
+      expect(Object.keys(mockLocalStorage)).toHaveLength(0)
+    })
   })
 })
