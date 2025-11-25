@@ -169,5 +169,22 @@ describe('token-storage', () => {
 
       expect(Object.keys(mockLocalStorage)).toHaveLength(0)
     })
+
+    it('should not clear tokens when window is undefined', async () => {
+      mockLocalStorage['dev-platform:access-token'] = 'access-123'
+      mockLocalStorage['dev-platform:refresh-token'] = 'refresh-456'
+
+      Object.defineProperty(globalThis, 'window', {
+        value: undefined,
+        writable: true,
+        configurable: true,
+      })
+
+      storage = new LocalStorageTokenStorage()
+      await storage.clearTokens()
+
+      expect(mockLocalStorage['dev-platform:access-token']).toBe('access-123')
+      expect(mockLocalStorage['dev-platform:refresh-token']).toBe('refresh-456')
+    })
   })
 })
