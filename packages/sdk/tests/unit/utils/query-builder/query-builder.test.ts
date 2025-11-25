@@ -156,5 +156,19 @@ describe('query-builder', () => {
 
       expect(result).toEqual({})
     })
+
+    it('should convert page zero to string', () => {
+      const params = {
+        page: 0,
+        limit: 10,
+      }
+
+      const result = buildPaginationParams(params)
+
+      expect(result).toEqual({
+        page: '0',
+        limit: '10',
+      })
+    })
   })
 })
