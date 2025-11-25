@@ -348,5 +348,21 @@ describe('query-builder', () => {
 
       expect(result).toEqual({})
     })
+
+    it('should handle multiple string filters', () => {
+      const filters = {
+        category: 'tech',
+        tag: 'featured',
+        author: 'john',
+      }
+
+      const result = buildFilterParams(filters)
+
+      expect(result).toEqual({
+        category: 'tech',
+        tag: 'featured',
+        author: 'john',
+      })
+    })
   })
 })
