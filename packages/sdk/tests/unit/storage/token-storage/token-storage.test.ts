@@ -95,5 +95,12 @@ describe('token-storage', () => {
       const token = await storage.getRefreshToken()
       expect(token).toBeNull()
     })
+
+    it('should store and retrieve access token', async () => {
+      await storage.setAccessToken('access-123')
+      const token = await storage.getAccessToken()
+      expect(token).toBe('access-123')
+      expect(mockLocalStorage['dev-platform:access-token']).toBe('access-123')
+    })
   })
 })
