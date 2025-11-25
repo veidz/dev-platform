@@ -316,5 +316,17 @@ describe('query-builder', () => {
       })
       expect(result).not.toHaveProperty('count')
     })
+
+    it('should convert boolean false to string', () => {
+      const filters = {
+        enabled: false,
+      }
+
+      const result = buildFilterParams(filters)
+
+      expect(result).toEqual({
+        enabled: 'false',
+      })
+    })
   })
 })
