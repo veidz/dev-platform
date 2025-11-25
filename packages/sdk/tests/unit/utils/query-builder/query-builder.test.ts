@@ -85,5 +85,23 @@ describe('query-builder', () => {
 
       expect(result).toEqual({})
     })
+
+    it('should handle pagination and sort params together', () => {
+      const params = {
+        page: 2,
+        limit: 50,
+        sortBy: 'name',
+        sortOrder: 'asc' as const,
+      }
+
+      const result = buildQueryParams(params)
+
+      expect(result).toEqual({
+        page: '2',
+        limit: '50',
+        sortBy: 'name',
+        sortOrder: 'asc',
+      })
+    })
   })
 })
