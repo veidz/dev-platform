@@ -214,5 +214,18 @@ describe('query-builder', () => {
       })
       expect(result).not.toHaveProperty('sortOrder')
     })
+
+    it('should build sort params with only sortOrder', () => {
+      const params = {
+        sortOrder: 'desc' as const,
+      }
+
+      const result = buildSortParams(params)
+
+      expect(result).toEqual({
+        sortOrder: 'desc',
+      })
+      expect(result).not.toHaveProperty('sortBy')
+    })
   })
 })
