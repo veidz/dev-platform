@@ -138,5 +138,21 @@ describe('token-storage', () => {
       expect(mockLocalStorage['dev-platform:access-token']).toBeUndefined()
       expect(mockLocalStorage['dev-platform:refresh-token']).toBeUndefined()
     })
+
+    it('should return null when window is undefined', async () => {
+      Object.defineProperty(globalThis, 'window', {
+        value: undefined,
+        writable: true,
+        configurable: true,
+      })
+
+      storage = new LocalStorageTokenStorage()
+
+      const accessToken = await storage.getAccessToken()
+      const refreshToken = await storage.getRefreshToken()
+
+      expect(accessToken).toBeNull()
+      expect(refreshToken).toBeNull()
+    })
   })
 })
