@@ -51,6 +51,26 @@ describe('auth', () => {
         })
         expect(result).toEqual(expectedResponse)
       })
+
+      it('should pass credentials correctly', async () => {
+        const credentials: LoginCredentials = {
+          email: 'user@test.com',
+          password: 'securePass',
+        }
+
+        mockClient.post.mockReturnValue({
+          json: jest.fn<() => Promise<LoginResponse>>().mockResolvedValue({
+            user: mockUser,
+            tokens: mockTokens,
+          }),
+        } as never)
+
+        await authModule.login(credentials)
+
+        expect(mockClient.post).toHaveBeenCalledWith('auth/login', {
+          json: credentials,
+        })
+      })
     })
   })
 })
