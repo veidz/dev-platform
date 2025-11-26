@@ -289,6 +289,22 @@ describe('auth', () => {
         })
         expect(result).toEqual(expectedResponse)
       })
+
+      it('should return success message', async () => {
+        const token = 'token-789'
+        const message = { message: 'Verified' }
+
+        mockClient.post.mockReturnValue({
+          json: jest
+            .fn<() => Promise<{ message: string }>>()
+            .mockResolvedValue(message),
+        } as never)
+
+        const result = await authModule.verifyEmail(token)
+
+        expect(result).toHaveProperty('message')
+        expect(result.message).toBe('Verified')
+      })
     })
   })
 })
