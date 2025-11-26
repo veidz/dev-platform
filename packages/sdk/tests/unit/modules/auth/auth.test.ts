@@ -175,6 +175,22 @@ describe('auth', () => {
         })
         expect(result).toEqual(expectedTokens)
       })
+
+      it('should pass refresh token correctly', async () => {
+        const refreshToken = 'token-123'
+
+        mockClient.post.mockReturnValue({
+          json: jest
+            .fn<() => Promise<AuthTokens>>()
+            .mockResolvedValue(mockTokens),
+        } as never)
+
+        await authModule.refreshToken(refreshToken)
+
+        expect(mockClient.post).toHaveBeenCalledWith('auth/refresh', {
+          json: { refreshToken },
+        })
+      })
     })
   })
 })
