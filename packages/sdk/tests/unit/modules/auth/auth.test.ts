@@ -1,5 +1,6 @@
 import type {
   AuthTokens,
+  ForgotPasswordDto,
   LoginCredentials,
   RegisterDto,
   User,
@@ -189,6 +190,24 @@ describe('auth', () => {
 
         expect(mockClient.post).toHaveBeenCalledWith('auth/refresh', {
           json: { refreshToken },
+        })
+      })
+    })
+
+    describe('forgotPassword', () => {
+      it('should send forgot password email', async () => {
+        const forgotPasswordData: ForgotPasswordDto = {
+          email: 'user@example.com',
+        }
+
+        mockClient.post.mockReturnValue({
+          json: jest.fn<() => Promise<void>>().mockResolvedValue(undefined),
+        } as never)
+
+        await authModule.forgotPassword(forgotPasswordData)
+
+        expect(mockClient.post).toHaveBeenCalledWith('auth/forgot-password', {
+          json: forgotPasswordData,
         })
       })
     })
