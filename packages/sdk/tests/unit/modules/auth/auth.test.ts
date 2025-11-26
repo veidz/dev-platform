@@ -210,6 +210,20 @@ describe('auth', () => {
           json: forgotPasswordData,
         })
       })
+
+      it('should return void', async () => {
+        const forgotPasswordData: ForgotPasswordDto = {
+          email: 'test@test.com',
+        }
+
+        mockClient.post.mockReturnValue({
+          json: jest.fn<() => Promise<void>>().mockResolvedValue(undefined),
+        } as never)
+
+        const result = await authModule.forgotPassword(forgotPasswordData)
+
+        expect(result).toBeUndefined()
+      })
     })
   })
 })
