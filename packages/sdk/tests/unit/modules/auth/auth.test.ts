@@ -1,10 +1,15 @@
-import type { AuthTokens, LoginCredentials, User } from '@dev-platform/types'
+import type {
+  AuthTokens,
+  LoginCredentials,
+  RegisterDto,
+  User,
+} from '@dev-platform/types'
 import { describe, expect, it, jest } from '@jest/globals'
 import { mockDeep } from 'jest-mock-extended'
 
 import type { BaseClient } from '@/client/http'
 import { AuthModule } from '@/modules/auth/auth'
-import type { LoginResponse } from '@/modules/auth/auth.types'
+import type { LoginResponse, RegisterResponse } from '@/modules/auth/auth.types'
 
 describe('auth', () => {
   describe('AuthModule', () => {
@@ -70,6 +75,38 @@ describe('auth', () => {
         expect(mockClient.post).toHaveBeenCalledWith('auth/login', {
           json: credentials,
         })
+      })
+    })
+
+    describe('register', () => {
+      it('should register new user', async () => {
+        const registerData: RegisterDto = {
+          email: 'newuser@example.com',
+          password: 'password123',
+          name: 'New User',
+        }
+
+        const expectedResponse: RegisterResponse = {
+          user: {
+            ...mockUser,
+            email: registerData.email,
+            name: registerData.name,
+          },
+          tokens: mockTokens,
+        }
+
+        mockClient.post.mockReturnValue({
+          json: jest
+            .fn<() => Promise<RegisterResponse>>()
+            .mockResolvedValue(expectedResponse),
+        } as never)
+
+        const result = await authModule.register(registerData)
+
+        expect(mockClient.post).toHaveBeenCalledWith('auth/register', {
+          json: registerData,
+        })
+        expect(result).toEqual(expectedResponse)
       })
     })
   })
