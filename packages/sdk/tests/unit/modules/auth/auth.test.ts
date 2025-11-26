@@ -249,6 +249,26 @@ describe('auth', () => {
         })
         expect(result).toEqual(expectedResponse)
       })
+
+      it('should return success message', async () => {
+        const resetData: ResetPasswordDto = {
+          token: 'token-456',
+          password: 'pass123',
+        }
+
+        const message = { message: 'Success' }
+
+        mockClient.post.mockReturnValue({
+          json: jest
+            .fn<() => Promise<{ message: string }>>()
+            .mockResolvedValue(message),
+        } as never)
+
+        const result = await authModule.resetPassword(resetData)
+
+        expect(result).toHaveProperty('message')
+        expect(result.message).toBe('Success')
+      })
     })
   })
 })
