@@ -328,6 +328,22 @@ describe('auth', () => {
         )
         expect(result).toEqual(expectedResponse)
       })
+
+      it('should return success message', async () => {
+        const email = 'test@test.com'
+        const message = { message: 'Sent' }
+
+        mockClient.post.mockReturnValue({
+          json: jest
+            .fn<() => Promise<{ message: string }>>()
+            .mockResolvedValue(message),
+        } as never)
+
+        const result = await authModule.resendVerificationEmail(email)
+
+        expect(result).toHaveProperty('message')
+        expect(result.message).toBe('Sent')
+      })
     })
   })
 })
