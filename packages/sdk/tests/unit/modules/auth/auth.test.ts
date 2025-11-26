@@ -3,6 +3,7 @@ import type {
   ForgotPasswordDto,
   LoginCredentials,
   RegisterDto,
+  ResetPasswordDto,
   User,
 } from '@dev-platform/types'
 import { describe, expect, it, jest } from '@jest/globals'
@@ -223,6 +224,30 @@ describe('auth', () => {
         const result = await authModule.forgotPassword(forgotPasswordData)
 
         expect(result).toBeUndefined()
+      })
+    })
+
+    describe('resetPassword', () => {
+      it('should reset password with token', async () => {
+        const resetData: ResetPasswordDto = {
+          token: 'reset-token-123',
+          password: 'newPassword123',
+        }
+
+        const expectedResponse = { message: 'Password reset successfully' }
+
+        mockClient.post.mockReturnValue({
+          json: jest
+            .fn<() => Promise<{ message: string }>>()
+            .mockResolvedValue(expectedResponse),
+        } as never)
+
+        const result = await authModule.resetPassword(resetData)
+
+        expect(mockClient.post).toHaveBeenCalledWith('auth/reset-password', {
+          json: resetData,
+        })
+        expect(result).toEqual(expectedResponse)
       })
     })
   })
