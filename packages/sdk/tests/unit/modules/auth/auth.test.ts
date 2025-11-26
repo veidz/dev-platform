@@ -108,6 +108,27 @@ describe('auth', () => {
         })
         expect(result).toEqual(expectedResponse)
       })
+
+      it('should pass all registration data', async () => {
+        const registerData: RegisterDto = {
+          email: 'test@test.com',
+          password: 'pass123',
+          name: 'Test',
+        }
+
+        mockClient.post.mockReturnValue({
+          json: jest.fn<() => Promise<RegisterResponse>>().mockResolvedValue({
+            user: mockUser,
+            tokens: mockTokens,
+          }),
+        } as never)
+
+        await authModule.register(registerData)
+
+        expect(mockClient.post).toHaveBeenCalledWith('auth/register', {
+          json: registerData,
+        })
+      })
     })
   })
 })
