@@ -152,5 +152,29 @@ describe('auth', () => {
         expect(result).toBeUndefined()
       })
     })
+
+    describe('refreshToken', () => {
+      it('should refresh access token', async () => {
+        const refreshToken = 'refresh-token-789'
+        const expectedTokens: AuthTokens = {
+          accessToken: 'new-access-token',
+          refreshToken: 'new-refresh-token',
+          expiresIn: 900,
+        }
+
+        mockClient.post.mockReturnValue({
+          json: jest
+            .fn<() => Promise<AuthTokens>>()
+            .mockResolvedValue(expectedTokens),
+        } as never)
+
+        const result = await authModule.refreshToken(refreshToken)
+
+        expect(mockClient.post).toHaveBeenCalledWith('auth/refresh', {
+          json: { refreshToken },
+        })
+        expect(result).toEqual(expectedTokens)
+      })
+    })
   })
 })
