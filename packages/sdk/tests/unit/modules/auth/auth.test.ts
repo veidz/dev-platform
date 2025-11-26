@@ -141,6 +141,16 @@ describe('auth', () => {
 
         expect(mockClient.post).toHaveBeenCalledWith('auth/logout')
       })
+
+      it('should return void', async () => {
+        mockClient.post.mockReturnValue({
+          json: jest.fn<() => Promise<void>>().mockResolvedValue(undefined),
+        } as never)
+
+        const result = await authModule.logout()
+
+        expect(result).toBeUndefined()
+      })
     })
   })
 })
