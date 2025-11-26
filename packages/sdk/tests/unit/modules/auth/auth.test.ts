@@ -306,5 +306,28 @@ describe('auth', () => {
         expect(result.message).toBe('Verified')
       })
     })
+
+    describe('resendVerificationEmail', () => {
+      it('should resend verification email', async () => {
+        const email = 'user@example.com'
+        const expectedResponse = { message: 'Verification email sent' }
+
+        mockClient.post.mockReturnValue({
+          json: jest
+            .fn<() => Promise<{ message: string }>>()
+            .mockResolvedValue(expectedResponse),
+        } as never)
+
+        const result = await authModule.resendVerificationEmail(email)
+
+        expect(mockClient.post).toHaveBeenCalledWith(
+          'auth/resend-verification',
+          {
+            json: { email },
+          },
+        )
+        expect(result).toEqual(expectedResponse)
+      })
+    })
   })
 })
