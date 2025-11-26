@@ -270,5 +270,25 @@ describe('auth', () => {
         expect(result.message).toBe('Success')
       })
     })
+
+    describe('verifyEmail', () => {
+      it('should verify email with token', async () => {
+        const token = 'verify-token-123'
+        const expectedResponse = { message: 'Email verified successfully' }
+
+        mockClient.post.mockReturnValue({
+          json: jest
+            .fn<() => Promise<{ message: string }>>()
+            .mockResolvedValue(expectedResponse),
+        } as never)
+
+        const result = await authModule.verifyEmail(token)
+
+        expect(mockClient.post).toHaveBeenCalledWith('auth/verify-email', {
+          json: { token },
+        })
+        expect(result).toEqual(expectedResponse)
+      })
+    })
   })
 })
