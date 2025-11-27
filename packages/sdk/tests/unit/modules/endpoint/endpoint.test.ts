@@ -217,5 +217,42 @@ describe('EndpointModule', () => {
       })
       expect(result.method).toBe(HttpMethod.PUT)
     })
+
+    it('should update endpoint description and schemas', async () => {
+      const endpointId = faker.string.uuid()
+      const updateData = {
+        description: 'Updated description',
+        requestSchema: {
+          type: 'object',
+          properties: {
+            email: { type: 'string', format: 'email' },
+          },
+        },
+        responseSchema: {
+          type: 'object',
+          properties: {
+            success: { type: 'boolean' },
+          },
+        },
+      }
+
+      const mockEndpoint = createMockEndpoint({
+        id: endpointId,
+        path: '/auth/login',
+        method: HttpMethod.POST,
+        ...updateData,
+      })
+
+      mockClient.patch.mockReturnValue({
+        json: () => Promise.resolve(mockEndpoint),
+      } as never)
+
+      const result = await endpointModule.update(endpointId, updateData)
+
+      expect(mockClient.patch).toHaveBeenCalledWith(`endpoints/${endpointId}`, {
+        json: updateData,
+      })
+      expect(result.description).toBe(updateData.description)
+    })
   })
 })
