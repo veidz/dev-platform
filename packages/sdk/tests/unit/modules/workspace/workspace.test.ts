@@ -359,5 +359,28 @@ describe('WorkspaceModule', () => {
       )
       expect(result).toEqual(expectedMember)
     })
+
+    it('should pass role update correctly', async () => {
+      const workspaceId = 'workspace-456'
+      const memberId = 'member-789'
+      const updateData: UpdateMemberRoleDto = {
+        role: 'DEVELOPER' as UpdateMemberRoleDto['role'],
+      }
+
+      mockClient.patch.mockReturnValue({
+        json: jest
+          .fn<() => Promise<WorkspaceMember>>()
+          .mockResolvedValue(mockMember),
+      } as never)
+
+      await workspaceModule.updateMemberRole(workspaceId, memberId, updateData)
+
+      expect(mockClient.patch).toHaveBeenCalledWith(
+        `workspaces/${workspaceId}/members/${memberId}`,
+        {
+          json: updateData,
+        },
+      )
+    })
   })
 })
