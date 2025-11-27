@@ -165,5 +165,22 @@ describe('ApiModule', () => {
       })
       expect(result).toEqual(expectedApi)
     })
+
+    it('should pass update data correctly', async () => {
+      const apiId = 'api-456'
+      const updateData: UpdateApiDto = {
+        name: 'Updated',
+      }
+
+      mockClient.patch.mockReturnValue({
+        json: jest.fn<() => Promise<API>>().mockResolvedValue(mockApi),
+      } as never)
+
+      await apiModule.update(apiId, updateData)
+
+      expect(mockClient.patch).toHaveBeenCalledWith(`apis/${apiId}`, {
+        json: updateData,
+      })
+    })
   })
 })
