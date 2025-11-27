@@ -247,5 +247,33 @@ describe('ApiModule', () => {
       })
       expect(result).toEqual(expectedResponse)
     })
+
+    it('should return API and endpoints count', async () => {
+      const importData: ImportOpenApiDto = {
+        workspaceId: 'workspace-456',
+        spec: {
+          openapi: '3.0.0',
+          info: { title: 'API', version: '1.0.0' },
+          paths: {},
+        },
+      }
+
+      const response: ImportApiResponse = {
+        api: mockApi,
+        endpointsCreated: 10,
+      }
+
+      mockClient.post.mockReturnValue({
+        json: jest
+          .fn<() => Promise<ImportApiResponse>>()
+          .mockResolvedValue(response),
+      } as never)
+
+      const result = await apiModule.importOpenApi(importData)
+
+      expect(result).toHaveProperty('api')
+      expect(result).toHaveProperty('endpointsCreated')
+      expect(result.endpointsCreated).toBe(10)
+    })
   })
 })
