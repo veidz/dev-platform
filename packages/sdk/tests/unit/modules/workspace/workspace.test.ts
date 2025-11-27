@@ -188,5 +188,27 @@ describe('WorkspaceModule', () => {
       )
       expect(result).toEqual(expectedWorkspace)
     })
+
+    it('should pass update data correctly', async () => {
+      const workspaceId = 'workspace-456'
+      const updateData: UpdateWorkspaceDto = {
+        name: 'Updated',
+      }
+
+      mockClient.patch.mockReturnValue({
+        json: jest
+          .fn<() => Promise<Workspace>>()
+          .mockResolvedValue(mockWorkspace),
+      } as never)
+
+      await workspaceModule.update(workspaceId, updateData)
+
+      expect(mockClient.patch).toHaveBeenCalledWith(
+        `workspaces/${workspaceId}`,
+        {
+          json: updateData,
+        },
+      )
+    })
   })
 })
