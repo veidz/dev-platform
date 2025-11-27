@@ -169,4 +169,30 @@ describe('EndpointModule', () => {
       expect(result).toEqual(mockEndpoint)
     })
   })
+
+  describe('update', () => {
+    it('should update endpoint path', async () => {
+      const endpointId = faker.string.uuid()
+      const updateData = {
+        path: '/users/profile',
+      }
+
+      const mockEndpoint = createMockEndpoint({
+        id: endpointId,
+        path: updateData.path,
+      })
+
+      mockClient.patch.mockReturnValue({
+        json: () => Promise.resolve(mockEndpoint),
+      } as never)
+
+      const result = await endpointModule.update(endpointId, updateData)
+
+      expect(mockClient.patch).toHaveBeenCalledWith(`endpoints/${endpointId}`, {
+        json: updateData,
+      })
+      expect(result).toEqual(mockEndpoint)
+      expect(result.path).toBe(updateData.path)
+    })
+  })
 })
