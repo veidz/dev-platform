@@ -268,5 +268,15 @@ describe('EndpointModule', () => {
 
       expect(mockClient.delete).toHaveBeenCalledWith(`endpoints/${endpointId}`)
     })
+
+    it('should not throw when deleting non-existent endpoint', async () => {
+      const endpointId = faker.string.uuid()
+
+      mockClient.delete.mockReturnValue({
+        json: () => Promise.resolve(undefined),
+      } as never)
+
+      await expect(endpointModule.delete(endpointId)).resolves.not.toThrow()
+    })
   })
 })
