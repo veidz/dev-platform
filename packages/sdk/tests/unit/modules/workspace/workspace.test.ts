@@ -239,4 +239,24 @@ describe('WorkspaceModule', () => {
       expect(result).toBeUndefined()
     })
   })
+
+  describe('listMembers', () => {
+    it('should list workspace members', async () => {
+      const workspaceId = 'workspace-123'
+      const expectedMembers = [mockMember]
+
+      mockClient.get.mockReturnValue({
+        json: jest
+          .fn<() => Promise<WorkspaceMember[]>>()
+          .mockResolvedValue(expectedMembers),
+      } as never)
+
+      const result = await workspaceModule.listMembers(workspaceId)
+
+      expect(mockClient.get).toHaveBeenCalledWith(
+        `workspaces/${workspaceId}/members`,
+      )
+      expect(result).toEqual(expectedMembers)
+    })
+  })
 })
