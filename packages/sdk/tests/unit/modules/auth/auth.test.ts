@@ -143,7 +143,7 @@ describe('AuthModule', () => {
       expect(mockClient.post).toHaveBeenCalledWith('auth/logout')
     })
 
-    it('should return void', async () => {
+    it('should not return a value on success', async () => {
       mockClient.post.mockReturnValue({
         json: jest.fn<() => Promise<void>>().mockResolvedValue(undefined),
       } as never)
@@ -211,7 +211,7 @@ describe('AuthModule', () => {
       })
     })
 
-    it('should return void', async () => {
+    it('should not return a value on success', async () => {
       const forgotPasswordData: ForgotPasswordDto = {
         email: 'test@test.com',
       }

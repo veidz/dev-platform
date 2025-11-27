@@ -229,7 +229,7 @@ describe('WorkspaceModule', () => {
       )
     })
 
-    it('should return void', async () => {
+    it('should not return a value on success', async () => {
       const workspaceId = 'workspace-456'
 
       mockClient.delete.mockReturnValue({
@@ -400,7 +400,7 @@ describe('WorkspaceModule', () => {
       )
     })
 
-    it('should return void', async () => {
+    it('should not return a value on success', async () => {
       const workspaceId = 'workspace-456'
       const memberId = 'member-789'
 
@@ -429,7 +429,7 @@ describe('WorkspaceModule', () => {
       )
     })
 
-    it('should return void', async () => {
+    it('should not return a value on success', async () => {
       const workspaceId = 'workspace-456'
 
       mockClient.post.mockReturnValue({
