@@ -1,4 +1,4 @@
-import type { API, CreateApiDto } from '@dev-platform/types'
+import type { API, CreateApiDto, UpdateApiDto } from '@dev-platform/types'
 import { describe, expect, it, jest } from '@jest/globals'
 import { mockDeep } from 'jest-mock-extended'
 
@@ -137,6 +137,33 @@ describe('ApiModule', () => {
       expect(mockClient.post).toHaveBeenCalledWith('apis', {
         json: createData,
       })
+    })
+  })
+
+  describe('update', () => {
+    it('should update API', async () => {
+      const apiId = 'api-123'
+      const updateData: UpdateApiDto = {
+        name: 'Updated API',
+        description: 'Updated description',
+      }
+
+      const expectedApi: API = {
+        ...mockApi,
+        ...(updateData.name && { name: updateData.name }),
+        ...(updateData.description && { description: updateData.description }),
+      }
+
+      mockClient.patch.mockReturnValue({
+        json: jest.fn<() => Promise<API>>().mockResolvedValue(expectedApi),
+      } as never)
+
+      const result = await apiModule.update(apiId, updateData)
+
+      expect(mockClient.patch).toHaveBeenCalledWith(`apis/${apiId}`, {
+        json: updateData,
+      })
+      expect(result).toEqual(expectedApi)
     })
   })
 })
