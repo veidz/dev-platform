@@ -119,5 +119,24 @@ describe('ApiModule', () => {
       })
       expect(result).toEqual(expectedApi)
     })
+
+    it('should pass create data correctly', async () => {
+      const createData: CreateApiDto = {
+        name: 'Test',
+        version: '2.0.0',
+        workspaceId: 'workspace-789',
+        baseUrl: 'https://test.com',
+      }
+
+      mockClient.post.mockReturnValue({
+        json: jest.fn<() => Promise<API>>().mockResolvedValue(mockApi),
+      } as never)
+
+      await apiModule.create(createData)
+
+      expect(mockClient.post).toHaveBeenCalledWith('apis', {
+        json: createData,
+      })
+    })
   })
 })
