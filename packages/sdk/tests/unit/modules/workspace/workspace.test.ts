@@ -413,4 +413,20 @@ describe('WorkspaceModule', () => {
       expect(result).toBeUndefined()
     })
   })
+
+  describe('leave', () => {
+    it('should leave workspace', async () => {
+      const workspaceId = 'workspace-123'
+
+      mockClient.post.mockReturnValue({
+        json: jest.fn<() => Promise<void>>().mockResolvedValue(undefined),
+      } as never)
+
+      await workspaceModule.leave(workspaceId)
+
+      expect(mockClient.post).toHaveBeenCalledWith(
+        `workspaces/${workspaceId}/leave`,
+      )
+    })
+  })
 })
