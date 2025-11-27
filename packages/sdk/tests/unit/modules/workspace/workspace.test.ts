@@ -70,4 +70,21 @@ describe('WorkspaceModule', () => {
       expect(result.total).toBe(2)
     })
   })
+
+  describe('get', () => {
+    it('should get workspace by id', async () => {
+      const workspaceId = 'workspace-123'
+
+      mockClient.get.mockReturnValue({
+        json: jest
+          .fn<() => Promise<Workspace>>()
+          .mockResolvedValue(mockWorkspace),
+      } as never)
+
+      const result = await workspaceModule.get(workspaceId)
+
+      expect(mockClient.get).toHaveBeenCalledWith(`workspaces/${workspaceId}`)
+      expect(result).toEqual(mockWorkspace)
+    })
+  })
 })
