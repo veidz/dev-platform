@@ -43,5 +43,24 @@ describe('ApiModule', () => {
       })
       expect(result).toEqual(expectedResponse)
     })
+
+    it('should return APIs array and total', async () => {
+      const workspaceId = 'workspace-456'
+      const response: ListApisResponse = {
+        apis: [mockApi, { ...mockApi, id: 'api-456' }],
+        total: 2,
+      }
+
+      mockClient.get.mockReturnValue({
+        json: jest
+          .fn<() => Promise<ListApisResponse>>()
+          .mockResolvedValue(response),
+      } as never)
+
+      const result = await apiModule.list(workspaceId)
+
+      expect(result.apis).toHaveLength(2)
+      expect(result.total).toBe(2)
+    })
   })
 })
