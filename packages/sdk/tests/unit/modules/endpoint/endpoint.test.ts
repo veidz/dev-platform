@@ -97,4 +97,31 @@ describe('EndpointModule', () => {
       expect(result.id).toBe(endpointId)
     })
   })
+
+  describe('create', () => {
+    it('should create endpoint with minimal data', async () => {
+      const apiId = faker.string.uuid()
+      const createData = {
+        apiId,
+        path: '/products',
+        method: HttpMethod.POST,
+        description: 'Create product',
+      }
+
+      const mockEndpoint = createMockEndpoint({
+        ...createData,
+      })
+
+      mockClient.post.mockReturnValue({
+        json: () => Promise.resolve(mockEndpoint),
+      } as never)
+
+      const result = await endpointModule.create(createData)
+
+      expect(mockClient.post).toHaveBeenCalledWith('endpoints', {
+        json: createData,
+      })
+      expect(result).toEqual(mockEndpoint)
+    })
+  })
 })
