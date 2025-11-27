@@ -226,5 +226,17 @@ describe('WorkspaceModule', () => {
         `workspaces/${workspaceId}`,
       )
     })
+
+    it('should return void', async () => {
+      const workspaceId = 'workspace-456'
+
+      mockClient.delete.mockReturnValue({
+        json: jest.fn<() => Promise<void>>().mockResolvedValue(undefined),
+      } as never)
+
+      const result = await workspaceModule.delete(workspaceId)
+
+      expect(result).toBeUndefined()
+    })
   })
 })
