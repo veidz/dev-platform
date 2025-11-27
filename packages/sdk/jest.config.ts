@@ -22,6 +22,7 @@ const config: Config = {
     '^@/__mocks__/(.*)$': '<rootDir>/tests/__mocks__/$1',
     '^@/(.*)$': '<rootDir>/src/$1',
     '^ky$': '<rootDir>/tests/__mocks__/ky.ts',
+    '^@dev-platform/types$': '<rootDir>/../types/dist/index.cjs',
   },
 }
 
