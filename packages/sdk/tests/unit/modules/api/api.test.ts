@@ -342,5 +342,20 @@ describe('ApiModule', () => {
       })
       expect(result).toEqual(expectedApi)
     })
+
+    it('should pass duplicate name correctly', async () => {
+      const apiId = 'api-456'
+      const newName = 'Copy of API'
+
+      mockClient.post.mockReturnValue({
+        json: jest.fn<() => Promise<API>>().mockResolvedValue(mockApi),
+      } as never)
+
+      await apiModule.duplicate(apiId, newName)
+
+      expect(mockClient.post).toHaveBeenCalledWith(`apis/${apiId}/duplicate`, {
+        json: { name: newName },
+      })
+    })
   })
 })
