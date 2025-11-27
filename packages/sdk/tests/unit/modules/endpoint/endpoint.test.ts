@@ -49,5 +49,25 @@ describe('EndpointModule', () => {
       expect(result.endpoints).toHaveLength(2)
       expect(result.total).toBe(2)
     })
+
+    it('should return empty list when API has no endpoints', async () => {
+      const apiId = faker.string.uuid()
+      const mockResponse: ListEndpointsResponse = {
+        endpoints: [],
+        total: 0,
+      }
+
+      mockClient.get.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await endpointModule.list(apiId)
+
+      expect(mockClient.get).toHaveBeenCalledWith('endpoints', {
+        searchParams: { apiId },
+      })
+      expect(result.endpoints).toHaveLength(0)
+      expect(result.total).toBe(0)
+    })
   })
 })
