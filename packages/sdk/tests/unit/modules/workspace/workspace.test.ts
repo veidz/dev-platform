@@ -133,5 +133,25 @@ describe('WorkspaceModule', () => {
       })
       expect(result).toEqual(expectedWorkspace)
     })
+
+    it('should pass create data correctly', async () => {
+      const createData: CreateWorkspaceDto = {
+        name: 'Test',
+        slug: 'test',
+        description: 'Desc',
+      }
+
+      mockClient.post.mockReturnValue({
+        json: jest
+          .fn<() => Promise<Workspace>>()
+          .mockResolvedValue(mockWorkspace),
+      } as never)
+
+      await workspaceModule.create(createData)
+
+      expect(mockClient.post).toHaveBeenCalledWith('workspaces', {
+        json: createData,
+      })
+    })
   })
 })
