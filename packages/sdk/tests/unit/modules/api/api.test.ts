@@ -276,4 +276,26 @@ describe('ApiModule', () => {
       expect(result.endpointsCreated).toBe(10)
     })
   })
+
+  describe('exportOpenApi', () => {
+    it('should export OpenAPI spec', async () => {
+      const apiId = 'api-123'
+      const expectedSpec = {
+        openapi: '3.0.0',
+        info: { title: 'Test API', version: '1.0.0' },
+        paths: {},
+      }
+
+      mockClient.get.mockReturnValue({
+        json: jest
+          .fn<() => Promise<Record<string, unknown>>>()
+          .mockResolvedValue(expectedSpec),
+      } as never)
+
+      const result = await apiModule.exportOpenApi(apiId)
+
+      expect(mockClient.get).toHaveBeenCalledWith(`apis/${apiId}/export`)
+      expect(result).toEqual(expectedSpec)
+    })
+  })
 })
