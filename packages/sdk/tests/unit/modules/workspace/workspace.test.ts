@@ -399,5 +399,18 @@ describe('WorkspaceModule', () => {
         `workspaces/${workspaceId}/members/${memberId}`,
       )
     })
+
+    it('should return void', async () => {
+      const workspaceId = 'workspace-456'
+      const memberId = 'member-789'
+
+      mockClient.delete.mockReturnValue({
+        json: jest.fn<() => Promise<void>>().mockResolvedValue(undefined),
+      } as never)
+
+      const result = await workspaceModule.removeMember(workspaceId, memberId)
+
+      expect(result).toBeUndefined()
+    })
   })
 })
