@@ -297,5 +297,26 @@ describe('ApiModule', () => {
       expect(mockClient.get).toHaveBeenCalledWith(`apis/${apiId}/export`)
       expect(result).toEqual(expectedSpec)
     })
+
+    it('should return OpenAPI spec object', async () => {
+      const apiId = 'api-456'
+      const spec = {
+        openapi: '3.1.0',
+        info: { title: 'API', version: '2.0.0' },
+        paths: { '/users': {} },
+      }
+
+      mockClient.get.mockReturnValue({
+        json: jest
+          .fn<() => Promise<Record<string, unknown>>>()
+          .mockResolvedValue(spec),
+      } as never)
+
+      const result = await apiModule.exportOpenApi(apiId)
+
+      expect(result).toHaveProperty('openapi')
+      expect(result).toHaveProperty('info')
+      expect(result).toHaveProperty('paths')
+    })
   })
 })
