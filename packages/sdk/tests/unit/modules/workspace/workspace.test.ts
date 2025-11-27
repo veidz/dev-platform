@@ -1,5 +1,6 @@
 import type {
   CreateWorkspaceDto,
+  InviteMemberDto,
   UpdateWorkspaceDto,
   Workspace,
   WorkspaceMember,
@@ -272,6 +273,32 @@ describe('WorkspaceModule', () => {
       const result = await workspaceModule.listMembers(workspaceId)
 
       expect(result).toHaveLength(2)
+    })
+  })
+
+  describe('inviteMember', () => {
+    it('should invite member to workspace', async () => {
+      const workspaceId = 'workspace-123'
+      const inviteData: InviteMemberDto = {
+        email: 'newuser@example.com',
+        role: 'DEVELOPER' as InviteMemberDto['role'],
+      }
+
+      mockClient.post.mockReturnValue({
+        json: jest
+          .fn<() => Promise<WorkspaceMember>>()
+          .mockResolvedValue(mockMember),
+      } as never)
+
+      const result = await workspaceModule.inviteMember(workspaceId, inviteData)
+
+      expect(mockClient.post).toHaveBeenCalledWith(
+        `workspaces/${workspaceId}/members`,
+        {
+          json: inviteData,
+        },
+      )
+      expect(result).toEqual(mockMember)
     })
   })
 })
