@@ -255,4 +255,18 @@ describe('EndpointModule', () => {
       expect(result.description).toBe(updateData.description)
     })
   })
+
+  describe('delete', () => {
+    it('should delete endpoint', async () => {
+      const endpointId = faker.string.uuid()
+
+      mockClient.delete.mockReturnValue({
+        json: () => Promise.resolve(undefined),
+      } as never)
+
+      await endpointModule.delete(endpointId)
+
+      expect(mockClient.delete).toHaveBeenCalledWith(`endpoints/${endpointId}`)
+    })
+  })
 })
