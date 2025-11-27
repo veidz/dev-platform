@@ -63,4 +63,19 @@ describe('ApiModule', () => {
       expect(result.total).toBe(2)
     })
   })
+
+  describe('get', () => {
+    it('should get API by id', async () => {
+      const apiId = 'api-123'
+
+      mockClient.get.mockReturnValue({
+        json: jest.fn<() => Promise<API>>().mockResolvedValue(mockApi),
+      } as never)
+
+      const result = await apiModule.get(apiId)
+
+      expect(mockClient.get).toHaveBeenCalledWith(`apis/${apiId}`)
+      expect(result).toEqual(mockApi)
+    })
+  })
 })
