@@ -1,10 +1,18 @@
-import type { API, CreateApiDto, UpdateApiDto } from '@dev-platform/types'
+import type {
+  API,
+  CreateApiDto,
+  ImportOpenApiDto,
+  UpdateApiDto,
+} from '@dev-platform/types'
 import { describe, expect, it, jest } from '@jest/globals'
 import { mockDeep } from 'jest-mock-extended'
 
 import type { BaseClient } from '@/client/http'
 import { ApiModule } from '@/modules/api/api'
-import type { ListApisResponse } from '@/modules/api/api.types'
+import type {
+  ImportApiResponse,
+  ListApisResponse,
+} from '@/modules/api/api.types'
 
 describe('ApiModule', () => {
   const mockClient = mockDeep<BaseClient>()
@@ -207,6 +215,37 @@ describe('ApiModule', () => {
       const result = await apiModule.delete(apiId)
 
       expect(result).toBeUndefined()
+    })
+  })
+
+  describe('importOpenApi', () => {
+    it('should import OpenAPI spec', async () => {
+      const importData: ImportOpenApiDto = {
+        workspaceId: 'workspace-123',
+        spec: {
+          openapi: '3.0.0',
+          info: { title: 'Test API', version: '1.0.0' },
+          paths: {},
+        },
+      }
+
+      const expectedResponse: ImportApiResponse = {
+        api: mockApi,
+        endpointsCreated: 5,
+      }
+
+      mockClient.post.mockReturnValue({
+        json: jest
+          .fn<() => Promise<ImportApiResponse>>()
+          .mockResolvedValue(expectedResponse),
+      } as never)
+
+      const result = await apiModule.importOpenApi(importData)
+
+      expect(mockClient.post).toHaveBeenCalledWith('apis/import', {
+        json: importData,
+      })
+      expect(result).toEqual(expectedResponse)
     })
   })
 })
