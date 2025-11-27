@@ -6,7 +6,7 @@ import { DragHandleDots2Icon } from '@radix-ui/react-icons'
 
 import { cn } from '@/lib/utils'
 
-export const ResizablePanelGroup = ({
+const ResizablePanelGroup = ({
   className,
   ...props
 }: ComponentPropsWithoutRef<typeof PanelGroup>): React.JSX.Element => {
@@ -21,7 +21,7 @@ export const ResizablePanelGroup = ({
   )
 }
 
-export const ResizablePanel = Panel
+const ResizablePanel = Panel
 
 interface ResizableHandleProps {
   withHandle?: boolean
@@ -30,7 +30,7 @@ interface ResizableHandleProps {
   id?: string
 }
 
-export function ResizableHandle({
+function ResizableHandle({
   withHandle,
   className,
   ...props
@@ -51,3 +51,5 @@ export function ResizableHandle({
     </PanelResizeHandle>
   )
 }
+
+export { ResizableHandle, ResizablePanel, ResizablePanelGroup }

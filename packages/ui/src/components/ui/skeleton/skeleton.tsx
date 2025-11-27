@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils'
 
 export type SkeletonProps = React.HTMLAttributes<HTMLDivElement>
 
-export const Skeleton = ({
+const Skeleton = ({
   className,
   ...props
 }: SkeletonProps): React.JSX.Element => {
@@ -17,3 +17,5 @@ export const Skeleton = ({
 }
 
 Skeleton.displayName = 'Skeleton'
+
+export { Skeleton }

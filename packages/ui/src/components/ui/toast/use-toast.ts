@@ -36,7 +36,7 @@ const addToRemoveQueue = (toastId: string): void => {
   toastTimeouts.set(toastId, timeout)
 }
 
-export const reducer = (state: ToastState, action: ToastAction): ToastState => {
+const reducer = (state: ToastState, action: ToastAction): ToastState => {
   switch (action.type) {
     case 'ADD_TOAST':
       return {
@@ -161,4 +161,4 @@ function useToast(): UseToastReturn {
 }
 
 export type { ToasterToast } from './use-toast.types'
-export { toast, useToast }
+export { reducer, toast, useToast }

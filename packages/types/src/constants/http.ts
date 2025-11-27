@@ -1,4 +1,4 @@
-export const HTTP_STATUS = {
+const HTTP_STATUS = {
   OK: 200,
   CREATED: 201,
   ACCEPTED: 202,
@@ -21,7 +21,7 @@ export const HTTP_STATUS = {
   GATEWAY_TIMEOUT: 504,
 } as const
 
-export const HTTP_METHODS = [
+const HTTP_METHODS = [
   'GET',
   'POST',
   'PUT',
@@ -31,7 +31,7 @@ export const HTTP_METHODS = [
   'OPTIONS',
 ] as const
 
-export const CONTENT_TYPES = {
+const CONTENT_TYPES = {
   JSON: 'application/json',
   FORM: 'application/x-www-form-urlencoded',
   MULTIPART: 'multipart/form-data',
@@ -40,7 +40,7 @@ export const CONTENT_TYPES = {
   XML: 'application/xml',
 } as const
 
-export const HEADERS = {
+const HEADERS = {
   CONTENT_TYPE: 'Content-Type',
   AUTHORIZATION: 'Authorization',
   ACCEPT: 'Accept',
@@ -49,6 +49,8 @@ export const HEADERS = {
   X_API_KEY: 'X-API-Key',
   X_REQUEST_ID: 'X-Request-ID',
 } as const
+
+export { CONTENT_TYPES, HEADERS, HTTP_METHODS, HTTP_STATUS }
 
 export type HttpStatus = (typeof HTTP_STATUS)[keyof typeof HTTP_STATUS]
 export type HttpMethod = (typeof HTTP_METHODS)[number]

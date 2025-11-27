@@ -1,4 +1,4 @@
-export const colors = {
+const colors = {
   background: 'hsl(222.2 84% 4.9%)',
   foreground: 'hsl(210 40% 98%)',
 
@@ -28,7 +28,7 @@ export const colors = {
   ring: 'hsl(217.2 91% 60%)',
 } as const
 
-export const rawColors = {
+const rawColors = {
   background: '222.2 84% 4.9%',
   foreground: '210 40% 98%',
   border: '217.2 32.6% 17.5%',
@@ -36,3 +36,5 @@ export const rawColors = {
 
 export type ColorToken = keyof typeof colors
 export type RawColorToken = keyof typeof rawColors
+
+export { colors, rawColors }

@@ -39,7 +39,7 @@ export interface Permissions {
   canDeleteWorkspace: boolean
 }
 
-export const RolePermissions: Record<Role, Permissions> = {
+const RolePermissions: Record<Role, Permissions> = {
   [Role.OWNER]: {
     canCreateApi: true,
     canUpdateApi: true,
@@ -77,6 +77,8 @@ export const RolePermissions: Record<Role, Permissions> = {
     canDeleteWorkspace: false,
   },
 }
+
+export { RolePermissions }
 
 export interface CreateWorkspaceDto {
   name: string

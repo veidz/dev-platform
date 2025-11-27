@@ -21,7 +21,7 @@ export enum ErrorCode {
   TIMEOUT = 'TIMEOUT',
 }
 
-export const ERROR_MESSAGES: Record<ErrorCode, string> = {
+const ERROR_MESSAGES: Record<ErrorCode, string> = {
   [ErrorCode.INVALID_CREDENTIALS]: 'Email ou senha inválidos',
   [ErrorCode.UNAUTHORIZED]: 'Não autorizado',
   [ErrorCode.TOKEN_EXPIRED]: 'Token expirado',
@@ -51,7 +51,7 @@ export interface HttpError {
   details?: unknown
 }
 
-export const HTTP_ERROR_TEMPLATES: Record<
+const HTTP_ERROR_TEMPLATES: Record<
   number,
   { code: ErrorCode; message: string }
 > = {
@@ -74,3 +74,5 @@ export const HTTP_ERROR_TEMPLATES: Record<
     message: 'Serviço indisponível',
   },
 }
+
+export { ERROR_MESSAGES, HTTP_ERROR_TEMPLATES }

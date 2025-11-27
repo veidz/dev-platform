@@ -1,4 +1,4 @@
-export const fontFamily = {
+const fontFamily = {
   sans: [
     'Inter',
     'ui-sans-serif',
@@ -22,7 +22,7 @@ export const fontFamily = {
   ].join(', '),
 } as const
 
-export const fontSize = {
+const fontSize = {
   xs: ['0.75rem', { lineHeight: '1rem' }],
   sm: ['0.875rem', { lineHeight: '1.25rem' }],
   base: ['1rem', { lineHeight: '1.5rem' }],
@@ -38,7 +38,7 @@ export const fontSize = {
   '9xl': ['8rem', { lineHeight: '1' }],
 } as const
 
-export const fontWeight = {
+const fontWeight = {
   thin: '100',
   extralight: '200',
   light: '300',
@@ -50,7 +50,7 @@ export const fontWeight = {
   black: '900',
 } as const
 
-export const lineHeight = {
+const lineHeight = {
   none: '1',
   tight: '1.25',
   snug: '1.375',
@@ -67,7 +67,7 @@ export const lineHeight = {
   10: '2.5rem',
 } as const
 
-export const letterSpacing = {
+const letterSpacing = {
   tighter: '-0.05em',
   tight: '-0.025em',
   normal: '0em',
@@ -78,6 +78,8 @@ export const letterSpacing = {
 
 export type FontFamilyToken = keyof typeof fontFamily
 export type FontSizeToken = keyof typeof fontSize
+
+export { fontFamily, fontSize, fontWeight, letterSpacing, lineHeight }
 export type FontWeightToken = keyof typeof fontWeight
 export type LineHeightToken = keyof typeof lineHeight
 export type LetterSpacingToken = keyof typeof letterSpacing

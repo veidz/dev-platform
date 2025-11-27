@@ -8,7 +8,7 @@ import {
 } from './toast'
 import { useToast } from './use-toast'
 
-export function Toaster(): React.JSX.Element {
+function Toaster(): React.JSX.Element {
   const { toasts } = useToast()
 
   return (
@@ -31,3 +31,5 @@ export function Toaster(): React.JSX.Element {
     </ToastProvider>
   )
 }
+
+export { Toaster }

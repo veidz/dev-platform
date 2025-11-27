@@ -1,4 +1,4 @@
-export const spacing = {
+const spacing = {
   0: '0px',
   px: '1px',
   0.5: '0.125rem',
@@ -36,7 +36,7 @@ export const spacing = {
   96: '24rem',
 } as const
 
-export const semanticSpacing = {
+const semanticSpacing = {
   xs: spacing[1],
   sm: spacing[2],
   md: spacing[4],
@@ -48,4 +48,6 @@ export const semanticSpacing = {
 } as const
 
 export type SpacingToken = keyof typeof spacing
+
+export { semanticSpacing, spacing }
 export type SemanticSpacingToken = keyof typeof semanticSpacing
