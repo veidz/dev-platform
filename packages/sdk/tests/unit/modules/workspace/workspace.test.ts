@@ -300,5 +300,28 @@ describe('WorkspaceModule', () => {
       )
       expect(result).toEqual(mockMember)
     })
+
+    it('should pass invite data correctly', async () => {
+      const workspaceId = 'workspace-456'
+      const inviteData: InviteMemberDto = {
+        email: 'test@test.com',
+        role: 'ADMIN' as InviteMemberDto['role'],
+      }
+
+      mockClient.post.mockReturnValue({
+        json: jest
+          .fn<() => Promise<WorkspaceMember>>()
+          .mockResolvedValue(mockMember),
+      } as never)
+
+      await workspaceModule.inviteMember(workspaceId, inviteData)
+
+      expect(mockClient.post).toHaveBeenCalledWith(
+        `workspaces/${workspaceId}/members`,
+        {
+          json: inviteData,
+        },
+      )
+    })
   })
 })
