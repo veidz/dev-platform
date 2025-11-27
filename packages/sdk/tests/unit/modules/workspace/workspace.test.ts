@@ -1,6 +1,7 @@
 import type {
   CreateWorkspaceDto,
   InviteMemberDto,
+  UpdateMemberRoleDto,
   UpdateWorkspaceDto,
   Workspace,
   WorkspaceMember,
@@ -322,6 +323,41 @@ describe('WorkspaceModule', () => {
           json: inviteData,
         },
       )
+    })
+  })
+
+  describe('updateMemberRole', () => {
+    it('should update member role', async () => {
+      const workspaceId = 'workspace-123'
+      const memberId = 'member-123'
+      const updateData: UpdateMemberRoleDto = {
+        role: 'ADMIN' as UpdateMemberRoleDto['role'],
+      }
+
+      const expectedMember: WorkspaceMember = {
+        ...mockMember,
+        role: 'ADMIN' as WorkspaceMember['role'],
+      }
+
+      mockClient.patch.mockReturnValue({
+        json: jest
+          .fn<() => Promise<WorkspaceMember>>()
+          .mockResolvedValue(expectedMember),
+      } as never)
+
+      const result = await workspaceModule.updateMemberRole(
+        workspaceId,
+        memberId,
+        updateData,
+      )
+
+      expect(mockClient.patch).toHaveBeenCalledWith(
+        `workspaces/${workspaceId}/members/${memberId}`,
+        {
+          json: updateData,
+        },
+      )
+      expect(result).toEqual(expectedMember)
     })
   })
 })
