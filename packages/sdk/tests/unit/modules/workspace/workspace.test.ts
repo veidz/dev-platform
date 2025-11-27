@@ -1,5 +1,6 @@
 import type {
   CreateWorkspaceDto,
+  UpdateWorkspaceDto,
   Workspace,
   WorkspaceMember,
 } from '@dev-platform/types'
@@ -152,6 +153,40 @@ describe('WorkspaceModule', () => {
       expect(mockClient.post).toHaveBeenCalledWith('workspaces', {
         json: createData,
       })
+    })
+  })
+
+  describe('update', () => {
+    it('should update workspace', async () => {
+      const workspaceId = 'workspace-123'
+      const updateData: UpdateWorkspaceDto = {
+        name: 'Updated Workspace',
+        description: 'Updated description',
+      }
+
+      const expectedWorkspace: Workspace = {
+        ...mockWorkspace,
+        ...(updateData.name && { name: updateData.name }),
+        ...(updateData.description && {
+          description: updateData.description,
+        }),
+      }
+
+      mockClient.patch.mockReturnValue({
+        json: jest
+          .fn<() => Promise<Workspace>>()
+          .mockResolvedValue(expectedWorkspace),
+      } as never)
+
+      const result = await workspaceModule.update(workspaceId, updateData)
+
+      expect(mockClient.patch).toHaveBeenCalledWith(
+        `workspaces/${workspaceId}`,
+        {
+          json: updateData,
+        },
+      )
+      expect(result).toEqual(expectedWorkspace)
     })
   })
 })
