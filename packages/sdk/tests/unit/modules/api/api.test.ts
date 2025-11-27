@@ -1,4 +1,4 @@
-import type { API } from '@dev-platform/types'
+import type { API, CreateApiDto } from '@dev-platform/types'
 import { describe, expect, it, jest } from '@jest/globals'
 import { mockDeep } from 'jest-mock-extended'
 
@@ -88,6 +88,36 @@ describe('ApiModule', () => {
       await apiModule.get(apiId)
 
       expect(mockClient.get).toHaveBeenCalledWith(`apis/${apiId}`)
+    })
+  })
+
+  describe('create', () => {
+    it('should create new API', async () => {
+      const createData: CreateApiDto = {
+        name: 'New API',
+        description: 'New description',
+        version: '1.0.0',
+        workspaceId: 'workspace-123',
+        baseUrl: 'https://new-api.example.com',
+      }
+
+      const expectedApi: API = {
+        ...mockApi,
+        name: createData.name,
+        description: createData.description,
+        baseUrl: createData.baseUrl,
+      }
+
+      mockClient.post.mockReturnValue({
+        json: jest.fn<() => Promise<API>>().mockResolvedValue(expectedApi),
+      } as never)
+
+      const result = await apiModule.create(createData)
+
+      expect(mockClient.post).toHaveBeenCalledWith('apis', {
+        json: createData,
+      })
+      expect(result).toEqual(expectedApi)
     })
   })
 })
