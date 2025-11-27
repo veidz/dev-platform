@@ -258,5 +258,20 @@ describe('WorkspaceModule', () => {
       )
       expect(result).toEqual(expectedMembers)
     })
+
+    it('should return members array', async () => {
+      const workspaceId = 'workspace-123'
+      const members = [mockMember, { ...mockMember, id: 'member-456' }]
+
+      mockClient.get.mockReturnValue({
+        json: jest
+          .fn<() => Promise<WorkspaceMember[]>>()
+          .mockResolvedValue(members),
+      } as never)
+
+      const result = await workspaceModule.listMembers(workspaceId)
+
+      expect(result).toHaveLength(2)
+    })
   })
 })
