@@ -123,5 +123,50 @@ describe('EndpointModule', () => {
       })
       expect(result).toEqual(mockEndpoint)
     })
+
+    it('should create endpoint with schemas', async () => {
+      const apiId = faker.string.uuid()
+      const requestSchema = {
+        type: 'object',
+        properties: {
+          name: { type: 'string' },
+          price: { type: 'number' },
+        },
+        required: ['name', 'price'],
+      }
+
+      const responseSchema = {
+        type: 'object',
+        properties: {
+          id: { type: 'string' },
+          name: { type: 'string' },
+          price: { type: 'number' },
+        },
+      }
+
+      const createData = {
+        apiId,
+        path: '/products',
+        method: HttpMethod.POST,
+        description: 'Create product',
+        requestSchema,
+        responseSchema,
+      }
+
+      const mockEndpoint = createMockEndpoint({
+        ...createData,
+      })
+
+      mockClient.post.mockReturnValue({
+        json: () => Promise.resolve(mockEndpoint),
+      } as never)
+
+      const result = await endpointModule.create(createData)
+
+      expect(mockClient.post).toHaveBeenCalledWith('endpoints', {
+        json: createData,
+      })
+      expect(result).toEqual(mockEndpoint)
+    })
   })
 })
