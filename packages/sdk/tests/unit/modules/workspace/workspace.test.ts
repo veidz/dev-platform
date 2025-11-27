@@ -51,5 +51,23 @@ describe('WorkspaceModule', () => {
       expect(mockClient.get).toHaveBeenCalledWith('workspaces')
       expect(result).toEqual(expectedResponse)
     })
+
+    it('should return workspaces array and total', async () => {
+      const response: ListWorkspacesResponse = {
+        workspaces: [mockWorkspace, { ...mockWorkspace, id: 'workspace-456' }],
+        total: 2,
+      }
+
+      mockClient.get.mockReturnValue({
+        json: jest
+          .fn<() => Promise<ListWorkspacesResponse>>()
+          .mockResolvedValue(response),
+      } as never)
+
+      const result = await workspaceModule.list()
+
+      expect(result.workspaces).toHaveLength(2)
+      expect(result.total).toBe(2)
+    })
   })
 })
