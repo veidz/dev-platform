@@ -211,4 +211,20 @@ describe('WorkspaceModule', () => {
       )
     })
   })
+
+  describe('delete', () => {
+    it('should delete workspace', async () => {
+      const workspaceId = 'workspace-123'
+
+      mockClient.delete.mockReturnValue({
+        json: jest.fn<() => Promise<void>>().mockResolvedValue(undefined),
+      } as never)
+
+      await workspaceModule.delete(workspaceId)
+
+      expect(mockClient.delete).toHaveBeenCalledWith(
+        `workspaces/${workspaceId}`,
+      )
+    })
+  })
 })
