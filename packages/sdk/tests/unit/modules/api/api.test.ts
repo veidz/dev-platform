@@ -183,4 +183,18 @@ describe('ApiModule', () => {
       })
     })
   })
+
+  describe('delete', () => {
+    it('should delete API', async () => {
+      const apiId = 'api-123'
+
+      mockClient.delete.mockReturnValue({
+        json: jest.fn<() => Promise<void>>().mockResolvedValue(undefined),
+      } as never)
+
+      await apiModule.delete(apiId)
+
+      expect(mockClient.delete).toHaveBeenCalledWith(`apis/${apiId}`)
+    })
+  })
 })
