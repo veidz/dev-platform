@@ -9,6 +9,7 @@ import type {
 import { describe, expect, it, jest } from '@jest/globals'
 import { mockDeep } from 'jest-mock-extended'
 
+import { faker } from '@/__mocks__/faker-adapter'
 import type { BaseClient } from '@/client/http'
 import { AuthModule } from '@/modules/auth/auth'
 import type { LoginResponse, RegisterResponse } from '@/modules/auth/auth.types'
@@ -18,25 +19,25 @@ describe('AuthModule', () => {
   const authModule = new AuthModule(mockClient)
 
   const mockUser: User = {
-    id: 'user-123',
-    email: 'test@example.com',
-    name: 'Test User',
+    id: faker.string.uuid(),
+    email: faker.internet.email(),
+    name: faker.person.fullName(),
     emailVerified: true,
-    createdAt: new Date('2024-01-01'),
-    updatedAt: new Date('2024-01-01'),
+    createdAt: faker.date.past(),
+    updatedAt: faker.date.recent(),
   }
 
   const mockTokens: AuthTokens = {
-    accessToken: 'access-token-123',
-    refreshToken: 'refresh-token-456',
-    expiresIn: 900,
+    accessToken: faker.string.alphanumeric(32),
+    refreshToken: faker.string.alphanumeric(32),
+    expiresIn: faker.number.int({ min: 600, max: 3600 }),
   }
 
   describe('login', () => {
     it('should login with valid credentials', async () => {
       const credentials: LoginCredentials = {
-        email: 'test@example.com',
-        password: 'password123',
+        email: faker.internet.email(),
+        password: faker.internet.password(),
       }
 
       const expectedResponse: LoginResponse = {
@@ -60,8 +61,8 @@ describe('AuthModule', () => {
 
     it('should pass credentials correctly', async () => {
       const credentials: LoginCredentials = {
-        email: 'user@test.com',
-        password: 'securePass',
+        email: faker.internet.email(),
+        password: faker.internet.password(),
       }
 
       mockClient.post.mockReturnValue({

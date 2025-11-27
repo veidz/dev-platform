@@ -1,6 +1,7 @@
 import { describe, expect, it } from '@jest/globals'
 import { HTTPError, NormalizedOptions, TimeoutError } from 'ky'
 
+import { faker } from '@/__mocks__/faker-adapter'
 import {
   AuthenticationError,
   AuthorizationError,
@@ -17,7 +18,7 @@ import {
 const createHTTPError = (response: Response) => {
   return new HTTPError(
     response,
-    new Request('http://test.com'),
+    new Request(faker.internet.url()),
     {} as NormalizedOptions,
   )
 }
@@ -25,25 +26,34 @@ const createHTTPError = (response: Response) => {
 describe('errors', () => {
   describe('SDKError', () => {
     it('should create base SDKError with message and status code', () => {
-      const error = new SDKError('Test error', 400)
+      const message = faker.lorem.sentence()
+      const statusCode = faker.internet.httpStatusCode({
+        types: ['clientError'],
+      })
+      const error = new SDKError(message, statusCode)
 
       expect(error).toBeInstanceOf(Error)
       expect(error).toBeInstanceOf(SDKError)
-      expect(error.message).toBe('Test error')
-      expect(error.statusCode).toBe(400)
+      expect(error.message).toBe(message)
+      expect(error.statusCode).toBe(statusCode)
       expect(error.name).toBe('SDKError')
     })
 
     it('should create SDKError without status code', () => {
-      const error = new SDKError('Test error')
+      const message = faker.lorem.sentence()
+      const error = new SDKError(message)
 
       expect(error.statusCode).toBeUndefined()
       expect(error.originalError).toBeUndefined()
     })
 
     it('should store original error', () => {
-      const originalError = new Error('Original')
-      const error = new SDKError('Wrapped', 500, originalError)
+      const originalError = new Error(faker.lorem.sentence())
+      const message = faker.lorem.sentence()
+      const statusCode = faker.internet.httpStatusCode({
+        types: ['serverError'],
+      })
+      const error = new SDKError(message, statusCode, originalError)
 
       expect(error.originalError).toBe(originalError)
     })
@@ -60,15 +70,17 @@ describe('errors', () => {
     })
 
     it('should create AuthenticationError with custom message', () => {
-      const error = new AuthenticationError('Invalid token')
+      const message = faker.lorem.sentence()
+      const error = new AuthenticationError(message)
 
-      expect(error.message).toBe('Invalid token')
+      expect(error.message).toBe(message)
       expect(error.statusCode).toBe(401)
     })
 
     it('should store original error', () => {
-      const originalError = new Error('Original')
-      const error = new AuthenticationError('Custom', originalError)
+      const originalError = new Error(faker.lorem.sentence())
+      const message = faker.lorem.sentence()
+      const error = new AuthenticationError(message, originalError)
 
       expect(error.originalError).toBe(originalError)
     })
@@ -85,9 +97,10 @@ describe('errors', () => {
     })
 
     it('should create AuthorizationError with custom message', () => {
-      const error = new AuthorizationError('No permission')
+      const message = faker.lorem.sentence()
+      const error = new AuthorizationError(message)
 
-      expect(error.message).toBe('No permission')
+      expect(error.message).toBe(message)
     })
   })
 
@@ -102,9 +115,10 @@ describe('errors', () => {
     })
 
     it('should create NotFoundError with custom message', () => {
-      const error = new NotFoundError('User not found')
+      const message = faker.lorem.sentence()
+      const error = new NotFoundError(message)
 
-      expect(error.message).toBe('User not found')
+      expect(error.message).toBe(message)
     })
   })
 
@@ -119,15 +133,20 @@ describe('errors', () => {
     })
 
     it('should create ValidationError with errors object', () => {
-      const errors = { email: ['Invalid email'], password: ['Too short'] }
-      const error = new ValidationError('Invalid data', errors)
+      const message = faker.lorem.sentence()
+      const errors = {
+        [faker.lorem.word()]: [faker.lorem.sentence()],
+        [faker.lorem.word()]: [faker.lorem.sentence()],
+      }
+      const error = new ValidationError(message, errors)
 
-      expect(error.message).toBe('Invalid data')
+      expect(error.message).toBe(message)
       expect(error.errors).toEqual(errors)
     })
 
     it('should create ValidationError without errors object', () => {
-      const error = new ValidationError('Invalid')
+      const message = faker.lorem.sentence()
+      const error = new ValidationError(message)
 
       expect(error.errors).toBeUndefined()
     })
@@ -144,10 +163,12 @@ describe('errors', () => {
     })
 
     it('should create RateLimitError with retryAfter', () => {
-      const error = new RateLimitError('Too many requests', 60)
+      const message = faker.lorem.sentence()
+      const retryAfter = faker.number.int({ min: 1, max: 3600 })
+      const error = new RateLimitError(message, retryAfter)
 
-      expect(error.message).toBe('Too many requests')
-      expect(error.retryAfter).toBe(60)
+      expect(error.message).toBe(message)
+      expect(error.retryAfter).toBe(retryAfter)
     })
 
     it('should create RateLimitError without retryAfter', () => {
@@ -168,9 +189,10 @@ describe('errors', () => {
     })
 
     it('should create ServerError with custom message', () => {
-      const error = new ServerError('Database error')
+      const message = faker.lorem.sentence()
+      const error = new ServerError(message)
 
-      expect(error.message).toBe('Database error')
+      expect(error.message).toBe(message)
     })
   })
 
@@ -185,9 +207,10 @@ describe('errors', () => {
     })
 
     it('should create NetworkError with custom message', () => {
-      const error = new NetworkError('Connection lost')
+      const message = faker.lorem.sentence()
+      const error = new NetworkError(message)
 
-      expect(error.message).toBe('Connection lost')
+      expect(error.message).toBe(message)
     })
   })
 
@@ -202,15 +225,16 @@ describe('errors', () => {
     })
 
     it('should create RequestTimeoutError with custom message', () => {
-      const error = new RequestTimeoutError('Request took too long')
+      const message = faker.lorem.sentence()
+      const error = new RequestTimeoutError(message)
 
-      expect(error.message).toBe('Request took too long')
+      expect(error.message).toBe(message)
     })
   })
 
   describe('parseErrorResponse', () => {
     it('should parse TimeoutError', async () => {
-      const timeoutError = new TimeoutError(new Request('http://test.com'))
+      const timeoutError = new TimeoutError(new Request(faker.internet.url()))
       const result = await parseErrorResponse(timeoutError)
 
       expect(result).toBeInstanceOf(RequestTimeoutError)
@@ -219,44 +243,50 @@ describe('errors', () => {
     })
 
     it('should parse HTTPError with 401 status', async () => {
-      const response = new Response(
-        JSON.stringify({ message: 'Invalid credentials' }),
-        { status: 401 },
-      )
+      const message = faker.lorem.sentence()
+      const response = new Response(JSON.stringify({ message }), {
+        status: 401,
+      })
       const httpError = createHTTPError(response)
       const result = await parseErrorResponse(httpError)
 
       expect(result).toBeInstanceOf(AuthenticationError)
-      expect(result.message).toBe('Invalid credentials')
+      expect(result.message).toBe(message)
     })
 
     it('should parse HTTPError with 403 status', async () => {
-      const response = new Response(JSON.stringify({ error: 'Forbidden' }), {
+      const errorMessage = faker.lorem.sentence()
+      const response = new Response(JSON.stringify({ error: errorMessage }), {
         status: 403,
       })
       const httpError = createHTTPError(response)
       const result = await parseErrorResponse(httpError)
 
       expect(result).toBeInstanceOf(AuthorizationError)
-      expect(result.message).toBe('Forbidden')
+      expect(result.message).toBe(errorMessage)
     })
 
     it('should parse HTTPError with 404 status', async () => {
-      const response = new Response(JSON.stringify({ message: 'Not found' }), {
+      const message = faker.lorem.sentence()
+      const response = new Response(JSON.stringify({ message }), {
         status: 404,
       })
       const httpError = createHTTPError(response)
       const result = await parseErrorResponse(httpError)
 
       expect(result).toBeInstanceOf(NotFoundError)
-      expect(result.message).toBe('Not found')
+      expect(result.message).toBe(message)
     })
 
     it('should parse HTTPError with 422 status and validation errors', async () => {
+      const message = faker.lorem.sentence()
+      const field = faker.lorem.word()
+      const errorMsg = faker.lorem.sentence()
+      const errors = { [field]: [errorMsg] }
       const response = new Response(
         JSON.stringify({
-          message: 'Validation failed',
-          errors: { email: ['Invalid'] },
+          message,
+          errors,
         }),
         { status: 422 },
       )
@@ -264,33 +294,30 @@ describe('errors', () => {
       const result = await parseErrorResponse(httpError)
 
       expect(result).toBeInstanceOf(ValidationError)
-      expect(result.message).toBe('Validation failed')
-      expect((result as ValidationError).errors).toEqual({ email: ['Invalid'] })
+      expect(result.message).toBe(message)
+      expect((result as ValidationError).errors).toEqual(errors)
     })
 
     it('should parse HTTPError with 429 status and Retry-After header', async () => {
-      const response = new Response(
-        JSON.stringify({ message: 'Too many requests' }),
-        {
-          status: 429,
-          headers: { 'Retry-After': '120' },
-        },
-      )
+      const message = faker.lorem.sentence()
+      const retryAfter = faker.number.int({ min: 1, max: 3600 })
+      const response = new Response(JSON.stringify({ message }), {
+        status: 429,
+        headers: { 'Retry-After': retryAfter.toString() },
+      })
       const httpError = createHTTPError(response)
       const result = await parseErrorResponse(httpError)
 
       expect(result).toBeInstanceOf(RateLimitError)
-      expect(result.message).toBe('Too many requests')
-      expect((result as RateLimitError).retryAfter).toBe(120)
+      expect(result.message).toBe(message)
+      expect((result as RateLimitError).retryAfter).toBe(retryAfter)
     })
 
     it('should parse HTTPError with 429 status without Retry-After header', async () => {
-      const response = new Response(
-        JSON.stringify({ message: 'Rate limited' }),
-        {
-          status: 429,
-        },
-      )
+      const message = faker.lorem.sentence()
+      const response = new Response(JSON.stringify({ message }), {
+        status: 429,
+      })
       const httpError = createHTTPError(response)
       const result = await parseErrorResponse(httpError)
 
@@ -299,26 +326,22 @@ describe('errors', () => {
     })
 
     it('should parse HTTPError with 500 status', async () => {
-      const response = new Response(
-        JSON.stringify({ message: 'Server error' }),
-        {
-          status: 500,
-        },
-      )
+      const message = faker.lorem.sentence()
+      const response = new Response(JSON.stringify({ message }), {
+        status: 500,
+      })
       const httpError = createHTTPError(response)
       const result = await parseErrorResponse(httpError)
 
       expect(result).toBeInstanceOf(ServerError)
-      expect(result.message).toBe('Server error')
+      expect(result.message).toBe(message)
     })
 
     it('should parse HTTPError with 502 status', async () => {
-      const response = new Response(
-        JSON.stringify({ message: 'Bad gateway' }),
-        {
-          status: 502,
-        },
-      )
+      const message = faker.lorem.sentence()
+      const response = new Response(JSON.stringify({ message }), {
+        status: 502,
+      })
       const httpError = createHTTPError(response)
       const result = await parseErrorResponse(httpError)
 
@@ -326,10 +349,10 @@ describe('errors', () => {
     })
 
     it('should parse HTTPError with 503 status', async () => {
-      const response = new Response(
-        JSON.stringify({ message: 'Service unavailable' }),
-        { status: 503 },
-      )
+      const message = faker.lorem.sentence()
+      const response = new Response(JSON.stringify({ message }), {
+        status: 503,
+      })
       const httpError = createHTTPError(response)
       const result = await parseErrorResponse(httpError)
 
@@ -337,10 +360,10 @@ describe('errors', () => {
     })
 
     it('should parse HTTPError with 504 status', async () => {
-      const response = new Response(
-        JSON.stringify({ message: 'Gateway timeout' }),
-        { status: 504 },
-      )
+      const message = faker.lorem.sentence()
+      const response = new Response(JSON.stringify({ message }), {
+        status: 504,
+      })
       const httpError = createHTTPError(response)
       const result = await parseErrorResponse(httpError)
 
@@ -348,16 +371,17 @@ describe('errors', () => {
     })
 
     it('should parse HTTPError with 418 status', async () => {
-      const response = new Response(
-        JSON.stringify({ message: 'Unknown error' }),
-        { status: 418 },
-      )
+      const message = faker.lorem.sentence()
+      const statusCode = 418
+      const response = new Response(JSON.stringify({ message }), {
+        status: statusCode,
+      })
       const httpError = createHTTPError(response)
       const result = await parseErrorResponse(httpError)
 
       expect(result).toBeInstanceOf(SDKError)
-      expect(result.message).toBe('Unknown error')
-      expect(result.statusCode).toBe(418)
+      expect(result.message).toBe(message)
+      expect(result.statusCode).toBe(statusCode)
     })
 
     it('should parse HTTPError with non-JSON response', async () => {
@@ -374,11 +398,12 @@ describe('errors', () => {
     })
 
     it('should parse generic Error', async () => {
-      const genericError = new Error('Network failure')
+      const message = faker.lorem.sentence()
+      const genericError = new Error(message)
       const result = await parseErrorResponse(genericError)
 
       expect(result).toBeInstanceOf(NetworkError)
-      expect(result.message).toBe('Network failure')
+      expect(result.message).toBe(message)
       expect(result.originalError).toBe(genericError)
     })
 

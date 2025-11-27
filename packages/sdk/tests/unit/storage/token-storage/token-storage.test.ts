@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from '@jest/globals'
 
+import { faker } from '@/__mocks__/faker-adapter'
 import {
   LocalStorageTokenStorage,
   MemoryTokenStorage,
@@ -24,42 +25,50 @@ describe('token-storage', () => {
     })
 
     it('should store and retrieve access token', async () => {
-      await storage.setAccessToken('access-123')
+      const accessToken = faker.string.alphanumeric(32)
+      await storage.setAccessToken(accessToken)
       const token = await storage.getAccessToken()
-      expect(token).toBe('access-123')
+      expect(token).toBe(accessToken)
     })
 
     it('should store and retrieve refresh token', async () => {
-      await storage.setRefreshToken('refresh-456')
+      const refreshToken = faker.string.alphanumeric(32)
+      await storage.setRefreshToken(refreshToken)
       const token = await storage.getRefreshToken()
-      expect(token).toBe('refresh-456')
+      expect(token).toBe(refreshToken)
     })
 
     it('should update access token', async () => {
-      await storage.setAccessToken('old-access')
-      await storage.setAccessToken('new-access')
+      const oldToken = faker.string.alphanumeric(32)
+      const newToken = faker.string.alphanumeric(32)
+      await storage.setAccessToken(oldToken)
+      await storage.setAccessToken(newToken)
       const token = await storage.getAccessToken()
-      expect(token).toBe('new-access')
+      expect(token).toBe(newToken)
     })
 
     it('should update refresh token', async () => {
-      await storage.setRefreshToken('old-refresh')
-      await storage.setRefreshToken('new-refresh')
+      const oldToken = faker.string.alphanumeric(32)
+      const newToken = faker.string.alphanumeric(32)
+      await storage.setRefreshToken(oldToken)
+      await storage.setRefreshToken(newToken)
       const token = await storage.getRefreshToken()
-      expect(token).toBe('new-refresh')
+      expect(token).toBe(newToken)
     })
 
     it('should clear both tokens', async () => {
-      await storage.setAccessToken('access-123')
-      await storage.setRefreshToken('refresh-456')
+      const accessToken = faker.string.alphanumeric(32)
+      const refreshToken = faker.string.alphanumeric(32)
+      await storage.setAccessToken(accessToken)
+      await storage.setRefreshToken(refreshToken)
 
       await storage.clearTokens()
 
-      const accessToken = await storage.getAccessToken()
-      const refreshToken = await storage.getRefreshToken()
+      const retrievedAccessToken = await storage.getAccessToken()
+      const retrievedRefreshToken = await storage.getRefreshToken()
 
-      expect(accessToken).toBeNull()
-      expect(refreshToken).toBeNull()
+      expect(retrievedAccessToken).toBeNull()
+      expect(retrievedRefreshToken).toBeNull()
     })
   })
 
@@ -97,44 +106,52 @@ describe('token-storage', () => {
     })
 
     it('should store and retrieve access token', async () => {
-      await storage.setAccessToken('access-123')
+      const accessToken = faker.string.alphanumeric(32)
+      await storage.setAccessToken(accessToken)
       const token = await storage.getAccessToken()
-      expect(token).toBe('access-123')
-      expect(mockLocalStorage['dev-platform:access-token']).toBe('access-123')
+      expect(token).toBe(accessToken)
+      expect(mockLocalStorage['dev-platform:access-token']).toBe(accessToken)
     })
 
     it('should store and retrieve refresh token', async () => {
-      await storage.setRefreshToken('refresh-456')
+      const refreshToken = faker.string.alphanumeric(32)
+      await storage.setRefreshToken(refreshToken)
       const token = await storage.getRefreshToken()
-      expect(token).toBe('refresh-456')
-      expect(mockLocalStorage['dev-platform:refresh-token']).toBe('refresh-456')
+      expect(token).toBe(refreshToken)
+      expect(mockLocalStorage['dev-platform:refresh-token']).toBe(refreshToken)
     })
 
     it('should update access token', async () => {
-      await storage.setAccessToken('old-access')
-      await storage.setAccessToken('new-access')
+      const oldToken = faker.string.alphanumeric(32)
+      const newToken = faker.string.alphanumeric(32)
+      await storage.setAccessToken(oldToken)
+      await storage.setAccessToken(newToken)
       const token = await storage.getAccessToken()
-      expect(token).toBe('new-access')
+      expect(token).toBe(newToken)
     })
 
     it('should update refresh token', async () => {
-      await storage.setRefreshToken('old-refresh')
-      await storage.setRefreshToken('new-refresh')
+      const oldToken = faker.string.alphanumeric(32)
+      const newToken = faker.string.alphanumeric(32)
+      await storage.setRefreshToken(oldToken)
+      await storage.setRefreshToken(newToken)
       const token = await storage.getRefreshToken()
-      expect(token).toBe('new-refresh')
+      expect(token).toBe(newToken)
     })
 
     it('should clear both tokens', async () => {
-      await storage.setAccessToken('access-123')
-      await storage.setRefreshToken('refresh-456')
+      const accessToken = faker.string.alphanumeric(32)
+      const refreshToken = faker.string.alphanumeric(32)
+      await storage.setAccessToken(accessToken)
+      await storage.setRefreshToken(refreshToken)
 
       await storage.clearTokens()
 
-      const accessToken = await storage.getAccessToken()
-      const refreshToken = await storage.getRefreshToken()
+      const retrievedAccessToken = await storage.getAccessToken()
+      const retrievedRefreshToken = await storage.getRefreshToken()
 
-      expect(accessToken).toBeNull()
-      expect(refreshToken).toBeNull()
+      expect(retrievedAccessToken).toBeNull()
+      expect(retrievedRefreshToken).toBeNull()
       expect(mockLocalStorage['dev-platform:access-token']).toBeUndefined()
       expect(mockLocalStorage['dev-platform:refresh-token']).toBeUndefined()
     })
@@ -164,15 +181,19 @@ describe('token-storage', () => {
 
       storage = new LocalStorageTokenStorage()
 
-      await storage.setAccessToken('access-123')
-      await storage.setRefreshToken('refresh-456')
+      const accessToken = faker.string.alphanumeric(32)
+      const refreshToken = faker.string.alphanumeric(32)
+      await storage.setAccessToken(accessToken)
+      await storage.setRefreshToken(refreshToken)
 
       expect(Object.keys(mockLocalStorage)).toHaveLength(0)
     })
 
     it('should not clear tokens when window is undefined', async () => {
-      mockLocalStorage['dev-platform:access-token'] = 'access-123'
-      mockLocalStorage['dev-platform:refresh-token'] = 'refresh-456'
+      const accessToken = faker.string.alphanumeric(32)
+      const refreshToken = faker.string.alphanumeric(32)
+      mockLocalStorage['dev-platform:access-token'] = accessToken
+      mockLocalStorage['dev-platform:refresh-token'] = refreshToken
 
       Object.defineProperty(globalThis, 'window', {
         value: undefined,
@@ -183,8 +204,8 @@ describe('token-storage', () => {
       storage = new LocalStorageTokenStorage()
       await storage.clearTokens()
 
-      expect(mockLocalStorage['dev-platform:access-token']).toBe('access-123')
-      expect(mockLocalStorage['dev-platform:refresh-token']).toBe('refresh-456')
+      expect(mockLocalStorage['dev-platform:access-token']).toBe(accessToken)
+      expect(mockLocalStorage['dev-platform:refresh-token']).toBe(refreshToken)
     })
 
     it('should return null when localStorage is not available', async () => {

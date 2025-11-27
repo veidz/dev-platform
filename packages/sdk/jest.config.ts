@@ -19,6 +19,7 @@ const config: Config = {
     },
   },
   moduleNameMapper: {
+    '^@/__mocks__/(.*)$': '<rootDir>/tests/__mocks__/$1',
     '^@/(.*)$': '<rootDir>/src/$1',
     '^ky$': '<rootDir>/tests/__mocks__/ky.ts',
   },

@@ -7,6 +7,7 @@ import type {
 import { describe, expect, it, jest } from '@jest/globals'
 import { mockDeep } from 'jest-mock-extended'
 
+import { faker } from '@/__mocks__/faker-adapter'
 import type { BaseClient } from '@/client/http'
 import { ApiModule } from '@/modules/api/api'
 import type {
@@ -19,15 +20,15 @@ describe('ApiModule', () => {
   const apiModule = new ApiModule(mockClient)
 
   const mockApi: API = {
-    id: 'api-123',
-    name: 'Test API',
-    description: 'Test description',
-    version: '1.0.0',
-    workspaceId: 'workspace-123',
-    baseUrl: 'https://api.example.com',
+    id: faker.string.uuid(),
+    name: faker.commerce.productName(),
+    description: faker.lorem.sentence(),
+    version: faker.system.semver(),
+    workspaceId: faker.string.uuid(),
+    baseUrl: faker.internet.url(),
     status: 'ACTIVE' as API['status'],
-    createdAt: new Date('2024-01-01'),
-    updatedAt: new Date('2024-01-01'),
+    createdAt: faker.date.past(),
+    updatedAt: faker.date.recent(),
   }
 
   describe('list', () => {

@@ -9,6 +9,7 @@ import type {
 import { describe, expect, it, jest } from '@jest/globals'
 import { mockDeep } from 'jest-mock-extended'
 
+import { faker } from '@/__mocks__/faker-adapter'
 import type { BaseClient } from '@/client/http'
 import { WorkspaceModule } from '@/modules/workspace/workspace'
 import type { ListWorkspacesResponse } from '@/modules/workspace/workspace.types'
@@ -18,26 +19,26 @@ describe('WorkspaceModule', () => {
   const workspaceModule = new WorkspaceModule(mockClient)
 
   const mockWorkspace: Workspace = {
-    id: 'workspace-123',
-    name: 'Test Workspace',
-    slug: 'test-workspace',
-    description: 'Test description',
-    ownerId: 'user-123',
-    createdAt: new Date('2024-01-01'),
-    updatedAt: new Date('2024-01-01'),
+    id: faker.string.uuid(),
+    name: faker.company.name(),
+    slug: faker.helpers.slugify(faker.company.name()).toLowerCase(),
+    description: faker.lorem.sentence(),
+    ownerId: faker.string.uuid(),
+    createdAt: faker.date.past(),
+    updatedAt: faker.date.recent(),
   }
 
   const mockMember: WorkspaceMember = {
-    id: 'member-123',
-    workspaceId: 'workspace-123',
-    userId: 'user-456',
+    id: faker.string.uuid(),
+    workspaceId: faker.string.uuid(),
+    userId: faker.string.uuid(),
     role: 'DEVELOPER' as WorkspaceMember['role'],
     user: {
-      id: 'user-456',
-      name: 'Test User',
-      email: 'test@example.com',
+      id: faker.string.uuid(),
+      name: faker.person.fullName(),
+      email: faker.internet.email(),
     },
-    joinedAt: new Date('2024-01-01'),
+    joinedAt: faker.date.past(),
   }
 
   describe('list', () => {

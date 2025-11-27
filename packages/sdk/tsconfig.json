@@ -7,7 +7,8 @@
     "sourceMap": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@/__mocks__/*": ["tests/__mocks__/*"]
     }
   },
   "include": ["src", "tests"],

@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals'
 import { mockDeep } from 'jest-mock-extended'
 import { HTTPError, type NormalizedOptions } from 'ky'
 
+import { faker } from '@/__mocks__/faker-adapter'
 import {
   createAuthInterceptor,
   createTokenRefreshInterceptor,
@@ -20,10 +21,9 @@ describe('interceptors', () => {
     })
 
     it('should add Authorization header when access token exists', async () => {
-      const mockRequest = new Request('http://test.com')
-      jest
-        .spyOn(tokenStorage, 'getAccessToken')
-        .mockResolvedValue('access-token-123')
+      const mockRequest = new Request(faker.internet.url())
+      const accessToken = faker.string.alphanumeric(32)
+      jest.spyOn(tokenStorage, 'getAccessToken').mockResolvedValue(accessToken)
 
       const interceptor = createAuthInterceptor(options)
       await interceptor(mockRequest, mockDeep<NormalizedOptions>(), {
@@ -31,12 +31,12 @@ describe('interceptors', () => {
       })
 
       expect(mockRequest.headers.get('Authorization')).toBe(
-        'Bearer access-token-123',
+        `Bearer ${accessToken}`,
       )
     })
 
     it('should not add Authorization header when no access token', async () => {
-      const mockRequest = new Request('http://test.com')
+      const mockRequest = new Request(faker.internet.url())
       jest.spyOn(tokenStorage, 'getAccessToken').mockResolvedValue(null)
 
       const interceptor = createAuthInterceptor(options)
@@ -48,17 +48,21 @@ describe('interceptors', () => {
     })
 
     it('should replace existing Authorization header', async () => {
-      const mockRequest = new Request('http://test.com', {
-        headers: { Authorization: 'Bearer old-token' },
+      const oldToken = faker.string.alphanumeric(32)
+      const newToken = faker.string.alphanumeric(32)
+      const mockRequest = new Request(faker.internet.url(), {
+        headers: { Authorization: `Bearer ${oldToken}` },
       })
-      jest.spyOn(tokenStorage, 'getAccessToken').mockResolvedValue('new-token')
+      jest.spyOn(tokenStorage, 'getAccessToken').mockResolvedValue(newToken)
 
       const interceptor = createAuthInterceptor(options)
       await interceptor(mockRequest, mockDeep<NormalizedOptions>(), {
         retryCount: 0,
       })
 
-      expect(mockRequest.headers.get('Authorization')).toBe('Bearer new-token')
+      expect(mockRequest.headers.get('Authorization')).toBe(
+        `Bearer ${newToken}`,
+      )
     })
   })
 
@@ -74,7 +78,7 @@ describe('interceptors', () => {
       const response = new Response(null, { status: 401 })
       mockHttpError = new HTTPError(
         response,
-        new Request('http://test.com'),
+        new Request(faker.internet.url()),
         mockDeep<NormalizedOptions>(),
       )
     })
@@ -83,7 +87,7 @@ describe('interceptors', () => {
       const response = new Response(null, { status: 403 })
       const error403 = new HTTPError(
         response,
-        new Request('http://test.com'),
+        new Request(faker.internet.url()),
         mockDeep<NormalizedOptions>(),
       )
 
@@ -109,11 +113,13 @@ describe('interceptors', () => {
     })
 
     it('should refresh tokens successfully', async () => {
+      const newAccessToken = faker.string.alphanumeric(32)
+      const newRefreshToken = faker.string.alphanumeric(32)
       const onTokenRefresh =
         jest.fn<() => Promise<{ accessToken: string; refreshToken: string }>>()
       onTokenRefresh.mockResolvedValue({
-        accessToken: 'new-access',
-        refreshToken: 'new-refresh',
+        accessToken: newAccessToken,
+        refreshToken: newRefreshToken,
       })
       options.onTokenRefresh = onTokenRefresh
 
@@ -121,12 +127,12 @@ describe('interceptors', () => {
       await interceptor(mockHttpError)
 
       expect(onTokenRefresh).toHaveBeenCalledTimes(1)
-      expect(tokenStorage.setAccessToken).toHaveBeenCalledWith('new-access')
-      expect(tokenStorage.setRefreshToken).toHaveBeenCalledWith('new-refresh')
+      expect(tokenStorage.setAccessToken).toHaveBeenCalledWith(newAccessToken)
+      expect(tokenStorage.setRefreshToken).toHaveBeenCalledWith(newRefreshToken)
     })
 
     it('should clear tokens and call onAuthError on refresh failure', async () => {
-      const refreshError = new Error('Refresh failed')
+      const refreshError = new Error(faker.lorem.sentence())
       const onTokenRefresh =
         jest.fn<() => Promise<{ accessToken: string; refreshToken: string }>>()
       onTokenRefresh.mockRejectedValue(refreshError)
@@ -142,6 +148,8 @@ describe('interceptors', () => {
     })
 
     it('should not refresh multiple times concurrently', async () => {
+      const newAccessToken = faker.string.alphanumeric(32)
+      const newRefreshToken = faker.string.alphanumeric(32)
       const onTokenRefresh =
         jest.fn<() => Promise<{ accessToken: string; refreshToken: string }>>()
       onTokenRefresh.mockImplementation(
@@ -150,8 +158,8 @@ describe('interceptors', () => {
             setTimeout(
               () =>
                 resolve({
-                  accessToken: 'new-access',
-                  refreshToken: 'new-refresh',
+                  accessToken: newAccessToken,
+                  refreshToken: newRefreshToken,
                 }),
               100,
             ),
@@ -171,11 +179,13 @@ describe('interceptors', () => {
     })
 
     it('should allow refresh after previous refresh completed', async () => {
+      const newAccessToken = faker.string.alphanumeric(32)
+      const newRefreshToken = faker.string.alphanumeric(32)
       const onTokenRefresh =
         jest.fn<() => Promise<{ accessToken: string; refreshToken: string }>>()
       onTokenRefresh.mockResolvedValue({
-        accessToken: 'new-access',
-        refreshToken: 'new-refresh',
+        accessToken: newAccessToken,
+        refreshToken: newRefreshToken,
       })
       options.onTokenRefresh = onTokenRefresh
 
@@ -189,24 +199,27 @@ describe('interceptors', () => {
     })
 
     it('should handle refresh failure and allow retry', async () => {
+      const firstFailureMsg = faker.lorem.sentence()
+      const newAccessToken = faker.string.alphanumeric(32)
+      const newRefreshToken = faker.string.alphanumeric(32)
       const onTokenRefresh =
         jest.fn<() => Promise<{ accessToken: string; refreshToken: string }>>()
       onTokenRefresh
-        .mockRejectedValueOnce(new Error('First failure'))
+        .mockRejectedValueOnce(new Error(firstFailureMsg))
         .mockResolvedValueOnce({
-          accessToken: 'new-access',
-          refreshToken: 'new-refresh',
+          accessToken: newAccessToken,
+          refreshToken: newRefreshToken,
         })
       options.onTokenRefresh = onTokenRefresh
 
       const interceptor = createTokenRefreshInterceptor(options)
 
-      await expect(interceptor(mockHttpError)).rejects.toThrow('First failure')
+      await expect(interceptor(mockHttpError)).rejects.toThrow(firstFailureMsg)
       expect(tokenStorage.clearTokens).toHaveBeenCalledTimes(1)
 
       await interceptor(mockHttpError)
       expect(onTokenRefresh).toHaveBeenCalledTimes(2)
-      expect(tokenStorage.setAccessToken).toHaveBeenCalledWith('new-access')
+      expect(tokenStorage.setAccessToken).toHaveBeenCalledWith(newAccessToken)
     })
   })
 })
