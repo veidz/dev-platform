@@ -70,4 +70,31 @@ describe('EndpointModule', () => {
       expect(result.total).toBe(0)
     })
   })
+
+  describe('get', () => {
+    it('should get endpoint by id', async () => {
+      const endpointId = faker.string.uuid()
+      const mockEndpoint = createMockEndpoint({
+        id: endpointId,
+        path: '/users/{id}',
+        responseSchema: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            name: { type: 'string' },
+          },
+        },
+      })
+
+      mockClient.get.mockReturnValue({
+        json: () => Promise.resolve(mockEndpoint),
+      } as never)
+
+      const result = await endpointModule.get(endpointId)
+
+      expect(mockClient.get).toHaveBeenCalledWith(`endpoints/${endpointId}`)
+      expect(result).toEqual(mockEndpoint)
+      expect(result.id).toBe(endpointId)
+    })
+  })
 })
