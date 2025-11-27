@@ -1,4 +1,8 @@
-import type { Workspace, WorkspaceMember } from '@dev-platform/types'
+import type {
+  CreateWorkspaceDto,
+  Workspace,
+  WorkspaceMember,
+} from '@dev-platform/types'
 import { describe, expect, it, jest } from '@jest/globals'
 import { mockDeep } from 'jest-mock-extended'
 
@@ -99,6 +103,35 @@ describe('WorkspaceModule', () => {
       await workspaceModule.get(workspaceId)
 
       expect(mockClient.get).toHaveBeenCalledWith(`workspaces/${workspaceId}`)
+    })
+  })
+
+  describe('create', () => {
+    it('should create new workspace', async () => {
+      const createData: CreateWorkspaceDto = {
+        name: 'New Workspace',
+        slug: 'new-workspace',
+        description: 'New description',
+      }
+
+      const expectedWorkspace: Workspace = {
+        ...mockWorkspace,
+        name: createData.name,
+        description: createData.description,
+      }
+
+      mockClient.post.mockReturnValue({
+        json: jest
+          .fn<() => Promise<Workspace>>()
+          .mockResolvedValue(expectedWorkspace),
+      } as never)
+
+      const result = await workspaceModule.create(createData)
+
+      expect(mockClient.post).toHaveBeenCalledWith('workspaces', {
+        json: createData,
+      })
+      expect(result).toEqual(expectedWorkspace)
     })
   })
 })
