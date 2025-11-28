@@ -411,5 +411,34 @@ describe('EndpointModule', () => {
       expect(result.statusCode).toBe(401)
       expect(result.body).toHaveProperty('error')
     })
+
+    it('should test endpoint with empty request', async () => {
+      const endpointId = faker.string.uuid()
+      const testRequest: TestEndpointRequest = {}
+
+      const mockResponse: TestEndpointResponse = {
+        statusCode: 200,
+        headers: {
+          'content-type': 'text/plain',
+        },
+        body: 'OK',
+        responseTimeMs: 10,
+      }
+
+      mockClient.post.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await endpointModule.test(endpointId, testRequest)
+
+      expect(mockClient.post).toHaveBeenCalledWith(
+        `endpoints/${endpointId}/test`,
+        {
+          json: testRequest,
+        },
+      )
+      expect(result.statusCode).toBe(200)
+      expect(result.body).toBe('OK')
+    })
   })
 })
