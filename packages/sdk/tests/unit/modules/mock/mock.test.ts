@@ -1,5 +1,6 @@
 import type {
   CreateMockDto,
+  CreateScenarioDto,
   Mock,
   MockScenario,
   UpdateMockDto,
@@ -321,6 +322,28 @@ describe('MockModule', () => {
       expect(mockClient.get).toHaveBeenCalledWith(
         `mock-scenarios/${mockResponse.id}`,
       )
+      expect(result).toEqual(mockResponse)
+    })
+  })
+
+  describe('createScenario', () => {
+    it('should create scenario with minimal data', async () => {
+      const createDto: CreateScenarioDto = {
+        endpointId: faker.string.uuid(),
+        name: 'Happy Path',
+        mockIds: [],
+      }
+      const mockResponse = createMockScenario(createDto)
+
+      mockClient.post.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await mockModule.createScenario(createDto)
+
+      expect(mockClient.post).toHaveBeenCalledWith('mock-scenarios', {
+        json: createDto,
+      })
       expect(result).toEqual(mockResponse)
     })
   })
