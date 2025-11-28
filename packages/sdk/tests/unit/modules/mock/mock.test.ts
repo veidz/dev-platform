@@ -246,4 +246,20 @@ describe('MockModule', () => {
       expect(result.enabled).toBe(true)
     })
   })
+
+  describe('disable', () => {
+    it('should disable mock', async () => {
+      const id = faker.string.uuid()
+      const mockResponse = createMockMock({ id, enabled: false })
+
+      mockClient.patch.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await mockModule.disable(id)
+
+      expect(mockClient.patch).toHaveBeenCalledWith(`mocks/${id}/disable`)
+      expect(result.enabled).toBe(false)
+    })
+  })
 })
