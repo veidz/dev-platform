@@ -395,4 +395,22 @@ describe('MockModule', () => {
       expect(result.active).toBe(true)
     })
   })
+
+  describe('deactivateScenario', () => {
+    it('should deactivate scenario', async () => {
+      const id = faker.string.uuid()
+      const mockResponse = createMockScenario({ id, active: false })
+
+      mockClient.patch.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await mockModule.deactivateScenario(id)
+
+      expect(mockClient.patch).toHaveBeenCalledWith(
+        `mock-scenarios/${id}/deactivate`,
+      )
+      expect(result.active).toBe(false)
+    })
+  })
 })
