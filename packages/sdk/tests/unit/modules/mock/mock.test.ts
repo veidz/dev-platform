@@ -413,4 +413,18 @@ describe('MockModule', () => {
       expect(result.active).toBe(false)
     })
   })
+
+  describe('deleteScenario', () => {
+    it('should delete scenario', async () => {
+      const id = faker.string.uuid()
+
+      mockClient.delete.mockReturnValue({
+        json: () => Promise.resolve(),
+      } as never)
+
+      await mockModule.deleteScenario(id)
+
+      expect(mockClient.delete).toHaveBeenCalledWith(`mock-scenarios/${id}`)
+    })
+  })
 })
