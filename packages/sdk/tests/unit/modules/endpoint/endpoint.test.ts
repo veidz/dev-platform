@@ -490,5 +490,47 @@ describe('EndpointModule', () => {
       expect(result.path).toBe(newPath)
       expect(result.id).not.toBe(sourceEndpointId)
     })
+
+    it('should duplicate endpoint preserving schemas', async () => {
+      const sourceEndpointId = faker.string.uuid()
+      const newPath = '/products/v2'
+
+      const requestSchema = {
+        type: 'object',
+        properties: {
+          name: { type: 'string' },
+        },
+      }
+
+      const responseSchema = {
+        type: 'object',
+        properties: {
+          id: { type: 'string' },
+        },
+      }
+
+      const mockDuplicatedEndpoint = createMockEndpoint({
+        path: newPath,
+        method: HttpMethod.POST,
+        description: 'Create product (v2)',
+        requestSchema,
+        responseSchema,
+      })
+
+      mockClient.post.mockReturnValue({
+        json: () => Promise.resolve(mockDuplicatedEndpoint),
+      } as never)
+
+      const result = await endpointModule.duplicate(sourceEndpointId, newPath)
+
+      expect(mockClient.post).toHaveBeenCalledWith(
+        `endpoints/${sourceEndpointId}/duplicate`,
+        {
+          json: { path: newPath },
+        },
+      )
+      expect(result.requestSchema).toEqual(requestSchema)
+      expect(result.responseSchema).toEqual(responseSchema)
+    })
   })
 })
