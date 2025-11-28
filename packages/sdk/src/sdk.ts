@@ -32,15 +32,7 @@ class DevPlatformSDK {
 
     const sdkOptions: SDKOptions = {
       tokenStorage: this.tokenStorage,
-      onTokenRefresh: async () => {
-        const refreshToken = await this.tokenStorage.getRefreshToken()
-        if (!refreshToken) {
-          throw new Error('No refresh token available')
-        }
-
-        const tokens = await this.auth.refreshToken(refreshToken)
-        return tokens
-      },
+      onTokenRefresh: () => this.handleTokenRefresh(),
       onAuthError: options?.onAuthError,
     }
 
@@ -74,6 +66,16 @@ class DevPlatformSDK {
   async isAuthenticated(): Promise<boolean> {
     const accessToken = await this.tokenStorage.getAccessToken()
     return !!accessToken
+  }
+
+  private async handleTokenRefresh(): Promise<AuthTokens> {
+    const refreshToken = await this.tokenStorage.getRefreshToken()
+    if (!refreshToken) {
+      throw new Error('No refresh token available')
+    }
+
+    const tokens = await this.auth.refreshToken(refreshToken)
+    return tokens
   }
 }
 
