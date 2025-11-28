@@ -375,5 +375,41 @@ describe('EndpointModule', () => {
       expect(result.statusCode).toBe(201)
       expect(result.body).toHaveProperty('id')
     })
+
+    it('should test endpoint with error response', async () => {
+      const endpointId = faker.string.uuid()
+      const testRequest: TestEndpointRequest = {
+        headers: {
+          Authorization: 'Bearer invalid-token',
+        },
+      }
+
+      const mockResponse: TestEndpointResponse = {
+        statusCode: 401,
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: {
+          error: 'Unauthorized',
+          message: 'Invalid or expired token',
+        },
+        responseTimeMs: 15,
+      }
+
+      mockClient.post.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await endpointModule.test(endpointId, testRequest)
+
+      expect(mockClient.post).toHaveBeenCalledWith(
+        `endpoints/${endpointId}/test`,
+        {
+          json: testRequest,
+        },
+      )
+      expect(result.statusCode).toBe(401)
+      expect(result.body).toHaveProperty('error')
+    })
   })
 })
