@@ -24,6 +24,21 @@ class TimeoutError extends Error {
   }
 }
 
-const ky: ReturnType<typeof jest.fn> = jest.fn()
+const createMockKyInstance = () => ({
+  get: jest.fn(),
+  post: jest.fn(),
+  put: jest.fn(),
+  patch: jest.fn(),
+  delete: jest.fn(),
+  extend: jest.fn(function (this: any) {
+    return this
+  }),
+})
 
+const ky: any = Object.assign(jest.fn(), {
+  create: jest.fn(() => createMockKyInstance()),
+  ...createMockKyInstance(),
+})
+
+export default ky
 export { HTTPError, ky, TimeoutError }
