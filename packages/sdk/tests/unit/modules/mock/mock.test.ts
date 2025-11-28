@@ -83,4 +83,19 @@ describe('MockModule', () => {
       expect(result.total).toBe(0)
     })
   })
+
+  describe('get', () => {
+    it('should get mock by id', async () => {
+      const mockResponse = createMockMock()
+
+      mockClient.get.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await mockModule.get(mockResponse.id)
+
+      expect(mockClient.get).toHaveBeenCalledWith(`mocks/${mockResponse.id}`)
+      expect(result).toEqual(mockResponse)
+    })
+  })
 })
