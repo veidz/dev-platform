@@ -307,4 +307,21 @@ describe('MockModule', () => {
       expect(result.total).toBe(0)
     })
   })
+
+  describe('getScenario', () => {
+    it('should get scenario by id', async () => {
+      const mockResponse = createMockScenario()
+
+      mockClient.get.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await mockModule.getScenario(mockResponse.id)
+
+      expect(mockClient.get).toHaveBeenCalledWith(
+        `mock-scenarios/${mockResponse.id}`,
+      )
+      expect(result).toEqual(mockResponse)
+    })
+  })
 })
