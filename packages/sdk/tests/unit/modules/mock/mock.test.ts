@@ -171,5 +171,23 @@ describe('MockModule', () => {
       })
       expect(result.name).toBe('Updated Name')
     })
+
+    it('should update mock body and status code', async () => {
+      const id = faker.string.uuid()
+      const updateDto: UpdateMockDto = {
+        body: { error: 'Not Found' },
+        statusCode: 404,
+      }
+      const mockResponse = createMockMock({ id, ...updateDto })
+
+      mockClient.patch.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await mockModule.update(id, updateDto)
+
+      expect(result.statusCode).toBe(404)
+      expect(result.body).toEqual({ error: 'Not Found' })
+    })
   })
 })
