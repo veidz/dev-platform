@@ -426,5 +426,15 @@ describe('MockModule', () => {
 
       expect(mockClient.delete).toHaveBeenCalledWith(`mock-scenarios/${id}`)
     })
+
+    it('should not throw when deleting non-existent scenario', async () => {
+      const id = faker.string.uuid()
+
+      mockClient.delete.mockReturnValue({
+        json: () => Promise.resolve(),
+      } as never)
+
+      await expect(mockModule.deleteScenario(id)).resolves.toBeUndefined()
+    })
   })
 })
