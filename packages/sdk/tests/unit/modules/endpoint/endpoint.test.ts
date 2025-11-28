@@ -6,7 +6,11 @@ import { mockDeep } from 'jest-mock-extended'
 import { faker } from '@/__mocks__/faker-adapter'
 import type { BaseClient } from '@/client/http'
 import { EndpointModule } from '@/modules/endpoint/endpoint'
-import type { ListEndpointsResponse } from '@/modules/endpoint/endpoint.types'
+import type {
+  ListEndpointsResponse,
+  TestEndpointRequest,
+  TestEndpointResponse,
+} from '@/modules/endpoint/endpoint.types'
 
 describe('EndpointModule', () => {
   const mockClient = mockDeep<BaseClient>()
@@ -277,6 +281,53 @@ describe('EndpointModule', () => {
       } as never)
 
       await expect(endpointModule.delete(endpointId)).resolves.not.toThrow()
+    })
+  })
+
+  describe('test', () => {
+    it('should test endpoint with GET request', async () => {
+      const endpointId = faker.string.uuid()
+      const testRequest: TestEndpointRequest = {
+        headers: {
+          Accept: 'application/json',
+          'User-Agent': 'DevPlatform-SDK/1.0',
+        },
+        queryParams: {
+          limit: '10',
+          offset: '0',
+        },
+      }
+
+      const mockResponse: TestEndpointResponse = {
+        statusCode: 200,
+        headers: {
+          'content-type': 'application/json',
+          'x-response-time': '45ms',
+        },
+        body: {
+          users: [
+            { id: '1', name: 'John Doe' },
+            { id: '2', name: 'Jane Smith' },
+          ],
+        },
+        responseTimeMs: 45,
+      }
+
+      mockClient.post.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await endpointModule.test(endpointId, testRequest)
+
+      expect(mockClient.post).toHaveBeenCalledWith(
+        `endpoints/${endpointId}/test`,
+        {
+          json: testRequest,
+        },
+      )
+      expect(result).toEqual(mockResponse)
+      expect(result.statusCode).toBe(200)
+      expect(result.responseTimeMs).toBe(45)
     })
   })
 })
