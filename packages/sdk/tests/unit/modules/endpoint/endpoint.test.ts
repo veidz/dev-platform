@@ -329,5 +329,51 @@ describe('EndpointModule', () => {
       expect(result.statusCode).toBe(200)
       expect(result.responseTimeMs).toBe(45)
     })
+
+    it('should test endpoint with POST request including body', async () => {
+      const endpointId = faker.string.uuid()
+      const testRequest: TestEndpointRequest = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: {
+          name: 'New Product',
+          price: 99.99,
+          category: 'electronics',
+        },
+      }
+
+      const mockResponse: TestEndpointResponse = {
+        statusCode: 201,
+        headers: {
+          'content-type': 'application/json',
+          location: '/products/123',
+        },
+        body: {
+          id: '123',
+          name: 'New Product',
+          price: 99.99,
+          category: 'electronics',
+          createdAt: faker.date.recent().toISOString(),
+        },
+        responseTimeMs: 120,
+      }
+
+      mockClient.post.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await endpointModule.test(endpointId, testRequest)
+
+      expect(mockClient.post).toHaveBeenCalledWith(
+        `endpoints/${endpointId}/test`,
+        {
+          json: testRequest,
+        },
+      )
+      expect(result).toEqual(mockResponse)
+      expect(result.statusCode).toBe(201)
+      expect(result.body).toHaveProperty('id')
+    })
   })
 })
