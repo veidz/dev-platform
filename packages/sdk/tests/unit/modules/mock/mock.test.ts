@@ -346,5 +346,35 @@ describe('MockModule', () => {
       })
       expect(result).toEqual(mockResponse)
     })
+
+    it('should create scenario with mocks', async () => {
+      const mockId1 = faker.string.uuid()
+      const mockId2 = faker.string.uuid()
+      const createDto: CreateScenarioDto = {
+        endpointId: faker.string.uuid(),
+        name: 'Error Flow',
+        description: 'Simulate error responses',
+        mockIds: [mockId1, mockId2],
+      }
+      const mockResponse = createMockScenario({
+        ...createDto,
+        mocks: [
+          createMockMock({ id: mockId1 }),
+          createMockMock({ id: mockId2 }),
+        ],
+      })
+
+      mockClient.post.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await mockModule.createScenario(createDto)
+
+      expect(mockClient.post).toHaveBeenCalledWith('mock-scenarios', {
+        json: createDto,
+      })
+      expect(result).toEqual(mockResponse)
+      expect(result.mocks).toHaveLength(2)
+    })
   })
 })
