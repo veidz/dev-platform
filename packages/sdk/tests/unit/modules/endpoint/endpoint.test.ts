@@ -440,5 +440,28 @@ describe('EndpointModule', () => {
       expect(result.statusCode).toBe(200)
       expect(result.body).toBe('OK')
     })
+
+    it('should test endpoint with text response body', async () => {
+      const endpointId = faker.string.uuid()
+      const testRequest: TestEndpointRequest = {}
+
+      const mockResponse: TestEndpointResponse = {
+        statusCode: 200,
+        headers: {
+          'content-type': 'text/html',
+        },
+        body: '<html><body>Hello World</body></html>',
+        responseTimeMs: 25,
+      }
+
+      mockClient.post.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await endpointModule.test(endpointId, testRequest)
+
+      expect(result.body).toBe('<html><body>Hello World</body></html>')
+      expect(typeof result.body).toBe('string')
+    })
   })
 })
