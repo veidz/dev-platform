@@ -206,4 +206,18 @@ describe('MockModule', () => {
       expect(result.delayMs).toBe(2000)
     })
   })
+
+  describe('delete', () => {
+    it('should delete mock', async () => {
+      const id = faker.string.uuid()
+
+      mockClient.delete.mockReturnValue({
+        json: () => Promise.resolve(),
+      } as never)
+
+      await mockModule.delete(id)
+
+      expect(mockClient.delete).toHaveBeenCalledWith(`mocks/${id}`)
+    })
+  })
 })
