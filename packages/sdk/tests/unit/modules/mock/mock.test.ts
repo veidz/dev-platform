@@ -11,7 +11,10 @@ import { mockDeep } from 'jest-mock-extended'
 import { faker } from '@/__mocks__/faker-adapter'
 import type { BaseClient } from '@/client/http'
 import { MockModule } from '@/modules/mock/mock'
-import type { ListMocksResponse } from '@/modules/mock/mock.types'
+import type {
+  ListMocksResponse,
+  ListScenariosResponse,
+} from '@/modules/mock/mock.types'
 
 describe('MockModule', () => {
   const mockClient = mockDeep<BaseClient>()
@@ -260,6 +263,31 @@ describe('MockModule', () => {
 
       expect(mockClient.patch).toHaveBeenCalledWith(`mocks/${id}/disable`)
       expect(result.enabled).toBe(false)
+    })
+  })
+
+  describe('listScenarios', () => {
+    it('should list scenarios for an endpoint', async () => {
+      const endpointId = faker.string.uuid()
+      const mockResponse: ListScenariosResponse = {
+        scenarios: [
+          createMockScenario({ endpointId, name: 'Happy Path' }),
+          createMockScenario({ endpointId, name: 'Error Scenario' }),
+        ],
+        total: 2,
+      }
+
+      mockClient.get.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await mockModule.listScenarios(endpointId)
+
+      expect(mockClient.get).toHaveBeenCalledWith('mock-scenarios', {
+        searchParams: { endpointId },
+      })
+      expect(result).toEqual(mockResponse)
+      expect(result.scenarios).toHaveLength(2)
     })
   })
 })
