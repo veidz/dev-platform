@@ -1,4 +1,4 @@
-import type { Mock, MockScenario } from '@dev-platform/types'
+import type { CreateMockDto, Mock, MockScenario } from '@dev-platform/types'
 import { MockDelayType } from '@dev-platform/types'
 import { describe, expect, it } from '@jest/globals'
 import { mockDeep } from 'jest-mock-extended'
@@ -95,6 +95,30 @@ describe('MockModule', () => {
       const result = await mockModule.get(mockResponse.id)
 
       expect(mockClient.get).toHaveBeenCalledWith(`mocks/${mockResponse.id}`)
+      expect(result).toEqual(mockResponse)
+    })
+  })
+
+  describe('create', () => {
+    it('should create mock with minimal data', async () => {
+      const createDto: CreateMockDto = {
+        endpointId: faker.string.uuid(),
+        name: 'Success Response',
+        body: { message: 'OK' },
+        statusCode: 200,
+        delayType: MockDelayType.NONE,
+      }
+      const mockResponse = createMockMock(createDto)
+
+      mockClient.post.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await mockModule.create(createDto)
+
+      expect(mockClient.post).toHaveBeenCalledWith('mocks', {
+        json: createDto,
+      })
       expect(result).toEqual(mockResponse)
     })
   })
