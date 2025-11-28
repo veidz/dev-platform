@@ -464,4 +464,31 @@ describe('EndpointModule', () => {
       expect(typeof result.body).toBe('string')
     })
   })
+
+  describe('duplicate', () => {
+    it('should duplicate endpoint with new path', async () => {
+      const sourceEndpointId = faker.string.uuid()
+      const newPath = '/users/v2/{id}'
+
+      const mockDuplicatedEndpoint = createMockEndpoint({
+        path: newPath,
+      })
+
+      mockClient.post.mockReturnValue({
+        json: () => Promise.resolve(mockDuplicatedEndpoint),
+      } as never)
+
+      const result = await endpointModule.duplicate(sourceEndpointId, newPath)
+
+      expect(mockClient.post).toHaveBeenCalledWith(
+        `endpoints/${sourceEndpointId}/duplicate`,
+        {
+          json: { path: newPath },
+        },
+      )
+      expect(result).toEqual(mockDuplicatedEndpoint)
+      expect(result.path).toBe(newPath)
+      expect(result.id).not.toBe(sourceEndpointId)
+    })
+  })
 })
