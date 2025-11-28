@@ -289,5 +289,22 @@ describe('MockModule', () => {
       expect(result).toEqual(mockResponse)
       expect(result.scenarios).toHaveLength(2)
     })
+
+    it('should return empty list when endpoint has no scenarios', async () => {
+      const endpointId = faker.string.uuid()
+      const mockResponse: ListScenariosResponse = {
+        scenarios: [],
+        total: 0,
+      }
+
+      mockClient.get.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await mockModule.listScenarios(endpointId)
+
+      expect(result.scenarios).toHaveLength(0)
+      expect(result.total).toBe(0)
+    })
   })
 })
