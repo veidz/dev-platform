@@ -189,5 +189,21 @@ describe('MockModule', () => {
       expect(result.statusCode).toBe(404)
       expect(result.body).toEqual({ error: 'Not Found' })
     })
+
+    it('should update mock delay', async () => {
+      const id = faker.string.uuid()
+      const updateDto: UpdateMockDto = {
+        delayMs: 2000,
+      }
+      const mockResponse = createMockMock({ id, delayMs: 2000 })
+
+      mockClient.patch.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await mockModule.update(id, updateDto)
+
+      expect(result.delayMs).toBe(2000)
+    })
   })
 })
