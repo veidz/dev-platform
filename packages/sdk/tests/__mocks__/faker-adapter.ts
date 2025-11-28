@@ -73,6 +73,9 @@ const faker = {
       return `${major}.${minor}.${patch}`
     },
   },
+  datatype: {
+    boolean: () => Math.random() < 0.5,
+  },
 }
 
 export { faker }
