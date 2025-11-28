@@ -377,4 +377,22 @@ describe('MockModule', () => {
       expect(result.mocks).toHaveLength(2)
     })
   })
+
+  describe('activateScenario', () => {
+    it('should activate scenario', async () => {
+      const id = faker.string.uuid()
+      const mockResponse = createMockScenario({ id, active: true })
+
+      mockClient.patch.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await mockModule.activateScenario(id)
+
+      expect(mockClient.patch).toHaveBeenCalledWith(
+        `mock-scenarios/${id}/activate`,
+      )
+      expect(result.active).toBe(true)
+    })
+  })
 })
