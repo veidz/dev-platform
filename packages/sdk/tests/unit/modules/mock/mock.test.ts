@@ -1,4 +1,9 @@
-import type { CreateMockDto, Mock, MockScenario } from '@dev-platform/types'
+import type {
+  CreateMockDto,
+  Mock,
+  MockScenario,
+  UpdateMockDto,
+} from '@dev-platform/types'
 import { MockDelayType } from '@dev-platform/types'
 import { describe, expect, it } from '@jest/globals'
 import { mockDeep } from 'jest-mock-extended'
@@ -144,6 +149,27 @@ describe('MockModule', () => {
       expect(result).toEqual(mockResponse)
       expect(result.delayMs).toBe(1000)
       expect(result.headers).toEqual({ 'X-Custom': 'value' })
+    })
+  })
+
+  describe('update', () => {
+    it('should update mock name', async () => {
+      const id = faker.string.uuid()
+      const updateDto: UpdateMockDto = {
+        name: 'Updated Name',
+      }
+      const mockResponse = createMockMock({ id, ...updateDto })
+
+      mockClient.patch.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await mockModule.update(id, updateDto)
+
+      expect(mockClient.patch).toHaveBeenCalledWith(`mocks/${id}`, {
+        json: updateDto,
+      })
+      expect(result.name).toBe('Updated Name')
     })
   })
 })
