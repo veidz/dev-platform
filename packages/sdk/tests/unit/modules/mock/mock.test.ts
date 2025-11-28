@@ -121,5 +121,29 @@ describe('MockModule', () => {
       })
       expect(result).toEqual(mockResponse)
     })
+
+    it('should create mock with all fields', async () => {
+      const createDto: CreateMockDto = {
+        endpointId: faker.string.uuid(),
+        name: 'Custom Response',
+        description: 'Response with delay and headers',
+        body: { data: [1, 2, 3] },
+        statusCode: 201,
+        delayType: MockDelayType.FIXED,
+        delayMs: 1000,
+        headers: { 'X-Custom': 'value' },
+      }
+      const mockResponse = createMockMock(createDto)
+
+      mockClient.post.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await mockModule.create(createDto)
+
+      expect(result).toEqual(mockResponse)
+      expect(result.delayMs).toBe(1000)
+      expect(result.headers).toEqual({ 'X-Custom': 'value' })
+    })
   })
 })
