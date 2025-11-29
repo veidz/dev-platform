@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { addDays } from 'date-fns'
 import { axe } from 'jest-axe'
 
 import { Calendar } from '@/components/ui/calendar/calendar'
@@ -133,48 +132,38 @@ describe('Calendar', () => {
   describe('Navigation', () => {
     it('should navigate to next month', async () => {
       const user = userEvent.setup()
-      const { container } = render(<Calendar mode="single" />)
+      render(<Calendar mode="single" />)
 
       const currentMonth = new Date().toLocaleString('en-US', { month: 'long' })
-      const nextDate = addDays(new Date(), 35)
-      const nextMonth = nextDate.toLocaleString('en-US', { month: 'long' })
 
       expect(
         screen.getByText(new RegExp(currentMonth, 'i')),
       ).toBeInTheDocument()
 
-      const nextButton = container.querySelector(
-        'button[type="button"]:last-of-type',
-      )
-      if (nextButton) {
-        await user.click(nextButton)
-      }
+      const nextButton = screen.getByLabelText(/next month/i)
+      await user.click(nextButton)
 
-      expect(screen.getByText(new RegExp(nextMonth, 'i'))).toBeInTheDocument()
+      // Verify we moved forward (current month should no longer be visible)
+      expect(
+        screen.queryByText(new RegExp(currentMonth, 'i')),
+      ).not.toBeInTheDocument()
     })
 
     it('should navigate to previous month', async () => {
       const user = userEvent.setup()
-      const { container } = render(<Calendar mode="single" />)
-
-      const nextButton = container.querySelector(
-        'button[type="button"]:last-of-type',
-      )
-      if (nextButton) {
-        await user.click(nextButton)
-      }
-
-      const futureMonth = addDays(new Date(), 35).toLocaleString('en-US', {
-        month: 'long',
-      })
-      expect(screen.getByText(new RegExp(futureMonth, 'i'))).toBeInTheDocument()
-
-      const prevButton = container.querySelector('button[type="button"]')
-      if (prevButton) {
-        await user.click(prevButton)
-      }
+      render(<Calendar mode="single" />)
 
       const currentMonth = new Date().toLocaleString('en-US', { month: 'long' })
+
+      // Navigate to next month first
+      const nextButton = screen.getByLabelText(/next month/i)
+      await user.click(nextButton)
+
+      // Now navigate back
+      const prevButton = screen.getByLabelText(/previous month/i)
+      await user.click(prevButton)
+
+      // Should be back to current month
       expect(
         screen.getByText(new RegExp(currentMonth, 'i')),
       ).toBeInTheDocument()

@@ -67,13 +67,9 @@ const Carousel = React.forwardRef<
     const [canScrollPrev, setCanScrollPrev] = React.useState(false)
     const [canScrollNext, setCanScrollNext] = React.useState(false)
 
-    const onSelect = React.useCallback((api: CarouselApi) => {
-      if (!api) {
-        return
-      }
-
-      setCanScrollPrev(api.canScrollPrev())
-      setCanScrollNext(api.canScrollNext())
+    const onSelect = React.useCallback((emblaApi: NonNullable<CarouselApi>) => {
+      setCanScrollPrev(emblaApi.canScrollPrev())
+      setCanScrollNext(emblaApi.canScrollNext())
     }, [])
 
     const scrollPrev = React.useCallback(() => {
@@ -86,12 +82,15 @@ const Carousel = React.forwardRef<
 
     const handleKeyDown = React.useCallback(
       (event: React.KeyboardEvent<HTMLDivElement>) => {
-        if (event.key === 'ArrowLeft') {
+        const handler =
+          event.key === 'ArrowLeft'
+            ? scrollPrev
+            : event.key === 'ArrowRight'
+              ? scrollNext
+              : null
+        if (handler) {
           event.preventDefault()
-          scrollPrev()
-        } else if (event.key === 'ArrowRight') {
-          event.preventDefault()
-          scrollNext()
+          handler()
         }
       },
       [scrollPrev, scrollNext],
@@ -115,7 +114,7 @@ const Carousel = React.forwardRef<
       api.on('select', onSelect)
 
       return (): void => {
-        api?.off('select', onSelect)
+        api.off('select', onSelect)
       }
     }, [api, onSelect])
 
@@ -125,8 +124,7 @@ const Carousel = React.forwardRef<
           carouselRef,
           api: api,
           opts,
-          orientation:
-            orientation || (opts?.axis === 'y' ? 'vertical' : 'horizontal'),
+          orientation,
           scrollPrev,
           scrollNext,
           canScrollPrev,

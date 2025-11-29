@@ -351,6 +351,33 @@ describe('ContextMenu', () => {
         expect(screen.getByText('Submenu Item 2')).toBeInTheDocument()
       })
     })
+
+    it('should render submenu trigger with inset prop', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <ContextMenu>
+          <ContextMenuTrigger>Right click me</ContextMenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuSub>
+              <ContextMenuSubTrigger inset>Inset Trigger</ContextMenuSubTrigger>
+              <ContextMenuSubContent>
+                <ContextMenuItem>Sub Item</ContextMenuItem>
+              </ContextMenuSubContent>
+            </ContextMenuSub>
+          </ContextMenuContent>
+        </ContextMenu>,
+      )
+
+      await user.pointer({
+        keys: '[MouseRight>]',
+        target: screen.getByText('Right click me'),
+      })
+
+      await waitFor(() => {
+        expect(screen.getByText('Inset Trigger')).toBeInTheDocument()
+      })
+    })
   })
 
   describe('Additional Elements', () => {
@@ -374,6 +401,51 @@ describe('ContextMenu', () => {
 
       await waitFor(() => {
         expect(screen.getByText('Actions')).toBeInTheDocument()
+      })
+    })
+
+    it('should render labels with inset prop', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <ContextMenu>
+          <ContextMenuTrigger>Right click me</ContextMenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuLabel inset>Inset Label</ContextMenuLabel>
+            <ContextMenuItem>Item 1</ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenu>,
+      )
+
+      await user.pointer({
+        keys: '[MouseRight>]',
+        target: screen.getByText('Right click me'),
+      })
+
+      await waitFor(() => {
+        expect(screen.getByText('Inset Label')).toBeInTheDocument()
+      })
+    })
+
+    it('should render menu items with inset prop', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <ContextMenu>
+          <ContextMenuTrigger>Right click me</ContextMenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuItem inset>Inset Item</ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenu>,
+      )
+
+      await user.pointer({
+        keys: '[MouseRight>]',
+        target: screen.getByText('Right click me'),
+      })
+
+      await waitFor(() => {
+        expect(screen.getByText('Inset Item')).toBeInTheDocument()
       })
     })
 

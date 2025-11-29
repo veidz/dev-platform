@@ -374,6 +374,75 @@ describe('Menubar', () => {
       })
     })
 
+    it('should render labels with inset prop', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>File</MenubarTrigger>
+            <MenubarContent>
+              <MenubarLabel inset>Inset Label</MenubarLabel>
+              <MenubarItem>New</MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>,
+      )
+
+      await user.click(screen.getByText('File'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Inset Label')).toBeInTheDocument()
+      })
+    })
+
+    it('should render menu items with inset prop', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>File</MenubarTrigger>
+            <MenubarContent>
+              <MenubarItem inset>Inset Item</MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>,
+      )
+
+      await user.click(screen.getByText('File'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Inset Item')).toBeInTheDocument()
+      })
+    })
+
+    it('should render submenu trigger with inset prop', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>File</MenubarTrigger>
+            <MenubarContent>
+              <MenubarSub>
+                <MenubarSubTrigger inset>Inset Trigger</MenubarSubTrigger>
+                <MenubarSubContent>
+                  <MenubarItem>Sub Item</MenubarItem>
+                </MenubarSubContent>
+              </MenubarSub>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>,
+      )
+
+      await user.click(screen.getByText('File'))
+
+      await waitFor(() => {
+        expect(screen.getByText('Inset Trigger')).toBeInTheDocument()
+      })
+    })
+
     it('should render separators', async () => {
       const user = userEvent.setup()
 

@@ -14,6 +14,13 @@ describe('Slider', () => {
       expect(slider).toHaveAttribute('aria-valuenow', '50')
     })
 
+    it('should render slider with no default or value (fallback to [0])', () => {
+      render(<Slider max={100} />)
+      const slider = screen.getByRole('slider')
+      expect(slider).toBeInTheDocument()
+      expect(slider).toHaveAttribute('aria-valuenow', '0')
+    })
+
     it('should render range slider with two thumbs', () => {
       render(<Slider defaultValue={[25, 75]} max={100} />)
       const sliders = screen.getAllByRole('slider')

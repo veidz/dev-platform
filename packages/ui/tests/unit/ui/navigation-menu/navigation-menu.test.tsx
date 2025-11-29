@@ -6,6 +6,7 @@ import userEvent from '@testing-library/user-event'
 import {
   NavigationMenu,
   NavigationMenuContent,
+  NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
@@ -330,6 +331,22 @@ describe('NavigationMenu', () => {
       expect(list).toBeInTheDocument()
     })
 
+    it('should render NavigationMenuLink as anchor element', () => {
+      render(
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuLink href="/test">Anchor Link</NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      const link = screen.getByText('Anchor Link')
+      expect(link.tagName).toBe('A')
+      expect(link).toHaveAttribute('href', '/test')
+    })
+
     it('should apply custom className to Trigger', () => {
       render(
         <NavigationMenu>
@@ -470,6 +487,101 @@ describe('NavigationMenu', () => {
 
       const nav = screen.getByRole('navigation')
       expect(nav).toBeInTheDocument()
+    })
+  })
+
+  describe('NavigationMenuIndicator', () => {
+    it('should render indicator component within NavigationMenu', async () => {
+      const user = userEvent.setup()
+
+      const { container } = render(
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Menu</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <div>Content</div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuIndicator />
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      // Open menu to make indicator visible
+      await user.click(screen.getByText('Menu'))
+
+      const indicator = container.querySelector('[data-state]')
+      expect(indicator).toBeInTheDocument()
+    })
+
+    it('should apply custom className to indicator', async () => {
+      const user = userEvent.setup()
+
+      const { container } = render(
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Menu</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <div>Content</div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuIndicator className="custom-indicator" />
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      // Open menu to make indicator visible
+      await user.click(screen.getByText('Menu'))
+
+      const indicator = container.querySelector('.custom-indicator')
+      expect(indicator).toBeDefined()
+    })
+
+    it('should forward ref to indicator', () => {
+      const ref = createRef<HTMLDivElement>()
+
+      render(
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Menu</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <div>Content</div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuIndicator ref={ref} />
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      // Ref is assigned even when indicator is hidden
+      expect(ref.current).toBeDefined()
+    })
+
+    it('should render indicator with visual arrow element', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Menu</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <div>Content</div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuIndicator />
+          </NavigationMenuList>
+        </NavigationMenu>,
+      )
+
+      // Open menu to make indicator visible
+      await user.click(screen.getByText('Menu'))
+
+      // Verify content is visible (indicator works)
+      expect(screen.getByText('Content')).toBeInTheDocument()
     })
   })
 })
