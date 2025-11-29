@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals'
 import { mockDeep } from 'jest-mock-extended'
-import ky from 'ky'
+import ky, { HTTPError } from 'ky'
 
 import { createBaseClient } from '@/client/http/base-client'
 import {
@@ -303,6 +303,41 @@ describe('createBaseClient', () => {
         onTokenRefresh: mockOnTokenRefresh,
         onAuthError: mockOnAuthError,
       })
+    })
+
+    it('should call token refresh interceptor on beforeRetry hook with HTTPError', async () => {
+      const config: SDKConfig = {
+        baseUrl: 'https://api.example.com',
+      }
+
+      const mockTokenStorage = mockDeep<TokenStorage>()
+      const mockOnTokenRefresh =
+        jest.fn<() => Promise<{ accessToken: string; refreshToken: string }>>()
+      const mockTokenRefreshInterceptor = jest.fn()
+      ;(createTokenRefreshInterceptor as jest.Mock).mockReturnValue(
+        mockTokenRefreshInterceptor,
+      )
+
+      const options: SDKOptions = {
+        tokenStorage: mockTokenStorage,
+        onTokenRefresh: mockOnTokenRefresh as any,
+      }
+
+      createBaseClient(config, options)
+
+      const extendCall = (mockKyInstance.extend as jest.Mock).mock
+        .calls[0][0] as any
+      const beforeRetryHook = extendCall.hooks.beforeRetry[0]
+
+      const mockError = new HTTPError(
+        new Response(null, { status: 401 }),
+        new Request('https://api.example.com/test'),
+        {} as any,
+      )
+
+      await beforeRetryHook({ error: mockError })
+
+      expect(mockTokenRefreshInterceptor).toHaveBeenCalledWith(mockError)
     })
   })
 })
