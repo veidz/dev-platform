@@ -136,5 +136,24 @@ describe('createBaseClient', () => {
         }),
       )
     })
+
+    it('should create ky instance with custom retry maxRetryAfter', () => {
+      const config: SDKConfig = {
+        baseUrl: 'https://api.example.com',
+        retry: {
+          maxRetryAfter: 30000,
+        },
+      }
+
+      createBaseClient(config)
+
+      expect(ky.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          retry: expect.objectContaining({
+            maxRetryAfter: 30000,
+          }),
+        }),
+      )
+    })
   })
 })
