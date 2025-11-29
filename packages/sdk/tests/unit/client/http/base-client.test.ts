@@ -95,5 +95,27 @@ describe('createBaseClient', () => {
         }),
       )
     })
+
+    it('should create ky instance with custom retry limit', () => {
+      const config: SDKConfig = {
+        baseUrl: 'https://api.example.com',
+        retry: {
+          limit: 5,
+        },
+      }
+
+      createBaseClient(config)
+
+      expect(ky.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          retry: {
+            limit: 5,
+            methods: ['get', 'post', 'put', 'patch', 'delete'],
+            statusCodes: [408, 413, 429, 500, 502, 503, 504],
+            maxRetryAfter: 60000,
+          },
+        }),
+      )
+    })
   })
 })
