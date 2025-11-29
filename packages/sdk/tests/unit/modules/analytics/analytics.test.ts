@@ -373,4 +373,21 @@ describe('AnalyticsModule', () => {
       expect(result).toHaveLength(0)
     })
   })
+
+  describe('getAlertRule', () => {
+    it('should get alert rule by id', async () => {
+      const mockResponse = createMockAlertRule()
+
+      mockClient.get.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await analyticsModule.getAlertRule(mockResponse.id)
+
+      expect(mockClient.get).toHaveBeenCalledWith(
+        `analytics/alert-rules/${mockResponse.id}`,
+      )
+      expect(result).toEqual(mockResponse)
+    })
+  })
 })
