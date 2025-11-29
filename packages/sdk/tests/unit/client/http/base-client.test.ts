@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals'
 import { mockDeep } from 'jest-mock-extended'
-import ky, { HTTPError } from 'ky'
+import ky, { HTTPError, type NormalizedOptions } from 'ky'
 
 import { parseErrorResponse } from '@/client/errors'
 import { createBaseClient } from '@/client/http/base-client'
@@ -14,9 +14,28 @@ import type { SDKConfig, SDKOptions } from '@/types/config.types'
 jest.mock('@/client/errors')
 jest.mock('@/client/interceptors')
 
+type MockKyInstance = {
+  get: jest.Mock
+  post: jest.Mock
+  put: jest.Mock
+  patch: jest.Mock
+  delete: jest.Mock
+  extend: jest.Mock
+}
+
+const createMockHTTPErrorOptions = (): NormalizedOptions => ({
+  method: 'get',
+  retry: { limit: 0 },
+  prefixUrl: '',
+  onDownloadProgress: () => {},
+  onUploadProgress: () => {},
+  headers: {},
+  context: {},
+})
+
 describe('createBaseClient', () => {
-  let mockKyInstance: any
-  let mockExtendedInstance: any
+  let mockKyInstance: MockKyInstance
+  let mockExtendedInstance: MockKyInstance
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -165,7 +184,7 @@ describe('createBaseClient', () => {
   })
 
   describe('auth interceptor integration', () => {
-    it('should add auth interceptor when tokenStorage provided', () => {
+    it('should add auth interceptor when tokenStorage is provided', () => {
       const config: SDKConfig = {
         baseUrl: 'https://api.example.com',
       }
@@ -195,7 +214,7 @@ describe('createBaseClient', () => {
       )
     })
 
-    it('should add auth interceptor with callbacks when provided', () => {
+    it('should add auth interceptor with callbacks when they are provided', () => {
       const config: SDKConfig = {
         baseUrl: 'https://api.example.com',
       }
@@ -209,8 +228,8 @@ describe('createBaseClient', () => {
 
       const options: SDKOptions = {
         tokenStorage: mockTokenStorage,
-        onTokenRefresh: mockOnTokenRefresh as any,
-        onAuthError: mockOnAuthError as any,
+        onTokenRefresh: mockOnTokenRefresh,
+        onAuthError: mockOnAuthError,
       }
 
       createBaseClient(config, options)
@@ -222,7 +241,7 @@ describe('createBaseClient', () => {
       })
     })
 
-    it('should not add auth interceptor when tokenStorage not provided', () => {
+    it('should not add auth interceptor when tokenStorage is not provided', () => {
       const config: SDKConfig = {
         baseUrl: 'https://api.example.com',
       }
@@ -242,7 +261,7 @@ describe('createBaseClient', () => {
   })
 
   describe('token refresh interceptor integration', () => {
-    it('should add token refresh interceptor when both tokenStorage and onTokenRefresh provided', () => {
+    it('should add token refresh interceptor when both tokenStorage and onTokenRefresh are provided', () => {
       const config: SDKConfig = {
         baseUrl: 'https://api.example.com',
       }
@@ -257,7 +276,7 @@ describe('createBaseClient', () => {
 
       const options: SDKOptions = {
         tokenStorage: mockTokenStorage,
-        onTokenRefresh: mockOnTokenRefresh as any,
+        onTokenRefresh: mockOnTokenRefresh,
       }
 
       const client = createBaseClient(config, options)
@@ -277,7 +296,7 @@ describe('createBaseClient', () => {
       expect(client).toBe(mockExtendedInstance)
     })
 
-    it('should add token refresh interceptor with onAuthError callback', () => {
+    it('should add token refresh interceptor when onAuthError callback is provided', () => {
       const config: SDKConfig = {
         baseUrl: 'https://api.example.com',
       }
@@ -293,8 +312,8 @@ describe('createBaseClient', () => {
 
       const options: SDKOptions = {
         tokenStorage: mockTokenStorage,
-        onTokenRefresh: mockOnTokenRefresh as any,
-        onAuthError: mockOnAuthError as any,
+        onTokenRefresh: mockOnTokenRefresh,
+        onAuthError: mockOnAuthError,
       }
 
       createBaseClient(config, options)
@@ -321,19 +340,23 @@ describe('createBaseClient', () => {
 
       const options: SDKOptions = {
         tokenStorage: mockTokenStorage,
-        onTokenRefresh: mockOnTokenRefresh as any,
+        onTokenRefresh: mockOnTokenRefresh,
       }
 
       createBaseClient(config, options)
 
       const extendCall = (mockKyInstance.extend as jest.Mock).mock
-        .calls[0][0] as any
+        .calls[0][0] as {
+        hooks: {
+          beforeRetry: Array<(context: { error: Error }) => Promise<void>>
+        }
+      }
       const beforeRetryHook = extendCall.hooks.beforeRetry[0]
 
       const mockError = new HTTPError(
         new Response(null, { status: 401 }),
         new Request('https://api.example.com/test'),
-        {} as any,
+        createMockHTTPErrorOptions(),
       )
 
       await beforeRetryHook({ error: mockError })
@@ -356,13 +379,17 @@ describe('createBaseClient', () => {
 
       const options: SDKOptions = {
         tokenStorage: mockTokenStorage,
-        onTokenRefresh: mockOnTokenRefresh as any,
+        onTokenRefresh: mockOnTokenRefresh,
       }
 
       createBaseClient(config, options)
 
       const extendCall = (mockKyInstance.extend as jest.Mock).mock
-        .calls[0][0] as any
+        .calls[0][0] as {
+        hooks: {
+          beforeRetry: Array<(context: { error: Error }) => Promise<void>>
+        }
+      }
       const beforeRetryHook = extendCall.hooks.beforeRetry[0]
 
       const mockError = new Error('Generic error')
@@ -372,7 +399,7 @@ describe('createBaseClient', () => {
       expect(mockTokenRefreshInterceptor).not.toHaveBeenCalled()
     })
 
-    it('should not add token refresh interceptor when tokenStorage not provided', () => {
+    it('should not add token refresh interceptor when tokenStorage is not provided', () => {
       const config: SDKConfig = {
         baseUrl: 'https://api.example.com',
       }
@@ -381,7 +408,7 @@ describe('createBaseClient', () => {
         jest.fn<() => Promise<{ accessToken: string; refreshToken: string }>>()
 
       const options: SDKOptions = {
-        onTokenRefresh: mockOnTokenRefresh as any,
+        onTokenRefresh: mockOnTokenRefresh,
       }
 
       const client = createBaseClient(config, options)
@@ -391,7 +418,7 @@ describe('createBaseClient', () => {
       expect(client).toBe(mockKyInstance)
     })
 
-    it('should not add token refresh interceptor when onTokenRefresh not provided', () => {
+    it('should not add token refresh interceptor when onTokenRefresh is not provided', () => {
       const config: SDKConfig = {
         baseUrl: 'https://api.example.com',
       }
@@ -418,7 +445,9 @@ describe('createBaseClient', () => {
 
       createBaseClient(config)
 
-      const createCall = (ky.create as jest.Mock).mock.calls[0][0] as any
+      const createCall = (ky.create as jest.Mock).mock.calls[0][0] as {
+        hooks: { beforeError: Array<(error: HTTPError) => Promise<HTTPError>> }
+      }
       expect(createCall.hooks.beforeError).toHaveLength(1)
       expect(createCall.hooks.beforeError[0]).toEqual(expect.any(Function))
     })
@@ -431,15 +460,19 @@ describe('createBaseClient', () => {
       const mockError = new HTTPError(
         new Response(null, { status: 500 }),
         new Request('https://api.example.com/test'),
-        {} as any,
+        createMockHTTPErrorOptions(),
       )
 
       const mockParsedError = new Error('Parsed error')
-      ;(parseErrorResponse as jest.Mock<any>).mockResolvedValue(mockParsedError)
+      ;(
+        parseErrorResponse as jest.Mock<typeof parseErrorResponse>
+      ).mockResolvedValue(mockParsedError)
 
       createBaseClient(config)
 
-      const createCall = (ky.create as jest.Mock).mock.calls[0][0] as any
+      const createCall = (ky.create as jest.Mock).mock.calls[0][0] as {
+        hooks: { beforeError: Array<(error: HTTPError) => Promise<HTTPError>> }
+      }
       const beforeErrorHook = createCall.hooks.beforeError[0]
 
       await expect(beforeErrorHook(mockError)).rejects.toThrow(mockParsedError)
@@ -467,8 +500,8 @@ describe('createBaseClient', () => {
 
       const options: SDKOptions = {
         tokenStorage: mockTokenStorage,
-        onTokenRefresh: mockOnTokenRefresh as any,
-        onAuthError: mockOnAuthError as any,
+        onTokenRefresh: mockOnTokenRefresh,
+        onAuthError: mockOnAuthError,
       }
 
       const client = createBaseClient(config, options)
@@ -508,7 +541,7 @@ describe('createBaseClient', () => {
       expect(client).toBe(mockExtendedInstance)
     })
 
-    it('should create client without auth when no tokenStorage provided', () => {
+    it('should create client without auth when tokenStorage is not provided', () => {
       const config: SDKConfig = {
         baseUrl: 'https://api.example.com',
         apiKey: 'public-key',

@@ -4,14 +4,19 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals'
 import { faker } from '@/__mocks__/faker-adapter'
 import { createBaseClient } from '@/client/http'
 import { createSDK, DevPlatformSDK } from '@/sdk'
-import type { SDKConfig, SDKOptions } from '@/types'
+import type { SDKConfig } from '@/types'
 
 jest.mock('@/client/http')
+
+type MockOnTokenRefresh = () => Promise<{
+  accessToken: string
+  refreshToken: string
+}>
 
 describe('DevPlatformSDK', () => {
   let config: SDKConfig
   let sdk: DevPlatformSDK
-  let capturedOnTokenRefresh: (() => Promise<AuthTokens>) | undefined
+  let capturedOnTokenRefresh: MockOnTokenRefresh | undefined
 
   const createMockTokens = (overrides?: Partial<AuthTokens>): AuthTokens => ({
     accessToken: faker.string.alphanumeric(32),
@@ -23,20 +28,20 @@ describe('DevPlatformSDK', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     capturedOnTokenRefresh = undefined
-    ;(createBaseClient as jest.Mock<any>).mockImplementation(
-      (_config: any, options?: SDKOptions) => {
-        if (options?.onTokenRefresh) {
-          capturedOnTokenRefresh = options.onTokenRefresh as any
-        }
-        return {
-          get: jest.fn(),
-          post: jest.fn(),
-          put: jest.fn(),
-          patch: jest.fn(),
-          delete: jest.fn(),
-        }
-      },
-    )
+    ;(
+      createBaseClient as jest.MockedFunction<typeof createBaseClient>
+    ).mockImplementation((_, options) => {
+      if (options?.onTokenRefresh) {
+        capturedOnTokenRefresh = options.onTokenRefresh as MockOnTokenRefresh
+      }
+      return {
+        get: jest.fn(),
+        post: jest.fn(),
+        put: jest.fn(),
+        patch: jest.fn(),
+        delete: jest.fn(),
+      } as unknown as ReturnType<typeof createBaseClient>
+    })
 
     config = {
       baseUrl: faker.internet.url(),
@@ -72,7 +77,11 @@ describe('DevPlatformSDK', () => {
       expect(browserSdk).toBeDefined()
 
       if (originalWindow === undefined) {
-        delete (globalThis as any).window
+        Object.defineProperty(globalThis, 'window', {
+          value: undefined,
+          writable: true,
+          configurable: true,
+        })
       } else {
         globalThis.window = originalWindow
       }
@@ -94,7 +103,7 @@ describe('DevPlatformSDK', () => {
   })
 
   describe('getAccessToken', () => {
-    it('should return access token when set', async () => {
+    it('should return access token when it is set', async () => {
       const token = faker.string.alphanumeric(32)
       await sdk.setTokens(createMockTokens({ accessToken: token }))
 
@@ -103,7 +112,7 @@ describe('DevPlatformSDK', () => {
       expect(result).toBe(token)
     })
 
-    it('should return null when no token set', async () => {
+    it('should return null when no token is set', async () => {
       const result = await sdk.getAccessToken()
 
       expect(result).toBeNull()
@@ -111,7 +120,7 @@ describe('DevPlatformSDK', () => {
   })
 
   describe('getRefreshToken', () => {
-    it('should return refresh token when set', async () => {
+    it('should return refresh token when it is set', async () => {
       const token = faker.string.alphanumeric(32)
       await sdk.setTokens(createMockTokens({ refreshToken: token }))
 
@@ -120,7 +129,7 @@ describe('DevPlatformSDK', () => {
       expect(result).toBe(token)
     })
 
-    it('should return null when no token set', async () => {
+    it('should return null when no token is set', async () => {
       const result = await sdk.getRefreshToken()
 
       expect(result).toBeNull()
@@ -142,7 +151,7 @@ describe('DevPlatformSDK', () => {
   })
 
   describe('isAuthenticated', () => {
-    it('should return true when access token exists', async () => {
+    it('should return true when access token is present', async () => {
       await sdk.setTokens(createMockTokens())
 
       const result = await sdk.isAuthenticated()
@@ -150,7 +159,7 @@ describe('DevPlatformSDK', () => {
       expect(result).toBe(true)
     })
 
-    it('should return false when no access token', async () => {
+    it('should return false when access token is not present', async () => {
       const result = await sdk.isAuthenticated()
 
       expect(result).toBe(false)
@@ -168,7 +177,7 @@ describe('DevPlatformSDK', () => {
   })
 
   describe('token management', () => {
-    it('should handle token operations correctly', async () => {
+    it('should handle full token lifecycle correctly', async () => {
       const tokens = createMockTokens()
       await sdk.setTokens(tokens)
 
@@ -192,16 +201,26 @@ describe('DevPlatformSDK', () => {
       await sdk.setTokens(tokens)
 
       const newTokens = createMockTokens()
-      jest.spyOn(sdk.auth, 'refreshToken').mockResolvedValue(newTokens as any)
+      jest.spyOn(sdk.auth, 'refreshToken').mockResolvedValue(newTokens)
 
-      const result = await (sdk as any).handleTokenRefresh()
+      const handleTokenRefresh = (
+        sdk as unknown as {
+          handleTokenRefresh: () => Promise<AuthTokens>
+        }
+      ).handleTokenRefresh.bind(sdk)
+      const result = await handleTokenRefresh()
 
       expect(sdk.auth.refreshToken).toHaveBeenCalledWith(tokens.refreshToken)
       expect(result).toEqual(newTokens)
     })
 
-    it('should throw error when no refresh token available', async () => {
-      await expect((sdk as any).handleTokenRefresh()).rejects.toThrow(
+    it('should throw error when no refresh token is available', async () => {
+      const handleTokenRefresh = (
+        sdk as unknown as {
+          handleTokenRefresh: () => Promise<AuthTokens>
+        }
+      ).handleTokenRefresh.bind(sdk)
+      await expect(handleTokenRefresh()).rejects.toThrow(
         'No refresh token available',
       )
     })
@@ -213,7 +232,7 @@ describe('DevPlatformSDK', () => {
       await sdk.setTokens(tokens)
 
       const newTokens = createMockTokens()
-      jest.spyOn(sdk.auth, 'refreshToken').mockResolvedValue(newTokens as any)
+      jest.spyOn(sdk.auth, 'refreshToken').mockResolvedValue(newTokens)
 
       const result = await capturedOnTokenRefresh!()
 
