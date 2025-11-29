@@ -62,5 +62,20 @@ describe('createBaseClient', () => {
 
       expect(client).toBe(mockKyInstance)
     })
+
+    it('should create ky instance with custom timeout', () => {
+      const config: SDKConfig = {
+        baseUrl: 'https://api.example.com',
+        timeout: 5000,
+      }
+
+      createBaseClient(config)
+
+      expect(ky.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          timeout: 5000,
+        }),
+      )
+    })
   })
 })
