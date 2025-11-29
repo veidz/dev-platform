@@ -217,5 +217,23 @@ describe('createBaseClient', () => {
         onAuthError: mockOnAuthError,
       })
     })
+
+    it('should not add auth interceptor when tokenStorage not provided', () => {
+      const config: SDKConfig = {
+        baseUrl: 'https://api.example.com',
+      }
+
+      createBaseClient(config)
+
+      expect(createAuthInterceptor).not.toHaveBeenCalled()
+
+      expect(ky.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          hooks: expect.objectContaining({
+            beforeRequest: [],
+          }),
+        }),
+      )
+    })
   })
 })
