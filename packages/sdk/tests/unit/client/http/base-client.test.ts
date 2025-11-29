@@ -389,5 +389,23 @@ describe('createBaseClient', () => {
       expect(mockKyInstance.extend).not.toHaveBeenCalled()
       expect(client).toBe(mockKyInstance)
     })
+
+    it('should not add token refresh interceptor when onTokenRefresh not provided', () => {
+      const config: SDKConfig = {
+        baseUrl: 'https://api.example.com',
+      }
+
+      const mockTokenStorage = mockDeep<TokenStorage>()
+
+      const options: SDKOptions = {
+        tokenStorage: mockTokenStorage,
+      }
+
+      const client = createBaseClient(config, options)
+
+      expect(createTokenRefreshInterceptor).not.toHaveBeenCalled()
+      expect(mockKyInstance.extend).not.toHaveBeenCalled()
+      expect(client).toBe(mockKyInstance)
+    })
   })
 })
