@@ -58,5 +58,24 @@ describe('DevPlatformSDK', () => {
       const nodeSdk = new DevPlatformSDK(config)
       expect(nodeSdk).toBeDefined()
     })
+
+    it('should use LocalStorageTokenStorage in browser environment', () => {
+      const originalWindow = globalThis.window
+
+      Object.defineProperty(globalThis, 'window', {
+        value: {},
+        writable: true,
+        configurable: true,
+      })
+
+      const browserSdk = new DevPlatformSDK(config)
+      expect(browserSdk).toBeDefined()
+
+      if (originalWindow === undefined) {
+        delete (globalThis as any).window
+      } else {
+        globalThis.window = originalWindow
+      }
+    })
   })
 })
