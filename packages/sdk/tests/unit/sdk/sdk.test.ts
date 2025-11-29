@@ -149,5 +149,11 @@ describe('DevPlatformSDK', () => {
 
       expect(result).toBe(true)
     })
+
+    it('should return false when no access token', async () => {
+      const result = await sdk.isAuthenticated()
+
+      expect(result).toBe(false)
+    })
   })
 })
