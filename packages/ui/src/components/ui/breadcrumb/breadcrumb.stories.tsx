@@ -1,12 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import {
-  ChevronRight,
-  File,
-  FileText,
-  Folder,
-  Home,
-  Settings,
-} from 'lucide-react'
+import { File, FileText, Folder, Home, Settings } from 'lucide-react'
 
 import { Button } from '../button'
 import { Card, CardContent, CardHeader } from '../card'
@@ -296,7 +289,7 @@ export const InCard: Story = {
 
 export const WithActions: Story = {
   render: () => (
-    <div className="flex items-center justify-between rounded-lg border bg-card p-4">
+    <div className="flex items-center justify-between gap-4 rounded-lg border bg-card p-4">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -305,9 +298,7 @@ export const WithActions: Story = {
               Projects
             </BreadcrumbLink>
           </BreadcrumbItem>
-          <BreadcrumbSeparator>
-            <ChevronRight className="size-4" />
-          </BreadcrumbSeparator>
+          <BreadcrumbSeparator />
           <BreadcrumbItem>
             <BreadcrumbLink
               href="/project"
@@ -317,9 +308,7 @@ export const WithActions: Story = {
               My Project
             </BreadcrumbLink>
           </BreadcrumbItem>
-          <BreadcrumbSeparator>
-            <ChevronRight className="size-4" />
-          </BreadcrumbSeparator>
+          <BreadcrumbSeparator />
           <BreadcrumbItem>
             <BreadcrumbPage className="flex items-center gap-1.5">
               <File className="size-4" />
@@ -328,7 +317,7 @@ export const WithActions: Story = {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <div className="flex items-center gap-2">
+      <div className="flex shrink-0 items-center gap-2">
         <Button variant="outline" size="sm">
           Share
         </Button>

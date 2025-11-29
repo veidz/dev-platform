@@ -45,7 +45,8 @@ describe('Button', () => {
     it('should render outline variant', () => {
       render(<Button variant="outline">Outline</Button>)
       const button = screen.getByRole('button')
-      expect(button.className).toContain('border-2')
+      expect(button.className).toContain('border')
+      expect(button.className).toContain('border-input')
     })
 
     it('should render secondary variant', () => {
