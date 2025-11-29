@@ -181,5 +181,29 @@ describe('AnalyticsModule', () => {
       expect(result).toEqual(mockResponse)
       expect(result.logs).toHaveLength(2)
     })
+
+    it('should get logs with pagination', async () => {
+      const mockResponse: GetLogsResponse = {
+        logs: [createMockRequestLog()],
+        total: 100,
+        page: 2,
+        limit: 10,
+      }
+
+      mockClient.get.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await analyticsModule.getLogs({ page: 2, limit: 10 })
+
+      expect(mockClient.get).toHaveBeenCalledWith('analytics/logs', {
+        searchParams: {
+          page: '2',
+          limit: '10',
+        },
+      })
+      expect(result.page).toBe(2)
+      expect(result.limit).toBe(10)
+    })
   })
 })
