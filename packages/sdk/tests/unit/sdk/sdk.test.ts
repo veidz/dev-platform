@@ -92,4 +92,15 @@ describe('DevPlatformSDK', () => {
       expect(refreshToken).toBe(tokens.refreshToken)
     })
   })
+
+  describe('getAccessToken', () => {
+    it('should return access token when set', async () => {
+      const token = faker.string.alphanumeric(32)
+      await sdk.setTokens(createMockTokens({ accessToken: token }))
+
+      const result = await sdk.getAccessToken()
+
+      expect(result).toBe(token)
+    })
+  })
 })
