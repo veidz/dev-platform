@@ -13,6 +13,7 @@ import { faker } from '@/__mocks__/faker-adapter'
 import type { BaseClient } from '@/client/http'
 import { AnalyticsModule } from '@/modules/analytics/analytics'
 import type {
+  GetLogsResponse,
   GetMetricsResponse,
   TopEndpoint,
 } from '@/modules/analytics/analytics.types'
@@ -156,6 +157,29 @@ describe('AnalyticsModule', () => {
       })
       expect(result.metrics[0].endpointId).toBe(endpointId)
       expect(result.aggregations[0].period).toBe('day')
+    })
+  })
+
+  describe('getLogs', () => {
+    it('should get logs without filters', async () => {
+      const mockResponse: GetLogsResponse = {
+        logs: [createMockRequestLog(), createMockRequestLog()],
+        total: 2,
+        page: 1,
+        limit: 50,
+      }
+
+      mockClient.get.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await analyticsModule.getLogs({})
+
+      expect(mockClient.get).toHaveBeenCalledWith('analytics/logs', {
+        searchParams: {},
+      })
+      expect(result).toEqual(mockResponse)
+      expect(result.logs).toHaveLength(2)
     })
   })
 })
