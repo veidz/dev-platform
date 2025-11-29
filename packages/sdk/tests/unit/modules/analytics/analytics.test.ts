@@ -120,5 +120,42 @@ describe('AnalyticsModule', () => {
       expect(result).toEqual(mockResponse)
       expect(result.metrics).toHaveLength(2)
     })
+
+    it('should get metrics with all filters', async () => {
+      const apiId = faker.string.uuid()
+      const endpointId = faker.string.uuid()
+      const startDate = new Date('2025-01-01')
+      const endDate = new Date('2025-01-31')
+      const mockResponse: GetMetricsResponse = {
+        metrics: [createMockMetric({ endpointId })],
+        aggregations: [createMockMetricAggregation({ period: 'day' })],
+      }
+
+      mockClient.get.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await analyticsModule.getMetrics({
+        apiId,
+        endpointId,
+        startDate,
+        endDate,
+        metric: 'response_time',
+        period: 'day',
+      })
+
+      expect(mockClient.get).toHaveBeenCalledWith('analytics/metrics', {
+        searchParams: {
+          apiId,
+          endpointId,
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString(),
+          metric: 'response_time',
+          period: 'day',
+        },
+      })
+      expect(result.metrics[0].endpointId).toBe(endpointId)
+      expect(result.aggregations[0].period).toBe('day')
+    })
   })
 })
