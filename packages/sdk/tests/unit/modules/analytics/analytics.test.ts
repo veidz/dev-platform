@@ -463,5 +463,23 @@ describe('AnalyticsModule', () => {
       )
       expect(result.name).toBe('Updated Alert Name')
     })
+
+    it('should update alert rule threshold and severity', async () => {
+      const id = faker.string.uuid()
+      const updateDto: UpdateAlertRuleDto = {
+        threshold: 0.15,
+        severity: AlertSeverity.CRITICAL,
+      }
+      const mockResponse = createMockAlertRule({ id, ...updateDto })
+
+      mockClient.patch.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await analyticsModule.updateAlertRule(id, updateDto)
+
+      expect(result.threshold).toBe(0.15)
+      expect(result.severity).toBe(AlertSeverity.CRITICAL)
+    })
   })
 })
