@@ -205,5 +205,53 @@ describe('AnalyticsModule', () => {
       expect(result.page).toBe(2)
       expect(result.limit).toBe(10)
     })
+
+    it('should get logs with all filters', async () => {
+      const endpointId = faker.string.uuid()
+      const startDate = new Date('2025-01-01')
+      const endDate = new Date('2025-01-31')
+      const mockResponse: GetLogsResponse = {
+        logs: [
+          createMockRequestLog({
+            endpointId,
+            method: 'POST',
+            statusCode: 404,
+            responseTimeMs: 250,
+          }),
+        ],
+        total: 1,
+        page: 1,
+        limit: 50,
+      }
+
+      mockClient.get.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await analyticsModule.getLogs({
+        endpointId,
+        method: 'POST',
+        statusCode: 404,
+        startDate,
+        endDate,
+        minResponseTime: 100,
+        maxResponseTime: 500,
+      })
+
+      expect(mockClient.get).toHaveBeenCalledWith('analytics/logs', {
+        searchParams: {
+          endpointId,
+          method: 'POST',
+          statusCode: '404',
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString(),
+          minResponseTime: '100',
+          maxResponseTime: '500',
+        },
+      })
+      expect(result.logs[0].endpointId).toBe(endpointId)
+      expect(result.logs[0].method).toBe('POST')
+      expect(result.logs[0].statusCode).toBe(404)
+    })
   })
 })
