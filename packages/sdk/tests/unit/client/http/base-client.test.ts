@@ -3,7 +3,10 @@ import { mockDeep } from 'jest-mock-extended'
 import ky from 'ky'
 
 import { createBaseClient } from '@/client/http/base-client'
-import { createAuthInterceptor } from '@/client/interceptors'
+import {
+  createAuthInterceptor,
+  createTokenRefreshInterceptor,
+} from '@/client/interceptors'
 import type { TokenStorage } from '@/storage/token-storage'
 import type { SDKConfig, SDKOptions } from '@/types/config.types'
 
@@ -234,6 +237,43 @@ describe('createBaseClient', () => {
           }),
         }),
       )
+    })
+  })
+
+  describe('token refresh interceptor integration', () => {
+    it('should add token refresh interceptor when both tokenStorage and onTokenRefresh provided', () => {
+      const config: SDKConfig = {
+        baseUrl: 'https://api.example.com',
+      }
+
+      const mockTokenStorage = mockDeep<TokenStorage>()
+      const mockOnTokenRefresh =
+        jest.fn<() => Promise<{ accessToken: string; refreshToken: string }>>()
+      const mockTokenRefreshInterceptor = jest.fn()
+      ;(createTokenRefreshInterceptor as jest.Mock).mockReturnValue(
+        mockTokenRefreshInterceptor,
+      )
+
+      const options: SDKOptions = {
+        tokenStorage: mockTokenStorage,
+        onTokenRefresh: mockOnTokenRefresh as any,
+      }
+
+      const client = createBaseClient(config, options)
+
+      expect(createTokenRefreshInterceptor).toHaveBeenCalledWith({
+        tokenStorage: mockTokenStorage,
+        onTokenRefresh: mockOnTokenRefresh,
+        onAuthError: undefined,
+      })
+
+      expect(mockKyInstance.extend).toHaveBeenCalledWith({
+        hooks: {
+          beforeRetry: expect.any(Array),
+        },
+      })
+
+      expect(client).toBe(mockExtendedInstance)
     })
   })
 })
