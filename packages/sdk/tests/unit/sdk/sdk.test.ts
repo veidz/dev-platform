@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals'
 
 import { faker } from '@/__mocks__/faker-adapter'
 import { createBaseClient } from '@/client/http'
-import { DevPlatformSDK } from '@/sdk'
+import { createSDK, DevPlatformSDK } from '@/sdk'
 import type { SDKConfig, SDKOptions } from '@/types'
 
 jest.mock('@/client/http')
@@ -219,6 +219,20 @@ describe('DevPlatformSDK', () => {
 
       expect(sdk.auth.refreshToken).toHaveBeenCalledWith(tokens.refreshToken)
       expect(result).toEqual(newTokens)
+    })
+  })
+
+  describe('createSDK', () => {
+    it('should create SDK instance', () => {
+      const sdkInstance = createSDK(config)
+
+      expect(sdkInstance).toBeInstanceOf(DevPlatformSDK)
+      expect(sdkInstance.auth).toBeDefined()
+      expect(sdkInstance.workspace).toBeDefined()
+      expect(sdkInstance.api).toBeDefined()
+      expect(sdkInstance.endpoint).toBeDefined()
+      expect(sdkInstance.mock).toBeDefined()
+      expect(sdkInstance.analytics).toBeDefined()
     })
   })
 })
