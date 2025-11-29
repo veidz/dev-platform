@@ -446,4 +446,66 @@ describe('createBaseClient', () => {
       expect(parseErrorResponse).toHaveBeenCalledWith(mockError)
     })
   })
+
+  describe('full integration scenarios', () => {
+    it('should create fully configured client with all options', () => {
+      const config: SDKConfig = {
+        baseUrl: 'https://api.example.com',
+        apiKey: 'secret-key',
+        timeout: 8000,
+        retry: {
+          limit: 4,
+          statusCodes: [503],
+          maxRetryAfter: 45000,
+        },
+      }
+
+      const mockTokenStorage = mockDeep<TokenStorage>()
+      const mockOnTokenRefresh =
+        jest.fn<() => Promise<{ accessToken: string; refreshToken: string }>>()
+      const mockOnAuthError = jest.fn<(error: Error) => void | Promise<void>>()
+
+      const options: SDKOptions = {
+        tokenStorage: mockTokenStorage,
+        onTokenRefresh: mockOnTokenRefresh as any,
+        onAuthError: mockOnAuthError as any,
+      }
+
+      const client = createBaseClient(config, options)
+
+      expect(ky.create).toHaveBeenCalledWith({
+        prefixUrl: 'https://api.example.com',
+        timeout: 8000,
+        retry: {
+          limit: 4,
+          methods: ['get', 'post', 'put', 'patch', 'delete'],
+          statusCodes: [503],
+          maxRetryAfter: 45000,
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          'X-API-Key': 'secret-key',
+        },
+        hooks: {
+          beforeRequest: expect.any(Array),
+          beforeError: expect.any(Array),
+        },
+      })
+
+      expect(createAuthInterceptor).toHaveBeenCalledWith({
+        tokenStorage: mockTokenStorage,
+        onTokenRefresh: mockOnTokenRefresh,
+        onAuthError: mockOnAuthError,
+      })
+
+      expect(createTokenRefreshInterceptor).toHaveBeenCalledWith({
+        tokenStorage: mockTokenStorage,
+        onTokenRefresh: mockOnTokenRefresh,
+        onAuthError: mockOnAuthError,
+      })
+
+      expect(mockKyInstance.extend).toHaveBeenCalled()
+      expect(client).toBe(mockExtendedInstance)
+    })
+  })
 })
