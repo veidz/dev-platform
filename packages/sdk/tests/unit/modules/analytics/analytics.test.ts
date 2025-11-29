@@ -524,4 +524,25 @@ describe('AnalyticsModule', () => {
       await expect(analyticsModule.deleteAlertRule(id)).resolves.toBeUndefined()
     })
   })
+
+  describe('listAlerts', () => {
+    it('should list all alerts', async () => {
+      const mockResponse = [
+        createMockAlert({ severity: AlertSeverity.WARNING }),
+        createMockAlert({ severity: AlertSeverity.ERROR }),
+      ]
+
+      mockClient.get.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await analyticsModule.listAlerts()
+
+      expect(mockClient.get).toHaveBeenCalledWith('analytics/alerts', {
+        searchParams: {},
+      })
+      expect(result).toEqual(mockResponse)
+      expect(result).toHaveLength(2)
+    })
+  })
 })
