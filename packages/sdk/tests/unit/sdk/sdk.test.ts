@@ -140,4 +140,14 @@ describe('DevPlatformSDK', () => {
       expect(refreshToken).toBeNull()
     })
   })
+
+  describe('isAuthenticated', () => {
+    it('should return true when access token exists', async () => {
+      await sdk.setTokens(createMockTokens())
+
+      const result = await sdk.isAuthenticated()
+
+      expect(result).toBe(true)
+    })
+  })
 })
