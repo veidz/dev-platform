@@ -1,8 +1,11 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals'
+import { mockDeep } from 'jest-mock-extended'
 import ky from 'ky'
 
 import { createBaseClient } from '@/client/http/base-client'
-import type { SDKConfig } from '@/types/config.types'
+import { createAuthInterceptor } from '@/client/interceptors'
+import type { TokenStorage } from '@/storage/token-storage'
+import type { SDKConfig, SDKOptions } from '@/types/config.types'
 
 jest.mock('@/client/errors')
 jest.mock('@/client/interceptors')
@@ -151,6 +154,38 @@ describe('createBaseClient', () => {
         expect.objectContaining({
           retry: expect.objectContaining({
             maxRetryAfter: 30000,
+          }),
+        }),
+      )
+    })
+  })
+
+  describe('auth interceptor integration', () => {
+    it('should add auth interceptor when tokenStorage provided', () => {
+      const config: SDKConfig = {
+        baseUrl: 'https://api.example.com',
+      }
+
+      const mockTokenStorage = mockDeep<TokenStorage>()
+      const mockAuthInterceptor = jest.fn()
+      ;(createAuthInterceptor as jest.Mock).mockReturnValue(mockAuthInterceptor)
+
+      const options: SDKOptions = {
+        tokenStorage: mockTokenStorage,
+      }
+
+      createBaseClient(config, options)
+
+      expect(createAuthInterceptor).toHaveBeenCalledWith({
+        tokenStorage: mockTokenStorage,
+        onTokenRefresh: undefined,
+        onAuthError: undefined,
+      })
+
+      expect(ky.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          hooks: expect.objectContaining({
+            beforeRequest: [mockAuthInterceptor],
           }),
         }),
       )
