@@ -109,4 +109,15 @@ describe('DevPlatformSDK', () => {
       expect(result).toBeNull()
     })
   })
+
+  describe('getRefreshToken', () => {
+    it('should return refresh token when set', async () => {
+      const token = faker.string.alphanumeric(32)
+      await sdk.setTokens(createMockTokens({ refreshToken: token }))
+
+      const result = await sdk.getRefreshToken()
+
+      expect(result).toBe(token)
+    })
+  })
 })
