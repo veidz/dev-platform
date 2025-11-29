@@ -561,4 +561,28 @@ describe('AnalyticsModule', () => {
       expect(result[0].ruleId).toBe(ruleId)
     })
   })
+
+  describe('acknowledgeAlert', () => {
+    it('should acknowledge alert', async () => {
+      const id = faker.string.uuid()
+      const mockResponse = createMockAlert({
+        id,
+        triggered: false,
+        resolvedAt: new Date(),
+      })
+
+      mockClient.patch.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await analyticsModule.acknowledgeAlert(id)
+
+      expect(mockClient.patch).toHaveBeenCalledWith(
+        `analytics/alerts/${id}/acknowledge`,
+      )
+      expect(result).toEqual(mockResponse)
+      expect(result.triggered).toBe(false)
+      expect(result.resolvedAt).toBeDefined()
+    })
+  })
 })
