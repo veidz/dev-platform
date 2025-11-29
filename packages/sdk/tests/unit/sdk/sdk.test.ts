@@ -119,5 +119,11 @@ describe('DevPlatformSDK', () => {
 
       expect(result).toBe(token)
     })
+
+    it('should return null when no token set', async () => {
+      const result = await sdk.getRefreshToken()
+
+      expect(result).toBeNull()
+    })
   })
 })
