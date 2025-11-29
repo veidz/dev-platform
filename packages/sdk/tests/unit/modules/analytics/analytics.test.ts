@@ -481,5 +481,21 @@ describe('AnalyticsModule', () => {
       expect(result.threshold).toBe(0.15)
       expect(result.severity).toBe(AlertSeverity.CRITICAL)
     })
+
+    it('should disable alert rule', async () => {
+      const id = faker.string.uuid()
+      const updateDto: UpdateAlertRuleDto = {
+        enabled: false,
+      }
+      const mockResponse = createMockAlertRule({ id, enabled: false })
+
+      mockClient.patch.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await analyticsModule.updateAlertRule(id, updateDto)
+
+      expect(result.enabled).toBe(false)
+    })
   })
 })
