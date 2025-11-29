@@ -370,5 +370,24 @@ describe('createBaseClient', () => {
 
       expect(mockTokenRefreshInterceptor).not.toHaveBeenCalled()
     })
+
+    it('should not add token refresh interceptor when tokenStorage not provided', () => {
+      const config: SDKConfig = {
+        baseUrl: 'https://api.example.com',
+      }
+
+      const mockOnTokenRefresh =
+        jest.fn<() => Promise<{ accessToken: string; refreshToken: string }>>()
+
+      const options: SDKOptions = {
+        onTokenRefresh: mockOnTokenRefresh as any,
+      }
+
+      const client = createBaseClient(config, options)
+
+      expect(createTokenRefreshInterceptor).not.toHaveBeenCalled()
+      expect(mockKyInstance.extend).not.toHaveBeenCalled()
+      expect(client).toBe(mockKyInstance)
+    })
   })
 })
