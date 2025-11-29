@@ -15,6 +15,7 @@ import { AnalyticsModule } from '@/modules/analytics/analytics'
 import type {
   GetLogsResponse,
   GetMetricsResponse,
+  GetTopEndpointsResponse,
   TopEndpoint,
 } from '@/modules/analytics/analytics.types'
 
@@ -252,6 +253,32 @@ describe('AnalyticsModule', () => {
       expect(result.logs[0].endpointId).toBe(endpointId)
       expect(result.logs[0].method).toBe('POST')
       expect(result.logs[0].statusCode).toBe(404)
+    })
+  })
+
+  describe('getTopEndpoints', () => {
+    it('should get top endpoints for an API', async () => {
+      const apiId = faker.string.uuid()
+      const mockResponse: GetTopEndpointsResponse = {
+        endpoints: [
+          createMockTopEndpoint({ path: '/users', requestCount: 5000 }),
+          createMockTopEndpoint({ path: '/posts', requestCount: 3000 }),
+          createMockTopEndpoint({ path: '/comments', requestCount: 1000 }),
+        ],
+      }
+
+      mockClient.get.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await analyticsModule.getTopEndpoints(apiId)
+
+      expect(mockClient.get).toHaveBeenCalledWith('analytics/top-endpoints', {
+        searchParams: { apiId },
+      })
+      expect(result).toEqual(mockResponse)
+      expect(result.endpoints).toHaveLength(3)
+      expect(result.endpoints[0].requestCount).toBe(5000)
     })
   })
 })
