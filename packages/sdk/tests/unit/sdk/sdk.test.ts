@@ -126,4 +126,18 @@ describe('DevPlatformSDK', () => {
       expect(result).toBeNull()
     })
   })
+
+  describe('clearTokens', () => {
+    it('should clear both access and refresh tokens', async () => {
+      await sdk.setTokens(createMockTokens())
+
+      await sdk.clearTokens()
+
+      const accessToken = await sdk.getAccessToken()
+      const refreshToken = await sdk.getRefreshToken()
+
+      expect(accessToken).toBeNull()
+      expect(refreshToken).toBeNull()
+    })
+  })
 })
