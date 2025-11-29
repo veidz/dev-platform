@@ -234,5 +234,12 @@ describe('DevPlatformSDK', () => {
       expect(sdkInstance.mock).toBeDefined()
       expect(sdkInstance.analytics).toBeDefined()
     })
+
+    it('should create SDK with options', () => {
+      const onAuthError = () => {}
+      const sdkInstance = createSDK(config, { onAuthError })
+
+      expect(sdkInstance).toBeInstanceOf(DevPlatformSDK)
+    })
   })
 })
