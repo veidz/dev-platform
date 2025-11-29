@@ -275,5 +275,34 @@ describe('createBaseClient', () => {
 
       expect(client).toBe(mockExtendedInstance)
     })
+
+    it('should add token refresh interceptor with onAuthError callback', () => {
+      const config: SDKConfig = {
+        baseUrl: 'https://api.example.com',
+      }
+
+      const mockTokenStorage = mockDeep<TokenStorage>()
+      const mockOnTokenRefresh =
+        jest.fn<() => Promise<{ accessToken: string; refreshToken: string }>>()
+      const mockOnAuthError = jest.fn<(error: Error) => void | Promise<void>>()
+      const mockTokenRefreshInterceptor = jest.fn()
+      ;(createTokenRefreshInterceptor as jest.Mock).mockReturnValue(
+        mockTokenRefreshInterceptor,
+      )
+
+      const options: SDKOptions = {
+        tokenStorage: mockTokenStorage,
+        onTokenRefresh: mockOnTokenRefresh as any,
+        onAuthError: mockOnAuthError as any,
+      }
+
+      createBaseClient(config, options)
+
+      expect(createTokenRefreshInterceptor).toHaveBeenCalledWith({
+        tokenStorage: mockTokenStorage,
+        onTokenRefresh: mockOnTokenRefresh,
+        onAuthError: mockOnAuthError,
+      })
+    })
   })
 })
