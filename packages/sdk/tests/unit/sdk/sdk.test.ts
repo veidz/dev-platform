@@ -166,4 +166,23 @@ describe('DevPlatformSDK', () => {
       expect(result).toBe(false)
     })
   })
+
+  describe('token management', () => {
+    it('should handle token operations correctly', async () => {
+      const tokens = createMockTokens()
+      await sdk.setTokens(tokens)
+
+      const isAuth = await sdk.isAuthenticated()
+      expect(isAuth).toBe(true)
+
+      const accessToken = await sdk.getAccessToken()
+      const refreshToken = await sdk.getRefreshToken()
+      expect(accessToken).toBe(tokens.accessToken)
+      expect(refreshToken).toBe(tokens.refreshToken)
+
+      await sdk.clearTokens()
+      const isAuthAfter = await sdk.isAuthenticated()
+      expect(isAuthAfter).toBe(false)
+    })
+  })
 })
