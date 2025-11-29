@@ -280,5 +280,20 @@ describe('AnalyticsModule', () => {
       expect(result.endpoints).toHaveLength(3)
       expect(result.endpoints[0].requestCount).toBe(5000)
     })
+
+    it('should return empty array when no endpoints', async () => {
+      const apiId = faker.string.uuid()
+      const mockResponse: GetTopEndpointsResponse = {
+        endpoints: [],
+      }
+
+      mockClient.get.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await analyticsModule.getTopEndpoints(apiId)
+
+      expect(result.endpoints).toHaveLength(0)
+    })
   })
 })
