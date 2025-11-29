@@ -78,4 +78,18 @@ describe('DevPlatformSDK', () => {
       }
     })
   })
+
+  describe('setTokens', () => {
+    it('should store access and refresh tokens', async () => {
+      const tokens = createMockTokens()
+
+      await sdk.setTokens(tokens)
+
+      const accessToken = await sdk.getAccessToken()
+      const refreshToken = await sdk.getRefreshToken()
+
+      expect(accessToken).toBe(tokens.accessToken)
+      expect(refreshToken).toBe(tokens.refreshToken)
+    })
+  })
 })
