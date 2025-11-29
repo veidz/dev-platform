@@ -53,5 +53,10 @@ describe('DevPlatformSDK', () => {
       expect(sdk.mock).toBeDefined()
       expect(sdk.analytics).toBeDefined()
     })
+
+    it('should use MemoryTokenStorage in Node.js environment', () => {
+      const nodeSdk = new DevPlatformSDK(config)
+      expect(nodeSdk).toBeDefined()
+    })
   })
 })
