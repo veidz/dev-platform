@@ -498,4 +498,20 @@ describe('AnalyticsModule', () => {
       expect(result.enabled).toBe(false)
     })
   })
+
+  describe('deleteAlertRule', () => {
+    it('should delete alert rule', async () => {
+      const id = faker.string.uuid()
+
+      mockClient.delete.mockReturnValue({
+        json: () => Promise.resolve(),
+      } as never)
+
+      await analyticsModule.deleteAlertRule(id)
+
+      expect(mockClient.delete).toHaveBeenCalledWith(
+        `analytics/alert-rules/${id}`,
+      )
+    })
+  })
 })
