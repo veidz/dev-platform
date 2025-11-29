@@ -338,4 +338,26 @@ describe('AnalyticsModule', () => {
       expect(result.errorRate).toBe(0.02)
     })
   })
+
+  describe('listAlertRules', () => {
+    it('should list alert rules for workspace', async () => {
+      const workspaceId = faker.string.uuid()
+      const mockResponse = [
+        createMockAlertRule({ workspaceId, name: 'High Error Rate' }),
+        createMockAlertRule({ workspaceId, name: 'Slow Response Time' }),
+      ]
+
+      mockClient.get.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await analyticsModule.listAlertRules(workspaceId)
+
+      expect(mockClient.get).toHaveBeenCalledWith('analytics/alert-rules', {
+        searchParams: { workspaceId },
+      })
+      expect(result).toEqual(mockResponse)
+      expect(result).toHaveLength(2)
+    })
+  })
 })
