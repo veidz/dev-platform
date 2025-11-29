@@ -185,4 +185,19 @@ describe('DevPlatformSDK', () => {
       expect(isAuthAfter).toBe(false)
     })
   })
+
+  describe('handleTokenRefresh', () => {
+    it('should refresh tokens using stored refresh token', async () => {
+      const tokens = createMockTokens()
+      await sdk.setTokens(tokens)
+
+      const newTokens = createMockTokens()
+      jest.spyOn(sdk.auth, 'refreshToken').mockResolvedValue(newTokens as any)
+
+      const result = await (sdk as any).handleTokenRefresh()
+
+      expect(sdk.auth.refreshToken).toHaveBeenCalledWith(tokens.refreshToken)
+      expect(result).toEqual(newTokens)
+    })
+  })
 })
