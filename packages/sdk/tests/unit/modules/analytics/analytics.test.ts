@@ -359,5 +359,18 @@ describe('AnalyticsModule', () => {
       expect(result).toEqual(mockResponse)
       expect(result).toHaveLength(2)
     })
+
+    it('should return empty array when no rules', async () => {
+      const workspaceId = faker.string.uuid()
+      const mockResponse: AlertRule[] = []
+
+      mockClient.get.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await analyticsModule.listAlertRules(workspaceId)
+
+      expect(result).toHaveLength(0)
+    })
   })
 })
