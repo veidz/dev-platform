@@ -544,5 +544,21 @@ describe('AnalyticsModule', () => {
       expect(result).toEqual(mockResponse)
       expect(result).toHaveLength(2)
     })
+
+    it('should list alerts by rule id', async () => {
+      const ruleId = faker.string.uuid()
+      const mockResponse = [createMockAlert({ ruleId })]
+
+      mockClient.get.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await analyticsModule.listAlerts(ruleId)
+
+      expect(mockClient.get).toHaveBeenCalledWith('analytics/alerts', {
+        searchParams: { ruleId },
+      })
+      expect(result[0].ruleId).toBe(ruleId)
+    })
   })
 })
