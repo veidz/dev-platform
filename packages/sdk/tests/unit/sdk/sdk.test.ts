@@ -205,5 +205,20 @@ describe('DevPlatformSDK', () => {
         'No refresh token available',
       )
     })
+
+    it('should configure onTokenRefresh callback in SDK options', async () => {
+      expect(capturedOnTokenRefresh).toBeDefined()
+
+      const tokens = createMockTokens()
+      await sdk.setTokens(tokens)
+
+      const newTokens = createMockTokens()
+      jest.spyOn(sdk.auth, 'refreshToken').mockResolvedValue(newTokens as any)
+
+      const result = await capturedOnTokenRefresh!()
+
+      expect(sdk.auth.refreshToken).toHaveBeenCalledWith(tokens.refreshToken)
+      expect(result).toEqual(newTokens)
+    })
   })
 })
