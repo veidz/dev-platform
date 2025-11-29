@@ -507,5 +507,19 @@ describe('createBaseClient', () => {
       expect(mockKyInstance.extend).toHaveBeenCalled()
       expect(client).toBe(mockExtendedInstance)
     })
+
+    it('should create client without auth when no tokenStorage provided', () => {
+      const config: SDKConfig = {
+        baseUrl: 'https://api.example.com',
+        apiKey: 'public-key',
+      }
+
+      const client = createBaseClient(config)
+
+      expect(createAuthInterceptor).not.toHaveBeenCalled()
+      expect(createTokenRefreshInterceptor).not.toHaveBeenCalled()
+      expect(mockKyInstance.extend).not.toHaveBeenCalled()
+      expect(client).toBe(mockKyInstance)
+    })
   })
 })
