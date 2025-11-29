@@ -199,5 +199,11 @@ describe('DevPlatformSDK', () => {
       expect(sdk.auth.refreshToken).toHaveBeenCalledWith(tokens.refreshToken)
       expect(result).toEqual(newTokens)
     })
+
+    it('should throw error when no refresh token available', async () => {
+      await expect((sdk as any).handleTokenRefresh()).rejects.toThrow(
+        'No refresh token available',
+      )
+    })
   })
 })
