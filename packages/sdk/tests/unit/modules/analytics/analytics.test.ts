@@ -414,5 +414,29 @@ describe('AnalyticsModule', () => {
       })
       expect(result).toEqual(mockResponse)
     })
+
+    it('should create alert rule with all fields', async () => {
+      const createDto: CreateAlertRuleDto = {
+        workspaceId: faker.string.uuid(),
+        name: 'Critical Error Rate',
+        description: 'Alert when error rate exceeds 10%',
+        type: AlertRuleType.ERROR_RATE,
+        condition: { threshold: 0.1, window: '5m' },
+        threshold: 0.1,
+        severity: AlertSeverity.CRITICAL,
+        webhookUrl: faker.internet.url(),
+      }
+      const mockResponse = createMockAlertRule(createDto)
+
+      mockClient.post.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await analyticsModule.createAlertRule(createDto)
+
+      expect(result).toEqual(mockResponse)
+      expect(result.webhookUrl).toBe(createDto.webhookUrl)
+      expect(result.description).toBe(createDto.description)
+    })
   })
 })
