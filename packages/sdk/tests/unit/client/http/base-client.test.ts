@@ -339,5 +339,36 @@ describe('createBaseClient', () => {
 
       expect(mockTokenRefreshInterceptor).toHaveBeenCalledWith(mockError)
     })
+
+    it('should not call token refresh interceptor on beforeRetry hook with non-HTTPError', async () => {
+      const config: SDKConfig = {
+        baseUrl: 'https://api.example.com',
+      }
+
+      const mockTokenStorage = mockDeep<TokenStorage>()
+      const mockOnTokenRefresh =
+        jest.fn<() => Promise<{ accessToken: string; refreshToken: string }>>()
+      const mockTokenRefreshInterceptor = jest.fn()
+      ;(createTokenRefreshInterceptor as jest.Mock).mockReturnValue(
+        mockTokenRefreshInterceptor,
+      )
+
+      const options: SDKOptions = {
+        tokenStorage: mockTokenStorage,
+        onTokenRefresh: mockOnTokenRefresh as any,
+      }
+
+      createBaseClient(config, options)
+
+      const extendCall = (mockKyInstance.extend as jest.Mock).mock
+        .calls[0][0] as any
+      const beforeRetryHook = extendCall.hooks.beforeRetry[0]
+
+      const mockError = new Error('Generic error')
+
+      await beforeRetryHook({ error: mockError })
+
+      expect(mockTokenRefreshInterceptor).not.toHaveBeenCalled()
+    })
   })
 })
