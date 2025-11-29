@@ -77,5 +77,23 @@ describe('createBaseClient', () => {
         }),
       )
     })
+
+    it('should create ky instance with API key in headers', () => {
+      const config: SDKConfig = {
+        baseUrl: 'https://api.example.com',
+        apiKey: 'test-api-key-123',
+      }
+
+      createBaseClient(config)
+
+      expect(ky.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          headers: {
+            'Content-Type': 'application/json',
+            'X-API-Key': 'test-api-key-123',
+          },
+        }),
+      )
+    })
   })
 })
