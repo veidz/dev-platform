@@ -1,6 +1,7 @@
 import type {
   Alert,
   AlertRule,
+  CreateAlertRuleDto,
   Metric,
   MetricAggregation,
   RequestLog,
@@ -387,6 +388,30 @@ describe('AnalyticsModule', () => {
       expect(mockClient.get).toHaveBeenCalledWith(
         `analytics/alert-rules/${mockResponse.id}`,
       )
+      expect(result).toEqual(mockResponse)
+    })
+  })
+
+  describe('createAlertRule', () => {
+    it('should create alert rule with minimal data', async () => {
+      const createDto: CreateAlertRuleDto = {
+        workspaceId: faker.string.uuid(),
+        name: 'High Error Rate',
+        type: AlertRuleType.ERROR_RATE,
+        condition: { threshold: 0.05 },
+        severity: AlertSeverity.WARNING,
+      }
+      const mockResponse = createMockAlertRule(createDto)
+
+      mockClient.post.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await analyticsModule.createAlertRule(createDto)
+
+      expect(mockClient.post).toHaveBeenCalledWith('analytics/alert-rules', {
+        json: createDto,
+      })
       expect(result).toEqual(mockResponse)
     })
   })
