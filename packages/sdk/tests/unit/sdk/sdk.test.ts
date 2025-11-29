@@ -155,5 +155,15 @@ describe('DevPlatformSDK', () => {
 
       expect(result).toBe(false)
     })
+
+    it('should return false after clearing tokens', async () => {
+      await sdk.setTokens(createMockTokens())
+
+      await sdk.clearTokens()
+
+      const result = await sdk.isAuthenticated()
+
+      expect(result).toBe(false)
+    })
   })
 })
