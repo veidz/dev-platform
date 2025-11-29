@@ -117,5 +117,24 @@ describe('createBaseClient', () => {
         }),
       )
     })
+
+    it('should create ky instance with custom retry statusCodes', () => {
+      const config: SDKConfig = {
+        baseUrl: 'https://api.example.com',
+        retry: {
+          statusCodes: [500, 502],
+        },
+      }
+
+      createBaseClient(config)
+
+      expect(ky.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          retry: expect.objectContaining({
+            statusCodes: [500, 502],
+          }),
+        }),
+      )
+    })
   })
 })
