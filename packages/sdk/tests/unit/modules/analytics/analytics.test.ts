@@ -513,5 +513,15 @@ describe('AnalyticsModule', () => {
         `analytics/alert-rules/${id}`,
       )
     })
+
+    it('should not throw when deleting non-existent rule', async () => {
+      const id = faker.string.uuid()
+
+      mockClient.delete.mockReturnValue({
+        json: () => Promise.resolve(),
+      } as never)
+
+      await expect(analyticsModule.deleteAlertRule(id)).resolves.toBeUndefined()
+    })
   })
 })
