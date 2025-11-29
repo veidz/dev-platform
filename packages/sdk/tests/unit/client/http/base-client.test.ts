@@ -408,4 +408,18 @@ describe('createBaseClient', () => {
       expect(client).toBe(mockKyInstance)
     })
   })
+
+  describe('error handling integration', () => {
+    it('should configure beforeError hook with parseErrorResponse', () => {
+      const config: SDKConfig = {
+        baseUrl: 'https://api.example.com',
+      }
+
+      createBaseClient(config)
+
+      const createCall = (ky.create as jest.Mock).mock.calls[0][0] as any
+      expect(createCall.hooks.beforeError).toHaveLength(1)
+      expect(createCall.hooks.beforeError[0]).toEqual(expect.any(Function))
+    })
+  })
 })
