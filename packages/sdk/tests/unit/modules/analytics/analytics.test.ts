@@ -296,4 +296,46 @@ describe('AnalyticsModule', () => {
       expect(result.endpoints).toHaveLength(0)
     })
   })
+
+  describe('getEndpointStats', () => {
+    it('should get endpoint statistics', async () => {
+      const endpointId = faker.string.uuid()
+      const startDate = new Date('2025-01-01')
+      const endDate = new Date('2025-01-31')
+      const mockResponse = {
+        totalRequests: 10000,
+        avgResponseTime: 150,
+        errorRate: 0.02,
+        statusCodeDistribution: {
+          200: 9500,
+          404: 300,
+          500: 200,
+        },
+      }
+
+      mockClient.get.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await analyticsModule.getEndpointStats(
+        endpointId,
+        startDate,
+        endDate,
+      )
+
+      expect(mockClient.get).toHaveBeenCalledWith(
+        `analytics/endpoints/${endpointId}/stats`,
+        {
+          searchParams: {
+            startDate: startDate.toISOString(),
+            endDate: endDate.toISOString(),
+          },
+        },
+      )
+      expect(result).toEqual(mockResponse)
+      expect(result.totalRequests).toBe(10000)
+      expect(result.avgResponseTime).toBe(150)
+      expect(result.errorRate).toBe(0.02)
+    })
+  })
 })
