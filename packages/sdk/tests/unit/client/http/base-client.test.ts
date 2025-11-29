@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals'
 import { mockDeep } from 'jest-mock-extended'
 import ky, { HTTPError } from 'ky'
 
+import { parseErrorResponse } from '@/client/errors'
 import { createBaseClient } from '@/client/http/base-client'
 import {
   createAuthInterceptor,
@@ -420,6 +421,29 @@ describe('createBaseClient', () => {
       const createCall = (ky.create as jest.Mock).mock.calls[0][0] as any
       expect(createCall.hooks.beforeError).toHaveLength(1)
       expect(createCall.hooks.beforeError[0]).toEqual(expect.any(Function))
+    })
+
+    it('should call parseErrorResponse in beforeError hook and throw result', async () => {
+      const config: SDKConfig = {
+        baseUrl: 'https://api.example.com',
+      }
+
+      const mockError = new HTTPError(
+        new Response(null, { status: 500 }),
+        new Request('https://api.example.com/test'),
+        {} as any,
+      )
+
+      const mockParsedError = new Error('Parsed error')
+      ;(parseErrorResponse as jest.Mock<any>).mockResolvedValue(mockParsedError)
+
+      createBaseClient(config)
+
+      const createCall = (ky.create as jest.Mock).mock.calls[0][0] as any
+      const beforeErrorHook = createCall.hooks.beforeError[0]
+
+      await expect(beforeErrorHook(mockError)).rejects.toThrow(mockParsedError)
+      expect(parseErrorResponse).toHaveBeenCalledWith(mockError)
     })
   })
 })
