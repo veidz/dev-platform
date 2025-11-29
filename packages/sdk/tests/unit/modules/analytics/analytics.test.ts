@@ -5,6 +5,7 @@ import type {
   Metric,
   MetricAggregation,
   RequestLog,
+  UpdateAlertRuleDto,
 } from '@dev-platform/types'
 import { AlertRuleType, AlertSeverity } from '@dev-platform/types'
 import { describe, expect, it } from '@jest/globals'
@@ -437,6 +438,30 @@ describe('AnalyticsModule', () => {
       expect(result).toEqual(mockResponse)
       expect(result.webhookUrl).toBe(createDto.webhookUrl)
       expect(result.description).toBe(createDto.description)
+    })
+  })
+
+  describe('updateAlertRule', () => {
+    it('should update alert rule name', async () => {
+      const id = faker.string.uuid()
+      const updateDto: UpdateAlertRuleDto = {
+        name: 'Updated Alert Name',
+      }
+      const mockResponse = createMockAlertRule({ id, ...updateDto })
+
+      mockClient.patch.mockReturnValue({
+        json: () => Promise.resolve(mockResponse),
+      } as never)
+
+      const result = await analyticsModule.updateAlertRule(id, updateDto)
+
+      expect(mockClient.patch).toHaveBeenCalledWith(
+        `analytics/alert-rules/${id}`,
+        {
+          json: updateDto,
+        },
+      )
+      expect(result.name).toBe('Updated Alert Name')
     })
   })
 })
