@@ -13,17 +13,31 @@ import { cn } from '@/lib/utils'
 const Slider = forwardRef<
   ComponentRef<typeof SliderRoot>,
   ComponentPropsWithoutRef<typeof SliderRoot>
->(({ className, ...props }, ref) => (
+>(({ className, orientation = 'horizontal', ...props }, ref) => (
   <SliderRoot
     ref={ref}
+    orientation={orientation}
     className={cn(
-      'group relative flex w-full touch-none select-none items-center data-disabled:cursor-not-allowed data-disabled:opacity-50',
+      'group relative flex touch-none select-none data-disabled:cursor-not-allowed data-disabled:opacity-50',
+      orientation === 'horizontal'
+        ? 'w-full items-center'
+        : 'h-full flex-col items-center',
       className,
     )}
     {...props}
   >
-    <SliderTrack className="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary">
-      <SliderRange className="absolute h-full bg-primary" />
+    <SliderTrack
+      className={cn(
+        'relative grow overflow-hidden rounded-full bg-secondary',
+        orientation === 'horizontal' ? 'h-2 w-full' : 'h-full w-2',
+      )}
+    >
+      <SliderRange
+        className={cn(
+          'absolute bg-primary',
+          orientation === 'horizontal' ? 'h-full' : 'w-full',
+        )}
+      />
     </SliderTrack>
     {(props.defaultValue || props.value || [0]).map((_, i) => (
       <SliderThumb
