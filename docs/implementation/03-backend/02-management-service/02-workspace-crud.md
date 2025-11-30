@@ -12,7 +12,7 @@ CRUD completo de workspaces com RBAC e multi-tenancy.
 
 ### Pesquisa
 
-- [ ] Prisma relations (https://www.prisma.io/docs/concepts/components/prisma-schema/relations)
+- [ ] Prisma relations (https://www.prisma.io/docs/orm/prisma-schema/data-model/relations)
 - [ ] Row-Level Security patterns
 
 ### Module Structure
@@ -182,9 +182,9 @@ import {
   Injectable,
   NotFoundException,
   ForbiddenException,
-} from "@nestjs/common"
-import { PrismaService } from "@/shared/prisma.service"
-import type { CreateWorkspaceDto } from "./dto/create-workspace.dto"
+} from '@nestjs/common'
+import { PrismaService } from '@/shared/prisma.service'
+import type { CreateWorkspaceDto } from './dto/create-workspace.dto'
 
 @Injectable()
 export class WorkspaceService {
@@ -217,7 +217,7 @@ export class WorkspaceService {
         members: {
           create: {
             userId,
-            role: "OWNER",
+            role: 'OWNER',
           },
         },
       },
@@ -232,8 +232,8 @@ export class WorkspaceService {
       },
     })
 
-    if (!member || member.role !== "OWNER") {
-      throw new ForbiddenException("Only owners can delete workspace")
+    if (!member || member.role !== 'OWNER') {
+      throw new ForbiddenException('Only owners can delete workspace')
     }
 
     return this.prisma.workspace.delete({ where: { id } })
@@ -278,7 +278,7 @@ enum Role {
 
 ## Recursos
 
-- [Prisma Relations](https://www.prisma.io/docs/concepts/components/prisma-schema/relations)
+- [Prisma Relations](https://www.prisma.io/docs/orm/prisma-schema/data-model/relations)
 - [NestJS Guards](https://docs.nestjs.com/guards)
 - [RBAC Pattern](https://en.wikipedia.org/wiki/Role-based_access_control)
 

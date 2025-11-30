@@ -24,10 +24,10 @@ Plataforma requer features real-time: edição colaborativa (múltiplos usuário
 // Server (NestJS Gateway)
 @WebSocketGateway({ cors: true })
 export class CollaborationGateway {
-  @SubscribeMessage("join_document")
+  @SubscribeMessage('join_document')
   handleJoin(client: Socket, docId: string) {
     client.join(`doc:${docId}`)
-    this.server.to(`doc:${docId}`).emit("user_joined", client.id)
+    this.server.to(`doc:${docId}`).emit('user_joined', client.id)
   }
 }
 ```

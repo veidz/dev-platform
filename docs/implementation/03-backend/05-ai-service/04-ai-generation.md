@@ -1,4 +1,4 @@
-# AI Service - Code & Docs Generation
+# AI Serviço - Code & Docs Generation
 
 ## Contexto
 
@@ -38,10 +38,10 @@ Response: ${JSON.stringify(endpoint.responseSchema || {})}
 Write a 2-3 sentence description explaining what this endpoint does, what it expects, and what it returns.`
 
     const response = await this.openai.getClient().chat.completions.create({
-      model: "gpt-4o-mini",
+      model: 'gpt-4o-mini',
       messages: [
-        { role: "system", content: "You are an API documentation expert." },
-        { role: "user", content: prompt },
+        { role: 'system', content: 'You are an API documentation expert.' },
+        { role: 'user', content: prompt },
       ],
       temperature: 0.7,
       max_tokens: 200,
@@ -172,13 +172,13 @@ Return as JSON array.`;
 ### Generation Controller
 
 ```typescript
-@Controller("generation")
+@Controller('generation')
 @UseGuards(JwtAuthGuard)
 export class GenerationController {
   constructor(private generationService: GenerationService) {}
 
-  @Post("endpoint/:id/description")
-  async generateDescription(@Param("id") id: string) {
+  @Post('endpoint/:id/description')
+  async generateDescription(@Param('id') id: string) {
     const endpoint = await this.prisma.endpoint.findUnique({
       where: { id },
     })
@@ -195,10 +195,10 @@ export class GenerationController {
     return { description }
   }
 
-  @Get("endpoint/:id/code")
+  @Get('endpoint/:id/code')
   async generateCode(
-    @Param("id") id: string,
-    @Query("language") language: "typescript" | "python" | "go"
+    @Param('id') id: string,
+    @Query('language') language: 'typescript' | 'python' | 'go',
   ) {
     const endpoint = await this.prisma.endpoint.findUnique({
       where: { id },
@@ -207,34 +207,33 @@ export class GenerationController {
     let code: string
 
     switch (language) {
-      case "typescript":
+      case 'typescript':
         code = await this.generationService.generateTypescriptClient(endpoint)
         break
-      case "python":
+      case 'python':
         code = await this.generationService.generatePythonClient(endpoint)
         break
       default:
-        throw new BadRequestException("Unsupported language")
+        throw new BadRequestException('Unsupported language')
     }
 
     return { code, language }
   }
 
-  @Post("endpoint/:id/mock-scenarios")
-  async generateMockScenarios(@Param("id") id: string) {
+  @Post('endpoint/:id/mock-scenarios')
+  async generateMockScenarios(@Param('id') id: string) {
     const endpoint = await this.prisma.endpoint.findUnique({
       where: { id },
     })
 
-    const scenarios = await this.generationService.generateMockScenarios(
-      endpoint
-    )
+    const scenarios =
+      await this.generationService.generateMockScenarios(endpoint)
 
     return { scenarios }
   }
 
-  @Post("api/:id/generate-docs")
-  async generateAPIDocumentation(@Param("id") id: string) {
+  @Post('api/:id/generate-docs')
+  async generateAPIDocumentation(@Param('id') id: string) {
     const api = await this.prisma.api.findUnique({
       where: { id },
       include: { endpoints: true },
@@ -254,7 +253,7 @@ export class GenerationController {
           })
 
           return { endpointId: endpoint.id, description }
-        })
+        }),
     )
 
     return {

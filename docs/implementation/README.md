@@ -226,17 +226,19 @@ Links para docs oficiais relevantes.
 - 🟨 Em progresso
 - ✅ Completo e validado
 
-### Phase 0: Setup (Documentação)
+### Phase 0: Setup (Documentação + Implementação)
 
-- ✅ 01-monorepo.md
-- ✅ 02-tooling.md
-- ✅ 03-base-configs.md
+- ✅ 01-monorepo.md (implementado)
+- ✅ 02-tooling.md (implementado)
+- ✅ 03-base-configs.md (implementado)
 
-### Phase 1: Shared Packages (Documentação)
+### Phase 1: Shared Packages (Documentação + Implementação)
 
-- ✅ 01-design-system.md
-- ✅ 02-types-validation.md
-- ✅ 03-sdk-client.md
+- ✅ 01-design-system.md (implementado - 1206 testes, 100% coverage)
+- ✅ 02-types-validation.md (implementado - 73 testes, 100% coverage)
+- ✅ 03-sdk-client.md (implementado - 244 testes, 100% coverage)
+
+**Total Phase 1: 1523 testes, 100% coverage em todos os packages**
 
 ### Phase 2: Frontend (Documentação)
 
@@ -265,4 +267,4 @@ Links para docs oficiais relevantes.
 
 ---
 
-_Próximo passo: Iniciar [Phase 0: Setup](./00-setup/01-monorepo.md)_
+_Próximo passo: Iniciar [Phase 2: Frontend Web](./02-web/01-setup.md)_

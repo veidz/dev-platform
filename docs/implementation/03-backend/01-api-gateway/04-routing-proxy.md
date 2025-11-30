@@ -160,8 +160,8 @@ tests/
 ## Exemplo: service-registry.ts
 
 ```typescript
-import { Injectable } from "@nestjs/common"
-import { ConfigService } from "@nestjs/config"
+import { Injectable } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 
 @Injectable()
 export class ServiceRegistry {
@@ -169,10 +169,10 @@ export class ServiceRegistry {
 
   constructor(private config: ConfigService) {
     this.services = new Map([
-      ["management", config.get("MANAGEMENT_SERVICE_URL")],
-      ["mock", config.get("MOCK_SERVER_URL")],
-      ["analytics", config.get("ANALYTICS_SERVICE_URL")],
-      ["ai", config.get("AI_SERVICE_URL")],
+      ['management', config.get('MANAGEMENT_SERVICE_URL')],
+      ['mock', config.get('MOCK_SERVER_URL')],
+      ['analytics', config.get('ANALYTICS_SERVICE_URL')],
+      ['ai', config.get('AI_SERVICE_URL')],
     ])
   }
 
@@ -189,15 +189,15 @@ export class ServiceRegistry {
 ## Exemplo: proxy.controller.ts
 
 ```typescript
-import { All, Controller, Req, Res } from "@nestjs/common"
-import { Request, Response } from "express"
-import { ProxyService } from "./proxy.service"
+import { All, Controller, Req, Res } from '@nestjs/common'
+import { Request, Response } from 'express'
+import { ProxyService } from './proxy.service'
 
-@Controller("api")
+@Controller('api')
 export class ProxyController {
   constructor(private proxyService: ProxyService) {}
 
-  @All(":service/*")
+  @All(':service/*')
   async proxyRequest(@Req() req: Request, @Res() res: Response): Promise<void> {
     await this.proxyService.forward(req, res)
   }
@@ -211,15 +211,18 @@ import {
   Injectable,
   NotFoundException,
   ServiceUnavailableException,
-} from "@nestjs/common"
-import { HttpService } from "@nestjs/axios"
-import { Request, Response } from "express"
-import { ServiceRegistry } from "./service-registry"
-import { firstValueFrom } from "rxjs"
+} from '@nestjs/common'
+import { HttpService } from '@nestjs/axios'
+import { Request, Response } from 'express'
+import { ServiceRegistry } from './service-registry'
+import { firstValueFrom } from 'rxjs'
 
 @Injectable()
 export class ProxyService {
-  constructor(private http: HttpService, private registry: ServiceRegistry) {}
+  constructor(
+    private http: HttpService,
+    private registry: ServiceRegistry,
+  ) {}
 
   async forward(req: Request, res: Response): Promise<void> {
     const serviceName = req.params.service
@@ -233,18 +236,18 @@ export class ProxyService {
       const response = await firstValueFrom(
         this.http.request({
           method: req.method,
-          url: `${targetUrl}${req.path.replace(`/api/${serviceName}`, "")}`,
+          url: `${targetUrl}${req.path.replace(`/api/${serviceName}`, '')}`,
           headers: req.headers,
           data: req.body,
           params: req.query,
           timeout: 30000,
-        })
+        }),
       )
 
       res.status(response.status).send(response.data)
     } catch (error) {
       throw new ServiceUnavailableException(
-        `Service ${serviceName} unavailable`
+        `Service ${serviceName} unavailable`,
       )
     }
   }

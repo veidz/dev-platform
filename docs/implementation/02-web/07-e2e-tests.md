@@ -99,13 +99,13 @@ tests/e2e/
 ## Exemplo: LoginPage.ts
 
 ```typescript
-import { Page } from "@playwright/test"
+import { Page } from '@playwright/test'
 
 export class LoginPage {
   constructor(private page: Page) {}
 
   async goto() {
-    await this.page.goto("/login")
+    await this.page.goto('/login')
   }
 
   async login(email: string, password: string) {
@@ -123,27 +123,27 @@ export class LoginPage {
 ## Exemplo: auth.test.ts
 
 ```typescript
-import { test, expect } from "@playwright/test"
-import { LoginPage } from "../pages/LoginPage"
+import { test, expect } from '@playwright/test'
+import { LoginPage } from '../pages/LoginPage'
 
-test.describe("Authentication", () => {
-  test("user can login with valid credentials", async ({ page }) => {
+test.describe('Authentication', () => {
+  test('user can login with valid credentials', async ({ page }) => {
     const loginPage = new LoginPage(page)
 
     await loginPage.goto()
-    await loginPage.login("user@test.com", "password123")
+    await loginPage.login('user@test.com', 'password123')
 
-    await expect(page).toHaveURL("/dashboard")
-    await expect(page.locator("h1")).toContainText("Dashboard")
+    await expect(page).toHaveURL('/dashboard')
+    await expect(page.locator('h1')).toContainText('Dashboard')
   })
 
-  test("shows error with invalid credentials", async ({ page }) => {
+  test('shows error with invalid credentials', async ({ page }) => {
     const loginPage = new LoginPage(page)
 
     await loginPage.goto()
-    await loginPage.login("user@test.com", "wrongpass")
+    await loginPage.login('user@test.com', 'wrongpass')
 
-    await loginPage.expectError("Credenciais inválidas")
+    await loginPage.expectError('Credenciais inválidas')
   })
 })
 ```

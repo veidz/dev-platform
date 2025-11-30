@@ -28,7 +28,7 @@ Usar para: Dados scoped a request, configs imutáveis acessados frequentemente. 
 **Layer 2 - Redis (Distribuído):**
 
 ```typescript
-await this.redis.set(key, JSON.stringify(value), "EX", 3600)
+await this.redis.set(key, JSON.stringify(value), 'EX', 3600)
 ```
 
 Usar para: Sessões de usuário, schemas de API, resultados de queries. TTL: 5min-1hr.
@@ -125,7 +125,8 @@ async invalidateApiCache(id: string): Promise<void> {
 
 ## Referências
 
-- [Padrões Caching Redis](https://redis.io/docs/manual/patterns/)
+- [Redis Caching (overview)](https://redis.io/solutions/caching/)
+- [Redis Data Types - Streams/Lists (para estratégias)](https://redis.io/docs/latest/develop/data-types/)
 - [Upstash Redis](https://upstash.com/docs/redis)
 - [NestJS Caching](https://docs.nestjs.com/techniques/caching)
-- [Estratégias Cache Invalidation](https://www.prisma.io/dataguide/managing-databases/caching-strategies)
+- [Estratégias gerais de invalidação (Microservices Patterns)](https://microservices.io/patterns/index.html)

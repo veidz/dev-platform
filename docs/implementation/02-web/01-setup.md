@@ -201,9 +201,9 @@ apps/web/
 ## Exemplo: auth.store.ts
 
 ```typescript
-import { create } from "zustand"
-import { persist } from "zustand/middleware"
-import type { User, AuthTokens } from "@dev-platform/shared"
+import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
+import type { User, AuthTokens } from '@dev-platform/shared'
 
 type AuthState = {
   user: User | null
@@ -224,8 +224,8 @@ export const useAuthStore = create<AuthState>()(
       logout: () => set({ user: null, tokens: null, isAuthenticated: false }),
       updateUser: (user) => set({ user }),
     }),
-    { name: "auth-storage" }
-  )
+    { name: 'auth-storage' },
+  ),
 )
 ```
 

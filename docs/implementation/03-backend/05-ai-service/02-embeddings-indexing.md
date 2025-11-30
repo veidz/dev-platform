@@ -1,4 +1,4 @@
-# AI Service - Embeddings & Indexing
+# AI Serviço - Embeddings & Indexing
 
 ## Contexto
 
@@ -32,13 +32,13 @@ export class EmbeddingsService {
   constructor(
     private openai: OpenAIService,
     private qdrant: QdrantService,
-    private prisma: PrismaService
+    private prisma: PrismaService,
   ) {}
 
   // Gera embedding de um texto
   async generateEmbedding(text: string): Promise<number[]> {
     const response = await this.openai.getClient().embeddings.create({
-      model: "text-embedding-3-small",
+      model: 'text-embedding-3-small',
       input: text,
     })
 
@@ -54,7 +54,7 @@ export class EmbeddingsService {
 
     for (const batch of batches) {
       const response = await this.openai.getClient().embeddings.create({
-        model: "text-embedding-3-small",
+        model: 'text-embedding-3-small',
         input: batch,
       })
 
@@ -109,7 +109,7 @@ export class IndexingService {
   constructor(
     private embeddings: EmbeddingsService,
     private qdrant: QdrantService,
-    private prisma: PrismaService
+    private prisma: PrismaService,
   ) {}
 
   // Indexa uma API completa
@@ -121,7 +121,7 @@ export class IndexingService {
       },
     })
 
-    if (!api) throw new NotFoundException("API not found")
+    if (!api) throw new NotFoundException('API not found')
 
     // Gerar texto descritivo da API
     const apiText = this.buildAPIText(api)
@@ -130,7 +130,7 @@ export class IndexingService {
     await this.indexDocument({
       text: apiText,
       metadata: {
-        type: "api",
+        type: 'api',
         sourceId: api.id,
         workspaceId: api.workspaceId,
       },
@@ -149,7 +149,7 @@ export class IndexingService {
     await this.indexDocument({
       text: endpointText,
       metadata: {
-        type: "endpoint",
+        type: 'endpoint',
         sourceId: endpoint.id,
         workspaceId: endpoint.api.workspaceId,
       },
@@ -194,9 +194,9 @@ export class IndexingService {
   private buildAPIText(api: any): string {
     return `
 API: ${api.name}
-Description: ${api.description || "No description"}
-Version: ${api.version || "1.0"}
-Base URL: ${api.baseUrl || "N/A"}
+Description: ${api.description || 'No description'}
+Version: ${api.version || '1.0'}
+Base URL: ${api.baseUrl || 'N/A'}
 Endpoints: ${api.endpoints.length}
     `.trim()
   }
@@ -205,7 +205,7 @@ Endpoints: ${api.endpoints.length}
   private buildEndpointText(endpoint: any): string {
     return `
 Endpoint: ${endpoint.method} ${endpoint.path}
-Description: ${endpoint.description || "No description"}
+Description: ${endpoint.description || 'No description'}
 Parameters: ${JSON.stringify(endpoint.parameters || [])}
 Request Body: ${JSON.stringify(endpoint.requestSchema || {})}
 Response: ${JSON.stringify(endpoint.responseSchema || {})}
@@ -286,14 +286,14 @@ async indexWorkspace(workspaceId: string): Promise<void> {
 export class SearchService {
   constructor(
     private embeddings: EmbeddingsService,
-    private qdrant: QdrantService
+    private qdrant: QdrantService,
   ) {}
 
   // Busca semântica de documentos
   async search(
     query: string,
     workspaceId: string,
-    limit: number = 5
+    limit: number = 5,
   ): Promise<SearchResult[]> {
     // Gerar embedding da query
     const queryEmbedding = await this.embeddings.generateEmbedding(query)
@@ -307,7 +307,7 @@ export class SearchService {
         filter: {
           must: [
             {
-              key: "workspaceId",
+              key: 'workspaceId',
               match: { value: workspaceId },
             },
           ],

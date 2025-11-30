@@ -1,0 +1,14 @@
+node_modules/
+dist/
+build/
+coverage/
+.turbo/
+.pnpm-store/
+.DS_Store
+.vscode/
+.env
+.env.*
+pnpm-debug.log
+
+*storybook.log
+storybook-static

@@ -44,13 +44,13 @@ class ServerService {
     apiId: string,
     method: string,
     path: string,
-    headers?: Record<string, string>
+    headers?: Record<string, string>,
   ): Promise<MockResponse>
 
   // Busca scenario ativo via header X-Mock-Scenario
   async findScenarioByName(
     endpointId: string,
-    scenarioName: string
+    scenarioName: string,
   ): Promise<MockScenario | null>
 
   // Aplica delay se configurado
@@ -158,19 +158,19 @@ async applyDelay(delayMs: number): Promise<void> {
 @Controller()
 export class ServerController {
   // Captura TODOS requests
-  @All(":workspaceId/:apiId/:method/*")
+  @All(':workspaceId/:apiId/:method/*')
   async handleMockRequest(
-    @Param("workspaceId") workspaceId: string,
-    @Param("apiId") apiId: string,
-    @Param("method") method: string,
+    @Param('workspaceId') workspaceId: string,
+    @Param('apiId') apiId: string,
+    @Param('method') method: string,
     @Req() req: Request,
     @Res() res: Response,
-    @Headers() headers: Record<string, string>
+    @Headers() headers: Record<string, string>,
   ) {
     try {
       // Extrair path completo (tudo após /:method/)
       const fullPath = req.path
-      const pathAfterMethod = fullPath.split(`/${method}/`)[1] || ""
+      const pathAfterMethod = fullPath.split(`/${method}/`)[1] || ''
 
       // Resolver qual mock retornar
       const mockResponse = await this.serverService.resolveMock(
@@ -178,7 +178,7 @@ export class ServerController {
         apiId,
         method,
         pathAfterMethod,
-        headers
+        headers,
       )
 
       // Aplicar delay se configurado
@@ -196,7 +196,7 @@ export class ServerController {
           statusCode: mockResponse.statusCode,
           timestamp: new Date(),
         })
-        .catch((err) => this.logger.error("Failed to log request", err))
+        .catch((err) => this.logger.error('Failed to log request', err))
 
       // Retornar mock response
       res
@@ -206,13 +206,13 @@ export class ServerController {
     } catch (error) {
       if (error instanceof NotFoundException) {
         res.status(404).json({
-          error: "Mock endpoint not found",
-          message: "No matching endpoint found for this request",
+          error: 'Mock endpoint not found',
+          message: 'No matching endpoint found for this request',
         })
       } else {
-        this.logger.error("Error serving mock", error)
+        this.logger.error('Error serving mock', error)
         res.status(500).json({
-          error: "Internal mock server error",
+          error: 'Internal mock server error',
         })
       }
     }
@@ -226,12 +226,12 @@ export class ServerController {
 - [ ] Configurar headers permitidos:
   ```typescript
   app.enableCors({
-    origin: "*", // Public access
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    origin: '*', // Public access
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: [
-      "Content-Type",
-      "Authorization",
-      "X-Mock-Scenario", // Custom header
+      'Content-Type',
+      'Authorization',
+      'X-Mock-Scenario', // Custom header
     ],
     credentials: false,
   })
@@ -250,12 +250,12 @@ Headers especiais que o mock server reconhece:
 
 ```typescript
 // No resolveMock, verificar custom headers
-if (headers["x-mock-delay"]) {
-  mockResponse.delay = parseInt(headers["x-mock-delay"])
+if (headers['x-mock-delay']) {
+  mockResponse.delay = parseInt(headers['x-mock-delay'])
 }
 
-if (headers["x-mock-status"]) {
-  mockResponse.statusCode = parseInt(headers["x-mock-status"])
+if (headers['x-mock-status']) {
+  mockResponse.statusCode = parseInt(headers['x-mock-status'])
 }
 ```
 

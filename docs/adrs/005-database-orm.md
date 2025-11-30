@@ -97,4 +97,4 @@ model Workspace {
 - [Performance JSONB PostgreSQL](https://www.postgresql.org/docs/current/datatype-json.html)
 - [Neon Serverless](https://neon.tech/docs)
 - [Row-Level Security](https://www.postgresql.org/docs/current/ddl-rowsecurity.html)
-- [Best Practices Prisma](https://www.prisma.io/docs/guides/performance-and-optimization)
+- [Best Practices Prisma](https://www.prisma.io/docs/orm/prisma-client/queries/query-optimization-performance)

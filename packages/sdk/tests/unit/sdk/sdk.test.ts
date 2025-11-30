@@ -1,0 +1,264 @@
+import type { AuthTokens } from '@dev-platform/types'
+import { beforeEach, describe, expect, it, jest } from '@jest/globals'
+
+import { faker } from '@/__mocks__/faker-adapter'
+import { createBaseClient } from '@/client/http'
+import { createSDK, DevPlatformSDK } from '@/sdk'
+import type { SDKConfig } from '@/types'
+
+jest.mock('@/client/http')
+
+type MockOnTokenRefresh = () => Promise<{
+  accessToken: string
+  refreshToken: string
+}>
+
+describe('DevPlatformSDK', () => {
+  let config: SDKConfig
+  let sdk: DevPlatformSDK
+  let capturedOnTokenRefresh: MockOnTokenRefresh | undefined
+
+  const createMockTokens = (overrides?: Partial<AuthTokens>): AuthTokens => ({
+    accessToken: faker.string.alphanumeric(32),
+    refreshToken: faker.string.alphanumeric(32),
+    expiresIn: 3600,
+    ...overrides,
+  })
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+    capturedOnTokenRefresh = undefined
+    ;(
+      createBaseClient as jest.MockedFunction<typeof createBaseClient>
+    ).mockImplementation((_, options) => {
+      if (options?.onTokenRefresh) {
+        capturedOnTokenRefresh = options.onTokenRefresh as MockOnTokenRefresh
+      }
+      return {
+        get: jest.fn(),
+        post: jest.fn(),
+        put: jest.fn(),
+        patch: jest.fn(),
+        delete: jest.fn(),
+      } as unknown as ReturnType<typeof createBaseClient>
+    })
+
+    config = {
+      baseUrl: faker.internet.url(),
+    }
+    sdk = new DevPlatformSDK(config)
+  })
+
+  describe('constructor', () => {
+    it('should initialize all modules', () => {
+      expect(sdk.auth).toBeDefined()
+      expect(sdk.workspace).toBeDefined()
+      expect(sdk.api).toBeDefined()
+      expect(sdk.endpoint).toBeDefined()
+      expect(sdk.mock).toBeDefined()
+      expect(sdk.analytics).toBeDefined()
+    })
+
+    it('should use MemoryTokenStorage in Node.js environment', () => {
+      const nodeSdk = new DevPlatformSDK(config)
+      expect(nodeSdk).toBeDefined()
+    })
+
+    it('should use LocalStorageTokenStorage in browser environment', () => {
+      const originalWindow = globalThis.window
+
+      Object.defineProperty(globalThis, 'window', {
+        value: {},
+        writable: true,
+        configurable: true,
+      })
+
+      const browserSdk = new DevPlatformSDK(config)
+      expect(browserSdk).toBeDefined()
+
+      if (originalWindow === undefined) {
+        Object.defineProperty(globalThis, 'window', {
+          value: undefined,
+          writable: true,
+          configurable: true,
+        })
+      } else {
+        globalThis.window = originalWindow
+      }
+    })
+  })
+
+  describe('setTokens', () => {
+    it('should store access and refresh tokens', async () => {
+      const tokens = createMockTokens()
+
+      await sdk.setTokens(tokens)
+
+      const accessToken = await sdk.getAccessToken()
+      const refreshToken = await sdk.getRefreshToken()
+
+      expect(accessToken).toBe(tokens.accessToken)
+      expect(refreshToken).toBe(tokens.refreshToken)
+    })
+  })
+
+  describe('getAccessToken', () => {
+    it('should return access token when it is set', async () => {
+      const token = faker.string.alphanumeric(32)
+      await sdk.setTokens(createMockTokens({ accessToken: token }))
+
+      const result = await sdk.getAccessToken()
+
+      expect(result).toBe(token)
+    })
+
+    it('should return null when no token is set', async () => {
+      const result = await sdk.getAccessToken()
+
+      expect(result).toBeNull()
+    })
+  })
+
+  describe('getRefreshToken', () => {
+    it('should return refresh token when it is set', async () => {
+      const token = faker.string.alphanumeric(32)
+      await sdk.setTokens(createMockTokens({ refreshToken: token }))
+
+      const result = await sdk.getRefreshToken()
+
+      expect(result).toBe(token)
+    })
+
+    it('should return null when no token is set', async () => {
+      const result = await sdk.getRefreshToken()
+
+      expect(result).toBeNull()
+    })
+  })
+
+  describe('clearTokens', () => {
+    it('should clear both access and refresh tokens', async () => {
+      await sdk.setTokens(createMockTokens())
+
+      await sdk.clearTokens()
+
+      const accessToken = await sdk.getAccessToken()
+      const refreshToken = await sdk.getRefreshToken()
+
+      expect(accessToken).toBeNull()
+      expect(refreshToken).toBeNull()
+    })
+  })
+
+  describe('isAuthenticated', () => {
+    it('should return true when access token is present', async () => {
+      await sdk.setTokens(createMockTokens())
+
+      const result = await sdk.isAuthenticated()
+
+      expect(result).toBe(true)
+    })
+
+    it('should return false when access token is not present', async () => {
+      const result = await sdk.isAuthenticated()
+
+      expect(result).toBe(false)
+    })
+
+    it('should return false after clearing tokens', async () => {
+      await sdk.setTokens(createMockTokens())
+
+      await sdk.clearTokens()
+
+      const result = await sdk.isAuthenticated()
+
+      expect(result).toBe(false)
+    })
+  })
+
+  describe('token management', () => {
+    it('should handle full token lifecycle correctly', async () => {
+      const tokens = createMockTokens()
+      await sdk.setTokens(tokens)
+
+      const isAuth = await sdk.isAuthenticated()
+      expect(isAuth).toBe(true)
+
+      const accessToken = await sdk.getAccessToken()
+      const refreshToken = await sdk.getRefreshToken()
+      expect(accessToken).toBe(tokens.accessToken)
+      expect(refreshToken).toBe(tokens.refreshToken)
+
+      await sdk.clearTokens()
+      const isAuthAfter = await sdk.isAuthenticated()
+      expect(isAuthAfter).toBe(false)
+    })
+  })
+
+  describe('handleTokenRefresh', () => {
+    it('should refresh tokens using stored refresh token', async () => {
+      const tokens = createMockTokens()
+      await sdk.setTokens(tokens)
+
+      const newTokens = createMockTokens()
+      jest.spyOn(sdk.auth, 'refreshToken').mockResolvedValue(newTokens)
+
+      const handleTokenRefresh = (
+        sdk as unknown as {
+          handleTokenRefresh: () => Promise<AuthTokens>
+        }
+      ).handleTokenRefresh.bind(sdk)
+      const result = await handleTokenRefresh()
+
+      expect(sdk.auth.refreshToken).toHaveBeenCalledWith(tokens.refreshToken)
+      expect(result).toEqual(newTokens)
+    })
+
+    it('should throw error when no refresh token is available', async () => {
+      const handleTokenRefresh = (
+        sdk as unknown as {
+          handleTokenRefresh: () => Promise<AuthTokens>
+        }
+      ).handleTokenRefresh.bind(sdk)
+      await expect(handleTokenRefresh()).rejects.toThrow(
+        'No refresh token available',
+      )
+    })
+
+    it('should configure onTokenRefresh callback in SDK options', async () => {
+      expect(capturedOnTokenRefresh).toBeDefined()
+
+      const tokens = createMockTokens()
+      await sdk.setTokens(tokens)
+
+      const newTokens = createMockTokens()
+      jest.spyOn(sdk.auth, 'refreshToken').mockResolvedValue(newTokens)
+
+      const result = await capturedOnTokenRefresh!()
+
+      expect(sdk.auth.refreshToken).toHaveBeenCalledWith(tokens.refreshToken)
+      expect(result).toEqual(newTokens)
+    })
+  })
+
+  describe('createSDK', () => {
+    it('should create SDK instance', () => {
+      const sdkInstance = createSDK(config)
+
+      expect(sdkInstance).toBeInstanceOf(DevPlatformSDK)
+      expect(sdkInstance.auth).toBeDefined()
+      expect(sdkInstance.workspace).toBeDefined()
+      expect(sdkInstance.api).toBeDefined()
+      expect(sdkInstance.endpoint).toBeDefined()
+      expect(sdkInstance.mock).toBeDefined()
+      expect(sdkInstance.analytics).toBeDefined()
+    })
+
+    it('should create SDK with options', () => {
+      const onAuthError = () => {}
+      const sdkInstance = createSDK(config, { onAuthError })
+
+      expect(sdkInstance).toBeInstanceOf(DevPlatformSDK)
+    })
+  })
+})

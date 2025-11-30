@@ -165,7 +165,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: '22'
 
       - name: Install pnpm
         uses: pnpm/action-setup@v3
@@ -190,7 +190,7 @@ jobs:
         uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
-          text: "Production migration completed ✅"
+          text: 'Production migration completed ✅'
           webhook_url: ${{ secrets.SLACK_WEBHOOK }}
 ```
 
@@ -207,8 +207,8 @@ on:
   push:
     branches: [main]
     paths:
-      - "apps/**"
-      - "packages/**"
+      - 'apps/**'
+      - 'packages/**'
 
 jobs:
   pre-deploy-checks:
@@ -283,13 +283,13 @@ jobs:
         uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
-          text: "🚀 Production deployment ${{ job.status }}"
+          text: '🚀 Production deployment ${{ job.status }}'
           webhook_url: ${{ secrets.SLACK_WEBHOOK }}
 ```
 
 - [ ] Criar `.github/workflows/deploy-production.yml`
 - [ ] Configurar Slack webhook
-- [ ] Testar deploy (merge PR para main)
+- [ ] Testar deploy (commit direto ou merge manual para main)
 
 ### Backup Strategy
 
@@ -339,9 +339,9 @@ echo "✅ Backup complete!"
 
 ```typescript
 // apps/api-gateway/src/main.ts
-import * as Sentry from "@sentry/node"
+import * as Sentry from '@sentry/node'
 
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === 'production') {
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
     environment: process.env.SENTRY_ENVIRONMENT,

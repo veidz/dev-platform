@@ -338,7 +338,7 @@ dev-platform/
 
 ### GitHub Actions Workflows
 
-**1. Continuous Integration** (on push/PR)
+**1. Continuous Integration** (executa em cada push)
 
 ```
 - Install dependencies (cache npm)
@@ -537,19 +537,16 @@ dev-platform/
 ## 💡 Extras Inovadores
 
 1. **AI-powered suggestions** (integração OpenAI opcional)
-
    - Sugestão de endpoints similares
    - Geração de descrições
    - Code examples automáticos
 
 2. **CLI tool** (opcional)
-
    - Sync local OpenAPI files
    - Run mocks localmente
    - Deploy automation
 
 3. **Browser extension** (opcional)
-
    - Capture requests do browser
    - Import automaticamente para collections
 

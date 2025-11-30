@@ -56,19 +56,18 @@ class GeneratorService {
 ### Faker Integration
 
 ```typescript
-import { faker } from "@faker-js/faker"
-import jsf from "json-schema-faker"
+import { faker } from '@faker-js/faker'
+import jsf from 'json-schema-faker'
 
-jsf.extend("faker", () => faker)
+jsf.extend('faker', () => faker)
 
 // Configurar locale
-faker.locale = "pt_BR"
+faker.locale = 'pt_BR'
 ```
 
 ### Schema Type Handling
 
 - [ ] **String types**:
-
   - [ ] `format: email` → faker.internet.email()
   - [ ] `format: uuid` → faker.string.uuid()
   - [ ] `format: date` → faker.date.recent()
@@ -77,13 +76,11 @@ faker.locale = "pt_BR"
   - [ ] `pattern` → regex generation
 
 - [ ] **Number types**:
-
   - [ ] `minimum/maximum` → respeitados
   - [ ] `multipleOf` → respeitado
   - [ ] `integer` vs `number`
 
 - [ ] **Array types**:
-
   - [ ] `minItems/maxItems`
   - [ ] `uniqueItems`
   - [ ] Nested arrays
@@ -192,15 +189,15 @@ export class GeneratorService {
 ### Controller - Preview Endpoint
 
 ```typescript
-@Controller("generator")
+@Controller('generator')
 export class GeneratorController {
-  @Post("preview")
+  @Post('preview')
   async previewMock(@Body() dto: { schema: JSONSchema }) {
     return this.generatorService.generateMockFromSchema(dto.schema)
   }
 
-  @Get("endpoint/:id")
-  async generateForEndpoint(@Param("id") id: string) {
+  @Get('endpoint/:id')
+  async generateForEndpoint(@Param('id') id: string) {
     return this.generatorService.generateMockForEndpoint(id)
   }
 }
@@ -209,6 +206,7 @@ export class GeneratorController {
 ### DTOs
 
 - [ ] Criar `dto/preview-mock.dto.ts`:
+
   ```typescript
   export class PreviewMockDto {
     @IsObject()

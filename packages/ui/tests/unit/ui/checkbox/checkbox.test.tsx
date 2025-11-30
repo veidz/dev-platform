@@ -1,0 +1,369 @@
+import { useState } from 'react'
+
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { axe } from 'jest-axe'
+
+import { Checkbox } from '@/components/ui/checkbox'
+
+describe('Checkbox', () => {
+  describe('Rendering', () => {
+    it('should render checkbox', () => {
+      render(<Checkbox />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toBeInTheDocument()
+    })
+
+    it('should render with aria-label', () => {
+      render(<Checkbox aria-label="Accept terms" />)
+      const checkbox = screen.getByRole('checkbox', { name: 'Accept terms' })
+      expect(checkbox).toBeInTheDocument()
+    })
+
+    it('should render unchecked by default', () => {
+      render(<Checkbox />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).not.toBeChecked()
+    })
+
+    it('should render checked when defaultChecked is true', () => {
+      render(<Checkbox defaultChecked />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toBeChecked()
+    })
+
+    it('should render with custom className', () => {
+      render(<Checkbox className="custom-class" />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveClass('custom-class')
+    })
+
+    it('should render with id', () => {
+      render(<Checkbox id="terms" />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveAttribute('id', 'terms')
+    })
+
+    it('should associate with label using htmlFor', () => {
+      render(
+        <>
+          <Checkbox id="accept" />
+          <label htmlFor="accept">Accept</label>
+        </>,
+      )
+      const checkbox = screen.getByRole('checkbox', { name: 'Accept' })
+      expect(checkbox).toBeInTheDocument()
+    })
+  })
+
+  describe('States', () => {
+    it('should be unchecked by default', () => {
+      render(<Checkbox />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveAttribute('data-state', 'unchecked')
+    })
+
+    it('should be checked when checked prop is true', () => {
+      render(<Checkbox checked />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveAttribute('data-state', 'checked')
+      expect(checkbox).toBeChecked()
+    })
+
+    it('should be indeterminate when checked is "indeterminate"', () => {
+      render(<Checkbox checked="indeterminate" />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveAttribute('data-state', 'indeterminate')
+      expect(checkbox).toHaveAttribute('aria-checked', 'mixed')
+    })
+
+    it('should be disabled when disabled prop is true', () => {
+      render(<Checkbox disabled />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toBeDisabled()
+    })
+
+    it('should have disabled attribute', () => {
+      render(<Checkbox disabled />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveAttribute('disabled')
+    })
+
+    it('should apply disabled styles', () => {
+      render(<Checkbox disabled />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveClass('disabled:cursor-not-allowed')
+      expect(checkbox).toHaveClass('disabled:opacity-50')
+    })
+
+    it('should be checked and disabled', () => {
+      render(<Checkbox checked disabled />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toBeChecked()
+      expect(checkbox).toBeDisabled()
+    })
+  })
+
+  describe('User Interactions', () => {
+    it('should toggle checked state on click', async () => {
+      const user = userEvent.setup()
+      render(<Checkbox />)
+      const checkbox = screen.getByRole('checkbox')
+
+      expect(checkbox).not.toBeChecked()
+
+      await user.click(checkbox)
+      expect(checkbox).toBeChecked()
+
+      await user.click(checkbox)
+      expect(checkbox).not.toBeChecked()
+    })
+
+    it('should call onCheckedChange when clicked', async () => {
+      const user = userEvent.setup()
+      const onCheckedChange = jest.fn()
+      render(<Checkbox onCheckedChange={onCheckedChange} />)
+      const checkbox = screen.getByRole('checkbox')
+
+      await user.click(checkbox)
+      expect(onCheckedChange).toHaveBeenCalledTimes(1)
+      expect(onCheckedChange).toHaveBeenCalledWith(true)
+    })
+
+    it('should call onCheckedChange with false when unchecking', async () => {
+      const user = userEvent.setup()
+      const onCheckedChange = jest.fn()
+      render(<Checkbox defaultChecked onCheckedChange={onCheckedChange} />)
+      const checkbox = screen.getByRole('checkbox')
+
+      await user.click(checkbox)
+      expect(onCheckedChange).toHaveBeenCalledWith(false)
+    })
+
+    it('should not toggle when disabled', async () => {
+      const user = userEvent.setup()
+      const onCheckedChange = jest.fn()
+      render(<Checkbox disabled onCheckedChange={onCheckedChange} />)
+      const checkbox = screen.getByRole('checkbox')
+
+      await user.click(checkbox)
+      expect(onCheckedChange).not.toHaveBeenCalled()
+    })
+
+    it('should toggle on Space key', async () => {
+      const user = userEvent.setup()
+      render(<Checkbox />)
+      const checkbox = screen.getByRole('checkbox')
+      checkbox.focus()
+
+      expect(checkbox).not.toBeChecked()
+
+      await user.keyboard(' ')
+      expect(checkbox).toBeChecked()
+
+      await user.keyboard(' ')
+      expect(checkbox).not.toBeChecked()
+    })
+
+    it('should not toggle on Enter key (default button behavior)', async () => {
+      const user = userEvent.setup()
+      render(<Checkbox />)
+      const checkbox = screen.getByRole('checkbox')
+      checkbox.focus()
+
+      expect(checkbox).not.toBeChecked()
+
+      await user.keyboard('{Enter}')
+      expect(checkbox).not.toBeChecked()
+    })
+
+    it('should handle rapid clicks', async () => {
+      const user = userEvent.setup()
+      const onCheckedChange = jest.fn()
+      render(<Checkbox onCheckedChange={onCheckedChange} />)
+      const checkbox = screen.getByRole('checkbox')
+
+      await user.click(checkbox)
+      await user.click(checkbox)
+      await user.click(checkbox)
+
+      expect(onCheckedChange).toHaveBeenCalledTimes(3)
+    })
+
+    it('should work with controlled state', async () => {
+      const user = userEvent.setup()
+      const ControlledCheckbox = () => {
+        const [checked, setChecked] = useState(false)
+        return (
+          <Checkbox
+            checked={checked}
+            onCheckedChange={(value) => setChecked(!!value)}
+          />
+        )
+      }
+
+      render(<ControlledCheckbox />)
+      const checkbox = screen.getByRole('checkbox')
+
+      expect(checkbox).not.toBeChecked()
+
+      await user.click(checkbox)
+      expect(checkbox).toBeChecked()
+
+      await user.click(checkbox)
+      expect(checkbox).not.toBeChecked()
+    })
+  })
+
+  describe('Accessibility', () => {
+    it('should have role="checkbox"', () => {
+      render(<Checkbox />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveAttribute('role', 'checkbox')
+    })
+
+    it('should have aria-checked="false" when unchecked', () => {
+      render(<Checkbox />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveAttribute('aria-checked', 'false')
+    })
+
+    it('should have aria-checked="true" when checked', () => {
+      render(<Checkbox checked />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveAttribute('aria-checked', 'true')
+    })
+
+    it('should have aria-checked="mixed" when indeterminate', () => {
+      render(<Checkbox checked="indeterminate" />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveAttribute('aria-checked', 'mixed')
+    })
+
+    it('should have disabled attribute when disabled', () => {
+      render(<Checkbox disabled />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveAttribute('disabled')
+      expect(checkbox).toBeDisabled()
+    })
+
+    it('should be keyboard accessible', async () => {
+      const user = userEvent.setup()
+      render(<Checkbox />)
+      const checkbox = screen.getByRole('checkbox')
+
+      await user.tab()
+      expect(checkbox).toHaveFocus()
+    })
+
+    it('should not have accessibility violations', async () => {
+      const { container } = render(
+        <>
+          <Checkbox id="test" />
+          <label htmlFor="test">Test Label</label>
+        </>,
+      )
+      const results = await axe(container)
+      expect(results).toHaveNoViolations()
+    })
+
+    it('should announce state changes to screen readers', async () => {
+      const user = userEvent.setup()
+      render(<Checkbox aria-label="Accept" />)
+      const checkbox = screen.getByRole('checkbox', { name: 'Accept' })
+
+      expect(checkbox).toHaveAttribute('aria-checked', 'false')
+
+      await user.click(checkbox)
+      expect(checkbox).toHaveAttribute('aria-checked', 'true')
+    })
+  })
+
+  describe('Form Integration', () => {
+    it('should work with form submission', async () => {
+      const handleSubmit = jest.fn((e) => e.preventDefault())
+
+      render(
+        <form onSubmit={handleSubmit}>
+          <Checkbox name="terms" value="accepted" defaultChecked />
+          <button type="submit">Submit</button>
+        </form>,
+      )
+
+      const submitButton = screen.getByRole('button', { name: 'Submit' })
+      await userEvent.click(submitButton)
+
+      expect(handleSubmit).toHaveBeenCalled()
+    })
+
+    it('should pass name prop to checkbox', () => {
+      render(<Checkbox name="newsletter" />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toBeInTheDocument()
+    })
+
+    it('should have value attribute', () => {
+      render(<Checkbox value="yes" />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveAttribute('value', 'yes')
+    })
+
+    it('should be required when required prop is true', () => {
+      render(<Checkbox required />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toBeRequired()
+    })
+  })
+
+  describe('Styling', () => {
+    it('should apply base styles', () => {
+      render(<Checkbox />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveClass('h-4')
+      expect(checkbox).toHaveClass('w-4')
+      expect(checkbox).toHaveClass('rounded-sm')
+      expect(checkbox).toHaveClass('border')
+      expect(checkbox).toHaveClass('border-primary')
+    })
+
+    it('should apply focus styles', () => {
+      render(<Checkbox />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveClass('focus-visible:outline-none')
+      expect(checkbox).toHaveClass('focus-visible:ring-2')
+      expect(checkbox).toHaveClass('focus-visible:ring-offset-2')
+    })
+
+    it('should apply checked styles', () => {
+      render(<Checkbox checked />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveClass('data-[state=checked]:bg-primary')
+      expect(checkbox).toHaveClass(
+        'data-[state=checked]:text-primary-foreground',
+      )
+    })
+
+    it('should merge custom className with default styles', () => {
+      render(<Checkbox className="custom-checkbox" />)
+      const checkbox = screen.getByRole('checkbox')
+      expect(checkbox).toHaveClass('custom-checkbox')
+      expect(checkbox).toHaveClass('h-4')
+      expect(checkbox).toHaveClass('w-4')
+    })
+  })
+
+  describe('Ref Forwarding', () => {
+    it('should forward ref to checkbox element', () => {
+      const ref = { current: null as HTMLButtonElement | null }
+      render(<Checkbox ref={ref} />)
+      expect(ref.current).toBeInstanceOf(HTMLButtonElement)
+    })
+
+    it('should allow calling focus via ref', () => {
+      const ref = { current: null as HTMLButtonElement | null }
+      render(<Checkbox ref={ref} />)
+      ref.current?.focus()
+      expect(ref.current).toHaveFocus()
+    })
+  })
+})

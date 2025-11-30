@@ -13,6 +13,8 @@
 
 ## 🏗️ Decisões Arquiteturais (ADRs)
 
+Índice completo: [README de ADRs](./adrs/README.md)
+
 Documentação de decisões técnicas fundamentais:
 
 1. **[Estratégia de Monorepo](./adrs/001-monorepo-strategy.md)** - Turborepo
@@ -31,15 +33,15 @@ Documentação de decisões técnicas fundamentais:
 
 Guias passo-a-passo com checkboxes para desenvolvimento:
 
-### [📂 Implementation Roadmap](./implementation/)
+### [📂 Implementation Roadmap](./implementation/README.md)
 
 Estrutura modular dividida por fases:
 
-- **Phase 0**: [Setup Inicial](./implementation/00-setup/) - Monorepo, tooling, configs
-- **Phase 1**: [Shared Packages](./implementation/01-shared/) - Design system, types, SDK
-- **Phase 2**: [Frontend (Web)](./implementation/02-web/) - Next.js app, páginas, testes
-- **Phase 3**: [Backend Services](./implementation/03-backend/) - 5 microsserviços
-- **Phase 4**: [Deployment](./implementation/04-deployment/) - CI/CD, staging, produção
+- **Phase 0**: [Setup Inicial](./implementation/00-setup/README.md) - Monorepo, tooling, configs
+- **Phase 1**: [Shared Packages](./implementation/01-shared/README.md) - Design system, types, SDK
+- **Phase 2**: [Frontend (Web)](./implementation/02-web/README.md) - Next.js app, páginas, testes
+- **Phase 3**: [Backend Services](./implementation/03-backend/README.md) - 5 microsserviços
+- **Phase 4**: [Deployment](./implementation/04-deployment/README.md) - CI/CD, staging, produção
 
 **Cada fase contém arquivos específicos com checkboxes detalhados.**
 
@@ -49,20 +51,26 @@ Estrutura modular dividida por fases:
 
 ### Desenvolvimento
 
-- [Style Guide](./guides/style-guide.md) _(a criar)_
-- [Testing Guide](./guides/testing.md) _(a criar)_
+Índice: [Guides README](./guides/README.md)
+
+- [Style Guide](./guides/style-guide.md)
+- [Testing Guide](./guides/testing.md)
 
 ### API
 
-- [Autenticação](./api/authentication.md) _(a criar)_
-- [Endpoints](./api/endpoints.md) _(a criar)_
-- [Webhooks](./api/webhooks.md) _(a criar)_
+Índice: [API README](./api/README.md)
+
+- [Autenticação](./api/authentication.md)
+- [Endpoints](./api/endpoints.md)
+- [Webhooks](./api/webhooks.md)
 
 ### Deploy
 
-- [Ambiente Local](./deployment/local.md) _(a criar)_
-- [Staging](./deployment/staging.md) _(a criar)_
-- [Produção](./deployment/production.md) _(a criar)_
+Índice: [Deployment README](./deployment/README.md)
+
+- [Ambiente Local](./deployment/local.md)
+- [Staging](./deployment/staging.md)
+- [Produção](./deployment/production.md)
 
 ---
 
@@ -72,11 +80,11 @@ Estrutura modular dividida por fases:
 
 1. Leia [README Principal](../README.md) - Entenda o projeto
 2. Leia [Especificação Técnica](./technical-spec.md) - Arquitetura completa
-3. Siga [Implementation Roadmap](./implementation/) - Implemente fase por fase
+3. Siga [Implementation Roadmap](./implementation/README.md) - Implemente fase por fase
 
 ### Para Entender Decisões Técnicas
 
-- Consulte [ADRs](./adrs/) específicos por tema
+- Consulte [ADRs](./adrs/README.md) específicos por tema
 
 ---
 

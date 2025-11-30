@@ -1,0 +1,42 @@
+name: Docs Link Check
+
+on:
+  push:
+    paths:
+      - 'README.md'
+      - 'docs/**'
+  pull_request:
+    paths:
+      - 'README.md'
+      - 'docs/**'
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Restore lychee cache
+        uses: actions/cache@v4
+        with:
+          path: .lycheecache
+          key: cache-lychee-${{ github.sha }}
+          restore-keys: |
+            cache-lychee-
+
+      - name: Link Checker
+        uses: lycheeverse/lychee-action@v2.7.0
+        with:
+          args: --config .lychee.toml --root-dir /home/runner/work/dev-platform/dev-platform --no-progress README.md docs
+          fail: true
+          output: lychee/out.md
+          jobSummary: true
+
+      - name: Upload lychee report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lychee-report
+          path: lychee/out.md
