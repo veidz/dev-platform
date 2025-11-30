@@ -120,9 +120,9 @@ export const Years = (): React.JSX.Element => {
       mode="single"
       selected={date}
       onSelect={setDate}
-      captionLayout="dropdown-months"
-      fromYear={2020}
-      toYear={2030}
+      captionLayout="dropdown"
+      startMonth={new Date(2020, 0)}
+      endMonth={new Date(2030, 11)}
     />
   )
 }

@@ -12,17 +12,24 @@ export const Calendar = ({
   className,
   classNames,
   showOutsideDays = true,
+  captionLayout,
   ...props
 }: CalendarProps): React.JSX.Element => {
+  const hideLabel =
+    captionLayout === 'dropdown' ||
+    captionLayout === 'dropdown-months' ||
+    captionLayout === 'dropdown-years'
+
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
+      captionLayout={captionLayout}
       className={cn('p-3', className)}
       classNames={{
         months: 'flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0',
         month: 'space-y-4',
-        caption: 'flex justify-center pt-1 relative items-center',
-        caption_label: 'text-sm font-medium',
+        month_caption: 'flex justify-center pt-1 relative items-center',
+        caption_label: cn('text-sm font-medium', hideLabel && 'hidden'),
         nav: 'space-x-1 flex items-center',
         button_previous: cn(
           buttonVariants({ variant: 'outline' }),
@@ -52,6 +59,14 @@ export const Calendar = ({
         range_middle:
           'aria-selected:bg-accent aria-selected:text-accent-foreground',
         hidden: 'invisible',
+        dropdowns: 'flex gap-2 items-center',
+        dropdown:
+          'appearance-none bg-transparent text-sm font-medium cursor-pointer focus:outline-none',
+        dropdown_root: 'relative inline-flex items-center',
+        years_dropdown:
+          'appearance-none bg-transparent text-sm font-medium cursor-pointer focus:outline-none',
+        months_dropdown:
+          'appearance-none bg-transparent text-sm font-medium cursor-pointer focus:outline-none',
         ...classNames,
       }}
       components={{
