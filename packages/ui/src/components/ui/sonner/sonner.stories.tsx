@@ -215,11 +215,24 @@ export const Dismissible: Story = {
   render: () => (
     <div className="flex flex-col gap-2">
       <Toaster />
-      <Button onClick={() => toast('Can be dismissed', { dismissible: true })}>
-        Dismissible (Default)
+      <Button
+        onClick={() =>
+          toast('Can be dismissed by clicking X or swiping', {
+            closeButton: true,
+            duration: 10000,
+          })
+        }
+      >
+        Dismissible with Close Button
       </Button>
       <Button
-        onClick={() => toast('Cannot be dismissed', { dismissible: false })}
+        onClick={() =>
+          toast('Cannot be dismissed - wait for timeout', {
+            dismissible: false,
+            closeButton: false,
+            duration: 10000,
+          })
+        }
       >
         Not Dismissible
       </Button>
