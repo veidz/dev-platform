@@ -48,7 +48,7 @@ export const Avatar = (): React.JSX.Element => {
 
 export const Table = (): React.JSX.Element => {
   return (
-    <div className="w-full max-w-2xl space-y-3">
+    <div className="w-[600px] space-y-3">
       <Skeleton className="h-10 w-full" />
       <Skeleton className="h-10 w-full" />
       <Skeleton className="h-10 w-full" />
@@ -60,7 +60,7 @@ export const Table = (): React.JSX.Element => {
 
 export const Form = (): React.JSX.Element => {
   return (
-    <div className="w-full max-w-md space-y-4">
+    <div className="w-[400px] space-y-4">
       <div className="space-y-2">
         <Skeleton className="h-4 w-20" />
         <Skeleton className="h-10 w-full" />
@@ -80,7 +80,7 @@ export const Form = (): React.JSX.Element => {
 
 export const List = (): React.JSX.Element => {
   return (
-    <div className="w-full max-w-md space-y-3">
+    <div className="w-[400px] space-y-3">
       {Array.from({ length: 5 }).map((_, i) => (
         <div key={i} className="flex items-center gap-3">
           <Skeleton className="h-10 w-10 rounded-full" />
@@ -96,7 +96,7 @@ export const List = (): React.JSX.Element => {
 
 export const Chart = (): React.JSX.Element => {
   return (
-    <div className="w-full max-w-2xl space-y-4">
+    <div className="w-[600px] space-y-4">
       <div className="space-y-2">
         <Skeleton className="h-4 w-32" />
         <Skeleton className="h-3 w-48" />
@@ -116,7 +116,7 @@ export const Chart = (): React.JSX.Element => {
 
 export const Text = (): React.JSX.Element => {
   return (
-    <div className="w-full max-w-2xl space-y-3">
+    <div className="w-[600px] space-y-3">
       <Skeleton className="h-8 w-3/4" />
       <Skeleton className="h-4 w-full" />
       <Skeleton className="h-4 w-full" />
@@ -144,7 +144,7 @@ export const Custom = (): React.JSX.Element => {
 
 export const Composition = (): React.JSX.Element => {
   return (
-    <div className="grid w-full max-w-6xl grid-cols-3 gap-6">
+    <div className="grid w-[900px] grid-cols-3 gap-6">
       <div className="space-y-4 rounded-lg border p-4">
         <Skeleton className="h-40 w-full" />
         <Skeleton className="h-4 w-3/4" />
