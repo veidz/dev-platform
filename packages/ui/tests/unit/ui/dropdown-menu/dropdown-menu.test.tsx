@@ -189,7 +189,7 @@ describe('DropdownMenu', () => {
       await waitFor(() => {
         const item = screen.getByText('Item')
         expect(item.className).toContain('flex')
-        expect(item.className).toContain('cursor-default')
+        expect(item.className).toContain('cursor-pointer')
         expect(item.className).toContain('rounded-sm')
       })
     })
@@ -686,7 +686,7 @@ describe('DropdownMenu', () => {
       await waitFor(() => {
         const trigger = screen.getByText('Submenu')
         expect(trigger.className).toContain('flex')
-        expect(trigger.className).toContain('cursor-default')
+        expect(trigger.className).toContain('cursor-pointer')
       })
     })
 
