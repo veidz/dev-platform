@@ -333,11 +333,11 @@ describe("Button", () => {
 - ✅ ESM: 46.76 KB (+18.42 KB - tokens adicionados)
 - ✅ CJS: 52.52 KB (+19.97 KB - tokens adicionados)
 - ✅ DTS: 24.17 KB (+11.72 KB - tipos de tokens)
-- ✅ 29+ stories no Storybook
+- ✅ 70+ stories no Storybook (todos os 40+ componentes cobertos)
 - ✅ Zero erros TypeScript
-- ✅ Zero warnings de lint (5 warnings pré-existentes em stories - não críticos)
-- ✅ 76 testes passando (53 unit + 14 a11y + 10 smoke)
-- ✅ 100% coverage em Button e Input
+- ✅ Zero warnings de lint
+- ✅ 1206 testes passando (100% coverage)
+- ✅ 100% coverage em todos os componentes
 
 ## Status Atual
 
@@ -372,8 +372,8 @@ describe("Button", () => {
 - Jest 30.2.0 + ts-jest 29.4.5
 - @testing-library/react 16.3.0 (React 19 compatible)
 - jest-axe 10.0.0 + @types/jest-axe 3.5.9
-- 76 testes passando (53 unit + 14 a11y + 10 smoke)
-- 100% coverage configurado (atingido em Button e Input)
+- 1206 testes passando (100% coverage)
+- Todos os 40+ componentes totalmente testados
 
 **✅ Completo - Documentação:**
 
@@ -386,16 +386,21 @@ describe("Button", () => {
 
 **✅ Completo - Storybook:**
 
-- 29+ stories criadas
+- 70+ stories criadas (todos os componentes)
 - Rodando em http://localhost:6007/
 - Dark theme configurado
 - Backgrounds customizados
 
+**✅ Completo - Correções de Cursor:**
+
+- cursor-pointer em todos os componentes interativos
+- cursor-not-allowed em estados disabled
+- cursor-col-resize/cursor-row-resize no Resizable
+- Group pattern usado para propagação de cursor em componentes compostos
+
 **🔲 Opcional - Melhorias Futuras:**
 
 - Viewports customizados no Storybook
-- Testes para componentes restantes (Card, Table, Toast, etc.)
-- Integration tests para workflows complexos
 - Visual regression tests (Chromatic)
 
 ## Problemas Encontrados e Soluções
@@ -432,14 +437,13 @@ describe("Button", () => {
 
 ## Métricas Finais
 
-- **Componentes**: 12 (11 base + 1 customizado com teste completo)
-- **Stories**: 29+ no Storybook
-- **Testes**: 76 passando (53 unit + 14 a11y + 10 smoke)
-- **Coverage**: 100% em Button e Input (componentes principais)
+- **Componentes**: 40+ componentes completos (Radix UI + customizados)
+- **Stories**: 70+ no Storybook
+- **Testes**: 1206 passando (100% coverage)
+- **Coverage**: 100% statements, branches, functions, lines
 - **Build Size**: ESM 46.76 KB, CJS 52.52 KB, DTS 24.17 KB
 - **TypeScript**: Zero erros
-- **Lint**: Zero erros (5 warnings não críticos em stories)
-- **Dependencies**: 14 devDependencies de teste, 0 novas dependencies de runtime
+- **Lint**: Zero erros
 
 ## Próximo Passo
 
