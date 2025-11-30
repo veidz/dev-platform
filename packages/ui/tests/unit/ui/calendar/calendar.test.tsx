@@ -263,6 +263,68 @@ describe('Calendar', () => {
     })
   })
 
+  describe('Caption Layout', () => {
+    it('should show caption label when captionLayout is not dropdown', () => {
+      render(<Calendar mode="single" />)
+
+      const currentMonth = new Date().toLocaleString('en-US', { month: 'long' })
+      expect(
+        screen.getByText(new RegExp(currentMonth, 'i')),
+      ).toBeInTheDocument()
+    })
+
+    it('should hide caption label when captionLayout is dropdown', () => {
+      const startMonth = new Date(2020, 0, 1)
+      const endMonth = new Date(2030, 11, 31)
+
+      render(
+        <Calendar
+          mode="single"
+          captionLayout="dropdown"
+          startMonth={startMonth}
+          endMonth={endMonth}
+        />,
+      )
+
+      const dropdowns = document.querySelectorAll('select')
+      expect(dropdowns.length).toBeGreaterThan(0)
+    })
+
+    it('should hide caption label when captionLayout is dropdown-months', () => {
+      const startMonth = new Date(2020, 0, 1)
+      const endMonth = new Date(2030, 11, 31)
+
+      render(
+        <Calendar
+          mode="single"
+          captionLayout="dropdown-months"
+          startMonth={startMonth}
+          endMonth={endMonth}
+        />,
+      )
+
+      const dropdowns = document.querySelectorAll('select')
+      expect(dropdowns.length).toBeGreaterThan(0)
+    })
+
+    it('should hide caption label when captionLayout is dropdown-years', () => {
+      const startMonth = new Date(2020, 0, 1)
+      const endMonth = new Date(2030, 11, 31)
+
+      render(
+        <Calendar
+          mode="single"
+          captionLayout="dropdown-years"
+          startMonth={startMonth}
+          endMonth={endMonth}
+        />,
+      )
+
+      const dropdowns = document.querySelectorAll('select')
+      expect(dropdowns.length).toBeGreaterThan(0)
+    })
+  })
+
   describe('Accessibility', () => {
     it('should have no accessibility violations', async () => {
       const { container } = render(<Calendar mode="single" />)
