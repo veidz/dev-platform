@@ -215,8 +215,8 @@ export const DisabledButton: Story = {
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <span tabIndex={0}>
-            <Button variant="outline" disabled>
+          <span tabIndex={0} className="cursor-not-allowed">
+            <Button variant="outline" disabled className="pointer-events-none">
               Disabled button
             </Button>
           </span>
