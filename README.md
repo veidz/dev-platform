@@ -245,15 +245,47 @@ pnpm test
 
 # Lint
 pnpm lint
-\n+# Lint com auto-fix (todas as packages)
+
+# Lint com auto-fix (todas as packages)
 pnpm lint:fix
-\n+# Format (escreve alterações)
+
+# Format (escreve alterações)
 pnpm format
-\n+# Format (somente verificação)
+
+# Format (somente verificação)
 pnpm format:check
-\n+# Type checking global
+
+# Type checking global
 pnpm typecheck
+
+# Storybook (UI components)
+pnpm storybook
+
+# Build Storybook (static)
+pnpm storybook:build
 ```
+
+### Storybook
+
+O design system e componentes UI estão documentados no **Storybook**:
+
+```bash
+# Iniciar Storybook (http://localhost:6007)
+pnpm storybook
+
+# Build estático do Storybook
+pnpm storybook:build
+```
+
+O Storybook contém:
+
+- 🎨 **Design System** - Cores, tipografia, espaçamentos
+- 🧱 **Componentes Base** - Button, Input, Card, Label, etc
+- 📚 **Stories Interativas** - Documentação live de cada componente
+- 🎭 **Theme Switcher** - Visualize componentes em light/dark mode
+- ♿ **Accessibility** - Testes de acessibilidade integrados
+
+**Acesso Rápido**: Após rodar `pnpm storybook`, acesse [http://localhost:6007](http://localhost:6007)
 
 ---
 

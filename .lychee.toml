@@ -16,7 +16,9 @@ exclude = [
   "https://amplication.com/blog/.*",
   "https://eslint.org/docs/.*",
   "https://axios-http.com/.*",
-  "https://www.springfuse.com/.*"
+  "https://www.springfuse.com/.*",
+  # Cloudflare blocks CI bots with 403
+  "https://.*cloudflare.com/.*"
 ]
 
 # Include only markdown files.

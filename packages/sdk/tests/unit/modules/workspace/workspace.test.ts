@@ -1,0 +1,445 @@
+import type {
+  CreateWorkspaceDto,
+  InviteMemberDto,
+  UpdateMemberRoleDto,
+  UpdateWorkspaceDto,
+  Workspace,
+  WorkspaceMember,
+} from '@dev-platform/types'
+import { describe, expect, it, jest } from '@jest/globals'
+import { mockDeep } from 'jest-mock-extended'
+
+import { faker } from '@/__mocks__/faker-adapter'
+import type { BaseClient } from '@/client/http'
+import { WorkspaceModule } from '@/modules/workspace/workspace'
+import type { ListWorkspacesResponse } from '@/modules/workspace/workspace.types'
+
+describe('WorkspaceModule', () => {
+  const mockClient = mockDeep<BaseClient>()
+  const workspaceModule = new WorkspaceModule(mockClient)
+
+  const mockWorkspace: Workspace = {
+    id: faker.string.uuid(),
+    name: faker.company.name(),
+    slug: faker.helpers.slugify(faker.company.name()).toLowerCase(),
+    description: faker.lorem.sentence(),
+    ownerId: faker.string.uuid(),
+    createdAt: faker.date.past(),
+    updatedAt: faker.date.recent(),
+  }
+
+  const mockMember: WorkspaceMember = {
+    id: faker.string.uuid(),
+    workspaceId: faker.string.uuid(),
+    userId: faker.string.uuid(),
+    role: 'DEVELOPER' as WorkspaceMember['role'],
+    user: {
+      id: faker.string.uuid(),
+      name: faker.person.fullName(),
+      email: faker.internet.email(),
+    },
+    joinedAt: faker.date.past(),
+  }
+
+  describe('list', () => {
+    it('should list all workspaces', async () => {
+      const expectedResponse: ListWorkspacesResponse = {
+        workspaces: [mockWorkspace],
+        total: 1,
+      }
+
+      mockClient.get.mockReturnValue({
+        json: jest
+          .fn<() => Promise<ListWorkspacesResponse>>()
+          .mockResolvedValue(expectedResponse),
+      } as never)
+
+      const result = await workspaceModule.list()
+
+      expect(mockClient.get).toHaveBeenCalledWith('workspaces')
+      expect(result).toEqual(expectedResponse)
+    })
+
+    it('should return workspaces array and total', async () => {
+      const response: ListWorkspacesResponse = {
+        workspaces: [mockWorkspace, { ...mockWorkspace, id: 'workspace-456' }],
+        total: 2,
+      }
+
+      mockClient.get.mockReturnValue({
+        json: jest
+          .fn<() => Promise<ListWorkspacesResponse>>()
+          .mockResolvedValue(response),
+      } as never)
+
+      const result = await workspaceModule.list()
+
+      expect(result.workspaces).toHaveLength(2)
+      expect(result.total).toBe(2)
+    })
+  })
+
+  describe('get', () => {
+    it('should get workspace by id', async () => {
+      const workspaceId = 'workspace-123'
+
+      mockClient.get.mockReturnValue({
+        json: jest
+          .fn<() => Promise<Workspace>>()
+          .mockResolvedValue(mockWorkspace),
+      } as never)
+
+      const result = await workspaceModule.get(workspaceId)
+
+      expect(mockClient.get).toHaveBeenCalledWith(`workspaces/${workspaceId}`)
+      expect(result).toEqual(mockWorkspace)
+    })
+
+    it('should pass workspace id correctly', async () => {
+      const workspaceId = 'workspace-456'
+
+      mockClient.get.mockReturnValue({
+        json: jest
+          .fn<() => Promise<Workspace>>()
+          .mockResolvedValue(mockWorkspace),
+      } as never)
+
+      await workspaceModule.get(workspaceId)
+
+      expect(mockClient.get).toHaveBeenCalledWith(`workspaces/${workspaceId}`)
+    })
+  })
+
+  describe('create', () => {
+    it('should create new workspace', async () => {
+      const createData: CreateWorkspaceDto = {
+        name: 'New Workspace',
+        slug: 'new-workspace',
+        description: 'New description',
+      }
+
+      const expectedWorkspace: Workspace = {
+        ...mockWorkspace,
+        name: createData.name,
+        description: createData.description,
+      }
+
+      mockClient.post.mockReturnValue({
+        json: jest
+          .fn<() => Promise<Workspace>>()
+          .mockResolvedValue(expectedWorkspace),
+      } as never)
+
+      const result = await workspaceModule.create(createData)
+
+      expect(mockClient.post).toHaveBeenCalledWith('workspaces', {
+        json: createData,
+      })
+      expect(result).toEqual(expectedWorkspace)
+    })
+
+    it('should pass create data correctly', async () => {
+      const createData: CreateWorkspaceDto = {
+        name: 'Test',
+        slug: 'test',
+        description: 'Desc',
+      }
+
+      mockClient.post.mockReturnValue({
+        json: jest
+          .fn<() => Promise<Workspace>>()
+          .mockResolvedValue(mockWorkspace),
+      } as never)
+
+      await workspaceModule.create(createData)
+
+      expect(mockClient.post).toHaveBeenCalledWith('workspaces', {
+        json: createData,
+      })
+    })
+  })
+
+  describe('update', () => {
+    it('should update workspace', async () => {
+      const workspaceId = 'workspace-123'
+      const updateData: UpdateWorkspaceDto = {
+        name: 'Updated Workspace',
+        description: 'Updated description',
+      }
+
+      const expectedWorkspace: Workspace = {
+        ...mockWorkspace,
+        ...(updateData.name && { name: updateData.name }),
+        ...(updateData.description && {
+          description: updateData.description,
+        }),
+      }
+
+      mockClient.patch.mockReturnValue({
+        json: jest
+          .fn<() => Promise<Workspace>>()
+          .mockResolvedValue(expectedWorkspace),
+      } as never)
+
+      const result = await workspaceModule.update(workspaceId, updateData)
+
+      expect(mockClient.patch).toHaveBeenCalledWith(
+        `workspaces/${workspaceId}`,
+        {
+          json: updateData,
+        },
+      )
+      expect(result).toEqual(expectedWorkspace)
+    })
+
+    it('should pass update data correctly', async () => {
+      const workspaceId = 'workspace-456'
+      const updateData: UpdateWorkspaceDto = {
+        name: 'Updated',
+      }
+
+      mockClient.patch.mockReturnValue({
+        json: jest
+          .fn<() => Promise<Workspace>>()
+          .mockResolvedValue(mockWorkspace),
+      } as never)
+
+      await workspaceModule.update(workspaceId, updateData)
+
+      expect(mockClient.patch).toHaveBeenCalledWith(
+        `workspaces/${workspaceId}`,
+        {
+          json: updateData,
+        },
+      )
+    })
+  })
+
+  describe('delete', () => {
+    it('should delete workspace', async () => {
+      const workspaceId = 'workspace-123'
+
+      mockClient.delete.mockReturnValue({
+        json: jest.fn<() => Promise<void>>().mockResolvedValue(undefined),
+      } as never)
+
+      await workspaceModule.delete(workspaceId)
+
+      expect(mockClient.delete).toHaveBeenCalledWith(
+        `workspaces/${workspaceId}`,
+      )
+    })
+
+    it('should not return a value on success', async () => {
+      const workspaceId = 'workspace-456'
+
+      mockClient.delete.mockReturnValue({
+        json: jest.fn<() => Promise<void>>().mockResolvedValue(undefined),
+      } as never)
+
+      const result = await workspaceModule.delete(workspaceId)
+
+      expect(result).toBeUndefined()
+    })
+  })
+
+  describe('listMembers', () => {
+    it('should list workspace members', async () => {
+      const workspaceId = 'workspace-123'
+      const expectedMembers = [mockMember]
+
+      mockClient.get.mockReturnValue({
+        json: jest
+          .fn<() => Promise<WorkspaceMember[]>>()
+          .mockResolvedValue(expectedMembers),
+      } as never)
+
+      const result = await workspaceModule.listMembers(workspaceId)
+
+      expect(mockClient.get).toHaveBeenCalledWith(
+        `workspaces/${workspaceId}/members`,
+      )
+      expect(result).toEqual(expectedMembers)
+    })
+
+    it('should return members array', async () => {
+      const workspaceId = 'workspace-123'
+      const members = [mockMember, { ...mockMember, id: 'member-456' }]
+
+      mockClient.get.mockReturnValue({
+        json: jest
+          .fn<() => Promise<WorkspaceMember[]>>()
+          .mockResolvedValue(members),
+      } as never)
+
+      const result = await workspaceModule.listMembers(workspaceId)
+
+      expect(result).toHaveLength(2)
+    })
+  })
+
+  describe('inviteMember', () => {
+    it('should invite member to workspace', async () => {
+      const workspaceId = 'workspace-123'
+      const inviteData: InviteMemberDto = {
+        email: 'newuser@example.com',
+        role: 'DEVELOPER' as InviteMemberDto['role'],
+      }
+
+      mockClient.post.mockReturnValue({
+        json: jest
+          .fn<() => Promise<WorkspaceMember>>()
+          .mockResolvedValue(mockMember),
+      } as never)
+
+      const result = await workspaceModule.inviteMember(workspaceId, inviteData)
+
+      expect(mockClient.post).toHaveBeenCalledWith(
+        `workspaces/${workspaceId}/members`,
+        {
+          json: inviteData,
+        },
+      )
+      expect(result).toEqual(mockMember)
+    })
+
+    it('should pass invite data correctly', async () => {
+      const workspaceId = 'workspace-456'
+      const inviteData: InviteMemberDto = {
+        email: 'test@test.com',
+        role: 'ADMIN' as InviteMemberDto['role'],
+      }
+
+      mockClient.post.mockReturnValue({
+        json: jest
+          .fn<() => Promise<WorkspaceMember>>()
+          .mockResolvedValue(mockMember),
+      } as never)
+
+      await workspaceModule.inviteMember(workspaceId, inviteData)
+
+      expect(mockClient.post).toHaveBeenCalledWith(
+        `workspaces/${workspaceId}/members`,
+        {
+          json: inviteData,
+        },
+      )
+    })
+  })
+
+  describe('updateMemberRole', () => {
+    it('should update member role', async () => {
+      const workspaceId = 'workspace-123'
+      const memberId = 'member-123'
+      const updateData: UpdateMemberRoleDto = {
+        role: 'ADMIN' as UpdateMemberRoleDto['role'],
+      }
+
+      const expectedMember: WorkspaceMember = {
+        ...mockMember,
+        role: 'ADMIN' as WorkspaceMember['role'],
+      }
+
+      mockClient.patch.mockReturnValue({
+        json: jest
+          .fn<() => Promise<WorkspaceMember>>()
+          .mockResolvedValue(expectedMember),
+      } as never)
+
+      const result = await workspaceModule.updateMemberRole(
+        workspaceId,
+        memberId,
+        updateData,
+      )
+
+      expect(mockClient.patch).toHaveBeenCalledWith(
+        `workspaces/${workspaceId}/members/${memberId}`,
+        {
+          json: updateData,
+        },
+      )
+      expect(result).toEqual(expectedMember)
+    })
+
+    it('should pass role update correctly', async () => {
+      const workspaceId = 'workspace-456'
+      const memberId = 'member-789'
+      const updateData: UpdateMemberRoleDto = {
+        role: 'DEVELOPER' as UpdateMemberRoleDto['role'],
+      }
+
+      mockClient.patch.mockReturnValue({
+        json: jest
+          .fn<() => Promise<WorkspaceMember>>()
+          .mockResolvedValue(mockMember),
+      } as never)
+
+      await workspaceModule.updateMemberRole(workspaceId, memberId, updateData)
+
+      expect(mockClient.patch).toHaveBeenCalledWith(
+        `workspaces/${workspaceId}/members/${memberId}`,
+        {
+          json: updateData,
+        },
+      )
+    })
+  })
+
+  describe('removeMember', () => {
+    it('should remove member from workspace', async () => {
+      const workspaceId = 'workspace-123'
+      const memberId = 'member-123'
+
+      mockClient.delete.mockReturnValue({
+        json: jest.fn<() => Promise<void>>().mockResolvedValue(undefined),
+      } as never)
+
+      await workspaceModule.removeMember(workspaceId, memberId)
+
+      expect(mockClient.delete).toHaveBeenCalledWith(
+        `workspaces/${workspaceId}/members/${memberId}`,
+      )
+    })
+
+    it('should not return a value on success', async () => {
+      const workspaceId = 'workspace-456'
+      const memberId = 'member-789'
+
+      mockClient.delete.mockReturnValue({
+        json: jest.fn<() => Promise<void>>().mockResolvedValue(undefined),
+      } as never)
+
+      const result = await workspaceModule.removeMember(workspaceId, memberId)
+
+      expect(result).toBeUndefined()
+    })
+  })
+
+  describe('leave', () => {
+    it('should leave workspace', async () => {
+      const workspaceId = 'workspace-123'
+
+      mockClient.post.mockReturnValue({
+        json: jest.fn<() => Promise<void>>().mockResolvedValue(undefined),
+      } as never)
+
+      await workspaceModule.leave(workspaceId)
+
+      expect(mockClient.post).toHaveBeenCalledWith(
+        `workspaces/${workspaceId}/leave`,
+      )
+    })
+
+    it('should not return a value on success', async () => {
+      const workspaceId = 'workspace-456'
+
+      mockClient.post.mockReturnValue({
+        json: jest.fn<() => Promise<void>>().mockResolvedValue(undefined),
+      } as never)
+
+      const result = await workspaceModule.leave(workspaceId)
+
+      expect(result).toBeUndefined()
+    })
+  })
+})

@@ -293,7 +293,7 @@ enum ApiStatus {
 ## Recursos
 
 - [OpenAPI Specification](https://swagger.io/specification/)
-- [API Versioning Best Practices](https://restfulapi.net/versioning/)
+- [API Versioning Best Practices](https://learn.microsoft.com/en-us/azure/api-management/api-management-versions)
 - [Redis Data Types Overview](https://redis.io/docs/latest/develop/data-types/)
 
 ## Próximo Passo
