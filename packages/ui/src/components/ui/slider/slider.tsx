@@ -17,7 +17,7 @@ const Slider = forwardRef<
   <SliderRoot
     ref={ref}
     className={cn(
-      'relative flex w-full touch-none select-none items-center',
+      'group relative flex w-full touch-none select-none items-center data-disabled:cursor-not-allowed data-disabled:opacity-50',
       className,
     )}
     {...props}
@@ -28,7 +28,7 @@ const Slider = forwardRef<
     {(props.defaultValue || props.value || [0]).map((_, i) => (
       <SliderThumb
         key={i}
-        className="block h-5 w-5 cursor-pointer rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+        className="block h-5 w-5 cursor-pointer rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 group-data-disabled:pointer-events-none group-data-disabled:cursor-not-allowed"
       />
     ))}
   </SliderRoot>
