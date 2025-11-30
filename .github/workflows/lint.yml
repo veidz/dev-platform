@@ -2,7 +2,6 @@ name: Lint & Format
 
 on:
   push:
-    branches: [main, develop, feat/*, fix/*, chore/*, refactor/*]
   pull_request:
 
 jobs:
