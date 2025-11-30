@@ -12,7 +12,7 @@ CRUD completo de workspaces com RBAC e multi-tenancy.
 
 ### Pesquisa
 
-- [ ] Prisma relations (https://www.prisma.io/docs/concepts/components/prisma-schema/relations)
+- [ ] Prisma relations (https://www.prisma.io/docs/orm/prisma-schema/data-model/relations)
 - [ ] Row-Level Security patterns
 
 ### Module Structure
@@ -278,7 +278,7 @@ enum Role {
 
 ## Recursos
 
-- [Prisma Relations](https://www.prisma.io/docs/concepts/components/prisma-schema/relations)
+- [Prisma Relations](https://www.prisma.io/docs/orm/prisma-schema/data-model/relations)
 - [NestJS Guards](https://docs.nestjs.com/guards)
 - [RBAC Pattern](https://en.wikipedia.org/wiki/Role-based_access_control)
 
