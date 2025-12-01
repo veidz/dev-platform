@@ -26,5 +26,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Generate Prisma Client
+        run: pnpm --filter @dev-platform/database db:generate
+
       - name: Validate (ESLint + Prettier check)
         run: pnpm validate
