@@ -1,4 +1,4 @@
-import { ApiStatus, Role } from '@prisma/client'
+import { ApiStatus, HttpMethod, Role } from '@prisma/client'
 
 describe('Enum values', () => {
   describe('Role enum', () => {
@@ -15,6 +15,18 @@ describe('Enum values', () => {
       expect(ApiStatus.ACTIVE).toBe('ACTIVE')
       expect(ApiStatus.INACTIVE).toBe('INACTIVE')
       expect(ApiStatus.DEPRECATED).toBe('DEPRECATED')
+    })
+  })
+
+  describe('HttpMethod enum', () => {
+    it('should have correct HttpMethod values', () => {
+      expect(HttpMethod.GET).toBe('GET')
+      expect(HttpMethod.POST).toBe('POST')
+      expect(HttpMethod.PUT).toBe('PUT')
+      expect(HttpMethod.PATCH).toBe('PATCH')
+      expect(HttpMethod.DELETE).toBe('DELETE')
+      expect(HttpMethod.HEAD).toBe('HEAD')
+      expect(HttpMethod.OPTIONS).toBe('OPTIONS')
     })
   })
 })
