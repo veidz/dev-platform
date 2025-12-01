@@ -69,3 +69,28 @@ describe('Api model', () => {
     expect(result.status).toBe(ApiStatus.DEPRECATED)
   })
 })
+
+describe('Endpoint model', () => {
+  it('should create an endpoint', async () => {
+    const responseSchema = { type: 'array' }
+    const mockEndpoint = createMockEndpoint({
+      method: HttpMethod.GET,
+      responseSchema,
+    })
+
+    prismaMock.endpoint.create.mockResolvedValue(mockEndpoint)
+
+    const result = await prismaMock.endpoint.create({
+      data: {
+        apiId: mockEndpoint.apiId,
+        path: mockEndpoint.path,
+        method: mockEndpoint.method,
+        description: mockEndpoint.description,
+        responseSchema,
+      },
+    })
+
+    expect(result).toEqual(mockEndpoint)
+    expect(result.method).toBe(HttpMethod.GET)
+  })
+})
