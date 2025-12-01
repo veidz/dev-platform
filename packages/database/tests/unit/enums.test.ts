@@ -1,4 +1,4 @@
-import { ApiStatus, HttpMethod, Role } from '@prisma/client'
+import { ApiStatus, HttpMethod, MockDelayType, Role } from '@prisma/client'
 
 describe('Enum values', () => {
   describe('Role enum', () => {
@@ -27,6 +27,14 @@ describe('Enum values', () => {
       expect(HttpMethod.DELETE).toBe('DELETE')
       expect(HttpMethod.HEAD).toBe('HEAD')
       expect(HttpMethod.OPTIONS).toBe('OPTIONS')
+    })
+  })
+
+  describe('MockDelayType enum', () => {
+    it('should have correct MockDelayType values', () => {
+      expect(MockDelayType.FIXED).toBe('FIXED')
+      expect(MockDelayType.RANGE).toBe('RANGE')
+      expect(MockDelayType.NONE).toBe('NONE')
     })
   })
 })
