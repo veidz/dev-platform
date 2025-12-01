@@ -1,4 +1,10 @@
-import { ApiStatus, HttpMethod, MockDelayType, Role } from '@prisma/client'
+import {
+  AlertSeverity,
+  ApiStatus,
+  HttpMethod,
+  MockDelayType,
+  Role,
+} from '@prisma/client'
 
 describe('Enum values', () => {
   describe('Role enum', () => {
@@ -35,6 +41,15 @@ describe('Enum values', () => {
       expect(MockDelayType.FIXED).toBe('FIXED')
       expect(MockDelayType.RANGE).toBe('RANGE')
       expect(MockDelayType.NONE).toBe('NONE')
+    })
+  })
+
+  describe('AlertSeverity enum', () => {
+    it('should have correct AlertSeverity values', () => {
+      expect(AlertSeverity.INFO).toBe('INFO')
+      expect(AlertSeverity.WARNING).toBe('WARNING')
+      expect(AlertSeverity.ERROR).toBe('ERROR')
+      expect(AlertSeverity.CRITICAL).toBe('CRITICAL')
     })
   })
 })
