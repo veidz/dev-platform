@@ -42,4 +42,30 @@ describe('Mock model', () => {
     expect(result).toEqual(mockData)
     expect(result.delayType).toBe(MockDelayType.NONE)
   })
+
+  it('should create a mock with fixed delay', async () => {
+    const delayMs = faker.number.int({ min: 100, max: 5000 })
+    const mockData = createMockData({
+      delayType: MockDelayType.FIXED,
+      delayMs,
+      headers: null,
+      body: {},
+    })
+
+    prismaMock.mock.create.mockResolvedValue(mockData)
+
+    const result = await prismaMock.mock.create({
+      data: {
+        endpointId: mockData.endpointId,
+        name: mockData.name,
+        statusCode: mockData.statusCode,
+        body: mockData.body,
+        delayType: MockDelayType.FIXED,
+        delayMs,
+      },
+    })
+
+    expect(result.delayType).toBe(MockDelayType.FIXED)
+    expect(result.delayMs).toBe(delayMs)
+  })
 })
