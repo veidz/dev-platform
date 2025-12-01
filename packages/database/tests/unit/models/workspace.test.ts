@@ -53,3 +53,22 @@ describe('Workspace model', () => {
     expect(result).toEqual(mockWorkspace)
   })
 })
+
+describe('WorkspaceMember model', () => {
+  it('should add member to workspace', async () => {
+    const mockMember = createMockWorkspaceMember({ role: Role.DEVELOPER })
+
+    prismaMock.workspaceMember.create.mockResolvedValue(mockMember)
+
+    const result = await prismaMock.workspaceMember.create({
+      data: {
+        workspaceId: mockMember.workspaceId,
+        userId: mockMember.userId,
+        role: mockMember.role,
+      },
+    })
+
+    expect(result).toEqual(mockMember)
+    expect(result.role).toBe(Role.DEVELOPER)
+  })
+})
