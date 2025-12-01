@@ -48,4 +48,14 @@ describe('User model', () => {
 
     expect(result).toEqual(mockUser)
   })
+
+  it('should return null for non-existent user', async () => {
+    prismaMock.user.findUnique.mockResolvedValue(null)
+
+    const result = await prismaMock.user.findUnique({
+      where: { email: faker.internet.email() },
+    })
+
+    expect(result).toBeNull()
+  })
 })
