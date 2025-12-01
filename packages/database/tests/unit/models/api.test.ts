@@ -52,4 +52,20 @@ describe('Api model', () => {
     expect(result).toEqual(mockApi)
     expect(result.status).toBe(ApiStatus.ACTIVE)
   })
+
+  it('should update API status', async () => {
+    const mockApi = createMockApi({
+      description: null,
+      status: ApiStatus.DEPRECATED,
+    })
+
+    prismaMock.api.update.mockResolvedValue(mockApi)
+
+    const result = await prismaMock.api.update({
+      where: { id: mockApi.id },
+      data: { status: ApiStatus.DEPRECATED },
+    })
+
+    expect(result.status).toBe(ApiStatus.DEPRECATED)
+  })
 })
