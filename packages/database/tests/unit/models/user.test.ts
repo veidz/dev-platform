@@ -36,4 +36,16 @@ describe('User model', () => {
       },
     })
   })
+
+  it('should find user by email', async () => {
+    const mockUser = createMockUser({ emailVerified: true })
+
+    prismaMock.user.findUnique.mockResolvedValue(mockUser)
+
+    const result = await prismaMock.user.findUnique({
+      where: { email: mockUser.email },
+    })
+
+    expect(result).toEqual(mockUser)
+  })
 })
