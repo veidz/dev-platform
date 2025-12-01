@@ -10,7 +10,7 @@
 
 **A plataforma completa para gerenciamento, documentação e teste de APIs com IA integrada**
 
-[Demo]() · [Especificação Técnica](./docs/technical-spec.md)
+[Design System](https://dev-platform-eight.vercel.app) · Web App _(em breve)_ · API Docs _(em breve)_ · [Especificação Técnica](./docs/technical-spec.md)
 
 </div>
 
