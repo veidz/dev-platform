@@ -63,3 +63,28 @@ describe('AlertRule model', () => {
     expect(result.severity).toBe(AlertSeverity.CRITICAL)
   })
 })
+
+describe('RequestLog model', () => {
+  it('should create a request log', async () => {
+    const mockLog = createMockRequestLog()
+
+    prismaMock.requestLog.create.mockResolvedValue(mockLog)
+
+    const result = await prismaMock.requestLog.create({
+      data: {
+        endpointId: mockLog.endpointId,
+        method: mockLog.method,
+        path: mockLog.path,
+        statusCode: mockLog.statusCode,
+        responseTimeMs: mockLog.responseTimeMs,
+        requestHeaders: mockLog.requestHeaders,
+        responseHeaders: mockLog.responseHeaders,
+        responseBody: mockLog.responseBody,
+        ipAddress: mockLog.ipAddress,
+        userAgent: mockLog.userAgent,
+      },
+    })
+
+    expect(result).toEqual(mockLog)
+  })
+})
