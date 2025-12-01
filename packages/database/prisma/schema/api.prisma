@@ -1,0 +1,58 @@
+enum ApiStatus {
+  ACTIVE
+  INACTIVE
+  DEPRECATED
+}
+
+enum HttpMethod {
+  GET
+  POST
+  PUT
+  PATCH
+  DELETE
+  HEAD
+  OPTIONS
+}
+
+model Api {
+  id          String    @id @default(cuid())
+  workspaceId String
+  name        String
+  description String?
+  baseUrl     String
+  version     String    @default("1.0.0")
+  status      ApiStatus @default(ACTIVE)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  workspace Workspace  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  endpoints Endpoint[]
+
+  @@unique([workspaceId, name])
+  @@index([workspaceId])
+  @@index([status])
+  @@map("apis")
+}
+
+model Endpoint {
+  id             String     @id @default(cuid())
+  apiId          String
+  path           String
+  method         HttpMethod @default(GET)
+  description    String?
+  requestSchema  Json?
+  responseSchema Json?
+  headers        Json?
+  queryParams    Json?
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  api           Api            @relation(fields: [apiId], references: [id], onDelete: Cascade)
+  mocks         Mock[]
+  mockScenarios MockScenario[]
+  requestLogs   RequestLog[]
+
+  @@unique([apiId, path, method])
+  @@index([apiId])
+  @@map("endpoints")
+}
