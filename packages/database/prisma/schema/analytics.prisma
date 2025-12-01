@@ -1,0 +1,74 @@
+model RequestLog {
+  id              String   @id @default(cuid())
+  endpointId      String
+  method          String
+  path            String
+  statusCode      Int
+  responseTimeMs  Int
+  requestHeaders  Json?
+  requestBody     Json?
+  responseHeaders Json?
+  responseBody    Json?
+  ipAddress       String
+  userAgent       String?
+  timestamp       DateTime @default(now())
+
+  endpoint Endpoint @relation(fields: [endpointId], references: [id], onDelete: Cascade)
+
+  @@index([endpointId])
+  @@index([timestamp])
+  @@index([statusCode])
+  @@map("request_logs")
+}
+
+enum AlertSeverity {
+  INFO
+  WARNING
+  ERROR
+  CRITICAL
+}
+
+enum AlertRuleType {
+  THRESHOLD
+  ANOMALY
+  ERROR_RATE
+}
+
+model AlertRule {
+  id          String        @id @default(cuid())
+  workspaceId String
+  name        String
+  description String?
+  type        AlertRuleType @default(THRESHOLD)
+  condition   Json
+  threshold   Float?
+  severity    AlertSeverity @default(WARNING)
+  webhookUrl  String?
+  enabled     Boolean       @default(true)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  alerts    Alert[]
+
+  @@index([workspaceId])
+  @@index([enabled])
+  @@map("alert_rules")
+}
+
+model Alert {
+  id         String        @id @default(cuid())
+  ruleId     String
+  severity   AlertSeverity
+  message    String
+  triggered  Boolean       @default(true)
+  resolvedAt DateTime?
+  createdAt  DateTime      @default(now())
+
+  rule AlertRule @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+
+  @@index([ruleId])
+  @@index([triggered])
+  @@index([createdAt])
+  @@map("alerts")
+}
