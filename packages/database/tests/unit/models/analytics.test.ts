@@ -87,4 +87,25 @@ describe('RequestLog model', () => {
 
     expect(result).toEqual(mockLog)
   })
+
+  it('should query logs by time range', async () => {
+    const endpointId = faker.string.nanoid()
+    const mockLogs = [createMockRequestLog({ endpointId })]
+
+    prismaMock.requestLog.findMany.mockResolvedValue(mockLogs)
+
+    const startDate = faker.date.past()
+    const endDate = faker.date.future()
+
+    const result = await prismaMock.requestLog.findMany({
+      where: {
+        timestamp: {
+          gte: startDate,
+          lte: endDate,
+        },
+      },
+    })
+
+    expect(result).toHaveLength(1)
+  })
 })
