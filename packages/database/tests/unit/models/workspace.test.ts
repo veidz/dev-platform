@@ -40,4 +40,16 @@ describe('Workspace model', () => {
 
     expect(result).toEqual(mockWorkspace)
   })
+
+  it('should find workspace by slug', async () => {
+    const mockWorkspace = createMockWorkspace({ description: null })
+
+    prismaMock.workspace.findUnique.mockResolvedValue(mockWorkspace)
+
+    const result = await prismaMock.workspace.findUnique({
+      where: { slug: mockWorkspace.slug },
+    })
+
+    expect(result).toEqual(mockWorkspace)
+  })
 })
