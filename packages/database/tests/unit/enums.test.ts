@@ -1,4 +1,5 @@
 import {
+  AlertRuleType,
   AlertSeverity,
   ApiStatus,
   HttpMethod,
@@ -50,6 +51,14 @@ describe('Enum values', () => {
       expect(AlertSeverity.WARNING).toBe('WARNING')
       expect(AlertSeverity.ERROR).toBe('ERROR')
       expect(AlertSeverity.CRITICAL).toBe('CRITICAL')
+    })
+  })
+
+  describe('AlertRuleType enum', () => {
+    it('should have correct AlertRuleType values', () => {
+      expect(AlertRuleType.THRESHOLD).toBe('THRESHOLD')
+      expect(AlertRuleType.ANOMALY).toBe('ANOMALY')
+      expect(AlertRuleType.ERROR_RATE).toBe('ERROR_RATE')
     })
   })
 })
