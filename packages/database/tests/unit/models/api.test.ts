@@ -93,4 +93,20 @@ describe('Endpoint model', () => {
     expect(result).toEqual(mockEndpoint)
     expect(result.method).toBe(HttpMethod.GET)
   })
+
+  it('should find endpoints by API', async () => {
+    const apiId = faker.string.nanoid()
+    const mockEndpoints = [
+      createMockEndpoint({ apiId, method: HttpMethod.GET }),
+      createMockEndpoint({ apiId, method: HttpMethod.POST }),
+    ]
+
+    prismaMock.endpoint.findMany.mockResolvedValue(mockEndpoints)
+
+    const result = await prismaMock.endpoint.findMany({
+      where: { apiId },
+    })
+
+    expect(result).toHaveLength(2)
+  })
 })
