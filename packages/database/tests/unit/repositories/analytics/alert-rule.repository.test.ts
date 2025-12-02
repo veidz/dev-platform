@@ -154,4 +154,19 @@ describe('AlertRuleRepository', () => {
       })
     })
   })
+
+  describe('toggleEnabled', () => {
+    it('should toggle alert rule enabled status', async () => {
+      const mockRule = createMockAlertRule({ enabled: false })
+      prismaMock.alertRule.update.mockResolvedValue(mockRule)
+
+      const result = await repository.toggleEnabled(mockRule.id, false)
+
+      expect(result).toEqual(mockRule)
+      expect(prismaMock.alertRule.update).toHaveBeenCalledWith({
+        where: { id: mockRule.id },
+        data: { enabled: false },
+      })
+    })
+  })
 })
