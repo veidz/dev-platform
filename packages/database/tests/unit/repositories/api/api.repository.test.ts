@@ -1,4 +1,4 @@
-import type { Api, PrismaClient } from '@prisma/client'
+import type { Api, ApiStatus, PrismaClient } from '@prisma/client'
 import { DeepMockProxy, mockDeep } from 'jest-mock-extended'
 
 import { faker } from '@/__mocks__/faker-adapter'
@@ -64,6 +64,22 @@ describe('ApiRepository', () => {
             name: mockApi.name,
           },
         },
+      })
+    })
+  })
+
+  describe('findByStatus', () => {
+    it('should find APIs by status', async () => {
+      const status: ApiStatus = 'ACTIVE'
+      const mockApis = [createMockApi({ status })]
+      prismaMock.api.findMany.mockResolvedValue(mockApis)
+
+      const result = await repository.findByStatus(status)
+
+      expect(result).toEqual(mockApis)
+      expect(prismaMock.api.findMany).toHaveBeenCalledWith({
+        where: { status },
+        orderBy: { updatedAt: 'desc' },
       })
     })
   })
