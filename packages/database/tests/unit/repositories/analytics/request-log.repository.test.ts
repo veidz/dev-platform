@@ -126,4 +126,21 @@ describe('RequestLogRepository', () => {
       })
     })
   })
+
+  describe('findRecentLogs', () => {
+    it('should find recent logs with limit', async () => {
+      const endpointId = faker.string.nanoid()
+      const mockLogs = [createMockRequestLog({ endpointId })]
+      prismaMock.requestLog.findMany.mockResolvedValue(mockLogs)
+
+      const result = await repository.findRecentLogs(endpointId, 10)
+
+      expect(result).toEqual(mockLogs)
+      expect(prismaMock.requestLog.findMany).toHaveBeenCalledWith({
+        where: { endpointId },
+        orderBy: { timestamp: 'desc' },
+        take: 10,
+      })
+    })
+  })
 })
