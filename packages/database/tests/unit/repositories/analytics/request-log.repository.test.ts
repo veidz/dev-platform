@@ -111,4 +111,19 @@ describe('RequestLogRepository', () => {
       })
     })
   })
+
+  describe('findByStatusCode', () => {
+    it('should find request logs by status code', async () => {
+      const mockLogs = [createMockRequestLog({ statusCode: 500 })]
+      prismaMock.requestLog.findMany.mockResolvedValue(mockLogs)
+
+      const result = await repository.findByStatusCode(500)
+
+      expect(result).toEqual(mockLogs)
+      expect(prismaMock.requestLog.findMany).toHaveBeenCalledWith({
+        where: { statusCode: 500 },
+        orderBy: { timestamp: 'desc' },
+      })
+    })
+  })
 })
