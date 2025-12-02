@@ -86,4 +86,29 @@ describe('RequestLogRepository', () => {
       })
     })
   })
+
+  describe('findByDateRange', () => {
+    it('should find request logs within a date range', async () => {
+      const endpointId = faker.string.nanoid()
+      const startDate = faker.date.past()
+      const endDate = faker.date.recent()
+      const mockLogs = [createMockRequestLog({ endpointId })]
+      prismaMock.requestLog.findMany.mockResolvedValue(mockLogs)
+
+      const result = await repository.findByDateRange(
+        endpointId,
+        startDate,
+        endDate,
+      )
+
+      expect(result).toEqual(mockLogs)
+      expect(prismaMock.requestLog.findMany).toHaveBeenCalledWith({
+        where: {
+          endpointId,
+          timestamp: { gte: startDate, lte: endDate },
+        },
+        orderBy: { timestamp: 'desc' },
+      })
+    })
+  })
 })
