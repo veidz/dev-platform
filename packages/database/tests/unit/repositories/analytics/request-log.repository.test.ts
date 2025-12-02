@@ -54,5 +54,17 @@ describe('RequestLogRepository', () => {
       expect(result).toEqual(mockLog)
       expect(prismaMock.requestLog.create).toHaveBeenCalled()
     })
+
+    it('should find a request log by id', async () => {
+      const mockLog = createMockRequestLog()
+      prismaMock.requestLog.findUnique.mockResolvedValue(mockLog)
+
+      const result = await repository.findById(mockLog.id)
+
+      expect(result).toEqual(mockLog)
+      expect(prismaMock.requestLog.findUnique).toHaveBeenCalledWith({
+        where: { id: mockLog.id },
+      })
+    })
   })
 })
