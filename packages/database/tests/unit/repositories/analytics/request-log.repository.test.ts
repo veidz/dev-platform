@@ -165,4 +165,19 @@ describe('RequestLogRepository', () => {
       })
     })
   })
+
+  describe('deleteOlderThan', () => {
+    it('should delete logs older than date', async () => {
+      const date = faker.date.past()
+      const batchPayload: Prisma.BatchPayload = { count: 50 }
+      prismaMock.requestLog.deleteMany.mockResolvedValue(batchPayload)
+
+      const result = await repository.deleteOlderThan(date)
+
+      expect(result).toEqual(batchPayload)
+      expect(prismaMock.requestLog.deleteMany).toHaveBeenCalledWith({
+        where: { timestamp: { lt: date } },
+      })
+    })
+  })
 })
