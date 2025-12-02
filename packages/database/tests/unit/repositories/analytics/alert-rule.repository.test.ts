@@ -1,4 +1,9 @@
-import type { AlertRule, Prisma, PrismaClient } from '@prisma/client'
+import type {
+  AlertRule,
+  AlertRuleType,
+  Prisma,
+  PrismaClient,
+} from '@prisma/client'
 import { DeepMockProxy, mockDeep } from 'jest-mock-extended'
 
 import { faker } from '@/__mocks__/faker-adapter'
@@ -90,6 +95,22 @@ describe('AlertRuleRepository', () => {
       expect(result).toEqual(mockRules)
       expect(prismaMock.alertRule.findMany).toHaveBeenCalledWith({
         where: { workspaceId, enabled: true },
+        orderBy: { createdAt: 'desc' },
+      })
+    })
+  })
+
+  describe('findByType', () => {
+    it('should find alert rules by type', async () => {
+      const type: AlertRuleType = 'THRESHOLD'
+      const mockRules = [createMockAlertRule({ type })]
+      prismaMock.alertRule.findMany.mockResolvedValue(mockRules)
+
+      const result = await repository.findByType(type)
+
+      expect(result).toEqual(mockRules)
+      expect(prismaMock.alertRule.findMany).toHaveBeenCalledWith({
+        where: { type },
         orderBy: { createdAt: 'desc' },
       })
     })
