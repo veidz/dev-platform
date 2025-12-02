@@ -8,14 +8,54 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     },
     "./client": {
+      "types": "./dist/client.d.ts",
       "import": "./dist/client.mjs",
-      "require": "./dist/client.js",
-      "types": "./dist/client.d.ts"
+      "require": "./dist/client.js"
+    },
+    "./repositories/analytics": {
+      "types": "./dist/repositories/analytics/index.d.ts",
+      "import": "./dist/repositories/analytics/index.mjs",
+      "require": "./dist/repositories/analytics/index.js"
+    },
+    "./repositories/api": {
+      "types": "./dist/repositories/api/index.d.ts",
+      "import": "./dist/repositories/api/index.mjs",
+      "require": "./dist/repositories/api/index.js"
+    },
+    "./repositories/auth": {
+      "types": "./dist/repositories/auth/index.d.ts",
+      "import": "./dist/repositories/auth/index.mjs",
+      "require": "./dist/repositories/auth/index.js"
+    },
+    "./repositories/base": {
+      "types": "./dist/repositories/base/index.d.ts",
+      "import": "./dist/repositories/base/index.mjs",
+      "require": "./dist/repositories/base/index.js"
+    },
+    "./repositories/endpoint": {
+      "types": "./dist/repositories/endpoint/index.d.ts",
+      "import": "./dist/repositories/endpoint/index.mjs",
+      "require": "./dist/repositories/endpoint/index.js"
+    },
+    "./repositories/mock": {
+      "types": "./dist/repositories/mock/index.d.ts",
+      "import": "./dist/repositories/mock/index.mjs",
+      "require": "./dist/repositories/mock/index.js"
+    },
+    "./repositories/user": {
+      "types": "./dist/repositories/user/index.d.ts",
+      "import": "./dist/repositories/user/index.mjs",
+      "require": "./dist/repositories/user/index.js"
+    },
+    "./repositories/workspace": {
+      "types": "./dist/repositories/workspace/index.d.ts",
+      "import": "./dist/repositories/workspace/index.mjs",
+      "require": "./dist/repositories/workspace/index.js"
     }
   },
   "prisma": {
