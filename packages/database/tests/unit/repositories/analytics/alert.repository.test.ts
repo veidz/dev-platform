@@ -1,4 +1,4 @@
-import type { Alert, AlertSeverity, PrismaClient } from '@prisma/client'
+import type { Alert, AlertSeverity, Prisma, PrismaClient } from '@prisma/client'
 import { DeepMockProxy, mockDeep } from 'jest-mock-extended'
 
 import { faker } from '@/__mocks__/faker-adapter'
@@ -160,6 +160,20 @@ describe('AlertRepository', () => {
       expect(result).toBe(3)
       expect(prismaMock.alert.count).toHaveBeenCalledWith({
         where: { triggered: true },
+      })
+    })
+  })
+
+  describe('deleteByRuleId', () => {
+    it('should delete all alerts for a rule', async () => {
+      const batchPayload: Prisma.BatchPayload = { count: 5 }
+      prismaMock.alert.deleteMany.mockResolvedValue(batchPayload)
+
+      const result = await repository.deleteByRuleId('rule-id')
+
+      expect(result).toEqual(batchPayload)
+      expect(prismaMock.alert.deleteMany).toHaveBeenCalledWith({
+        where: { ruleId: 'rule-id' },
       })
     })
   })
