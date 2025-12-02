@@ -53,4 +53,20 @@ describe('AlertRepository', () => {
       })
     })
   })
+
+  describe('findByRuleId', () => {
+    it('should find alerts by rule id', async () => {
+      const ruleId = faker.string.nanoid()
+      const mockAlerts = [createMockAlert({ ruleId })]
+      prismaMock.alert.findMany.mockResolvedValue(mockAlerts)
+
+      const result = await repository.findByRuleId(ruleId)
+
+      expect(result).toEqual(mockAlerts)
+      expect(prismaMock.alert.findMany).toHaveBeenCalledWith({
+        where: { ruleId },
+        orderBy: { createdAt: 'desc' },
+      })
+    })
+  })
 })
