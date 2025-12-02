@@ -122,4 +122,19 @@ describe('AlertRepository', () => {
       })
     })
   })
+
+  describe('resolve', () => {
+    it('should resolve an alert', async () => {
+      const mockAlert = createMockAlert({ triggered: false })
+      prismaMock.alert.update.mockResolvedValue(mockAlert)
+
+      const result = await repository.resolve(mockAlert.id)
+
+      expect(result).toEqual(mockAlert)
+      expect(prismaMock.alert.update).toHaveBeenCalledWith({
+        where: { id: mockAlert.id },
+        data: { triggered: false, resolvedAt: expect.any(Date) },
+      })
+    })
+  })
 })
