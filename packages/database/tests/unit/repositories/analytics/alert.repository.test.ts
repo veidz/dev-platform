@@ -100,4 +100,26 @@ describe('AlertRepository', () => {
       })
     })
   })
+
+  describe('findWithRule', () => {
+    it('should find an alert with its rule', async () => {
+      const mockAlert = createMockAlert()
+      const alertWithRule = {
+        ...mockAlert,
+        rule: { id: mockAlert.ruleId },
+      }
+
+      prismaMock.alert.findUnique.mockResolvedValue(
+        alertWithRule as unknown as Alert,
+      )
+
+      const result = await repository.findWithRule(mockAlert.id)
+
+      expect(result).toEqual(alertWithRule)
+      expect(prismaMock.alert.findUnique).toHaveBeenCalledWith({
+        where: { id: mockAlert.id },
+        include: { rule: true },
+      })
+    })
+  })
 })
