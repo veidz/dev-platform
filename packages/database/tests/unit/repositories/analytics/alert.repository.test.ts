@@ -1,0 +1,44 @@
+import type { Alert, PrismaClient } from '@prisma/client'
+import { DeepMockProxy, mockDeep } from 'jest-mock-extended'
+
+import { faker } from '@/__mocks__/faker-adapter'
+import { AlertRepository } from '@/repositories/analytics'
+
+const createMockAlert = (overrides: Partial<Alert> = {}): Alert => ({
+  id: faker.string.nanoid(),
+  ruleId: faker.string.nanoid(),
+  severity: 'WARNING',
+  message: faker.lorem.sentence(),
+  triggered: true,
+  resolvedAt: null,
+  createdAt: faker.date.recent(),
+  ...overrides,
+})
+
+describe('AlertRepository', () => {
+  let repository: AlertRepository
+  let prismaMock: DeepMockProxy<PrismaClient>
+
+  beforeEach(() => {
+    prismaMock = mockDeep<PrismaClient>()
+    repository = new AlertRepository(prismaMock)
+    jest.clearAllMocks()
+  })
+
+  describe('inherited methods (base repository)', () => {
+    it('should create an alert', async () => {
+      const mockAlert = createMockAlert()
+      prismaMock.alert.create.mockResolvedValue(mockAlert)
+
+      const result = await repository.create({
+        rule: { connect: { id: mockAlert.ruleId } },
+        severity: mockAlert.severity,
+        message: mockAlert.message,
+        triggered: mockAlert.triggered,
+      })
+
+      expect(result).toEqual(mockAlert)
+      expect(prismaMock.alert.create).toHaveBeenCalled()
+    })
+  })
+})
