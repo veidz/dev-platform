@@ -67,4 +67,23 @@ describe('RequestLogRepository', () => {
       })
     })
   })
+
+  describe('findByEndpointId', () => {
+    it('should find request logs by endpoint id', async () => {
+      const endpointId = faker.string.nanoid()
+      const mockLogs = [
+        createMockRequestLog({ endpointId }),
+        createMockRequestLog({ endpointId }),
+      ]
+      prismaMock.requestLog.findMany.mockResolvedValue(mockLogs)
+
+      const result = await repository.findByEndpointId(endpointId)
+
+      expect(result).toEqual(mockLogs)
+      expect(prismaMock.requestLog.findMany).toHaveBeenCalledWith({
+        where: { endpointId },
+        orderBy: { timestamp: 'desc' },
+      })
+    })
+  })
 })
