@@ -137,4 +137,17 @@ describe('AlertRepository', () => {
       })
     })
   })
+
+  describe('countByRuleId', () => {
+    it('should count alerts by rule', async () => {
+      prismaMock.alert.count.mockResolvedValue(10)
+
+      const result = await repository.countByRuleId('rule-id')
+
+      expect(result).toBe(10)
+      expect(prismaMock.alert.count).toHaveBeenCalledWith({
+        where: { ruleId: 'rule-id' },
+      })
+    })
+  })
 })
