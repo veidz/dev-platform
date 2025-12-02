@@ -150,4 +150,17 @@ describe('AlertRepository', () => {
       })
     })
   })
+
+  describe('countTriggered', () => {
+    it('should count triggered alerts', async () => {
+      prismaMock.alert.count.mockResolvedValue(3)
+
+      const result = await repository.countTriggered()
+
+      expect(result).toBe(3)
+      expect(prismaMock.alert.count).toHaveBeenCalledWith({
+        where: { triggered: true },
+      })
+    })
+  })
 })
