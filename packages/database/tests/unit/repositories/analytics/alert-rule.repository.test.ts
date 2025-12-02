@@ -132,4 +132,26 @@ describe('AlertRuleRepository', () => {
       })
     })
   })
+
+  describe('findWithAlerts', () => {
+    it('should find an alert rule with its alerts', async () => {
+      const mockRule = createMockAlertRule()
+      const ruleWithAlerts = {
+        ...mockRule,
+        alerts: [{ id: faker.string.nanoid() }],
+      }
+
+      prismaMock.alertRule.findUnique.mockResolvedValue(
+        ruleWithAlerts as unknown as AlertRule,
+      )
+
+      const result = await repository.findWithAlerts(mockRule.id)
+
+      expect(result).toEqual(ruleWithAlerts)
+      expect(prismaMock.alertRule.findUnique).toHaveBeenCalledWith({
+        where: { id: mockRule.id },
+        include: { alerts: true },
+      })
+    })
+  })
 })
