@@ -69,4 +69,19 @@ describe('AlertRepository', () => {
       })
     })
   })
+
+  describe('findTriggered', () => {
+    it('should find triggered alerts', async () => {
+      const mockAlerts = [createMockAlert({ triggered: true })]
+      prismaMock.alert.findMany.mockResolvedValue(mockAlerts)
+
+      const result = await repository.findTriggered()
+
+      expect(result).toEqual(mockAlerts)
+      expect(prismaMock.alert.findMany).toHaveBeenCalledWith({
+        where: { triggered: true },
+        orderBy: { createdAt: 'desc' },
+      })
+    })
+  })
 })
