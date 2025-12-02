@@ -40,5 +40,17 @@ describe('AlertRepository', () => {
       expect(result).toEqual(mockAlert)
       expect(prismaMock.alert.create).toHaveBeenCalled()
     })
+
+    it('should find an alert by id', async () => {
+      const mockAlert = createMockAlert()
+      prismaMock.alert.findUnique.mockResolvedValue(mockAlert)
+
+      const result = await repository.findById(mockAlert.id)
+
+      expect(result).toEqual(mockAlert)
+      expect(prismaMock.alert.findUnique).toHaveBeenCalledWith({
+        where: { id: mockAlert.id },
+      })
+    })
   })
 })
