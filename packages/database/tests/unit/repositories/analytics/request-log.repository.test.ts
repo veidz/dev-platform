@@ -143,4 +143,26 @@ describe('RequestLogRepository', () => {
       })
     })
   })
+
+  describe('countByEndpointAndDateRange', () => {
+    it('should count logs in date range', async () => {
+      const startDate = faker.date.past()
+      const endDate = faker.date.recent()
+      prismaMock.requestLog.count.mockResolvedValue(100)
+
+      const result = await repository.countByEndpointAndDateRange(
+        'endpoint-id',
+        startDate,
+        endDate,
+      )
+
+      expect(result).toBe(100)
+      expect(prismaMock.requestLog.count).toHaveBeenCalledWith({
+        where: {
+          endpointId: 'endpoint-id',
+          timestamp: { gte: startDate, lte: endDate },
+        },
+      })
+    })
+  })
 })
