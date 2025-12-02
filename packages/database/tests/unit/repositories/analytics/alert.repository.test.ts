@@ -1,4 +1,4 @@
-import type { Alert, PrismaClient } from '@prisma/client'
+import type { Alert, AlertSeverity, PrismaClient } from '@prisma/client'
 import { DeepMockProxy, mockDeep } from 'jest-mock-extended'
 
 import { faker } from '@/__mocks__/faker-adapter'
@@ -80,6 +80,22 @@ describe('AlertRepository', () => {
       expect(result).toEqual(mockAlerts)
       expect(prismaMock.alert.findMany).toHaveBeenCalledWith({
         where: { triggered: true },
+        orderBy: { createdAt: 'desc' },
+      })
+    })
+  })
+
+  describe('findBySeverity', () => {
+    it('should find alerts by severity', async () => {
+      const severity: AlertSeverity = 'CRITICAL'
+      const mockAlerts = [createMockAlert({ severity })]
+      prismaMock.alert.findMany.mockResolvedValue(mockAlerts)
+
+      const result = await repository.findBySeverity(severity)
+
+      expect(result).toEqual(mockAlerts)
+      expect(prismaMock.alert.findMany).toHaveBeenCalledWith({
+        where: { severity },
         orderBy: { createdAt: 'desc' },
       })
     })
