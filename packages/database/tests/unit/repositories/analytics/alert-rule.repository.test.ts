@@ -169,4 +169,17 @@ describe('AlertRuleRepository', () => {
       })
     })
   })
+
+  describe('countByWorkspace', () => {
+    it('should count alert rules by workspace', async () => {
+      prismaMock.alertRule.count.mockResolvedValue(5)
+
+      const result = await repository.countByWorkspace('workspace-id')
+
+      expect(result).toBe(5)
+      expect(prismaMock.alertRule.count).toHaveBeenCalledWith({
+        where: { workspaceId: 'workspace-id' },
+      })
+    })
+  })
 })
