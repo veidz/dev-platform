@@ -180,4 +180,18 @@ describe('RequestLogRepository', () => {
       })
     })
   })
+
+  describe('deleteByEndpointId', () => {
+    it('should delete all logs for an endpoint', async () => {
+      const batchPayload: Prisma.BatchPayload = { count: 20 }
+      prismaMock.requestLog.deleteMany.mockResolvedValue(batchPayload)
+
+      const result = await repository.deleteByEndpointId('endpoint-id')
+
+      expect(result).toEqual(batchPayload)
+      expect(prismaMock.requestLog.deleteMany).toHaveBeenCalledWith({
+        where: { endpointId: 'endpoint-id' },
+      })
+    })
+  })
 })
