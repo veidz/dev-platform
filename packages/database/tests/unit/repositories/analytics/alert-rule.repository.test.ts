@@ -1,6 +1,7 @@
 import type {
   AlertRule,
   AlertRuleType,
+  AlertSeverity,
   Prisma,
   PrismaClient,
 } from '@prisma/client'
@@ -111,6 +112,22 @@ describe('AlertRuleRepository', () => {
       expect(result).toEqual(mockRules)
       expect(prismaMock.alertRule.findMany).toHaveBeenCalledWith({
         where: { type },
+        orderBy: { createdAt: 'desc' },
+      })
+    })
+  })
+
+  describe('findBySeverity', () => {
+    it('should find alert rules by severity', async () => {
+      const severity: AlertSeverity = 'CRITICAL'
+      const mockRules = [createMockAlertRule({ severity })]
+      prismaMock.alertRule.findMany.mockResolvedValue(mockRules)
+
+      const result = await repository.findBySeverity(severity)
+
+      expect(result).toEqual(mockRules)
+      expect(prismaMock.alertRule.findMany).toHaveBeenCalledWith({
+        where: { severity },
         orderBy: { createdAt: 'desc' },
       })
     })
