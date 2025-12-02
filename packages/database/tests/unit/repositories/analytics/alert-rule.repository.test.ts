@@ -78,4 +78,20 @@ describe('AlertRuleRepository', () => {
       })
     })
   })
+
+  describe('findEnabledByWorkspace', () => {
+    it('should find enabled alert rules', async () => {
+      const workspaceId = faker.string.nanoid()
+      const mockRules = [createMockAlertRule({ workspaceId, enabled: true })]
+      prismaMock.alertRule.findMany.mockResolvedValue(mockRules)
+
+      const result = await repository.findEnabledByWorkspace(workspaceId)
+
+      expect(result).toEqual(mockRules)
+      expect(prismaMock.alertRule.findMany).toHaveBeenCalledWith({
+        where: { workspaceId, enabled: true },
+        orderBy: { createdAt: 'desc' },
+      })
+    })
+  })
 })
