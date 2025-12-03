@@ -191,4 +191,17 @@ describe('ApiRepository', () => {
       })
     })
   })
+
+  describe('countByStatus', () => {
+    it('should count APIs by status', async () => {
+      prismaMock.api.count.mockResolvedValue(10)
+
+      const result = await repository.countByStatus('ACTIVE')
+
+      expect(result).toBe(10)
+      expect(prismaMock.api.count).toHaveBeenCalledWith({
+        where: { status: 'ACTIVE' },
+      })
+    })
+  })
 })
