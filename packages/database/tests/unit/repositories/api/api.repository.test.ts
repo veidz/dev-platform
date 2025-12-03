@@ -111,4 +111,29 @@ describe('ApiRepository', () => {
       })
     })
   })
+
+  describe('findWithWorkspace', () => {
+    it('should find an API with its workspace', async () => {
+      const mockApi = createMockApi()
+      const apiWithWorkspace = {
+        ...mockApi,
+        workspace: {
+          id: mockApi.workspaceId,
+          name: faker.company.name(),
+        },
+      }
+
+      prismaMock.api.findUnique.mockResolvedValue(
+        apiWithWorkspace as unknown as Api,
+      )
+
+      const result = await repository.findWithWorkspace(mockApi.id)
+
+      expect(result).toEqual(apiWithWorkspace)
+      expect(prismaMock.api.findUnique).toHaveBeenCalledWith({
+        where: { id: mockApi.id },
+        include: { workspace: true },
+      })
+    })
+  })
 })
