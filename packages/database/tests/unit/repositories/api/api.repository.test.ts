@@ -136,4 +136,19 @@ describe('ApiRepository', () => {
       })
     })
   })
+
+  describe('updateStatus', () => {
+    it('should update API status', async () => {
+      const mockApi = createMockApi({ status: 'DEPRECATED' })
+      prismaMock.api.update.mockResolvedValue(mockApi)
+
+      const result = await repository.updateStatus(mockApi.id, 'DEPRECATED')
+
+      expect(result).toEqual(mockApi)
+      expect(prismaMock.api.update).toHaveBeenCalledWith({
+        where: { id: mockApi.id },
+        data: { status: 'DEPRECATED' },
+      })
+    })
+  })
 })
