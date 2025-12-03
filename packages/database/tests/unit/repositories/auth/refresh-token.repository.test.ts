@@ -139,4 +139,15 @@ describe('RefreshTokenRepository', () => {
       })
     })
   })
+
+  describe('inherited methods', () => {
+    it('should find refresh token by id', async () => {
+      const mockToken = createMockRefreshToken()
+      prismaMock.refreshToken.findUnique.mockResolvedValue(mockToken)
+
+      const result = await repository.findById(mockToken.id)
+
+      expect(result).toEqual(mockToken)
+    })
+  })
 })
