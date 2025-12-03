@@ -220,5 +220,14 @@ describe('ApiRepository', () => {
 
       expect(result).toEqual(mockApi)
     })
+
+    it('should find API by id', async () => {
+      const mockApi = createMockApi()
+      prismaMock.api.findUnique.mockResolvedValue(mockApi)
+
+      const result = await repository.findById(mockApi.id)
+
+      expect(result).toEqual(mockApi)
+    })
   })
 })
