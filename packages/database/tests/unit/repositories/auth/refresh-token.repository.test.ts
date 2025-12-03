@@ -149,5 +149,14 @@ describe('RefreshTokenRepository', () => {
 
       expect(result).toEqual(mockToken)
     })
+
+    it('should delete a refresh token by id', async () => {
+      const mockToken = createMockRefreshToken()
+      prismaMock.refreshToken.delete.mockResolvedValue(mockToken)
+
+      const result = await repository.delete(mockToken.id)
+
+      expect(result).toEqual(mockToken)
+    })
   })
 })
