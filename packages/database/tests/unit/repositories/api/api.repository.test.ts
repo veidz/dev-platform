@@ -178,4 +178,17 @@ describe('ApiRepository', () => {
       expect(result).toBe(false)
     })
   })
+
+  describe('countByWorkspace', () => {
+    it('should count APIs by workspace', async () => {
+      prismaMock.api.count.mockResolvedValue(5)
+
+      const result = await repository.countByWorkspace('workspace-id')
+
+      expect(result).toBe(5)
+      expect(prismaMock.api.count).toHaveBeenCalledWith({
+        where: { workspaceId: 'workspace-id' },
+      })
+    })
+  })
 })
