@@ -65,4 +65,23 @@ describe('RefreshTokenRepository', () => {
       })
     })
   })
+
+  describe('findValidByUserId', () => {
+    it('should find valid (non-expired) refresh tokens', async () => {
+      const userId = faker.string.nanoid()
+      const mockTokens = [createMockRefreshToken({ userId })]
+      prismaMock.refreshToken.findMany.mockResolvedValue(mockTokens)
+
+      const result = await repository.findValidByUserId(userId)
+
+      expect(result).toEqual(mockTokens)
+      expect(prismaMock.refreshToken.findMany).toHaveBeenCalledWith({
+        where: {
+          userId,
+          expiresAt: { gt: expect.any(Date) },
+        },
+        orderBy: { createdAt: 'desc' },
+      })
+    })
+  })
 })
