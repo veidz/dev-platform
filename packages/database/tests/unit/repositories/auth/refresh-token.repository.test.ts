@@ -112,4 +112,18 @@ describe('RefreshTokenRepository', () => {
       })
     })
   })
+
+  describe('deleteExpired', () => {
+    it('should delete all expired refresh tokens', async () => {
+      const batchPayload: Prisma.BatchPayload = { count: 5 }
+      prismaMock.refreshToken.deleteMany.mockResolvedValue(batchPayload)
+
+      const result = await repository.deleteExpired()
+
+      expect(result).toEqual(batchPayload)
+      expect(prismaMock.refreshToken.deleteMany).toHaveBeenCalledWith({
+        where: { expiresAt: { lt: expect.any(Date) } },
+      })
+    })
+  })
 })
