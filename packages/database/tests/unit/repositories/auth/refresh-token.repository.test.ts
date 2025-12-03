@@ -84,4 +84,18 @@ describe('RefreshTokenRepository', () => {
       })
     })
   })
+
+  describe('deleteByToken', () => {
+    it('should delete a refresh token by token', async () => {
+      const mockToken = createMockRefreshToken()
+      prismaMock.refreshToken.delete.mockResolvedValue(mockToken)
+
+      const result = await repository.deleteByToken(mockToken.token)
+
+      expect(result).toEqual(mockToken)
+      expect(prismaMock.refreshToken.delete).toHaveBeenCalledWith({
+        where: { token: mockToken.token },
+      })
+    })
+  })
 })
