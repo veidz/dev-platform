@@ -37,5 +37,13 @@ describe('RefreshTokenRepository', () => {
         where: { token: mockToken.token },
       })
     })
+
+    it('should return null when token not found', async () => {
+      prismaMock.refreshToken.findUnique.mockResolvedValue(null)
+
+      const result = await repository.findByToken('non-existent')
+
+      expect(result).toBeNull()
+    })
   })
 })
