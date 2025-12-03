@@ -151,4 +151,20 @@ describe('ApiRepository', () => {
       })
     })
   })
+
+  describe('nameExistsInWorkspace', () => {
+    it('should return true when name exists in workspace', async () => {
+      prismaMock.api.count.mockResolvedValue(1)
+
+      const result = await repository.nameExistsInWorkspace(
+        'api-name',
+        'workspace-id',
+      )
+
+      expect(result).toBe(true)
+      expect(prismaMock.api.count).toHaveBeenCalledWith({
+        where: { name: 'api-name', workspaceId: 'workspace-id' },
+      })
+    })
+  })
 })
