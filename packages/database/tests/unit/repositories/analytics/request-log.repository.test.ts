@@ -33,41 +33,6 @@ describe('RequestLogRepository', () => {
     jest.clearAllMocks()
   })
 
-  describe('inherited methods (base repository)', () => {
-    it('should create a request log', async () => {
-      const mockLog = createMockRequestLog()
-      prismaMock.requestLog.create.mockResolvedValue(mockLog)
-
-      const result = await repository.create({
-        endpoint: { connect: { id: mockLog.endpointId } },
-        method: mockLog.method,
-        path: mockLog.path,
-        statusCode: mockLog.statusCode,
-        responseTimeMs: mockLog.responseTimeMs,
-        requestHeaders: mockLog.requestHeaders as Prisma.InputJsonValue,
-        responseHeaders: mockLog.responseHeaders as Prisma.InputJsonValue,
-        responseBody: mockLog.responseBody as Prisma.InputJsonValue,
-        ipAddress: mockLog.ipAddress,
-        timestamp: mockLog.timestamp,
-      })
-
-      expect(result).toEqual(mockLog)
-      expect(prismaMock.requestLog.create).toHaveBeenCalled()
-    })
-
-    it('should find a request log by id', async () => {
-      const mockLog = createMockRequestLog()
-      prismaMock.requestLog.findUnique.mockResolvedValue(mockLog)
-
-      const result = await repository.findById(mockLog.id)
-
-      expect(result).toEqual(mockLog)
-      expect(prismaMock.requestLog.findUnique).toHaveBeenCalledWith({
-        where: { id: mockLog.id },
-      })
-    })
-  })
-
   describe('findByEndpointId', () => {
     it('should find request logs by endpoint id', async () => {
       const endpointId = faker.string.nanoid()
@@ -191,6 +156,41 @@ describe('RequestLogRepository', () => {
       expect(result).toEqual(batchPayload)
       expect(prismaMock.requestLog.deleteMany).toHaveBeenCalledWith({
         where: { endpointId: 'endpoint-id' },
+      })
+    })
+  })
+
+  describe('inherited methods', () => {
+    it('should create a request log', async () => {
+      const mockLog = createMockRequestLog()
+      prismaMock.requestLog.create.mockResolvedValue(mockLog)
+
+      const result = await repository.create({
+        endpoint: { connect: { id: mockLog.endpointId } },
+        method: mockLog.method,
+        path: mockLog.path,
+        statusCode: mockLog.statusCode,
+        responseTimeMs: mockLog.responseTimeMs,
+        requestHeaders: mockLog.requestHeaders as Prisma.InputJsonValue,
+        responseHeaders: mockLog.responseHeaders as Prisma.InputJsonValue,
+        responseBody: mockLog.responseBody as Prisma.InputJsonValue,
+        ipAddress: mockLog.ipAddress,
+        timestamp: mockLog.timestamp,
+      })
+
+      expect(result).toEqual(mockLog)
+      expect(prismaMock.requestLog.create).toHaveBeenCalled()
+    })
+
+    it('should find a request log by id', async () => {
+      const mockLog = createMockRequestLog()
+      prismaMock.requestLog.findUnique.mockResolvedValue(mockLog)
+
+      const result = await repository.findById(mockLog.id)
+
+      expect(result).toEqual(mockLog)
+      expect(prismaMock.requestLog.findUnique).toHaveBeenCalledWith({
+        where: { id: mockLog.id },
       })
     })
   })

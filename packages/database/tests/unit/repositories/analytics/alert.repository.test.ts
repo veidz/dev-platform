@@ -25,35 +25,6 @@ describe('AlertRepository', () => {
     jest.clearAllMocks()
   })
 
-  describe('inherited methods (base repository)', () => {
-    it('should create an alert', async () => {
-      const mockAlert = createMockAlert()
-      prismaMock.alert.create.mockResolvedValue(mockAlert)
-
-      const result = await repository.create({
-        rule: { connect: { id: mockAlert.ruleId } },
-        severity: mockAlert.severity,
-        message: mockAlert.message,
-        triggered: mockAlert.triggered,
-      })
-
-      expect(result).toEqual(mockAlert)
-      expect(prismaMock.alert.create).toHaveBeenCalled()
-    })
-
-    it('should find an alert by id', async () => {
-      const mockAlert = createMockAlert()
-      prismaMock.alert.findUnique.mockResolvedValue(mockAlert)
-
-      const result = await repository.findById(mockAlert.id)
-
-      expect(result).toEqual(mockAlert)
-      expect(prismaMock.alert.findUnique).toHaveBeenCalledWith({
-        where: { id: mockAlert.id },
-      })
-    })
-  })
-
   describe('findByRuleId', () => {
     it('should find alerts by rule id', async () => {
       const ruleId = faker.string.nanoid()
@@ -174,6 +145,35 @@ describe('AlertRepository', () => {
       expect(result).toEqual(batchPayload)
       expect(prismaMock.alert.deleteMany).toHaveBeenCalledWith({
         where: { ruleId: 'rule-id' },
+      })
+    })
+  })
+
+  describe('inherited methods', () => {
+    it('should create an alert', async () => {
+      const mockAlert = createMockAlert()
+      prismaMock.alert.create.mockResolvedValue(mockAlert)
+
+      const result = await repository.create({
+        rule: { connect: { id: mockAlert.ruleId } },
+        severity: mockAlert.severity,
+        message: mockAlert.message,
+        triggered: mockAlert.triggered,
+      })
+
+      expect(result).toEqual(mockAlert)
+      expect(prismaMock.alert.create).toHaveBeenCalled()
+    })
+
+    it('should find an alert by id', async () => {
+      const mockAlert = createMockAlert()
+      prismaMock.alert.findUnique.mockResolvedValue(mockAlert)
+
+      const result = await repository.findById(mockAlert.id)
+
+      expect(result).toEqual(mockAlert)
+      expect(prismaMock.alert.findUnique).toHaveBeenCalledWith({
+        where: { id: mockAlert.id },
       })
     })
   })

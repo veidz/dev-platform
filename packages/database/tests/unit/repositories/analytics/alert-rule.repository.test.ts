@@ -2,7 +2,6 @@ import type {
   AlertRule,
   AlertRuleType,
   AlertSeverity,
-  Prisma,
   PrismaClient,
 } from '@prisma/client'
 import { DeepMockProxy, mockDeep } from 'jest-mock-extended'
@@ -36,37 +35,6 @@ describe('AlertRuleRepository', () => {
     prismaMock = mockDeep<PrismaClient>()
     repository = new AlertRuleRepository(prismaMock)
     jest.clearAllMocks()
-  })
-
-  describe('inherited methods (base repository)', () => {
-    it('should create an alert rule', async () => {
-      const mockRule = createMockAlertRule()
-      prismaMock.alertRule.create.mockResolvedValue(mockRule)
-
-      const result = await repository.create({
-        workspace: { connect: { id: mockRule.workspaceId } },
-        name: mockRule.name,
-        type: mockRule.type,
-        condition: mockRule.condition as Prisma.InputJsonValue,
-        severity: mockRule.severity,
-        enabled: mockRule.enabled,
-      })
-
-      expect(result).toEqual(mockRule)
-      expect(prismaMock.alertRule.create).toHaveBeenCalled()
-    })
-
-    it('should find an alert rule by id', async () => {
-      const mockRule = createMockAlertRule()
-      prismaMock.alertRule.findUnique.mockResolvedValue(mockRule)
-
-      const result = await repository.findById(mockRule.id)
-
-      expect(result).toEqual(mockRule)
-      expect(prismaMock.alertRule.findUnique).toHaveBeenCalledWith({
-        where: { id: mockRule.id },
-      })
-    })
   })
 
   describe('findByWorkspaceId', () => {
@@ -179,6 +147,37 @@ describe('AlertRuleRepository', () => {
       expect(result).toBe(5)
       expect(prismaMock.alertRule.count).toHaveBeenCalledWith({
         where: { workspaceId: 'workspace-id' },
+      })
+    })
+  })
+
+  describe('inherited methods', () => {
+    it('should create an alert rule', async () => {
+      const mockRule = createMockAlertRule()
+      prismaMock.alertRule.create.mockResolvedValue(mockRule)
+
+      const result = await repository.create({
+        workspace: { connect: { id: mockRule.workspaceId } },
+        name: mockRule.name,
+        type: mockRule.type,
+        condition: mockRule.condition as object,
+        severity: mockRule.severity,
+        enabled: mockRule.enabled,
+      })
+
+      expect(result).toEqual(mockRule)
+      expect(prismaMock.alertRule.create).toHaveBeenCalled()
+    })
+
+    it('should find an alert rule by id', async () => {
+      const mockRule = createMockAlertRule()
+      prismaMock.alertRule.findUnique.mockResolvedValue(mockRule)
+
+      const result = await repository.findById(mockRule.id)
+
+      expect(result).toEqual(mockRule)
+      expect(prismaMock.alertRule.findUnique).toHaveBeenCalledWith({
+        where: { id: mockRule.id },
       })
     })
   })
