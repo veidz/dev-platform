@@ -83,4 +83,32 @@ describe('ApiRepository', () => {
       })
     })
   })
+
+  describe('findWithEndpoints', () => {
+    it('should find an API with its endpoints', async () => {
+      const mockApi = createMockApi()
+      const apiWithEndpoints = {
+        ...mockApi,
+        endpoints: [
+          {
+            id: faker.string.nanoid(),
+            path: '/test',
+            method: 'GET',
+          },
+        ],
+      }
+
+      prismaMock.api.findUnique.mockResolvedValue(
+        apiWithEndpoints as unknown as Api,
+      )
+
+      const result = await repository.findWithEndpoints(mockApi.id)
+
+      expect(result).toEqual(apiWithEndpoints)
+      expect(prismaMock.api.findUnique).toHaveBeenCalledWith({
+        where: { id: mockApi.id },
+        include: { endpoints: true },
+      })
+    })
+  })
 })
