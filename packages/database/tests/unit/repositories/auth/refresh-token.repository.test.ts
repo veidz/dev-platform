@@ -1,4 +1,4 @@
-import type { PrismaClient, RefreshToken } from '@prisma/client'
+import type { Prisma, PrismaClient, RefreshToken } from '@prisma/client'
 import { DeepMockProxy, mockDeep } from 'jest-mock-extended'
 
 import { faker } from '@/__mocks__/faker-adapter'
@@ -95,6 +95,20 @@ describe('RefreshTokenRepository', () => {
       expect(result).toEqual(mockToken)
       expect(prismaMock.refreshToken.delete).toHaveBeenCalledWith({
         where: { token: mockToken.token },
+      })
+    })
+  })
+
+  describe('deleteByUserId', () => {
+    it('should delete all refresh tokens for a user', async () => {
+      const batchPayload: Prisma.BatchPayload = { count: 3 }
+      prismaMock.refreshToken.deleteMany.mockResolvedValue(batchPayload)
+
+      const result = await repository.deleteByUserId('user-id')
+
+      expect(result).toEqual(batchPayload)
+      expect(prismaMock.refreshToken.deleteMany).toHaveBeenCalledWith({
+        where: { userId: 'user-id' },
       })
     })
   })
