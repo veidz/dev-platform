@@ -46,4 +46,23 @@ describe('RefreshTokenRepository', () => {
       expect(result).toBeNull()
     })
   })
+
+  describe('findByUserId', () => {
+    it('should find refresh tokens by user id', async () => {
+      const userId = faker.string.nanoid()
+      const mockTokens = [
+        createMockRefreshToken({ userId }),
+        createMockRefreshToken({ userId }),
+      ]
+      prismaMock.refreshToken.findMany.mockResolvedValue(mockTokens)
+
+      const result = await repository.findByUserId(userId)
+
+      expect(result).toEqual(mockTokens)
+      expect(prismaMock.refreshToken.findMany).toHaveBeenCalledWith({
+        where: { userId },
+        orderBy: { createdAt: 'desc' },
+      })
+    })
+  })
 })
