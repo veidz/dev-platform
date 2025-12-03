@@ -229,5 +229,14 @@ describe('ApiRepository', () => {
 
       expect(result).toEqual(mockApi)
     })
+
+    it('should delete an API', async () => {
+      const mockApi = createMockApi()
+      prismaMock.api.delete.mockResolvedValue(mockApi)
+
+      const result = await repository.delete(mockApi.id)
+
+      expect(result).toEqual(mockApi)
+    })
   })
 })
