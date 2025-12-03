@@ -126,4 +126,17 @@ describe('RefreshTokenRepository', () => {
       })
     })
   })
+
+  describe('countByUserId', () => {
+    it('should count refresh tokens by user', async () => {
+      prismaMock.refreshToken.count.mockResolvedValue(2)
+
+      const result = await repository.countByUserId('user-id')
+
+      expect(result).toBe(2)
+      expect(prismaMock.refreshToken.count).toHaveBeenCalledWith({
+        where: { userId: 'user-id' },
+      })
+    })
+  })
 })
