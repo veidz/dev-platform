@@ -204,4 +204,21 @@ describe('ApiRepository', () => {
       })
     })
   })
+
+  describe('inherited methods', () => {
+    it('should create an API', async () => {
+      const mockApi = createMockApi()
+      const createData = {
+        name: mockApi.name,
+        baseUrl: mockApi.baseUrl,
+        workspace: { connect: { id: mockApi.workspaceId } },
+      }
+
+      prismaMock.api.create.mockResolvedValue(mockApi)
+
+      const result = await repository.create(createData)
+
+      expect(result).toEqual(mockApi)
+    })
+  })
 })
