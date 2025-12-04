@@ -1,7 +1,12 @@
 import { PrismaClient } from '@prisma/client'
 import { DeepMockProxy, mockDeep } from 'jest-mock-extended'
 
-import { AbstractRepository } from '@/repositories/base'
+import type { PaginatedResult } from '@/repositories/base'
+import {
+  AbstractRepository,
+  DEFAULT_LIMIT,
+  DEFAULT_PAGE,
+} from '@/repositories/base'
 
 interface TestModel {
   id: string
@@ -133,6 +138,34 @@ describe('AbstractRepository', () => {
       expect(result).toEqual(record)
       expect(mockPrismaDelegate.findUnique).toHaveBeenCalledWith({
         where: { id: '1' },
+      })
+    })
+  })
+
+  describe('findMany', () => {
+    const mockRecords: TestModel[] = [
+      { id: '1', name: 'Test 1', createdAt: new Date() },
+      { id: '2', name: 'Test 2', createdAt: new Date() },
+    ]
+
+    it('should return paginated results with defaults', async () => {
+      mockPrismaDelegate.findMany.mockResolvedValue(mockRecords)
+      mockPrismaDelegate.count.mockResolvedValue(2)
+
+      const result: PaginatedResult<TestModel> = await repository.findMany()
+
+      expect(result.data).toEqual(mockRecords)
+      expect(result.meta.page).toBe(DEFAULT_PAGE)
+      expect(result.meta.limit).toBe(DEFAULT_LIMIT)
+      expect(result.meta.total).toBe(2)
+      expect(result.meta.totalPages).toBe(1)
+      expect(result.meta.hasNextPage).toBe(false)
+      expect(result.meta.hasPreviousPage).toBe(false)
+      expect(mockPrismaDelegate.findMany).toHaveBeenCalledWith({
+        skip: 0,
+        take: DEFAULT_LIMIT,
+        where: undefined,
+        orderBy: undefined,
       })
     })
   })
