@@ -207,5 +207,14 @@ describe('AbstractRepository', () => {
         expect.objectContaining({ take: MAX_LIMIT }),
       )
     })
+
+    it('should calculate correct totalPages', async () => {
+      mockPrismaDelegate.findMany.mockResolvedValue([])
+      mockPrismaDelegate.count.mockResolvedValue(33)
+
+      const result = await repository.findMany({ limit: 10 })
+
+      expect(result.meta.totalPages).toBe(4)
+    })
   })
 })
