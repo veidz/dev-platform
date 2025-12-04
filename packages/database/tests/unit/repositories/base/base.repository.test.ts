@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import { DeepMockProxy, mockDeep } from 'jest-mock-extended'
 
-import type { PaginatedResult } from '@/repositories/base'
+import type { FindManyOptions, PaginatedResult } from '@/repositories/base'
 import {
   AbstractRepository,
   DEFAULT_LIMIT,
@@ -166,6 +166,33 @@ describe('AbstractRepository', () => {
         take: DEFAULT_LIMIT,
         where: undefined,
         orderBy: undefined,
+      })
+    })
+
+    it('should apply custom pagination options', async () => {
+      const options: FindManyOptions<TestWhereInput, TestOrderByInput> = {
+        page: 2,
+        limit: 10,
+        where: { name: 'Test' },
+        orderBy: { createdAt: 'desc' },
+      }
+
+      mockPrismaDelegate.findMany.mockResolvedValue(mockRecords)
+      mockPrismaDelegate.count.mockResolvedValue(25)
+
+      const result = await repository.findMany(options)
+
+      expect(result.meta.page).toBe(2)
+      expect(result.meta.limit).toBe(10)
+      expect(result.meta.total).toBe(25)
+      expect(result.meta.totalPages).toBe(3)
+      expect(result.meta.hasNextPage).toBe(true)
+      expect(result.meta.hasPreviousPage).toBe(true)
+      expect(mockPrismaDelegate.findMany).toHaveBeenCalledWith({
+        skip: 10,
+        take: 10,
+        where: { name: 'Test' },
+        orderBy: { createdAt: 'desc' },
       })
     })
   })
