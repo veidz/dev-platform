@@ -117,4 +117,23 @@ describe('AbstractRepository', () => {
       expect(result).toBeNull()
     })
   })
+
+  describe('findUnique', () => {
+    it('should find a unique record by where condition', async () => {
+      const record: TestModel = {
+        id: '1',
+        name: 'Test',
+        createdAt: new Date(),
+      }
+
+      mockPrismaDelegate.findUnique.mockResolvedValue(record)
+
+      const result = await repository.findUnique({ id: '1' })
+
+      expect(result).toEqual(record)
+      expect(mockPrismaDelegate.findUnique).toHaveBeenCalledWith({
+        where: { id: '1' },
+      })
+    })
+  })
 })
