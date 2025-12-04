@@ -6,6 +6,7 @@ import {
   AbstractRepository,
   DEFAULT_LIMIT,
   DEFAULT_PAGE,
+  MAX_LIMIT,
 } from '@/repositories/base'
 
 interface TestModel {
@@ -194,6 +195,17 @@ describe('AbstractRepository', () => {
         where: { name: 'Test' },
         orderBy: { createdAt: 'desc' },
       })
+    })
+
+    it('should enforce MAX_LIMIT', async () => {
+      mockPrismaDelegate.findMany.mockResolvedValue([])
+      mockPrismaDelegate.count.mockResolvedValue(0)
+
+      await repository.findMany({ limit: 1000 })
+
+      expect(mockPrismaDelegate.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({ take: MAX_LIMIT }),
+      )
     })
   })
 })
