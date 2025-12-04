@@ -90,4 +90,23 @@ describe('AbstractRepository', () => {
       })
     })
   })
+
+  describe('findById', () => {
+    it('should find a record by id', async () => {
+      const record: TestModel = {
+        id: '1',
+        name: 'Test',
+        createdAt: new Date(),
+      }
+
+      mockPrismaDelegate.findUnique.mockResolvedValue(record)
+
+      const result = await repository.findById('1')
+
+      expect(result).toEqual(record)
+      expect(mockPrismaDelegate.findUnique).toHaveBeenCalledWith({
+        where: { id: '1' },
+      })
+    })
+  })
 })
