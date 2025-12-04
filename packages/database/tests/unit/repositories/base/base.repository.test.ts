@@ -108,5 +108,13 @@ describe('AbstractRepository', () => {
         where: { id: '1' },
       })
     })
+
+    it('should return null when record not found', async () => {
+      mockPrismaDelegate.findUnique.mockResolvedValue(null)
+
+      const result = await repository.findById('non-existent')
+
+      expect(result).toBeNull()
+    })
   })
 })
