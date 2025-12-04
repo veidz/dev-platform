@@ -216,5 +216,18 @@ describe('AbstractRepository', () => {
 
       expect(result.meta.totalPages).toBe(4)
     })
+
+    it('should handle empty results', async () => {
+      mockPrismaDelegate.findMany.mockResolvedValue([])
+      mockPrismaDelegate.count.mockResolvedValue(0)
+
+      const result = await repository.findMany()
+
+      expect(result.data).toEqual([])
+      expect(result.meta.total).toBe(0)
+      expect(result.meta.totalPages).toBe(0)
+      expect(result.meta.hasNextPage).toBe(false)
+      expect(result.meta.hasPreviousPage).toBe(false)
+    })
   })
 })
