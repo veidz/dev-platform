@@ -88,4 +88,26 @@ describe('MockRepository', () => {
       })
     })
   })
+
+  describe('findWithScenarios', () => {
+    it('should find a mock with its scenarios', async () => {
+      const mockMock = createMockMock()
+      const mockWithScenarios = {
+        ...mockMock,
+        scenarios: [{ id: faker.string.nanoid() }],
+      }
+
+      prismaMock.mock.findUnique.mockResolvedValue(
+        mockWithScenarios as unknown as Mock,
+      )
+
+      const result = await repository.findWithScenarios(mockMock.id)
+
+      expect(result).toEqual(mockWithScenarios)
+      expect(prismaMock.mock.findUnique).toHaveBeenCalledWith({
+        where: { id: mockMock.id },
+        include: { scenarios: true },
+      })
+    })
+  })
 })
