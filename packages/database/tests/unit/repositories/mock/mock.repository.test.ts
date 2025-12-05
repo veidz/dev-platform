@@ -66,4 +66,26 @@ describe('MockRepository', () => {
       })
     })
   })
+
+  describe('findWithEndpoint', () => {
+    it('should find a mock with its endpoint', async () => {
+      const mockMock = createMockMock()
+      const mockWithEndpoint = {
+        ...mockMock,
+        endpoint: { id: mockMock.endpointId, path: '/test' },
+      }
+
+      prismaMock.mock.findUnique.mockResolvedValue(
+        mockWithEndpoint as unknown as Mock,
+      )
+
+      const result = await repository.findWithEndpoint(mockMock.id)
+
+      expect(result).toEqual(mockWithEndpoint)
+      expect(prismaMock.mock.findUnique).toHaveBeenCalledWith({
+        where: { id: mockMock.id },
+        include: { endpoint: true },
+      })
+    })
+  })
 })
