@@ -1,4 +1,4 @@
-import type { Mock, PrismaClient } from '@prisma/client'
+import type { Mock, Prisma, PrismaClient } from '@prisma/client'
 import { DeepMockProxy, mockDeep } from 'jest-mock-extended'
 
 import { faker } from '@/__mocks__/faker-adapter'
@@ -158,6 +158,20 @@ describe('MockRepository', () => {
 
       expect(result).toBe(5)
       expect(prismaMock.mock.count).toHaveBeenCalledWith({
+        where: { endpointId: 'endpoint-id' },
+      })
+    })
+  })
+
+  describe('deleteByEndpointId', () => {
+    it('should delete all mocks from an endpoint', async () => {
+      const batchPayload: Prisma.BatchPayload = { count: 3 }
+      prismaMock.mock.deleteMany.mockResolvedValue(batchPayload)
+
+      const result = await repository.deleteByEndpointId('endpoint-id')
+
+      expect(result).toEqual(batchPayload)
+      expect(prismaMock.mock.deleteMany).toHaveBeenCalledWith({
         where: { endpointId: 'endpoint-id' },
       })
     })
