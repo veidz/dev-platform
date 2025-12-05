@@ -149,4 +149,17 @@ describe('MockRepository', () => {
       })
     })
   })
+
+  describe('countByEndpoint', () => {
+    it('should count mocks by endpoint', async () => {
+      prismaMock.mock.count.mockResolvedValue(5)
+
+      const result = await repository.countByEndpoint('endpoint-id')
+
+      expect(result).toBe(5)
+      expect(prismaMock.mock.count).toHaveBeenCalledWith({
+        where: { endpointId: 'endpoint-id' },
+      })
+    })
+  })
 })
