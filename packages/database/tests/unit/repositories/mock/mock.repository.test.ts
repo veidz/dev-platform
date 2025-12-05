@@ -125,4 +125,28 @@ describe('MockRepository', () => {
       })
     })
   })
+
+  describe('updateResponse', () => {
+    it('should update mock response', async () => {
+      const mockMock = createMockMock()
+      prismaMock.mock.update.mockResolvedValue(mockMock)
+
+      const result = await repository.updateResponse(
+        mockMock.id,
+        201,
+        { 'Content-Type': 'application/json' },
+        { data: 'updated' },
+      )
+
+      expect(result).toEqual(mockMock)
+      expect(prismaMock.mock.update).toHaveBeenCalledWith({
+        where: { id: mockMock.id },
+        data: {
+          statusCode: 201,
+          headers: { 'Content-Type': 'application/json' },
+          body: { data: 'updated' },
+        },
+      })
+    })
+  })
 })
