@@ -50,4 +50,20 @@ describe('MockRepository', () => {
       })
     })
   })
+
+  describe('findEnabledByEndpoint', () => {
+    it('should find enabled mocks by endpoint', async () => {
+      const endpointId = faker.string.nanoid()
+      const mockMocks = [createMockMock({ endpointId, enabled: true })]
+      prismaMock.mock.findMany.mockResolvedValue(mockMocks)
+
+      const result = await repository.findEnabledByEndpoint(endpointId)
+
+      expect(result).toEqual(mockMocks)
+      expect(prismaMock.mock.findMany).toHaveBeenCalledWith({
+        where: { endpointId, enabled: true },
+        orderBy: { createdAt: 'desc' },
+      })
+    })
+  })
 })
