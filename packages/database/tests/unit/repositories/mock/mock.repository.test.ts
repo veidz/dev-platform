@@ -110,4 +110,19 @@ describe('MockRepository', () => {
       })
     })
   })
+
+  describe('toggleEnabled', () => {
+    it('should toggle mock enabled status', async () => {
+      const mockMock = createMockMock({ enabled: false })
+      prismaMock.mock.update.mockResolvedValue(mockMock)
+
+      const result = await repository.toggleEnabled(mockMock.id, false)
+
+      expect(result).toEqual(mockMock)
+      expect(prismaMock.mock.update).toHaveBeenCalledWith({
+        where: { id: mockMock.id },
+        data: { enabled: false },
+      })
+    })
+  })
 })
