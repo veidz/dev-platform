@@ -186,5 +186,14 @@ describe('MockRepository', () => {
 
       expect(result).toEqual(mockMock)
     })
+
+    it('should delete a mock', async () => {
+      const mockMock = createMockMock()
+      prismaMock.mock.delete.mockResolvedValue(mockMock)
+
+      const result = await repository.delete(mockMock.id)
+
+      expect(result).toEqual(mockMock)
+    })
   })
 })
