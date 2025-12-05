@@ -176,4 +176,15 @@ describe('MockRepository', () => {
       })
     })
   })
+
+  describe('inherited methods', () => {
+    it('should find mock by id', async () => {
+      const mockMock = createMockMock()
+      prismaMock.mock.findUnique.mockResolvedValue(mockMock)
+
+      const result = await repository.findById(mockMock.id)
+
+      expect(result).toEqual(mockMock)
+    })
+  })
 })
