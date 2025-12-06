@@ -180,4 +180,18 @@ describe('EndpointRepository', () => {
       expect(result).toBe(false)
     })
   })
+
+  describe('countByApi', () => {
+    it('should count endpoints in api', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      prismaClientMock.endpoint.count.mockResolvedValue(15)
+
+      const result = await sut.countByApi('api-id')
+
+      expect(result).toBe(15)
+      expect(prismaClientMock.endpoint.count).toHaveBeenCalledWith({
+        where: { apiId: 'api-id' },
+      })
+    })
+  })
 })
