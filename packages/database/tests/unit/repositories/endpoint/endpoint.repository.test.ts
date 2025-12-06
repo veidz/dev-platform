@@ -170,5 +170,14 @@ describe('EndpointRepository', () => {
         where: { apiId: 'api-id', path: '/users', method: 'GET' },
       })
     })
+
+    it('should return false when path does not exist in api', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      prismaClientMock.endpoint.count.mockResolvedValue(0)
+
+      const result = await sut.pathExistsInApi('api-id', '/non-existent', 'GET')
+
+      expect(result).toBe(false)
+    })
   })
 })
