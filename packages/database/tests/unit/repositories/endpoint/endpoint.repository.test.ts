@@ -7,6 +7,7 @@ import {
   mockEndpointModel,
   mockEndpointWithApi,
   mockEndpointWithMocks,
+  mockEndpointWithScenarios,
   PrismaClientMock,
 } from '@/tests/repositories/__mocks__'
 
@@ -135,6 +136,24 @@ describe('EndpointRepository', () => {
       expect(prismaClientMock.endpoint.findUnique).toHaveBeenCalledWith({
         where: { id: endpointWithMocks.id },
         include: { mocks: true },
+      })
+    })
+  })
+
+  describe('findWithScenarios', () => {
+    it('should find endpoint with scenarios included', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const endpointWithScenarios = mockEndpointWithScenarios()
+      prismaClientMock.endpoint.findUnique.mockResolvedValue(
+        endpointWithScenarios,
+      )
+
+      const result = await sut.findWithScenarios(endpointWithScenarios.id)
+
+      expect(result).toEqual(endpointWithScenarios)
+      expect(prismaClientMock.endpoint.findUnique).toHaveBeenCalledWith({
+        where: { id: endpointWithScenarios.id },
+        include: { mockScenarios: true },
       })
     })
   })
