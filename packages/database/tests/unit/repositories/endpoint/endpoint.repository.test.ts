@@ -194,4 +194,19 @@ describe('EndpointRepository', () => {
       })
     })
   })
+
+  describe('countByMethod', () => {
+    it('should count endpoints by method', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const method: HttpMethod = 'POST'
+      prismaClientMock.endpoint.count.mockResolvedValue(25)
+
+      const result = await sut.countByMethod(method)
+
+      expect(result).toBe(25)
+      expect(prismaClientMock.endpoint.count).toHaveBeenCalledWith({
+        where: { method },
+      })
+    })
+  })
 })
