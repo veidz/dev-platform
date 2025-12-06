@@ -1,50 +1,46 @@
-import type { Mock, Prisma, PrismaClient } from '@prisma/client'
-import { DeepMockProxy, mockDeep } from 'jest-mock-extended'
+import type { Mock, Prisma } from '@prisma/client'
 
 import { faker } from '@/__mocks__/faker-adapter'
 import { MockRepository } from '@/repositories/mock'
+import {
+  createPrismaClientMock,
+  mockMockModel,
+  PrismaClientMock,
+} from '@/tests/repositories/__mocks__'
 
-const createMockMock = (overrides: Partial<Mock> = {}): Mock => ({
-  id: faker.string.nanoid(),
-  endpointId: faker.string.nanoid(),
-  name: faker.lorem.word(),
-  description: faker.lorem.sentence(),
-  statusCode: 200,
-  headers: {},
-  body: { message: 'success' },
-  delayType: 'NONE',
-  delayMs: null,
-  delayMinMs: null,
-  delayMaxMs: null,
-  enabled: true,
-  createdAt: faker.date.past(),
-  updatedAt: faker.date.recent(),
-  ...overrides,
-})
+type SutTypes = {
+  sut: MockRepository
+  prismaClientMock: PrismaClientMock
+}
+
+const makeSut = (): SutTypes => {
+  const prismaClientMock = createPrismaClientMock()
+  const sut = new MockRepository(prismaClientMock)
+  return {
+    sut,
+    prismaClientMock,
+  }
+}
 
 describe('MockRepository', () => {
-  let repository: MockRepository
-  let prismaMock: DeepMockProxy<PrismaClient>
-
   beforeEach(() => {
-    prismaMock = mockDeep<PrismaClient>()
-    repository = new MockRepository(prismaMock)
     jest.clearAllMocks()
   })
 
   describe('findByEndpointId', () => {
     it('should find mocks by endpoint id', async () => {
+      const { sut, prismaClientMock } = makeSut()
       const endpointId = faker.string.nanoid()
       const mockMocks = [
-        createMockMock({ endpointId }),
-        createMockMock({ endpointId }),
+        mockMockModel({ endpointId }),
+        mockMockModel({ endpointId }),
       ]
-      prismaMock.mock.findMany.mockResolvedValue(mockMocks)
+      prismaClientMock.mock.findMany.mockResolvedValue(mockMocks)
 
-      const result = await repository.findByEndpointId(endpointId)
+      const result = await sut.findByEndpointId(endpointId)
 
       expect(result).toEqual(mockMocks)
-      expect(prismaMock.mock.findMany).toHaveBeenCalledWith({
+      expect(prismaClientMock.mock.findMany).toHaveBeenCalledWith({
         where: { endpointId },
         orderBy: { createdAt: 'desc' },
       })
@@ -53,14 +49,15 @@ describe('MockRepository', () => {
 
   describe('findEnabledByEndpoint', () => {
     it('should find enabled mocks by endpoint', async () => {
+      const { sut, prismaClientMock } = makeSut()
       const endpointId = faker.string.nanoid()
-      const mockMocks = [createMockMock({ endpointId, enabled: true })]
-      prismaMock.mock.findMany.mockResolvedValue(mockMocks)
+      const mockMocks = [mockMockModel({ endpointId, enabled: true })]
+      prismaClientMock.mock.findMany.mockResolvedValue(mockMocks)
 
-      const result = await repository.findEnabledByEndpoint(endpointId)
+      const result = await sut.findEnabledByEndpoint(endpointId)
 
       expect(result).toEqual(mockMocks)
-      expect(prismaMock.mock.findMany).toHaveBeenCalledWith({
+      expect(prismaClientMock.mock.findMany).toHaveBeenCalledWith({
         where: { endpointId, enabled: true },
         orderBy: { createdAt: 'desc' },
       })
@@ -69,20 +66,21 @@ describe('MockRepository', () => {
 
   describe('findWithEndpoint', () => {
     it('should find a mock with its endpoint', async () => {
-      const mockMock = createMockMock()
+      const { sut, prismaClientMock } = makeSut()
+      const mockMock = mockMockModel()
       const mockWithEndpoint = {
         ...mockMock,
         endpoint: { id: mockMock.endpointId, path: '/test' },
       }
 
-      prismaMock.mock.findUnique.mockResolvedValue(
+      prismaClientMock.mock.findUnique.mockResolvedValue(
         mockWithEndpoint as unknown as Mock,
       )
 
-      const result = await repository.findWithEndpoint(mockMock.id)
+      const result = await sut.findWithEndpoint(mockMock.id)
 
       expect(result).toEqual(mockWithEndpoint)
-      expect(prismaMock.mock.findUnique).toHaveBeenCalledWith({
+      expect(prismaClientMock.mock.findUnique).toHaveBeenCalledWith({
         where: { id: mockMock.id },
         include: { endpoint: true },
       })
@@ -91,20 +89,21 @@ describe('MockRepository', () => {
 
   describe('findWithScenarios', () => {
     it('should find a mock with its scenarios', async () => {
-      const mockMock = createMockMock()
+      const { sut, prismaClientMock } = makeSut()
+      const mockMock = mockMockModel()
       const mockWithScenarios = {
         ...mockMock,
         scenarios: [{ id: faker.string.nanoid() }],
       }
 
-      prismaMock.mock.findUnique.mockResolvedValue(
+      prismaClientMock.mock.findUnique.mockResolvedValue(
         mockWithScenarios as unknown as Mock,
       )
 
-      const result = await repository.findWithScenarios(mockMock.id)
+      const result = await sut.findWithScenarios(mockMock.id)
 
       expect(result).toEqual(mockWithScenarios)
-      expect(prismaMock.mock.findUnique).toHaveBeenCalledWith({
+      expect(prismaClientMock.mock.findUnique).toHaveBeenCalledWith({
         where: { id: mockMock.id },
         include: { scenarios: true },
       })
@@ -113,13 +112,14 @@ describe('MockRepository', () => {
 
   describe('toggleEnabled', () => {
     it('should toggle mock enabled status', async () => {
-      const mockMock = createMockMock({ enabled: false })
-      prismaMock.mock.update.mockResolvedValue(mockMock)
+      const { sut, prismaClientMock } = makeSut()
+      const mockMock = mockMockModel({ enabled: false })
+      prismaClientMock.mock.update.mockResolvedValue(mockMock)
 
-      const result = await repository.toggleEnabled(mockMock.id, false)
+      const result = await sut.toggleEnabled(mockMock.id, false)
 
       expect(result).toEqual(mockMock)
-      expect(prismaMock.mock.update).toHaveBeenCalledWith({
+      expect(prismaClientMock.mock.update).toHaveBeenCalledWith({
         where: { id: mockMock.id },
         data: { enabled: false },
       })
@@ -128,10 +128,11 @@ describe('MockRepository', () => {
 
   describe('updateResponse', () => {
     it('should update mock response', async () => {
-      const mockMock = createMockMock()
-      prismaMock.mock.update.mockResolvedValue(mockMock)
+      const { sut, prismaClientMock } = makeSut()
+      const mockMock = mockMockModel()
+      prismaClientMock.mock.update.mockResolvedValue(mockMock)
 
-      const result = await repository.updateResponse(
+      const result = await sut.updateResponse(
         mockMock.id,
         201,
         { 'Content-Type': 'application/json' },
@@ -139,7 +140,7 @@ describe('MockRepository', () => {
       )
 
       expect(result).toEqual(mockMock)
-      expect(prismaMock.mock.update).toHaveBeenCalledWith({
+      expect(prismaClientMock.mock.update).toHaveBeenCalledWith({
         where: { id: mockMock.id },
         data: {
           statusCode: 201,
@@ -152,12 +153,13 @@ describe('MockRepository', () => {
 
   describe('countByEndpoint', () => {
     it('should count mocks by endpoint', async () => {
-      prismaMock.mock.count.mockResolvedValue(5)
+      const { sut, prismaClientMock } = makeSut()
+      prismaClientMock.mock.count.mockResolvedValue(5)
 
-      const result = await repository.countByEndpoint('endpoint-id')
+      const result = await sut.countByEndpoint('endpoint-id')
 
       expect(result).toBe(5)
-      expect(prismaMock.mock.count).toHaveBeenCalledWith({
+      expect(prismaClientMock.mock.count).toHaveBeenCalledWith({
         where: { endpointId: 'endpoint-id' },
       })
     })
@@ -165,13 +167,14 @@ describe('MockRepository', () => {
 
   describe('deleteByEndpointId', () => {
     it('should delete all mocks from an endpoint', async () => {
+      const { sut, prismaClientMock } = makeSut()
       const batchPayload: Prisma.BatchPayload = { count: 3 }
-      prismaMock.mock.deleteMany.mockResolvedValue(batchPayload)
+      prismaClientMock.mock.deleteMany.mockResolvedValue(batchPayload)
 
-      const result = await repository.deleteByEndpointId('endpoint-id')
+      const result = await sut.deleteByEndpointId('endpoint-id')
 
       expect(result).toEqual(batchPayload)
-      expect(prismaMock.mock.deleteMany).toHaveBeenCalledWith({
+      expect(prismaClientMock.mock.deleteMany).toHaveBeenCalledWith({
         where: { endpointId: 'endpoint-id' },
       })
     })
@@ -179,19 +182,21 @@ describe('MockRepository', () => {
 
   describe('inherited methods', () => {
     it('should find mock by id', async () => {
-      const mockMock = createMockMock()
-      prismaMock.mock.findUnique.mockResolvedValue(mockMock)
+      const { sut, prismaClientMock } = makeSut()
+      const mockMock = mockMockModel()
+      prismaClientMock.mock.findUnique.mockResolvedValue(mockMock)
 
-      const result = await repository.findById(mockMock.id)
+      const result = await sut.findById(mockMock.id)
 
       expect(result).toEqual(mockMock)
     })
 
     it('should delete a mock', async () => {
-      const mockMock = createMockMock()
-      prismaMock.mock.delete.mockResolvedValue(mockMock)
+      const { sut, prismaClientMock } = makeSut()
+      const mockMock = mockMockModel()
+      prismaClientMock.mock.delete.mockResolvedValue(mockMock)
 
-      const result = await repository.delete(mockMock.id)
+      const result = await sut.delete(mockMock.id)
 
       expect(result).toEqual(mockMock)
     })
