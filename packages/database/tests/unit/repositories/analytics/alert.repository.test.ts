@@ -1,40 +1,43 @@
-import type { Alert, AlertSeverity, Prisma, PrismaClient } from '@prisma/client'
-import { DeepMockProxy, mockDeep } from 'jest-mock-extended'
+import type { Alert, AlertSeverity, Prisma } from '@prisma/client'
 
 import { faker } from '@/__mocks__/faker-adapter'
 import { AlertRepository } from '@/repositories/analytics'
+import {
+  createPrismaClientMock,
+  mockAlertModel,
+  PrismaClientMock,
+} from '@/tests/repositories/__mocks__'
 
-const createMockAlert = (overrides: Partial<Alert> = {}): Alert => ({
-  id: faker.string.nanoid(),
-  ruleId: faker.string.nanoid(),
-  severity: 'WARNING',
-  message: faker.lorem.sentence(),
-  triggered: true,
-  resolvedAt: null,
-  createdAt: faker.date.recent(),
-  ...overrides,
-})
+type SutTypes = {
+  sut: AlertRepository
+  prismaClientMock: PrismaClientMock
+}
+
+const makeSut = (): SutTypes => {
+  const prismaClientMock = createPrismaClientMock()
+  const sut = new AlertRepository(prismaClientMock)
+  return {
+    sut,
+    prismaClientMock,
+  }
+}
 
 describe('AlertRepository', () => {
-  let repository: AlertRepository
-  let prismaMock: DeepMockProxy<PrismaClient>
-
   beforeEach(() => {
-    prismaMock = mockDeep<PrismaClient>()
-    repository = new AlertRepository(prismaMock)
     jest.clearAllMocks()
   })
 
   describe('findByRuleId', () => {
     it('should find alerts by rule id', async () => {
+      const { sut, prismaClientMock } = makeSut()
       const ruleId = faker.string.nanoid()
-      const mockAlerts = [createMockAlert({ ruleId })]
-      prismaMock.alert.findMany.mockResolvedValue(mockAlerts)
+      const mockAlerts = [mockAlertModel({ ruleId })]
+      prismaClientMock.alert.findMany.mockResolvedValue(mockAlerts)
 
-      const result = await repository.findByRuleId(ruleId)
+      const result = await sut.findByRuleId(ruleId)
 
       expect(result).toEqual(mockAlerts)
-      expect(prismaMock.alert.findMany).toHaveBeenCalledWith({
+      expect(prismaClientMock.alert.findMany).toHaveBeenCalledWith({
         where: { ruleId },
         orderBy: { createdAt: 'desc' },
       })
@@ -43,13 +46,14 @@ describe('AlertRepository', () => {
 
   describe('findTriggered', () => {
     it('should find triggered alerts', async () => {
-      const mockAlerts = [createMockAlert({ triggered: true })]
-      prismaMock.alert.findMany.mockResolvedValue(mockAlerts)
+      const { sut, prismaClientMock } = makeSut()
+      const mockAlerts = [mockAlertModel({ triggered: true })]
+      prismaClientMock.alert.findMany.mockResolvedValue(mockAlerts)
 
-      const result = await repository.findTriggered()
+      const result = await sut.findTriggered()
 
       expect(result).toEqual(mockAlerts)
-      expect(prismaMock.alert.findMany).toHaveBeenCalledWith({
+      expect(prismaClientMock.alert.findMany).toHaveBeenCalledWith({
         where: { triggered: true },
         orderBy: { createdAt: 'desc' },
       })
@@ -58,14 +62,15 @@ describe('AlertRepository', () => {
 
   describe('findBySeverity', () => {
     it('should find alerts by severity', async () => {
+      const { sut, prismaClientMock } = makeSut()
       const severity: AlertSeverity = 'CRITICAL'
-      const mockAlerts = [createMockAlert({ severity })]
-      prismaMock.alert.findMany.mockResolvedValue(mockAlerts)
+      const mockAlerts = [mockAlertModel({ severity })]
+      prismaClientMock.alert.findMany.mockResolvedValue(mockAlerts)
 
-      const result = await repository.findBySeverity(severity)
+      const result = await sut.findBySeverity(severity)
 
       expect(result).toEqual(mockAlerts)
-      expect(prismaMock.alert.findMany).toHaveBeenCalledWith({
+      expect(prismaClientMock.alert.findMany).toHaveBeenCalledWith({
         where: { severity },
         orderBy: { createdAt: 'desc' },
       })
@@ -74,20 +79,21 @@ describe('AlertRepository', () => {
 
   describe('findWithRule', () => {
     it('should find an alert with its rule', async () => {
-      const mockAlert = createMockAlert()
+      const { sut, prismaClientMock } = makeSut()
+      const mockAlert = mockAlertModel()
       const alertWithRule = {
         ...mockAlert,
         rule: { id: mockAlert.ruleId },
       }
 
-      prismaMock.alert.findUnique.mockResolvedValue(
+      prismaClientMock.alert.findUnique.mockResolvedValue(
         alertWithRule as unknown as Alert,
       )
 
-      const result = await repository.findWithRule(mockAlert.id)
+      const result = await sut.findWithRule(mockAlert.id)
 
       expect(result).toEqual(alertWithRule)
-      expect(prismaMock.alert.findUnique).toHaveBeenCalledWith({
+      expect(prismaClientMock.alert.findUnique).toHaveBeenCalledWith({
         where: { id: mockAlert.id },
         include: { rule: true },
       })
@@ -96,13 +102,14 @@ describe('AlertRepository', () => {
 
   describe('resolve', () => {
     it('should resolve an alert', async () => {
-      const mockAlert = createMockAlert({ triggered: false })
-      prismaMock.alert.update.mockResolvedValue(mockAlert)
+      const { sut, prismaClientMock } = makeSut()
+      const mockAlert = mockAlertModel({ triggered: false })
+      prismaClientMock.alert.update.mockResolvedValue(mockAlert)
 
-      const result = await repository.resolve(mockAlert.id)
+      const result = await sut.resolve(mockAlert.id)
 
       expect(result).toEqual(mockAlert)
-      expect(prismaMock.alert.update).toHaveBeenCalledWith({
+      expect(prismaClientMock.alert.update).toHaveBeenCalledWith({
         where: { id: mockAlert.id },
         data: { triggered: false, resolvedAt: expect.any(Date) },
       })
@@ -111,12 +118,13 @@ describe('AlertRepository', () => {
 
   describe('countByRuleId', () => {
     it('should count alerts by rule', async () => {
-      prismaMock.alert.count.mockResolvedValue(10)
+      const { sut, prismaClientMock } = makeSut()
+      prismaClientMock.alert.count.mockResolvedValue(10)
 
-      const result = await repository.countByRuleId('rule-id')
+      const result = await sut.countByRuleId('rule-id')
 
       expect(result).toBe(10)
-      expect(prismaMock.alert.count).toHaveBeenCalledWith({
+      expect(prismaClientMock.alert.count).toHaveBeenCalledWith({
         where: { ruleId: 'rule-id' },
       })
     })
@@ -124,12 +132,13 @@ describe('AlertRepository', () => {
 
   describe('countTriggered', () => {
     it('should count triggered alerts', async () => {
-      prismaMock.alert.count.mockResolvedValue(3)
+      const { sut, prismaClientMock } = makeSut()
+      prismaClientMock.alert.count.mockResolvedValue(3)
 
-      const result = await repository.countTriggered()
+      const result = await sut.countTriggered()
 
       expect(result).toBe(3)
-      expect(prismaMock.alert.count).toHaveBeenCalledWith({
+      expect(prismaClientMock.alert.count).toHaveBeenCalledWith({
         where: { triggered: true },
       })
     })
@@ -137,13 +146,14 @@ describe('AlertRepository', () => {
 
   describe('deleteByRuleId', () => {
     it('should delete all alerts for a rule', async () => {
+      const { sut, prismaClientMock } = makeSut()
       const batchPayload: Prisma.BatchPayload = { count: 5 }
-      prismaMock.alert.deleteMany.mockResolvedValue(batchPayload)
+      prismaClientMock.alert.deleteMany.mockResolvedValue(batchPayload)
 
-      const result = await repository.deleteByRuleId('rule-id')
+      const result = await sut.deleteByRuleId('rule-id')
 
       expect(result).toEqual(batchPayload)
-      expect(prismaMock.alert.deleteMany).toHaveBeenCalledWith({
+      expect(prismaClientMock.alert.deleteMany).toHaveBeenCalledWith({
         where: { ruleId: 'rule-id' },
       })
     })
@@ -151,10 +161,11 @@ describe('AlertRepository', () => {
 
   describe('inherited methods', () => {
     it('should create an alert', async () => {
-      const mockAlert = createMockAlert()
-      prismaMock.alert.create.mockResolvedValue(mockAlert)
+      const { sut, prismaClientMock } = makeSut()
+      const mockAlert = mockAlertModel()
+      prismaClientMock.alert.create.mockResolvedValue(mockAlert)
 
-      const result = await repository.create({
+      const result = await sut.create({
         rule: { connect: { id: mockAlert.ruleId } },
         severity: mockAlert.severity,
         message: mockAlert.message,
@@ -162,17 +173,18 @@ describe('AlertRepository', () => {
       })
 
       expect(result).toEqual(mockAlert)
-      expect(prismaMock.alert.create).toHaveBeenCalled()
+      expect(prismaClientMock.alert.create).toHaveBeenCalled()
     })
 
     it('should find an alert by id', async () => {
-      const mockAlert = createMockAlert()
-      prismaMock.alert.findUnique.mockResolvedValue(mockAlert)
+      const { sut, prismaClientMock } = makeSut()
+      const mockAlert = mockAlertModel()
+      prismaClientMock.alert.findUnique.mockResolvedValue(mockAlert)
 
-      const result = await repository.findById(mockAlert.id)
+      const result = await sut.findById(mockAlert.id)
 
       expect(result).toEqual(mockAlert)
-      expect(prismaMock.alert.findUnique).toHaveBeenCalledWith({
+      expect(prismaClientMock.alert.findUnique).toHaveBeenCalledWith({
         where: { id: mockAlert.id },
       })
     })

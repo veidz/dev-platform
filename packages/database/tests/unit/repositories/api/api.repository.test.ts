@@ -1,45 +1,46 @@
-import type { Api, ApiStatus, PrismaClient } from '@prisma/client'
-import { DeepMockProxy, mockDeep } from 'jest-mock-extended'
+import type { ApiStatus } from '@prisma/client'
 
 import { faker } from '@/__mocks__/faker-adapter'
 import { ApiRepository } from '@/repositories/api'
+import {
+  createPrismaClientMock,
+  mockApiModel,
+  PrismaClientMock,
+} from '@/tests/repositories/__mocks__'
 
-const createMockApi = (overrides: Partial<Api> = {}): Api => ({
-  id: faker.string.nanoid(),
-  workspaceId: faker.string.nanoid(),
-  name: faker.lorem.word(),
-  description: faker.lorem.sentence(),
-  baseUrl: faker.internet.url(),
-  version: '1.0.0',
-  status: 'ACTIVE',
-  createdAt: faker.date.past(),
-  updatedAt: faker.date.recent(),
-  ...overrides,
-})
+type SutTypes = {
+  sut: ApiRepository
+  prismaClientMock: PrismaClientMock
+}
+
+const makeSut = (): SutTypes => {
+  const prismaClientMock = createPrismaClientMock()
+  const sut = new ApiRepository(prismaClientMock)
+  return {
+    sut,
+    prismaClientMock,
+  }
+}
 
 describe('ApiRepository', () => {
-  let repository: ApiRepository
-  let prismaMock: DeepMockProxy<PrismaClient>
-
   beforeEach(() => {
-    prismaMock = mockDeep<PrismaClient>()
-    repository = new ApiRepository(prismaMock)
     jest.clearAllMocks()
   })
 
   describe('findByWorkspaceId', () => {
-    it('should find APIs by workspace id', async () => {
+    it('should find apis by workspace id', async () => {
+      const { sut, prismaClientMock } = makeSut()
       const workspaceId = faker.string.nanoid()
       const mockApis = [
-        createMockApi({ workspaceId }),
-        createMockApi({ workspaceId }),
+        mockApiModel({ workspaceId }),
+        mockApiModel({ workspaceId }),
       ]
-      prismaMock.api.findMany.mockResolvedValue(mockApis)
+      prismaClientMock.api.findMany.mockResolvedValue(mockApis)
 
-      const result = await repository.findByWorkspaceId(workspaceId)
+      const result = await sut.findByWorkspaceId(workspaceId)
 
       expect(result).toEqual(mockApis)
-      expect(prismaMock.api.findMany).toHaveBeenCalledWith({
+      expect(prismaClientMock.api.findMany).toHaveBeenCalledWith({
         where: { workspaceId },
         orderBy: { createdAt: 'desc' },
       })
@@ -47,17 +48,18 @@ describe('ApiRepository', () => {
   })
 
   describe('findByNameAndWorkspace', () => {
-    it('should find an API by name and workspace', async () => {
-      const mockApi = createMockApi()
-      prismaMock.api.findUnique.mockResolvedValue(mockApi)
+    it('should find api by name and workspace', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockApi = mockApiModel()
+      prismaClientMock.api.findUnique.mockResolvedValue(mockApi)
 
-      const result = await repository.findByNameAndWorkspace(
+      const result = await sut.findByNameAndWorkspace(
         mockApi.name,
         mockApi.workspaceId,
       )
 
       expect(result).toEqual(mockApi)
-      expect(prismaMock.api.findUnique).toHaveBeenCalledWith({
+      expect(prismaClientMock.api.findUnique).toHaveBeenCalledWith({
         where: {
           workspaceId_name: {
             workspaceId: mockApi.workspaceId,
@@ -66,18 +68,31 @@ describe('ApiRepository', () => {
         },
       })
     })
+
+    it('should return null when api not found', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      prismaClientMock.api.findUnique.mockResolvedValue(null)
+
+      const result = await sut.findByNameAndWorkspace(
+        'non-existent',
+        'workspace-id',
+      )
+
+      expect(result).toBeNull()
+    })
   })
 
   describe('findByStatus', () => {
-    it('should find APIs by status', async () => {
+    it('should find apis by status', async () => {
+      const { sut, prismaClientMock } = makeSut()
       const status: ApiStatus = 'ACTIVE'
-      const mockApis = [createMockApi({ status })]
-      prismaMock.api.findMany.mockResolvedValue(mockApis)
+      const mockApis = [mockApiModel({ status }), mockApiModel({ status })]
+      prismaClientMock.api.findMany.mockResolvedValue(mockApis)
 
-      const result = await repository.findByStatus(status)
+      const result = await sut.findByStatus(status)
 
       expect(result).toEqual(mockApis)
-      expect(prismaMock.api.findMany).toHaveBeenCalledWith({
+      expect(prismaClientMock.api.findMany).toHaveBeenCalledWith({
         where: { status },
         orderBy: { updatedAt: 'desc' },
       })
@@ -85,27 +100,18 @@ describe('ApiRepository', () => {
   })
 
   describe('findWithEndpoints', () => {
-    it('should find an API with its endpoints', async () => {
-      const mockApi = createMockApi()
-      const apiWithEndpoints = {
+    it('should find api with endpoints included', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockApi = mockApiModel()
+      prismaClientMock.api.findUnique.mockResolvedValue({
         ...mockApi,
-        endpoints: [
-          {
-            id: faker.string.nanoid(),
-            path: '/test',
-            method: 'GET',
-          },
-        ],
-      }
+        endpoints: [],
+      })
 
-      prismaMock.api.findUnique.mockResolvedValue(
-        apiWithEndpoints as unknown as Api,
-      )
+      const result = await sut.findWithEndpoints(mockApi.id)
 
-      const result = await repository.findWithEndpoints(mockApi.id)
-
-      expect(result).toEqual(apiWithEndpoints)
-      expect(prismaMock.api.findUnique).toHaveBeenCalledWith({
+      expect(result).toEqual({ ...mockApi, endpoints: [] })
+      expect(prismaClientMock.api.findUnique).toHaveBeenCalledWith({
         where: { id: mockApi.id },
         include: { endpoints: true },
       })
@@ -113,24 +119,18 @@ describe('ApiRepository', () => {
   })
 
   describe('findWithWorkspace', () => {
-    it('should find an API with its workspace', async () => {
-      const mockApi = createMockApi()
-      const apiWithWorkspace = {
+    it('should find api with workspace included', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockApi = mockApiModel()
+      prismaClientMock.api.findUnique.mockResolvedValue({
         ...mockApi,
-        workspace: {
-          id: mockApi.workspaceId,
-          name: faker.company.name(),
-        },
-      }
+        workspace: {},
+      })
 
-      prismaMock.api.findUnique.mockResolvedValue(
-        apiWithWorkspace as unknown as Api,
-      )
+      const result = await sut.findWithWorkspace(mockApi.id)
 
-      const result = await repository.findWithWorkspace(mockApi.id)
-
-      expect(result).toEqual(apiWithWorkspace)
-      expect(prismaMock.api.findUnique).toHaveBeenCalledWith({
+      expect(result).toEqual({ ...mockApi, workspace: {} })
+      expect(prismaClientMock.api.findUnique).toHaveBeenCalledWith({
         where: { id: mockApi.id },
         include: { workspace: true },
       })
@@ -138,40 +138,42 @@ describe('ApiRepository', () => {
   })
 
   describe('updateStatus', () => {
-    it('should update API status', async () => {
-      const mockApi = createMockApi({ status: 'DEPRECATED' })
-      prismaMock.api.update.mockResolvedValue(mockApi)
+    it('should update api status', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockApi = mockApiModel()
+      const newStatus: ApiStatus = 'INACTIVE'
+      const updatedApi = { ...mockApi, status: newStatus }
+      prismaClientMock.api.update.mockResolvedValue(updatedApi)
 
-      const result = await repository.updateStatus(mockApi.id, 'DEPRECATED')
+      const result = await sut.updateStatus(mockApi.id, newStatus)
 
-      expect(result).toEqual(mockApi)
-      expect(prismaMock.api.update).toHaveBeenCalledWith({
+      expect(result).toEqual(updatedApi)
+      expect(prismaClientMock.api.update).toHaveBeenCalledWith({
         where: { id: mockApi.id },
-        data: { status: 'DEPRECATED' },
+        data: { status: newStatus },
       })
     })
   })
 
   describe('nameExistsInWorkspace', () => {
     it('should return true when name exists in workspace', async () => {
-      prismaMock.api.count.mockResolvedValue(1)
+      const { sut, prismaClientMock } = makeSut()
+      prismaClientMock.api.count.mockResolvedValue(1)
 
-      const result = await repository.nameExistsInWorkspace(
-        'api-name',
-        'workspace-id',
-      )
+      const result = await sut.nameExistsInWorkspace('api-name', 'workspace-id')
 
       expect(result).toBe(true)
-      expect(prismaMock.api.count).toHaveBeenCalledWith({
+      expect(prismaClientMock.api.count).toHaveBeenCalledWith({
         where: { name: 'api-name', workspaceId: 'workspace-id' },
       })
     })
 
-    it('should return false when name does not exist', async () => {
-      prismaMock.api.count.mockResolvedValue(0)
+    it('should return false when name does not exist in workspace', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      prismaClientMock.api.count.mockResolvedValue(0)
 
-      const result = await repository.nameExistsInWorkspace(
-        'new-api',
+      const result = await sut.nameExistsInWorkspace(
+        'unique-name',
         'workspace-id',
       )
 
@@ -180,63 +182,91 @@ describe('ApiRepository', () => {
   })
 
   describe('countByWorkspace', () => {
-    it('should count APIs by workspace', async () => {
-      prismaMock.api.count.mockResolvedValue(5)
+    it('should count apis in workspace', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      prismaClientMock.api.count.mockResolvedValue(5)
 
-      const result = await repository.countByWorkspace('workspace-id')
+      const result = await sut.countByWorkspace('workspace-id')
 
       expect(result).toBe(5)
-      expect(prismaMock.api.count).toHaveBeenCalledWith({
+      expect(prismaClientMock.api.count).toHaveBeenCalledWith({
         where: { workspaceId: 'workspace-id' },
       })
     })
   })
 
   describe('countByStatus', () => {
-    it('should count APIs by status', async () => {
-      prismaMock.api.count.mockResolvedValue(10)
+    it('should count apis by status', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const status: ApiStatus = 'ACTIVE'
+      prismaClientMock.api.count.mockResolvedValue(10)
 
-      const result = await repository.countByStatus('ACTIVE')
+      const result = await sut.countByStatus(status)
 
       expect(result).toBe(10)
-      expect(prismaMock.api.count).toHaveBeenCalledWith({
-        where: { status: 'ACTIVE' },
+      expect(prismaClientMock.api.count).toHaveBeenCalledWith({
+        where: { status },
       })
     })
   })
 
   describe('inherited methods', () => {
-    it('should create an API', async () => {
-      const mockApi = createMockApi()
-      const createData = {
-        name: mockApi.name,
-        baseUrl: mockApi.baseUrl,
+    it('should create an api', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockApi = mockApiModel()
+      prismaClientMock.api.create.mockResolvedValue(mockApi)
+
+      const result = await sut.create({
         workspace: { connect: { id: mockApi.workspaceId } },
-      }
-
-      prismaMock.api.create.mockResolvedValue(mockApi)
-
-      const result = await repository.create(createData)
+        name: mockApi.name,
+        description: mockApi.description,
+        baseUrl: mockApi.baseUrl,
+        status: mockApi.status,
+      })
 
       expect(result).toEqual(mockApi)
+      expect(prismaClientMock.api.create).toHaveBeenCalled()
     })
 
-    it('should find API by id', async () => {
-      const mockApi = createMockApi()
-      prismaMock.api.findUnique.mockResolvedValue(mockApi)
+    it('should find an api by id', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockApi = mockApiModel()
+      prismaClientMock.api.findUnique.mockResolvedValue(mockApi)
 
-      const result = await repository.findById(mockApi.id)
+      const result = await sut.findById(mockApi.id)
 
       expect(result).toEqual(mockApi)
+      expect(prismaClientMock.api.findUnique).toHaveBeenCalledWith({
+        where: { id: mockApi.id },
+      })
     })
 
-    it('should delete an API', async () => {
-      const mockApi = createMockApi()
-      prismaMock.api.delete.mockResolvedValue(mockApi)
+    it('should update an api', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockApi = mockApiModel()
+      const updatedApi = { ...mockApi, name: 'Updated API' }
+      prismaClientMock.api.update.mockResolvedValue(updatedApi)
 
-      const result = await repository.delete(mockApi.id)
+      const result = await sut.update(mockApi.id, { name: 'Updated API' })
+
+      expect(result).toEqual(updatedApi)
+      expect(prismaClientMock.api.update).toHaveBeenCalledWith({
+        where: { id: mockApi.id },
+        data: { name: 'Updated API' },
+      })
+    })
+
+    it('should delete an api', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockApi = mockApiModel()
+      prismaClientMock.api.delete.mockResolvedValue(mockApi)
+
+      const result = await sut.delete(mockApi.id)
 
       expect(result).toEqual(mockApi)
+      expect(prismaClientMock.api.delete).toHaveBeenCalledWith({
+        where: { id: mockApi.id },
+      })
     })
   })
 })

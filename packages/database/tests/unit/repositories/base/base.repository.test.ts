@@ -1,233 +1,402 @@
-import { PrismaClient } from '@prisma/client'
-import { DeepMockProxy, mockDeep } from 'jest-mock-extended'
+import type { PrismaClient } from '@prisma/client'
 
-import type { FindManyOptions, PaginatedResult } from '@/repositories/base'
+import { faker } from '@/__mocks__/faker-adapter'
 import {
   AbstractRepository,
   DEFAULT_LIMIT,
   DEFAULT_PAGE,
   MAX_LIMIT,
 } from '@/repositories/base'
+import {
+  createPrismaClientMock,
+  PrismaClientMock,
+} from '@/tests/repositories/__mocks__'
 
-interface TestModel {
+type TestEntity = {
   id: string
   name: string
   createdAt: Date
 }
 
-interface TestCreateInput {
+type TestEntityCreateInput = {
   name: string
 }
 
-interface TestUpdateInput {
+type TestEntityUpdateInput = {
   name?: string
 }
 
-interface TestWhereInput {
-  name?: string
-}
-
-interface TestWhereUniqueInput {
+type TestEntityWhereInput = {
   id?: string
+  name?: string
 }
 
-interface TestOrderByInput {
+type TestEntityWhereUniqueInput = {
+  id: string
+}
+
+type TestEntityOrderByInput = {
+  name?: 'asc' | 'desc'
   createdAt?: 'asc' | 'desc'
 }
 
-const mockPrismaDelegate = {
-  create: jest.fn(),
-  findUnique: jest.fn(),
-  findMany: jest.fn(),
-  update: jest.fn(),
-  delete: jest.fn(),
-  count: jest.fn(),
-}
-
 class AbstractRepositoryStub extends AbstractRepository<
-  TestModel,
-  TestCreateInput,
-  TestUpdateInput,
-  TestWhereInput,
-  TestWhereUniqueInput,
-  TestOrderByInput
+  TestEntity,
+  TestEntityCreateInput,
+  TestEntityUpdateInput,
+  TestEntityWhereInput,
+  TestEntityWhereUniqueInput,
+  TestEntityOrderByInput
 > {
-  protected get model() {
-    return mockPrismaDelegate as unknown as ReturnType<
-      typeof this.getModelFromPrisma
-    >
+  protected modelMock = {
+    create: jest.fn(),
+    findUnique: jest.fn(),
+    findMany: jest.fn(),
+    update: jest.fn(),
+    delete: jest.fn(),
+    count: jest.fn(),
   }
 
-  protected getIdWhereClause(id: string): TestWhereUniqueInput {
+  protected get model(): PrismaClient['user'] {
+    return this.modelMock as unknown as PrismaClient['user']
+  }
+
+  protected getIdWhereClause(id: string): TestEntityWhereUniqueInput {
     return { id }
   }
 
-  private getModelFromPrisma() {
-    return mockPrismaDelegate
+  getModelMock(): typeof this.modelMock {
+    return this.modelMock
   }
 }
 
-describe('AbstractRepository', () => {
-  let repository: AbstractRepositoryStub
-  let prismaMock: DeepMockProxy<PrismaClient>
+type SutTypes = {
+  sut: AbstractRepositoryStub
+  prismaClientMock: PrismaClientMock
+  modelMock: ReturnType<AbstractRepositoryStub['getModelMock']>
+}
 
+const makeSut = (): SutTypes => {
+  const prismaClientMock = createPrismaClientMock()
+  const sut = new AbstractRepositoryStub(prismaClientMock)
+  const modelMock = sut.getModelMock()
+  return {
+    sut,
+    prismaClientMock,
+    modelMock,
+  }
+}
+
+const mockTestEntity = (overrides?: Partial<TestEntity>): TestEntity => ({
+  id: faker.string.nanoid(),
+  name: faker.company.name(),
+  createdAt: faker.date.recent(),
+  ...overrides,
+})
+
+describe('AbstractRepository', () => {
   beforeEach(() => {
-    prismaMock = mockDeep<PrismaClient>()
-    repository = new AbstractRepositoryStub(prismaMock)
     jest.clearAllMocks()
   })
 
   describe('create', () => {
-    it('should create a new record', async () => {
-      const createData: TestCreateInput = { name: 'Test' }
-      const createdRecord: TestModel = {
-        id: '1',
-        name: 'Test',
-        createdAt: new Date(),
-      }
+    it('should create an entity', async () => {
+      const { sut, modelMock } = makeSut()
+      const mockEntity = mockTestEntity()
+      modelMock.create.mockResolvedValue(mockEntity)
 
-      mockPrismaDelegate.create.mockResolvedValue(createdRecord)
+      const result = await sut.create({ name: mockEntity.name })
 
-      const result = await repository.create(createData)
-
-      expect(result).toEqual(createdRecord)
-      expect(mockPrismaDelegate.create).toHaveBeenCalledWith({
-        data: createData,
+      expect(result).toEqual(mockEntity)
+      expect(modelMock.create).toHaveBeenCalledWith({
+        data: { name: mockEntity.name },
       })
     })
   })
 
   describe('findById', () => {
-    it('should find a record by id', async () => {
-      const record: TestModel = {
-        id: '1',
-        name: 'Test',
-        createdAt: new Date(),
-      }
+    it('should find entity by id', async () => {
+      const { sut, modelMock } = makeSut()
+      const mockEntity = mockTestEntity()
+      modelMock.findUnique.mockResolvedValue(mockEntity)
 
-      mockPrismaDelegate.findUnique.mockResolvedValue(record)
+      const result = await sut.findById(mockEntity.id)
 
-      const result = await repository.findById('1')
-
-      expect(result).toEqual(record)
-      expect(mockPrismaDelegate.findUnique).toHaveBeenCalledWith({
-        where: { id: '1' },
+      expect(result).toEqual(mockEntity)
+      expect(modelMock.findUnique).toHaveBeenCalledWith({
+        where: { id: mockEntity.id },
       })
     })
 
-    it('should return null when record not found', async () => {
-      mockPrismaDelegate.findUnique.mockResolvedValue(null)
+    it('should return null when entity not found', async () => {
+      const { sut, modelMock } = makeSut()
+      modelMock.findUnique.mockResolvedValue(null)
 
-      const result = await repository.findById('non-existent')
+      const result = await sut.findById('non-existent-id')
 
       expect(result).toBeNull()
     })
   })
 
   describe('findUnique', () => {
-    it('should find a unique record by where condition', async () => {
-      const record: TestModel = {
-        id: '1',
-        name: 'Test',
-        createdAt: new Date(),
-      }
+    it('should find entity by unique constraint', async () => {
+      const { sut, modelMock } = makeSut()
+      const mockEntity = mockTestEntity()
+      modelMock.findUnique.mockResolvedValue(mockEntity)
 
-      mockPrismaDelegate.findUnique.mockResolvedValue(record)
+      const result = await sut.findUnique({ id: mockEntity.id })
 
-      const result = await repository.findUnique({ id: '1' })
-
-      expect(result).toEqual(record)
-      expect(mockPrismaDelegate.findUnique).toHaveBeenCalledWith({
-        where: { id: '1' },
+      expect(result).toEqual(mockEntity)
+      expect(modelMock.findUnique).toHaveBeenCalledWith({
+        where: { id: mockEntity.id },
       })
     })
   })
 
   describe('findMany', () => {
-    const mockRecords: TestModel[] = [
-      { id: '1', name: 'Test 1', createdAt: new Date() },
-      { id: '2', name: 'Test 2', createdAt: new Date() },
-    ]
+    it('should find entities with pagination', async () => {
+      const { sut, modelMock } = makeSut()
+      const mockEntities = [mockTestEntity(), mockTestEntity()]
+      modelMock.findMany.mockResolvedValue(mockEntities)
+      modelMock.count.mockResolvedValue(20)
 
-    it('should return paginated results with defaults', async () => {
-      mockPrismaDelegate.findMany.mockResolvedValue(mockRecords)
-      mockPrismaDelegate.count.mockResolvedValue(2)
+      const result = await sut.findMany({ page: 1, limit: 10 })
 
-      const result: PaginatedResult<TestModel> = await repository.findMany()
-
-      expect(result.data).toEqual(mockRecords)
-      expect(result.meta.page).toBe(DEFAULT_PAGE)
-      expect(result.meta.limit).toBe(DEFAULT_LIMIT)
-      expect(result.meta.total).toBe(2)
-      expect(result.meta.totalPages).toBe(1)
-      expect(result.meta.hasNextPage).toBe(false)
-      expect(result.meta.hasPreviousPage).toBe(false)
-      expect(mockPrismaDelegate.findMany).toHaveBeenCalledWith({
-        skip: 0,
-        take: DEFAULT_LIMIT,
+      expect(result.data).toEqual(mockEntities)
+      expect(result.meta).toEqual({
+        total: 20,
+        page: 1,
+        limit: 10,
+        totalPages: 2,
+        hasNextPage: true,
+        hasPreviousPage: false,
+      })
+      expect(modelMock.findMany).toHaveBeenCalledWith({
         where: undefined,
         orderBy: undefined,
-      })
-    })
-
-    it('should apply custom pagination options', async () => {
-      const options: FindManyOptions<TestWhereInput, TestOrderByInput> = {
-        page: 2,
-        limit: 10,
-        where: { name: 'Test' },
-        orderBy: { createdAt: 'desc' },
-      }
-
-      mockPrismaDelegate.findMany.mockResolvedValue(mockRecords)
-      mockPrismaDelegate.count.mockResolvedValue(25)
-
-      const result = await repository.findMany(options)
-
-      expect(result.meta.page).toBe(2)
-      expect(result.meta.limit).toBe(10)
-      expect(result.meta.total).toBe(25)
-      expect(result.meta.totalPages).toBe(3)
-      expect(result.meta.hasNextPage).toBe(true)
-      expect(result.meta.hasPreviousPage).toBe(true)
-      expect(mockPrismaDelegate.findMany).toHaveBeenCalledWith({
-        skip: 10,
+        skip: 0,
         take: 10,
-        where: { name: 'Test' },
-        orderBy: { createdAt: 'desc' },
       })
     })
 
-    it('should enforce MAX_LIMIT', async () => {
-      mockPrismaDelegate.findMany.mockResolvedValue([])
-      mockPrismaDelegate.count.mockResolvedValue(0)
+    it('should apply where filter', async () => {
+      const { sut, modelMock } = makeSut()
+      const mockEntities = [mockTestEntity({ name: 'Test' })]
+      modelMock.findMany.mockResolvedValue(mockEntities)
+      modelMock.count.mockResolvedValue(1)
 
-      await repository.findMany({ limit: 1000 })
+      const result = await sut.findMany({
+        where: { name: 'Test' },
+        page: 1,
+        limit: 10,
+      })
 
-      expect(mockPrismaDelegate.findMany).toHaveBeenCalledWith(
-        expect.objectContaining({ take: MAX_LIMIT }),
-      )
+      expect(result.data).toEqual(mockEntities)
+      expect(modelMock.findMany).toHaveBeenCalledWith({
+        where: { name: 'Test' },
+        orderBy: undefined,
+        skip: 0,
+        take: 10,
+      })
     })
 
-    it('should calculate correct totalPages', async () => {
-      mockPrismaDelegate.findMany.mockResolvedValue([])
-      mockPrismaDelegate.count.mockResolvedValue(33)
+    it('should apply orderBy', async () => {
+      const { sut, modelMock } = makeSut()
+      const mockEntities = [mockTestEntity()]
+      modelMock.findMany.mockResolvedValue(mockEntities)
+      modelMock.count.mockResolvedValue(1)
 
-      const result = await repository.findMany({ limit: 10 })
+      await sut.findMany({
+        orderBy: { name: 'asc' },
+        page: 1,
+        limit: 10,
+      })
 
-      expect(result.meta.totalPages).toBe(4)
+      expect(modelMock.findMany).toHaveBeenCalledWith({
+        where: undefined,
+        orderBy: { name: 'asc' },
+        skip: 0,
+        take: 10,
+      })
     })
 
-    it('should handle empty results', async () => {
-      mockPrismaDelegate.findMany.mockResolvedValue([])
-      mockPrismaDelegate.count.mockResolvedValue(0)
+    it('should use default pagination when not provided', async () => {
+      const { sut, modelMock } = makeSut()
+      modelMock.findMany.mockResolvedValue([])
+      modelMock.count.mockResolvedValue(0)
 
-      const result = await repository.findMany()
+      const result = await sut.findMany()
 
-      expect(result.data).toEqual([])
-      expect(result.meta.total).toBe(0)
-      expect(result.meta.totalPages).toBe(0)
-      expect(result.meta.hasNextPage).toBe(false)
-      expect(result.meta.hasPreviousPage).toBe(false)
+      expect(result.meta.page).toBe(1)
+      expect(result.meta.limit).toBe(20)
+      expect(modelMock.findMany).toHaveBeenCalledWith({
+        where: undefined,
+        orderBy: undefined,
+        skip: 0,
+        take: 20,
+      })
+    })
+
+    it('should calculate correct skip value', async () => {
+      const { sut, modelMock } = makeSut()
+      modelMock.findMany.mockResolvedValue([])
+      modelMock.count.mockResolvedValue(50)
+
+      await sut.findMany({ page: 3, limit: 10 })
+
+      expect(modelMock.findMany).toHaveBeenCalledWith({
+        where: undefined,
+        orderBy: undefined,
+        skip: 20,
+        take: 10,
+      })
+    })
+
+    it('should limit max results to 100', async () => {
+      const { sut, modelMock } = makeSut()
+      modelMock.findMany.mockResolvedValue([])
+      modelMock.count.mockResolvedValue(0)
+
+      await sut.findMany({ page: 1, limit: 1000 })
+
+      expect(modelMock.findMany).toHaveBeenCalledWith({
+        where: undefined,
+        orderBy: undefined,
+        skip: 0,
+        take: 100,
+      })
+    })
+
+    it('should normalize page to minimum of 1', async () => {
+      const { sut, modelMock } = makeSut()
+      modelMock.findMany.mockResolvedValue([])
+      modelMock.count.mockResolvedValue(0)
+
+      await sut.findMany({ page: -1, limit: 10 })
+
+      expect(modelMock.findMany).toHaveBeenCalledWith({
+        where: undefined,
+        orderBy: undefined,
+        skip: 0,
+        take: 10,
+      })
+    })
+  })
+
+  describe('findAll', () => {
+    it('should find all entities without pagination', async () => {
+      const { sut, modelMock } = makeSut()
+      const mockEntities = [mockTestEntity(), mockTestEntity()]
+      modelMock.findMany.mockResolvedValue(mockEntities)
+
+      const result = await sut.findAll()
+
+      expect(result).toEqual(mockEntities)
+      expect(modelMock.findMany).toHaveBeenCalledWith({
+        where: undefined,
+      })
+    })
+
+    it('should apply where filter', async () => {
+      const { sut, modelMock } = makeSut()
+      const mockEntities = [mockTestEntity({ name: 'Test' })]
+      modelMock.findMany.mockResolvedValue(mockEntities)
+
+      const result = await sut.findAll({ name: 'Test' })
+
+      expect(result).toEqual(mockEntities)
+      expect(modelMock.findMany).toHaveBeenCalledWith({
+        where: { name: 'Test' },
+      })
+    })
+  })
+
+  describe('update', () => {
+    it('should update an entity', async () => {
+      const { sut, modelMock } = makeSut()
+      const mockEntity = mockTestEntity()
+      const updatedEntity = { ...mockEntity, name: 'Updated' }
+      modelMock.update.mockResolvedValue(updatedEntity)
+
+      const result = await sut.update(mockEntity.id, { name: 'Updated' })
+
+      expect(result).toEqual(updatedEntity)
+      expect(modelMock.update).toHaveBeenCalledWith({
+        where: { id: mockEntity.id },
+        data: { name: 'Updated' },
+      })
+    })
+  })
+
+  describe('delete', () => {
+    it('should delete an entity', async () => {
+      const { sut, modelMock } = makeSut()
+      const mockEntity = mockTestEntity()
+      modelMock.delete.mockResolvedValue(mockEntity)
+
+      const result = await sut.delete(mockEntity.id)
+
+      expect(result).toEqual(mockEntity)
+      expect(modelMock.delete).toHaveBeenCalledWith({
+        where: { id: mockEntity.id },
+      })
+    })
+  })
+
+  describe('count', () => {
+    it('should count entities', async () => {
+      const { sut, modelMock } = makeSut()
+      modelMock.count.mockResolvedValue(10)
+
+      const result = await sut.count()
+
+      expect(result).toBe(10)
+      expect(modelMock.count).toHaveBeenCalledWith({
+        where: undefined,
+      })
+    })
+
+    it('should count entities with filter', async () => {
+      const { sut, modelMock } = makeSut()
+      modelMock.count.mockResolvedValue(5)
+
+      const result = await sut.count({ name: 'Test' })
+
+      expect(result).toBe(5)
+      expect(modelMock.count).toHaveBeenCalledWith({
+        where: { name: 'Test' },
+      })
+    })
+  })
+
+  describe('exists', () => {
+    it('should return true when entity exists', async () => {
+      const { sut, modelMock } = makeSut()
+      modelMock.count.mockResolvedValue(1)
+
+      const result = await sut.exists({ name: 'Test' })
+
+      expect(result).toBe(true)
+      expect(modelMock.count).toHaveBeenCalledWith({
+        where: { name: 'Test' },
+      })
+    })
+
+    it('should return false when entity does not exist', async () => {
+      const { sut, modelMock } = makeSut()
+      modelMock.count.mockResolvedValue(0)
+
+      const result = await sut.exists({ name: 'NonExistent' })
+
+      expect(result).toBe(false)
+    })
+  })
+
+  describe('exported constants', () => {
+    it('should export default pagination constants', () => {
+      expect(DEFAULT_PAGE).toBe(1)
+      expect(DEFAULT_LIMIT).toBe(20)
+      expect(MAX_LIMIT).toBe(100)
     })
   })
 })
