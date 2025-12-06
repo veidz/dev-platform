@@ -1,3 +1,5 @@
+import type { HttpMethod } from '@prisma/client'
+
 import { faker } from '@/__mocks__/faker-adapter'
 import { EndpointRepository } from '@/repositories/endpoint'
 import {
@@ -80,6 +82,26 @@ describe('EndpointRepository', () => {
       )
 
       expect(result).toBeNull()
+    })
+  })
+
+  describe('findByMethod', () => {
+    it('should find endpoints by http method', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const method: HttpMethod = 'GET'
+      const mockEndpoints = [
+        mockEndpointModel({ method }),
+        mockEndpointModel({ method }),
+      ]
+      prismaClientMock.endpoint.findMany.mockResolvedValue(mockEndpoints)
+
+      const result = await sut.findByMethod(method)
+
+      expect(result).toEqual(mockEndpoints)
+      expect(prismaClientMock.endpoint.findMany).toHaveBeenCalledWith({
+        where: { method },
+        orderBy: { path: 'asc' },
+      })
     })
   })
 })
