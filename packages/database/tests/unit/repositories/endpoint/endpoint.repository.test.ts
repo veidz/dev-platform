@@ -1,4 +1,4 @@
-import type { HttpMethod } from '@prisma/client'
+import type { HttpMethod, Prisma } from '@prisma/client'
 
 import { faker } from '@/__mocks__/faker-adapter'
 import { EndpointRepository } from '@/repositories/endpoint'
@@ -206,6 +206,21 @@ describe('EndpointRepository', () => {
       expect(result).toBe(25)
       expect(prismaClientMock.endpoint.count).toHaveBeenCalledWith({
         where: { method },
+      })
+    })
+  })
+
+  describe('deleteByApiId', () => {
+    it('should delete all endpoints for an api', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const batchPayload: Prisma.BatchPayload = { count: 10 }
+      prismaClientMock.endpoint.deleteMany.mockResolvedValue(batchPayload)
+
+      const result = await sut.deleteByApiId('api-id')
+
+      expect(result).toEqual(batchPayload)
+      expect(prismaClientMock.endpoint.deleteMany).toHaveBeenCalledWith({
+        where: { apiId: 'api-id' },
       })
     })
   })
