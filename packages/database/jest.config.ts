@@ -7,6 +7,8 @@ const config: Config = {
   testMatch: ['**/*.test.ts'],
   moduleNameMapper: {
     '^@/__mocks__/(.*)$': '<rootDir>/tests/__mocks__/$1',
+    '^@/tests/repositories/__mocks__$':
+      '<rootDir>/tests/unit/repositories/__mocks__/index',
     '^@/tests/(.*)$': '<rootDir>/tests/$1',
     '^@/(.*)$': '<rootDir>/src/$1',
   },

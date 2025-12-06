@@ -10,6 +10,9 @@
     "paths": {
       "@/*": ["src/*"],
       "@/__mocks__/*": ["tests/__mocks__/*"],
+      "@/tests/repositories/__mocks__": [
+        "tests/unit/repositories/__mocks__/index"
+      ],
       "@/tests/*": ["tests/*"]
     }
   },
