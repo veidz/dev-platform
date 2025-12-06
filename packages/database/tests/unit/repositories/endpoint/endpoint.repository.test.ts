@@ -5,6 +5,7 @@ import { EndpointRepository } from '@/repositories/endpoint'
 import {
   createPrismaClientMock,
   mockEndpointModel,
+  mockEndpointWithApi,
   PrismaClientMock,
 } from '@/tests/repositories/__mocks__'
 
@@ -101,6 +102,22 @@ describe('EndpointRepository', () => {
       expect(prismaClientMock.endpoint.findMany).toHaveBeenCalledWith({
         where: { method },
         orderBy: { path: 'asc' },
+      })
+    })
+  })
+
+  describe('findWithApi', () => {
+    it('should find endpoint with api included', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const endpointWithApi = mockEndpointWithApi()
+      prismaClientMock.endpoint.findUnique.mockResolvedValue(endpointWithApi)
+
+      const result = await sut.findWithApi(endpointWithApi.id)
+
+      expect(result).toEqual(endpointWithApi)
+      expect(prismaClientMock.endpoint.findUnique).toHaveBeenCalledWith({
+        where: { id: endpointWithApi.id },
+        include: { api: true },
       })
     })
   })
