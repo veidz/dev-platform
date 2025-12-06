@@ -44,4 +44,29 @@ describe('EndpointRepository', () => {
       })
     })
   })
+
+  describe('findByPathAndMethod', () => {
+    it('should find endpoint by path and method', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockEndpoint = mockEndpointModel()
+      prismaClientMock.endpoint.findUnique.mockResolvedValue(mockEndpoint)
+
+      const result = await sut.findByPathAndMethod(
+        mockEndpoint.apiId,
+        mockEndpoint.path,
+        mockEndpoint.method,
+      )
+
+      expect(result).toEqual(mockEndpoint)
+      expect(prismaClientMock.endpoint.findUnique).toHaveBeenCalledWith({
+        where: {
+          apiId_path_method: {
+            apiId: mockEndpoint.apiId,
+            path: mockEndpoint.path,
+            method: mockEndpoint.method,
+          },
+        },
+      })
+    })
+  })
 })
