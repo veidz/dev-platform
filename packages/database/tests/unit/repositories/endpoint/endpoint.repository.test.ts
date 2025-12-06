@@ -68,5 +68,18 @@ describe('EndpointRepository', () => {
         },
       })
     })
+
+    it('should return null when endpoint not found', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      prismaClientMock.endpoint.findUnique.mockResolvedValue(null)
+
+      const result = await sut.findByPathAndMethod(
+        'api-id',
+        '/non-existent',
+        'GET',
+      )
+
+      expect(result).toBeNull()
+    })
   })
 })
