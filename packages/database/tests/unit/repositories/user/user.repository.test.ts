@@ -140,4 +140,22 @@ describe('UserRepository', () => {
       })
     })
   })
+
+  describe('inherited methods', () => {
+    it('should create a user', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockUser = mockUserModel()
+      prismaClientMock.user.create.mockResolvedValue(mockUser)
+
+      const result = await sut.create({
+        name: mockUser.name,
+        email: mockUser.email,
+        password: mockUser.password,
+        avatar: mockUser.avatar,
+      })
+
+      expect(result).toEqual(mockUser)
+      expect(prismaClientMock.user.create).toHaveBeenCalled()
+    })
+  })
 })
