@@ -94,5 +94,14 @@ describe('UserRepository', () => {
         where: { email: 'test@email.com' },
       })
     })
+
+    it('should return false when email does not exist', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      prismaClientMock.user.count.mockResolvedValue(0)
+
+      const result = await sut.emailExists('new@email.com')
+
+      expect(result).toBe(false)
+    })
   })
 })
