@@ -111,4 +111,27 @@ describe('MockScenarioRepository', () => {
       })
     })
   })
+
+  describe('findWithMocks', () => {
+    it('should find a scenario with its mocks', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockScenario = mockMockScenarioModel()
+      const scenarioWithMocks = {
+        ...mockScenario,
+        mocks: [{ id: faker.string.nanoid() }],
+      }
+
+      prismaClientMock.mockScenario.findUnique.mockResolvedValue(
+        scenarioWithMocks as unknown as MockScenario,
+      )
+
+      const result = await sut.findWithMocks(mockScenario.id)
+
+      expect(result).toEqual(scenarioWithMocks)
+      expect(prismaClientMock.mockScenario.findUnique).toHaveBeenCalledWith({
+        where: { id: mockScenario.id },
+        include: { mocks: true },
+      })
+    })
+  })
 })
