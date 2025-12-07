@@ -150,4 +150,18 @@ describe('MockScenarioRepository', () => {
       })
     })
   })
+
+  describe('countByEndpoint', () => {
+    it('should count scenarios by endpoint', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      prismaClientMock.mockScenario.count.mockResolvedValue(3)
+
+      const result = await sut.countByEndpoint('endpoint-id')
+
+      expect(result).toBe(3)
+      expect(prismaClientMock.mockScenario.count).toHaveBeenCalledWith({
+        where: { endpointId: 'endpoint-id' },
+      })
+    })
+  })
 })
