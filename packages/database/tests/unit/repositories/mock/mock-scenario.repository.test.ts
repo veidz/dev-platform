@@ -1,4 +1,4 @@
-import type { MockScenario } from '@prisma/client'
+import type { MockScenario, Prisma } from '@prisma/client'
 
 import { faker } from '@/__mocks__/faker-adapter'
 import { MockScenarioRepository } from '@/repositories/mock'
@@ -160,6 +160,21 @@ describe('MockScenarioRepository', () => {
 
       expect(result).toBe(3)
       expect(prismaClientMock.mockScenario.count).toHaveBeenCalledWith({
+        where: { endpointId: 'endpoint-id' },
+      })
+    })
+  })
+
+  describe('deleteByEndpointId', () => {
+    it('should delete all scenarios from an endpoint', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const batchPayload: Prisma.BatchPayload = { count: 2 }
+      prismaClientMock.mockScenario.deleteMany.mockResolvedValue(batchPayload)
+
+      const result = await sut.deleteByEndpointId('endpoint-id')
+
+      expect(result).toEqual(batchPayload)
+      expect(prismaClientMock.mockScenario.deleteMany).toHaveBeenCalledWith({
         where: { endpointId: 'endpoint-id' },
       })
     })
