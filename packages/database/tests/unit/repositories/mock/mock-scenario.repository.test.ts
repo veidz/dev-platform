@@ -179,4 +179,16 @@ describe('MockScenarioRepository', () => {
       })
     })
   })
+
+  describe('inherited methods', () => {
+    it('should find scenario by id', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockScenario = mockMockScenarioModel()
+      prismaClientMock.mockScenario.findUnique.mockResolvedValue(mockScenario)
+
+      const result = await sut.findById(mockScenario.id)
+
+      expect(result).toEqual(mockScenario)
+    })
+  })
 })
