@@ -170,5 +170,20 @@ describe('UserRepository', () => {
         where: { id: mockUser.id },
       })
     })
+
+    it('should update a user', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockUser = mockUserModel()
+      const updatedUser = { ...mockUser, name: 'Updated Name' }
+      prismaClientMock.user.update.mockResolvedValue(updatedUser)
+
+      const result = await sut.update(mockUser.id, { name: 'Updated Name' })
+
+      expect(result).toEqual(updatedUser)
+      expect(prismaClientMock.user.update).toHaveBeenCalledWith({
+        where: { id: mockUser.id },
+        data: { name: 'Updated Name' },
+      })
+    })
   })
 })
