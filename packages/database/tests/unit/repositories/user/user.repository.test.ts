@@ -2,6 +2,7 @@ import { UserRepository } from '@/repositories/user'
 import {
   createPrismaClientMock,
   mockUserModel,
+  mockUserWithMemberships,
   mockUserWithOwnedWorkspaces,
   PrismaClientMock,
 } from '@/tests/repositories/__mocks__'
@@ -61,6 +62,22 @@ describe('UserRepository', () => {
       expect(prismaClientMock.user.findUnique).toHaveBeenCalledWith({
         where: { id: userWithWorkspaces.id },
         include: { ownedWorkspaces: true },
+      })
+    })
+  })
+
+  describe('findWithMemberships', () => {
+    it('should find user with memberships included', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const userWithMemberships = mockUserWithMemberships()
+      prismaClientMock.user.findUnique.mockResolvedValue(userWithMemberships)
+
+      const result = await sut.findWithMemberships(userWithMemberships.id)
+
+      expect(result).toEqual(userWithMemberships)
+      expect(prismaClientMock.user.findUnique).toHaveBeenCalledWith({
+        where: { id: userWithMemberships.id },
+        include: { memberships: { include: { workspace: true } } },
       })
     })
   })
