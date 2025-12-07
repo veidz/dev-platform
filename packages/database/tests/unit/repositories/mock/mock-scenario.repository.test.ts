@@ -134,4 +134,20 @@ describe('MockScenarioRepository', () => {
       })
     })
   })
+
+  describe('toggleActive', () => {
+    it('should toggle scenario active status', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockScenario = mockMockScenarioModel({ active: false })
+      prismaClientMock.mockScenario.update.mockResolvedValue(mockScenario)
+
+      const result = await sut.toggleActive(mockScenario.id, false)
+
+      expect(result).toEqual(mockScenario)
+      expect(prismaClientMock.mockScenario.update).toHaveBeenCalledWith({
+        where: { id: mockScenario.id },
+        data: { active: false },
+      })
+    })
+  })
 })
