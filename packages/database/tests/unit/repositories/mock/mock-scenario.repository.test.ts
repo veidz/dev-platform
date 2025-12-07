@@ -63,4 +63,27 @@ describe('MockScenarioRepository', () => {
       })
     })
   })
+
+  describe('findByNameAndEndpoint', () => {
+    it('should find a scenario by name and endpoint', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockScenario = mockMockScenarioModel()
+      prismaClientMock.mockScenario.findUnique.mockResolvedValue(mockScenario)
+
+      const result = await sut.findByNameAndEndpoint(
+        mockScenario.name,
+        mockScenario.endpointId,
+      )
+
+      expect(result).toEqual(mockScenario)
+      expect(prismaClientMock.mockScenario.findUnique).toHaveBeenCalledWith({
+        where: {
+          endpointId_name: {
+            endpointId: mockScenario.endpointId,
+            name: mockScenario.name,
+          },
+        },
+      })
+    })
+  })
 })
