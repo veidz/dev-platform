@@ -37,5 +37,14 @@ describe('UserRepository', () => {
         where: { email: mockUser.email },
       })
     })
+
+    it('should return null when user not found', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      prismaClientMock.user.findUnique.mockResolvedValue(null)
+
+      const result = await sut.findByEmail('nonexistent@email.com')
+
+      expect(result).toBeNull()
+    })
   })
 })
