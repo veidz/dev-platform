@@ -1,6 +1,10 @@
-import type { User } from '@prisma/client'
+import type { User, Workspace, WorkspaceMember } from '@prisma/client'
 
 import { faker } from '@/__mocks__/faker-adapter'
+
+type UserWithOwnedWorkspaces = User & { ownedWorkspaces: Workspace[] }
+type MembershipWithWorkspace = WorkspaceMember & { workspace: Workspace }
+type UserWithMemberships = User & { memberships: MembershipWithWorkspace[] }
 
 const mockUserModel = (overrides: Partial<User> = {}): User => ({
   id: faker.string.nanoid(),
@@ -19,4 +23,30 @@ const mockUserModels = (
   overrides: Partial<User> = {},
 ): User[] => Array.from({ length: count }, () => mockUserModel(overrides))
 
-export { mockUserModel, mockUserModels }
+const mockUserWithOwnedWorkspaces = (
+  userOverrides: Partial<User> = {},
+  ownedWorkspaces: Workspace[] = [],
+): UserWithOwnedWorkspaces => ({
+  ...mockUserModel(userOverrides),
+  ownedWorkspaces,
+})
+
+const mockUserWithMemberships = (
+  userOverrides: Partial<User> = {},
+  memberships: MembershipWithWorkspace[] = [],
+): UserWithMemberships => ({
+  ...mockUserModel(userOverrides),
+  memberships,
+})
+
+export type {
+  MembershipWithWorkspace,
+  UserWithMemberships,
+  UserWithOwnedWorkspaces,
+}
+export {
+  mockUserModel,
+  mockUserModels,
+  mockUserWithMemberships,
+  mockUserWithOwnedWorkspaces,
+}
