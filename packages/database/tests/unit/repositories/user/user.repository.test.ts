@@ -123,4 +123,21 @@ describe('UserRepository', () => {
       })
     })
   })
+
+  describe('verifyEmail', () => {
+    it('should verify user email', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockUser = mockUserModel({ emailVerified: false })
+      const verifiedUser = { ...mockUser, emailVerified: true }
+      prismaClientMock.user.update.mockResolvedValue(verifiedUser)
+
+      const result = await sut.verifyEmail(mockUser.id)
+
+      expect(result).toEqual(verifiedUser)
+      expect(prismaClientMock.user.update).toHaveBeenCalledWith({
+        where: { id: mockUser.id },
+        data: { emailVerified: true },
+      })
+    })
+  })
 })
