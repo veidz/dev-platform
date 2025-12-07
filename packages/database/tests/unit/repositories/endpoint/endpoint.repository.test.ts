@@ -241,5 +241,18 @@ describe('EndpointRepository', () => {
       expect(result).toEqual(mockEndpoint)
       expect(prismaClientMock.endpoint.create).toHaveBeenCalled()
     })
+
+    it('should find an endpoint by id', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockEndpoint = mockEndpointModel()
+      prismaClientMock.endpoint.findUnique.mockResolvedValue(mockEndpoint)
+
+      const result = await sut.findById(mockEndpoint.id)
+
+      expect(result).toEqual(mockEndpoint)
+      expect(prismaClientMock.endpoint.findUnique).toHaveBeenCalledWith({
+        where: { id: mockEndpoint.id },
+      })
+    })
   })
 })
