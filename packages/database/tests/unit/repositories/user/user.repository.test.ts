@@ -1,3 +1,4 @@
+import { faker } from '@/__mocks__/faker-adapter'
 import { UserRepository } from '@/repositories/user'
 import {
   createPrismaClientMock,
@@ -102,6 +103,24 @@ describe('UserRepository', () => {
       const result = await sut.emailExists('new@email.com')
 
       expect(result).toBe(false)
+    })
+  })
+
+  describe('updatePassword', () => {
+    it('should update user password', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockUser = mockUserModel()
+      const newPasswordHash = faker.string.uuid()
+      const updatedUser = { ...mockUser, password: newPasswordHash }
+      prismaClientMock.user.update.mockResolvedValue(updatedUser)
+
+      const result = await sut.updatePassword(mockUser.id, newPasswordHash)
+
+      expect(result).toEqual(updatedUser)
+      expect(prismaClientMock.user.update).toHaveBeenCalledWith({
+        where: { id: mockUser.id },
+        data: { password: newPasswordHash },
+      })
     })
   })
 })
