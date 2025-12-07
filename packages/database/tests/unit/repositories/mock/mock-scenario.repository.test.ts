@@ -190,5 +190,15 @@ describe('MockScenarioRepository', () => {
 
       expect(result).toEqual(mockScenario)
     })
+
+    it('should delete a scenario', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockScenario = mockMockScenarioModel()
+      prismaClientMock.mockScenario.delete.mockResolvedValue(mockScenario)
+
+      const result = await sut.delete(mockScenario.id)
+
+      expect(result).toEqual(mockScenario)
+    })
   })
 })
