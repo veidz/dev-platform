@@ -44,4 +44,23 @@ describe('MockScenarioRepository', () => {
       })
     })
   })
+
+  describe('findActiveByEndpoint', () => {
+    it('should find active scenarios by endpoint', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const endpointId = faker.string.nanoid()
+      const mockScenarios = [
+        mockMockScenarioModel({ endpointId, active: true }),
+      ]
+      prismaClientMock.mockScenario.findMany.mockResolvedValue(mockScenarios)
+
+      const result = await sut.findActiveByEndpoint(endpointId)
+
+      expect(result).toEqual(mockScenarios)
+      expect(prismaClientMock.mockScenario.findMany).toHaveBeenCalledWith({
+        where: { endpointId, active: true },
+        orderBy: { createdAt: 'desc' },
+      })
+    })
+  })
 })
