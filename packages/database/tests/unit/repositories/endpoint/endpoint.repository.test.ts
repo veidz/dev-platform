@@ -224,4 +224,22 @@ describe('EndpointRepository', () => {
       })
     })
   })
+
+  describe('inherited methods', () => {
+    it('should create an endpoint', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockEndpoint = mockEndpointModel()
+      prismaClientMock.endpoint.create.mockResolvedValue(mockEndpoint)
+
+      const result = await sut.create({
+        api: { connect: { id: mockEndpoint.apiId } },
+        path: mockEndpoint.path,
+        method: mockEndpoint.method,
+        description: mockEndpoint.description,
+      })
+
+      expect(result).toEqual(mockEndpoint)
+      expect(prismaClientMock.endpoint.create).toHaveBeenCalled()
+    })
+  })
 })
