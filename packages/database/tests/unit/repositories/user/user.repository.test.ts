@@ -185,5 +185,18 @@ describe('UserRepository', () => {
         data: { name: 'Updated Name' },
       })
     })
+
+    it('should delete a user', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockUser = mockUserModel()
+      prismaClientMock.user.delete.mockResolvedValue(mockUser)
+
+      const result = await sut.delete(mockUser.id)
+
+      expect(result).toEqual(mockUser)
+      expect(prismaClientMock.user.delete).toHaveBeenCalledWith({
+        where: { id: mockUser.id },
+      })
+    })
   })
 })
