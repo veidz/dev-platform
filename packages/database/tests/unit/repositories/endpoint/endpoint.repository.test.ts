@@ -254,5 +254,22 @@ describe('EndpointRepository', () => {
         where: { id: mockEndpoint.id },
       })
     })
+
+    it('should update an endpoint', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockEndpoint = mockEndpointModel()
+      const updatedEndpoint = { ...mockEndpoint, description: 'Updated' }
+      prismaClientMock.endpoint.update.mockResolvedValue(updatedEndpoint)
+
+      const result = await sut.update(mockEndpoint.id, {
+        description: 'Updated',
+      })
+
+      expect(result).toEqual(updatedEndpoint)
+      expect(prismaClientMock.endpoint.update).toHaveBeenCalledWith({
+        where: { id: mockEndpoint.id },
+        data: { description: 'Updated' },
+      })
+    })
   })
 })
