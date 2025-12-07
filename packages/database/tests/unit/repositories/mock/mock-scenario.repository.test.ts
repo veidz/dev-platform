@@ -1,3 +1,5 @@
+import type { MockScenario } from '@prisma/client'
+
 import { faker } from '@/__mocks__/faker-adapter'
 import { MockScenarioRepository } from '@/repositories/mock'
 import {
@@ -83,6 +85,29 @@ describe('MockScenarioRepository', () => {
             name: mockScenario.name,
           },
         },
+      })
+    })
+  })
+
+  describe('findWithEndpoint', () => {
+    it('should find a scenario with its endpoint', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockScenario = mockMockScenarioModel()
+      const scenarioWithEndpoint = {
+        ...mockScenario,
+        endpoint: { id: mockScenario.endpointId },
+      }
+
+      prismaClientMock.mockScenario.findUnique.mockResolvedValue(
+        scenarioWithEndpoint as unknown as MockScenario,
+      )
+
+      const result = await sut.findWithEndpoint(mockScenario.id)
+
+      expect(result).toEqual(scenarioWithEndpoint)
+      expect(prismaClientMock.mockScenario.findUnique).toHaveBeenCalledWith({
+        where: { id: mockScenario.id },
+        include: { endpoint: true },
       })
     })
   })
