@@ -157,5 +157,18 @@ describe('UserRepository', () => {
       expect(result).toEqual(mockUser)
       expect(prismaClientMock.user.create).toHaveBeenCalled()
     })
+
+    it('should find a user by id', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockUser = mockUserModel()
+      prismaClientMock.user.findUnique.mockResolvedValue(mockUser)
+
+      const result = await sut.findById(mockUser.id)
+
+      expect(result).toEqual(mockUser)
+      expect(prismaClientMock.user.findUnique).toHaveBeenCalledWith({
+        where: { id: mockUser.id },
+      })
+    })
   })
 })
