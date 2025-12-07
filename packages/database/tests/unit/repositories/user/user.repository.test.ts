@@ -2,6 +2,7 @@ import { UserRepository } from '@/repositories/user'
 import {
   createPrismaClientMock,
   mockUserModel,
+  mockUserWithOwnedWorkspaces,
   PrismaClientMock,
 } from '@/tests/repositories/__mocks__'
 
@@ -45,6 +46,22 @@ describe('UserRepository', () => {
       const result = await sut.findByEmail('nonexistent@email.com')
 
       expect(result).toBeNull()
+    })
+  })
+
+  describe('findWithOwnedWorkspaces', () => {
+    it('should find user with owned workspaces included', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const userWithWorkspaces = mockUserWithOwnedWorkspaces()
+      prismaClientMock.user.findUnique.mockResolvedValue(userWithWorkspaces)
+
+      const result = await sut.findWithOwnedWorkspaces(userWithWorkspaces.id)
+
+      expect(result).toEqual(userWithWorkspaces)
+      expect(prismaClientMock.user.findUnique).toHaveBeenCalledWith({
+        where: { id: userWithWorkspaces.id },
+        include: { ownedWorkspaces: true },
+      })
     })
   })
 })
