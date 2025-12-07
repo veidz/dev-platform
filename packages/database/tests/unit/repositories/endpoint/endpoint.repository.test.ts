@@ -271,5 +271,18 @@ describe('EndpointRepository', () => {
         data: { description: 'Updated' },
       })
     })
+
+    it('should delete an endpoint', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockEndpoint = mockEndpointModel()
+      prismaClientMock.endpoint.delete.mockResolvedValue(mockEndpoint)
+
+      const result = await sut.delete(mockEndpoint.id)
+
+      expect(result).toEqual(mockEndpoint)
+      expect(prismaClientMock.endpoint.delete).toHaveBeenCalledWith({
+        where: { id: mockEndpoint.id },
+      })
+    })
   })
 })
