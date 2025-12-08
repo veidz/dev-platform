@@ -3,6 +3,7 @@ import { WorkspaceRepository } from '@/repositories/workspace'
 import {
   createPrismaClientMock,
   mockWorkspaceModel,
+  mockWorkspaceWithApis,
   PrismaClientMock,
 } from '@/tests/repositories/__mocks__'
 
@@ -65,6 +66,22 @@ describe('WorkspaceRepository', () => {
       expect(prismaClientMock.workspace.findMany).toHaveBeenCalledWith({
         where: { ownerId },
         orderBy: { createdAt: 'desc' },
+      })
+    })
+  })
+
+  describe('findWithApis', () => {
+    it('should find workspace with apis included', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const workspaceWithApis = mockWorkspaceWithApis()
+      prismaClientMock.workspace.findUnique.mockResolvedValue(workspaceWithApis)
+
+      const result = await sut.findWithApis(workspaceWithApis.id)
+
+      expect(result).toEqual(workspaceWithApis)
+      expect(prismaClientMock.workspace.findUnique).toHaveBeenCalledWith({
+        where: { id: workspaceWithApis.id },
+        include: { apis: true },
       })
     })
   })
