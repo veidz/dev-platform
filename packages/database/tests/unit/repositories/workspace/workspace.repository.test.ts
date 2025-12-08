@@ -1,0 +1,41 @@
+import { WorkspaceRepository } from '@/repositories/workspace'
+import {
+  createPrismaClientMock,
+  mockWorkspaceModel,
+  PrismaClientMock,
+} from '@/tests/repositories/__mocks__'
+
+type SutTypes = {
+  sut: WorkspaceRepository
+  prismaClientMock: PrismaClientMock
+}
+
+const makeSut = (): SutTypes => {
+  const prismaClientMock = createPrismaClientMock()
+  const sut = new WorkspaceRepository(prismaClientMock)
+  return {
+    sut,
+    prismaClientMock,
+  }
+}
+
+describe('WorkspaceRepository', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  describe('findBySlug', () => {
+    it('should find workspace by slug', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockWorkspace = mockWorkspaceModel()
+      prismaClientMock.workspace.findUnique.mockResolvedValue(mockWorkspace)
+
+      const result = await sut.findBySlug(mockWorkspace.slug)
+
+      expect(result).toEqual(mockWorkspace)
+      expect(prismaClientMock.workspace.findUnique).toHaveBeenCalledWith({
+        where: { slug: mockWorkspace.slug },
+      })
+    })
+  })
+})
