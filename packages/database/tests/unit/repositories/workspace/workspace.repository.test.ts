@@ -1,3 +1,4 @@
+import { faker } from '@/__mocks__/faker-adapter'
 import { WorkspaceRepository } from '@/repositories/workspace'
 import {
   createPrismaClientMock,
@@ -45,6 +46,26 @@ describe('WorkspaceRepository', () => {
       const result = await sut.findBySlug('non-existent-slug')
 
       expect(result).toBeNull()
+    })
+  })
+
+  describe('findByOwnerId', () => {
+    it('should find workspaces by owner id', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const ownerId = faker.string.nanoid()
+      const mockWorkspaces = [
+        mockWorkspaceModel({ ownerId }),
+        mockWorkspaceModel({ ownerId }),
+      ]
+      prismaClientMock.workspace.findMany.mockResolvedValue(mockWorkspaces)
+
+      const result = await sut.findByOwnerId(ownerId)
+
+      expect(result).toEqual(mockWorkspaces)
+      expect(prismaClientMock.workspace.findMany).toHaveBeenCalledWith({
+        where: { ownerId },
+        orderBy: { createdAt: 'desc' },
+      })
     })
   })
 })
