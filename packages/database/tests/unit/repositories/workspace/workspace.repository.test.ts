@@ -37,5 +37,14 @@ describe('WorkspaceRepository', () => {
         where: { slug: mockWorkspace.slug },
       })
     })
+
+    it('should return null when workspace not found', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      prismaClientMock.workspace.findUnique.mockResolvedValue(null)
+
+      const result = await sut.findBySlug('non-existent-slug')
+
+      expect(result).toBeNull()
+    })
   })
 })
