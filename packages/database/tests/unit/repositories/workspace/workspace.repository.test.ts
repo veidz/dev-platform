@@ -4,6 +4,7 @@ import {
   createPrismaClientMock,
   mockWorkspaceModel,
   mockWorkspaceWithApis,
+  mockWorkspaceWithMembers,
   mockWorkspaceWithOwner,
   PrismaClientMock,
 } from '@/tests/repositories/__mocks__'
@@ -101,6 +102,24 @@ describe('WorkspaceRepository', () => {
       expect(prismaClientMock.workspace.findUnique).toHaveBeenCalledWith({
         where: { id: workspaceWithOwner.id },
         include: { owner: true },
+      })
+    })
+  })
+
+  describe('findWithMembers', () => {
+    it('should find workspace with members included', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const workspaceWithMembers = mockWorkspaceWithMembers()
+      prismaClientMock.workspace.findUnique.mockResolvedValue(
+        workspaceWithMembers,
+      )
+
+      const result = await sut.findWithMembers(workspaceWithMembers.id)
+
+      expect(result).toEqual(workspaceWithMembers)
+      expect(prismaClientMock.workspace.findUnique).toHaveBeenCalledWith({
+        where: { id: workspaceWithMembers.id },
+        include: { members: { include: { user: true } } },
       })
     })
   })
