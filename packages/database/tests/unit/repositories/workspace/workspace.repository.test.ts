@@ -136,5 +136,14 @@ describe('WorkspaceRepository', () => {
         where: { slug: 'existing-slug' },
       })
     })
+
+    it('should return false when slug does not exist', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      prismaClientMock.workspace.count.mockResolvedValue(0)
+
+      const result = await sut.slugExists('unique-slug')
+
+      expect(result).toBe(false)
+    })
   })
 })
