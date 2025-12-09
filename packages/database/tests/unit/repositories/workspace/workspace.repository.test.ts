@@ -177,5 +177,18 @@ describe('WorkspaceRepository', () => {
       expect(result).toEqual(mockWorkspace)
       expect(prismaClientMock.workspace.create).toHaveBeenCalled()
     })
+
+    it('should find a workspace by id', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockWorkspace = mockWorkspaceModel()
+      prismaClientMock.workspace.findUnique.mockResolvedValue(mockWorkspace)
+
+      const result = await sut.findById(mockWorkspace.id)
+
+      expect(result).toEqual(mockWorkspace)
+      expect(prismaClientMock.workspace.findUnique).toHaveBeenCalledWith({
+        where: { id: mockWorkspace.id },
+      })
+    })
   })
 })
