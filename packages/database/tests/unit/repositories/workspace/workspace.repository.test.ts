@@ -160,4 +160,22 @@ describe('WorkspaceRepository', () => {
       })
     })
   })
+
+  describe('inherited methods', () => {
+    it('should create a workspace', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockWorkspace = mockWorkspaceModel()
+      prismaClientMock.workspace.create.mockResolvedValue(mockWorkspace)
+
+      const result = await sut.create({
+        owner: { connect: { id: mockWorkspace.ownerId } },
+        name: mockWorkspace.name,
+        slug: mockWorkspace.slug,
+        description: mockWorkspace.description,
+      })
+
+      expect(result).toEqual(mockWorkspace)
+      expect(prismaClientMock.workspace.create).toHaveBeenCalled()
+    })
+  })
 })
