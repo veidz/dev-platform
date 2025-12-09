@@ -26,5 +26,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Generate Prisma Client
+        run: pnpm --filter @dev-platform/database db:generate
+        env:
+          DATABASE_URL: postgresql://dummy:dummy@localhost:5432/dummy
+
       - name: Validate (ESLint + Prettier check)
         run: pnpm validate

@@ -1,0 +1,100 @@
+{
+  "name": "@dev-platform/database",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Database package with Prisma ORM for Dev Platform",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./client": {
+      "types": "./dist/client.d.ts",
+      "import": "./dist/client.mjs",
+      "require": "./dist/client.js"
+    },
+    "./repositories/analytics": {
+      "types": "./dist/repositories/analytics/index.d.ts",
+      "import": "./dist/repositories/analytics/index.mjs",
+      "require": "./dist/repositories/analytics/index.js"
+    },
+    "./repositories/api": {
+      "types": "./dist/repositories/api/index.d.ts",
+      "import": "./dist/repositories/api/index.mjs",
+      "require": "./dist/repositories/api/index.js"
+    },
+    "./repositories/auth": {
+      "types": "./dist/repositories/auth/index.d.ts",
+      "import": "./dist/repositories/auth/index.mjs",
+      "require": "./dist/repositories/auth/index.js"
+    },
+    "./repositories/base": {
+      "types": "./dist/repositories/base/index.d.ts",
+      "import": "./dist/repositories/base/index.mjs",
+      "require": "./dist/repositories/base/index.js"
+    },
+    "./repositories/endpoint": {
+      "types": "./dist/repositories/endpoint/index.d.ts",
+      "import": "./dist/repositories/endpoint/index.mjs",
+      "require": "./dist/repositories/endpoint/index.js"
+    },
+    "./repositories/mock": {
+      "types": "./dist/repositories/mock/index.d.ts",
+      "import": "./dist/repositories/mock/index.mjs",
+      "require": "./dist/repositories/mock/index.js"
+    },
+    "./repositories/user": {
+      "types": "./dist/repositories/user/index.d.ts",
+      "import": "./dist/repositories/user/index.mjs",
+      "require": "./dist/repositories/user/index.js"
+    },
+    "./repositories/workspace": {
+      "types": "./dist/repositories/workspace/index.d.ts",
+      "import": "./dist/repositories/workspace/index.mjs",
+      "require": "./dist/repositories/workspace/index.js"
+    }
+  },
+  "prisma": {
+    "schema": "prisma/schema"
+  },
+  "scripts": {
+    "build": "tsup && pnpm db:generate",
+    "dev": "tsup --watch",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "test": "jest",
+    "test:cov": "jest --coverage",
+    "test:watch": "jest --watch",
+    "typecheck": "tsc --noEmit",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:studio": "prisma studio",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:reset": "prisma migrate reset --force"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.1.0"
+  },
+  "devDependencies": {
+    "@ngneat/falso": "^8.0.2",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^24.10.1",
+    "jest": "^29.7.0",
+    "jest-mock-extended": "^4.0.0",
+    "prisma": "^6.1.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.3.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "peerDependencies": {
+    "@dev-platform/types": "workspace:*"
+  }
+}

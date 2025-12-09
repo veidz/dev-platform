@@ -1,0 +1,47 @@
+enum MockDelayType {
+  FIXED
+  RANGE
+  NONE
+}
+
+model Mock {
+  id          String        @id @default(cuid())
+  endpointId  String
+  name        String
+  description String?
+  statusCode  Int           @default(200)
+  headers     Json?
+  body        Json
+  delayType   MockDelayType @default(NONE)
+  delayMs     Int?
+  delayMinMs  Int?
+  delayMaxMs  Int?
+  enabled     Boolean       @default(true)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  endpoint  Endpoint       @relation(fields: [endpointId], references: [id], onDelete: Cascade)
+  scenarios MockScenario[] @relation("MockScenarioMocks")
+
+  @@index([endpointId])
+  @@index([enabled])
+  @@map("mocks")
+}
+
+model MockScenario {
+  id          String   @id @default(cuid())
+  endpointId  String
+  name        String
+  description String?
+  active      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  endpoint Endpoint @relation(fields: [endpointId], references: [id], onDelete: Cascade)
+  mocks    Mock[]   @relation("MockScenarioMocks")
+
+  @@unique([endpointId, name])
+  @@index([endpointId])
+  @@index([active])
+  @@map("mock_scenarios")
+}
