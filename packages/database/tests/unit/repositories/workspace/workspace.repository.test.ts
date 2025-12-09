@@ -207,5 +207,18 @@ describe('WorkspaceRepository', () => {
         data: { name: 'Updated Name' },
       })
     })
+
+    it('should delete a workspace', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockWorkspace = mockWorkspaceModel()
+      prismaClientMock.workspace.delete.mockResolvedValue(mockWorkspace)
+
+      const result = await sut.delete(mockWorkspace.id)
+
+      expect(result).toEqual(mockWorkspace)
+      expect(prismaClientMock.workspace.delete).toHaveBeenCalledWith({
+        where: { id: mockWorkspace.id },
+      })
+    })
   })
 })
