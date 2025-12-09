@@ -190,5 +190,22 @@ describe('WorkspaceRepository', () => {
         where: { id: mockWorkspace.id },
       })
     })
+
+    it('should update a workspace', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      const mockWorkspace = mockWorkspaceModel()
+      const updatedWorkspace = { ...mockWorkspace, name: 'Updated Name' }
+      prismaClientMock.workspace.update.mockResolvedValue(updatedWorkspace)
+
+      const result = await sut.update(mockWorkspace.id, {
+        name: 'Updated Name',
+      })
+
+      expect(result).toEqual(updatedWorkspace)
+      expect(prismaClientMock.workspace.update).toHaveBeenCalledWith({
+        where: { id: mockWorkspace.id },
+        data: { name: 'Updated Name' },
+      })
+    })
   })
 })
