@@ -146,4 +146,18 @@ describe('WorkspaceRepository', () => {
       expect(result).toBe(false)
     })
   })
+
+  describe('countByOwner', () => {
+    it('should count workspaces by owner', async () => {
+      const { sut, prismaClientMock } = makeSut()
+      prismaClientMock.workspace.count.mockResolvedValue(3)
+
+      const result = await sut.countByOwner('owner-id')
+
+      expect(result).toBe(3)
+      expect(prismaClientMock.workspace.count).toHaveBeenCalledWith({
+        where: { ownerId: 'owner-id' },
+      })
+    })
+  })
 })
